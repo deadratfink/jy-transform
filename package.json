@@ -1,29 +1,29 @@
 {
     "name": "jy-transform",
-    "description": "The Bauer Xcel Image Service. For more details refer to [Confluence](http://confluence.bauermedia-digital.com/display/BDU/Image+Service) page.",
+    "description": "This project aims to transform *.yaml files to .js or *.json files or vice-versa via CLI or APi.",
     "version": "0.9.0",
-    "homepage": "http://confluence.bauermedia-digital.com/display/BDU/Image+Service",
+    "homepage": "https://github.com/deadratfink/jy-transform",
     "author": {
         "name": "Jens Krefeldt",
         "email": "j.krefeldt@gmail.com",
-        "url": "http://confluence.bauermedia-digital.com/display/~jens.krefeldt"
+        "url": "https://github.com/deadratfink"
     },
     "contributors": [
         {
             "name": "Jens Krefeldt",
             "email": "j.krefeldt@gmail.com",
-            "url": "http://confluence.bauermedia-digital.com/display/~jens.krefeldt"
+            "url": "https://github.com/deadratfink"
         }
     ],
     "license": "SEE LICENSE IN [LICENSE.md](./LICENSE.md)",
     "repository": {
         "type": "git",
-        "url": "http://gitlab.bauer-de.bauermedia.group/bdu-node-modules/bdu-node-yaml2js.git"
+        "url": "https://github.com/deadratfink/jy-transform.git"
     },
     "publishConfig": {
         "registry": "http://npm.bdu.rocks/"
     },
-    "bugs": "http://gitlab.bauer-de.bauermedia.group/bdu-node-modules/bdu-node-yaml2js/issues",
+    "bugs": "https://github.com/deadratfink/jy-transform/issues",
     "private": false,
     "config": {
         "test": {
@@ -70,6 +70,8 @@
     "main": "./index.js",
     "keywords": [
         "jyt",
+        "jy-transform",
+        "transform",
         "convert",
         "js",
         "json",
