@@ -15,7 +15,7 @@
             "url": "https://github.com/deadratfink"
         }
     ],
-    "license": "SEE LICENSE IN [LICENSE.md](./LICENSE.md)",
+    "license": "MIT, SEE LICENSE IN [LICENSE.md](https://github.com/deadratfink/jy-transform/blob/master/LICENSE)",
     "repository": {
         "type": "git",
         "url": "https://github.com/deadratfink/jy-transform.git"

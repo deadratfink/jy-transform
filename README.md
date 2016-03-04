@@ -36,10 +36,71 @@ npm test
 
 ## License
 
-SEE LICENSE IN [LICENSE.md](./LICENSE.md)
+MIT, SEE LICENSE IN [LICENSE.md](https://github.com/deadratfink/jy-transform/blob/master/LICENSE)
 
 # Documentation
 
+Why this module? After struggling with some huge YAML file and accidentally 
+occurring wrong indentions which results in an annoying failure investigation, 
+I decided to get rid of the YAML file and therefore, create a module which 
+should be aimed as the swiss army knife for transforming YAML, JS and JSON 
+files into each other.  
+
+## Use Cases
+
+The transformation can take place into several directions:
+
+- YAML -> JS
+- YAML -> JSON
+- JS   -> YAML (work in progress)
+- JSON -> YAML (work in progress) 
+- JS   -> JSON (planned) 
+- JSON -> JS (planned)      
+
+While:
+
+- YAML = *.yaml
+- JS   = *.js   (JSON object)  
+- JSON = *.json (JSON serialized)
+
+
+## Usage
+
+The module can be used in two different ways:
+
+- On CLI (recommended install globally `-g`)
+- Via API (install locally)
+
+### Usage On CLI
+
+After the global installation you can access the Transformer command options as follows:
+
+```sh
+$ jyt --help
+```
+
+This prints you an overview about all available properties:
+
+```sh
+$ jyt --help
+Usage:
+  jyt [OPTIONS]
+
+Options: 
+  -t, --target STRING    The conversion target: [ js | json | yaml ]
+  -s, --src PATH         The absolute/relative input file path
+  -d, --dest [PATH]      The absolute/relative output file path (Default is relative to input file.)
+  -i, --indent [NUMBER]  The indention for pretty print (0 - 8) (Default is 4)
+  -k, --no-color         Omit color from output
+      --debug            Show debug information
+  -v, --version          Display the current version
+  -h, --help             Display help and usage details
+
+```
+
+### Usage With API Calls
+
+TODO...
 # API Docs
 
 ## Classes
@@ -57,6 +118,7 @@ SEE LICENSE IN [LICENSE.md](./LICENSE.md)
 
 * [Constants](#Constants)
     * [new Constants()](#new_Constants_new)
+    * [.YAML](#Constants+YAML) : <code>string</code>
     * [.JSON](#Constants+JSON) : <code>string</code>
     * [.JS](#Constants+JS) : <code>string</code>
     * [.TYPES](#Constants+TYPES) : <code>Array.&lt;string&gt;</code>
@@ -67,6 +129,11 @@ SEE LICENSE IN [LICENSE.md](./LICENSE.md)
 Constructs the constants.
 
 **Returns**: <code>[Constants](#Constants)</code> - the instance  
+<a name="Constants+YAML"></a>
+### constants.YAML : <code>string</code>
+The 'yaml' type constant.
+
+**Kind**: instance property of <code>[Constants](#Constants)</code>  
 <a name="Constants+JSON"></a>
 ### constants.JSON : <code>string</code>
 The 'json' type constant.
@@ -101,14 +168,14 @@ The default options.
 
 <a name="new_Transformer_new"></a>
 ### new Transformer(options, logger)
-Constructs the converter with options and a logger.
+Constructs the transformer with options and an (optional) logger.
 
 **Returns**: <code>[Transformer](#Transformer)</code> - the instance  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| options | <code>Object</code> |  |
-| logger | <code>logger</code> &#124; <code>cli</code> &#124; <code>console</code> | (optional) default is <tt>console</tt> |
+| options | <code>Object</code> | the transformation options |
+| logger | <code>logger</code> &#124; <code>cli</code> &#124; <code>console</code> | (optional) logger, default is <tt>console</tt> |
 
 <a name="Transformer+writeJson"></a>
 ### transformer.writeJson(json)
