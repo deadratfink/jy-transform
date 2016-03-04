@@ -6,7 +6,8 @@ I decided to get rid of the YAML file and therefore, create a module which
 should be aimed as the swiss army knife for transforming YAML, JS and JSON 
 files into each other.
 
-The module is fully Promise based!
+The module is fully [Promise](http://bluebirdjs.com/docs/api-reference.html) 
+based!
 
 ## Use Cases
 
