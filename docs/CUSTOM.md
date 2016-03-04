@@ -4,7 +4,9 @@ Why this module? After struggling with some huge YAML file and accidentally
 occurring wrong indentions which results in an annoying failure investigation, 
 I decided to get rid of the YAML file and therefore, create a module which 
 should be aimed as the swiss army knife for transforming YAML, JS and JSON 
-files into each other.  
+files into each other.
+
+The module is fully Promise based!
 
 ## Use Cases
 
