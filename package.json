@@ -1,0 +1,86 @@
+{
+    "name": "jy-transform",
+    "description": "The Bauer Xcel Image Service. For more details refer to [Confluence](http://confluence.bauermedia-digital.com/display/BDU/Image+Service) page.",
+    "version": "0.9.0",
+    "homepage": "http://confluence.bauermedia-digital.com/display/BDU/Image+Service",
+    "author": {
+        "name": "Jens Krefeldt",
+        "email": "j.krefeldt@gmail.com",
+        "url": "http://confluence.bauermedia-digital.com/display/~jens.krefeldt"
+    },
+    "contributors": [
+        {
+            "name": "Jens Krefeldt",
+            "email": "j.krefeldt@gmail.com",
+            "url": "http://confluence.bauermedia-digital.com/display/~jens.krefeldt"
+        }
+    ],
+    "license": "SEE LICENSE IN [LICENSE.md](./LICENSE.md)",
+    "repository": {
+        "type": "git",
+        "url": "http://gitlab.bauer-de.bauermedia.group/bdu-node-modules/bdu-node-yaml2js.git"
+    },
+    "publishConfig": {
+        "registry": "http://npm.bdu.rocks/"
+    },
+    "bugs": "http://gitlab.bauer-de.bauermedia.group/bdu-node-modules/bdu-node-yaml2js/issues",
+    "private": false,
+    "config": {
+        "test": {
+            "NODE_ENV": "testing",
+            "mocha": {
+                "unit": {
+                    "reporter": "spec"
+                },
+                "integration": {
+                    "reporter": "spec"
+                }
+            }
+        }
+    },
+    "scripts": {
+        "docs": "package-json-to-readme --no-footer ./package.json > README.md && cat docs/CUSTOM.md >> README.md && echo '# API Docs\n' >> README.md && jsdoc2md lib/*.js index.js > docs/API.md >> README.md",
+        "test": "npm run -s test:unit",
+        "test:success": "echo 'TESTS SUCCESSFUL :-)'",
+        "test:failure": "echo 'TESTS FAILED :-(' && exit 1",
+        "test:unit": "npm run -s test:mocha:unit && npm run test:success || npm run -s test:failure",
+        "test:mocha": "NODE_ENV=$npm_package_config_test_NODE_ENV mocha",
+        "test:mocha:unit": "npm run -s test:mocha -- --recursive --reporter $npm_package_config_test_mocha_unit_reporter ./test/unit/**/test-*.js"
+    },
+    "engines": {
+        "node": ">=0.12.0"
+    },
+    "dependencies": {
+        "bluebird": "^3.3.3",
+        "cli": "^0.11.1",
+        "js-yaml": "^3.4.2",
+        "mkdirp-then": "^1.2.0",
+        "serialize-js": "^1.1.0"
+    },
+    "devDependencies": {
+        "jsdoc-parse": "^1.2.7",
+        "jsdoc-to-markdown": "^1.3.3",
+        "mocha": "^2.3.3",
+        "package-json-to-readme": "^1.5.0"
+    },
+    "preferGlobal": "true",
+    "bin": {
+        "jyt": "index.js"
+    },
+    "main": "./index.js",
+    "keywords": [
+        "jyt",
+        "convert",
+        "js",
+        "json",
+        "yaml",
+        "yaml2js",
+        "yaml2json",
+        "js2yaml",
+        "json2yaml",
+        "yamltojs",
+        "yamltojson",
+        "jstoyaml",
+        "jsontoyaml"
+    ]
+}
