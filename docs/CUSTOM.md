@@ -161,7 +161,6 @@ Optionally, the constructor accepts a logger object.
 ```javascript
 var options = {...}
 var logger = ...;
-
 var transformer = new Transformer(options, logger);
 ...
 ```
