@@ -36,7 +36,7 @@ npm test
 
 ## License
 
-MIT, SEE LICENSE IN [LICENSE.md](https://github.com/deadratfink/jy-transform/blob/master/LICENSE)
+SEE LICENSE IN [LICENSE.md](https://github.com/deadratfink/jy-transform/blob/master/LICENSE)
 
 # Documentation
 
@@ -78,13 +78,13 @@ The module can be used in two different ways:
 
 After the global installation you can access the Transformer command options as follows:
 
-```sh
+```
 $ jyt --help
 ```
 
 This prints you an overview about all available properties:
 
-```sh
+```
 $ jyt --help
 Usage:
   jyt [OPTIONS]
@@ -101,22 +101,138 @@ Options:
 
 ```
 
-### Usage With API Calls
+Let's assume we have a YAML file located in _./data/my.yaml_ holding this data
+
+```yaml
+myproperty: old value
+```
+
+we can transform it to a JSON file _./data/my.json_:
+
+```javascript
+{
+  "myproperty": "new value"
+}
+```
+
+using this command:
+
+```
+$ jyt -s ./data/my.yaml -t json -i 2
+```
+
+Here we have overwritten the standard target type (which is 'js') and applying an
+indent of 2 instead of the default 4. As default the output file is written relative 
+to the input file (`dest` option is missing here). 
+
+### Usage As a library (API Calls)
+
+Since the usage on CLI is a 2-step process:
+
+1. Read file in -> 2. Write out (to another type)
+
+the direct API calls additionally provide the usage of a middleware function 
+where you can alter the input JSON object before it is put out which turns 
+this into a 3-step process:
+ 
+1. Read file in -> 2. Alter the JSON -> 3. Write out (to another type) 
+
+The main transformation methods are the following:
+
+```javascript
+function yamlToJs(middleware)
+function jsToYaml(middleware)
+```
+
+### Using Middleware
+
+The `middleware` is optional but if provided it must be of type `Function` and 
+a Promise. One of the easiest is the identify function _f(data) -> data_ which 
+could be expressed as Promise function as shown:
+
+```javascript
+var middleware = function (json) {
+    return Promise.resolve(json);
+}
+```
+
+Of course, his would have no effect on the provided JSON data. Actually, this one is 
+used internally when no middleware is provided to ensure the proper promisified 
+control flow.
+
+OK, lets go back to a more practical example, e.g. we want to alter the value of
+JSON property before it is written to a file. Assuming we have this piece of YAML
+object as input:
+
+```javascript
+myproperty: old value
+```
+
+Applying this Promise as middleware
+
+```javascript
+var middleware = function (json) {
+    json.myproperty = 'new value'; 
+    return Promise.resolve(json);
+}
+```
+will result in such JSON file:
+
+```javascript
+{
+	"myproperty": "new value"
+}
+```
+
+Following this you can do everything with the JSON object, like
+
+- deleting properties
+- changing properties to other types
+- validating and throwing error if not valid
+- ...
+
+Whatever, but keep it valid when transforming ;-)
+
+## Injecting Logger
+
+Optionally, the constructor accepts a logger object.
+
+```javascript
+var options = {...}
+var logger = ...;
+
+var transformer = new Transformer(options, logger);
+...
+``
+
+At least, this passed logger object should support the following functions:
+
+```javascript
+function info(msg)
+function debug(msg)
+function error(msg)
+function fatal(msg) // wishfully, but not mandatory
+```
 
 TODO...
-# API Docs
+# API Reference
 
 ## Classes
 
 <dl>
 <dt><a href="#Constants">Constants</a></dt>
-<dd></dd>
+<dd><p>Class which defines all used constants.</p>
+</dd>
 <dt><a href="#Transformer">Transformer</a></dt>
-<dd></dd>
+<dd><p>This class provides all methods usable to handle YAML, JSON and JS and
+       their transformations.</p>
+</dd>
 </dl>
 
 <a name="Constants"></a>
 ## Constants
+Class which defines all used constants.
+
 **Kind**: global class  
 
 * [Constants](#Constants)
@@ -125,13 +241,13 @@ TODO...
     * [.JSON](#Constants+JSON) : <code>string</code>
     * [.JS](#Constants+JS) : <code>string</code>
     * [.TYPES](#Constants+TYPES) : <code>Array.&lt;string&gt;</code>
-    * [.DEFAULT_OPTIONS](#Constants+DEFAULT_OPTIONS) : <code>Object</code>
+    * [.DEFAULT_OPTIONS](#Constants+DEFAULT_OPTIONS) : <code>object</code>
 
 <a name="new_Constants_new"></a>
 ### new Constants()
 Constructs the constants.
 
-**Returns**: <code>[Constants](#Constants)</code> - the instance  
+**Returns**: <code>[Constants](#Constants)</code> - The instance.  
 <a name="Constants+YAML"></a>
 ### constants.YAML : <code>string</code>
 The 'yaml' type constant.
@@ -149,84 +265,156 @@ The 'js' type constant.
 **Kind**: instance property of <code>[Constants](#Constants)</code>  
 <a name="Constants+TYPES"></a>
 ### constants.TYPES : <code>Array.&lt;string&gt;</code>
-The type constants.
+The type constants assembled in an array.
 
 **Kind**: instance property of <code>[Constants](#Constants)</code>  
 <a name="Constants+DEFAULT_OPTIONS"></a>
-### constants.DEFAULT_OPTIONS : <code>Object</code>
-The default options.
+### constants.DEFAULT_OPTIONS : <code>object</code>
+The default options:
 
-**Kind**: instance property of <code>[Constants](#Constants)</code>  
+**Kind**: instance namespace of <code>[Constants](#Constants)</code>  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| origin | <code>string</code> | The default origin type: 'yaml'. |
+| target | <code>string</code> | The default target type: 'js'. |
+| dest | <code>string</code> | The default dest description: 'relative to input file.'. |
+| indent | <code>number</code> | The default indention for files: 4. |
+
 <a name="Transformer"></a>
 ## Transformer
+This class provides all methods usable to handle YAML, JSON and JS and
+       their transformations.
+
 **Kind**: global class  
 
 * [Transformer](#Transformer)
     * [new Transformer(options, logger)](#new_Transformer_new)
-    * [.writeJson(json)](#Transformer+writeJson)
-    * [.writeJs(json)](#Transformer+writeJs)
-    * [.write(serializedJson)](#Transformer+write)
-    * [.yamlToJs()](#Transformer+yamlToJs)
-    * [.jsToYaml(middleware)](#Transformer+jsToYaml)
+    * [.writeJson(json)](#Transformer+writeJson) ⇒ <code>Promise</code>
+    * [.writeJs(json)](#Transformer+writeJs) ⇒ <code>Promise</code>
+    * [.write(serializedJson)](#Transformer+write) ⇒ <code>Promise</code>
+    * [.readJson()](#Transformer+readJson) ⇒ <code>Promise</code>
+    * [.yamlToJs(middleware)](#Transformer+yamlToJs) ⇒ <code>Promise</code>
+    * [.jsToYaml(middleware)](#Transformer+jsToYaml) ⇒ <code>Promise</code>
 
 <a name="new_Transformer_new"></a>
 ### new Transformer(options, logger)
 Constructs the transformer with options and an (optional) logger.
 
-**Returns**: <code>[Transformer](#Transformer)</code> - the instance  
+**Returns**: <code>[Transformer](#Transformer)</code> - The instance.  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | options | <code>Object</code> | the transformation options |
-| logger | <code>logger</code> &#124; <code>cli</code> &#124; <code>console</code> | (optional) logger, default is <tt>console</tt> |
+| logger | <code>logger</code> &#124; <code>cli</code> &#124; <code>console</code> | (optional) Logger, default is <tt>console</tt>. |
 
+**Example**  
+```js
+var Transformer = require('jy-transform');
+var options = {...}
+var logger = ...;
+
+var transformer = new Transformer(options, logger);
+```
 <a name="Transformer+writeJson"></a>
-### transformer.writeJson(json)
+### transformer.writeJson(json) ⇒ <code>Promise</code>
 Writes a JSON object to a *.json file.
 
 **Kind**: instance method of <code>[Transformer](#Transformer)</code>  
+**Returns**: <code>Promise</code> - Containing no result.  
 **Access:** public  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| json | <code>object</code> | the JSON to write into *.json file |
+| json | <code>object</code> | The JSON to write into *.json file. |
 
 <a name="Transformer+writeJs"></a>
-### transformer.writeJs(json)
+### transformer.writeJs(json) ⇒ <code>Promise</code>
 Writes a JSON object to a *.js file.
 
 **Kind**: instance method of <code>[Transformer](#Transformer)</code>  
+**Returns**: <code>Promise</code> - Containing no result.  
 **Access:** public  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| json | <code>object</code> | the JSON to write into *.js file |
+| json | <code>object</code> | The JSON to write into *.js file. |
 
 <a name="Transformer+write"></a>
-### transformer.write(serializedJson)
+### transformer.write(serializedJson) ⇒ <code>Promise</code>
 Writes a serialized JSON object to file.
 
 **Kind**: instance method of <code>[Transformer](#Transformer)</code>  
+**Returns**: <code>Promise</code> - Containing no result.  
 **Access:** public  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| serializedJson | <code>string</code> | the JSON string to write into file |
+| serializedJson | <code>string</code> | The JSON string to write into file. |
+
+<a name="Transformer+readJson"></a>
+### transformer.readJson() ⇒ <code>Promise</code>
+**Kind**: instance method of <code>[Transformer](#Transformer)</code>  
+**Returns**: <code>Promise</code> - Containing the JSON object.  
+**Access:** public  
+**Todo**
+
+- [ ] Finish reading of JSON/JS with require and API Doc?
 
 <a name="Transformer+yamlToJs"></a>
-### transformer.yamlToJs()
+### transformer.yamlToJs(middleware) ⇒ <code>Promise</code>
 Convert YAML file to JSON/JS file.
 
 **Kind**: instance method of <code>[Transformer](#Transformer)</code>  
-**Access:** public  
-<a name="Transformer+jsToYaml"></a>
-### transformer.jsToYaml(middleware)
-Convert JSON/JS file to YAML file.
+**Returns**: <code>Promise</code> - Containing the transformation result as message (e.g. to be logged by caller).  
+**Throws**:
 
-**Kind**: instance method of <code>[Transformer](#Transformer)</code>  
+- <code>TypeError</code> Will throw this error when the passed <tt>middleware</tt>
+        is not type of <tt>Function</tt>.
+- <code>Error</code> Will throw plain error when writing to JSON/JS file failed due to any reason.
+
 **Access:** public  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| middleware | <code>function</code> | this middleware Promise can be used to intercept        the JSON object and inject transformations, the function signature is:        <p>        <tt>function(json)</tt>        </p>        The Promise has to return the processed JSON! |
+| middleware | <code>function</code> | This middleware Promise can be used to intercept        the JSON object for altering he passed JSON, the function signature is:        <p>        <tt>function(json)</tt>        </p>        The Promise has to return the processed JSON! |
 
+**Example**  
+```js
+var Promise = require('bluebird');
+var middleware = function (json) {
+    json.myproperty = 'new value';
+    return Promise.resolve(json);
+};
+
+transformer.yamlToJs(middleware);
+```
+<a name="Transformer+jsToYaml"></a>
+### transformer.jsToYaml(middleware) ⇒ <code>Promise</code>
+Convert JSON/JS file to YAML file.
+
+**Kind**: instance method of <code>[Transformer](#Transformer)</code>  
+**Returns**: <code>Promise</code> - Containing the transformation result as message (e.g. to be logged by caller).  
+**Throws**:
+
+- <code>TypeError</code> Will throw this error when the passed <tt>middleware</tt>
+        is not type of <tt>Function</tt>.
+- <code>Error</code> Will throw plain error when writing to YAML file failed due to any reason.
+
+**Access:** public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| middleware | <code>function</code> | This middleware Promise can be used to intercept        the JSON object for altering he passed JSON, the function signature is:        <p>        <tt>function(json)</tt>        </p>        The Promise has to return the processed JSON! |
+
+**Example**  
+```js
+var Promise = require('bluebird');
+var middleware = function (json) {
+    json.myproperty = 'new value';
+    return Promise.resolve(json);
+};
+
+transformer.jsToYaml(middleware);
+```

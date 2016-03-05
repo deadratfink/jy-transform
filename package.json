@@ -15,7 +15,7 @@
             "url": "https://github.com/deadratfink"
         }
     ],
-    "license": "MIT, SEE LICENSE IN [LICENSE.md](https://github.com/deadratfink/jy-transform/blob/master/LICENSE)",
+    "license": "SEE LICENSE IN [LICENSE.md](https://github.com/deadratfink/jy-transform/blob/master/LICENSE)",
     "repository": {
         "type": "git",
         "url": "https://github.com/deadratfink/jy-transform.git"
@@ -27,25 +27,17 @@
     "private": false,
     "config": {
         "test": {
-            "NODE_ENV": "testing",
             "mocha": {
                 "unit": {
-                    "reporter": "spec"
-                },
-                "integration": {
                     "reporter": "spec"
                 }
             }
         }
     },
     "scripts": {
-        "docs": "package-json-to-readme --no-footer ./package.json > README.md && cat docs/CUSTOM.md >> README.md && echo '# API Docs\n' >> README.md && jsdoc2md lib/*.js index.js > docs/API.md >> README.md",
-        "test": "npm run -s test:unit",
-        "test:success": "echo 'TESTS SUCCESSFUL :-)'",
-        "test:failure": "echo 'TESTS FAILED :-(' && exit 1",
-        "test:unit": "npm run -s test:mocha:unit && npm run test:success || npm run -s test:failure",
-        "test:mocha": "NODE_ENV=$npm_package_config_test_NODE_ENV mocha",
-        "test:mocha:unit": "npm run -s test:mocha -- --recursive --reporter $npm_package_config_test_mocha_unit_reporter ./test/unit/**/test-*.js"
+        "docs": "package-json-to-readme --no-footer ./package.json > README.md && cat docs/CUSTOM.md >> README.md && echo '# API Reference\n' >> README.md && jsdoc2md lib/*.js index.js > docs/API.md >> README.md",
+        "pretest": "rm -Rf ./test/tmp",
+        "test": "mocha -R $npm_package_config_test_mocha_unit_reporter ./test/test.js"
     },
     "engines": {
         "node": ">=0.12.0"
@@ -65,7 +57,7 @@
     },
     "preferGlobal": "true",
     "bin": {
-        "jyt": "index.js"
+        "jyt": "jyt.js"
     },
     "main": "./index.js",
     "keywords": [

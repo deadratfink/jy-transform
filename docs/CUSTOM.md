@@ -38,13 +38,13 @@ The module can be used in two different ways:
 
 After the global installation you can access the Transformer command options as follows:
 
-```sh
+```
 $ jyt --help
 ```
 
 This prints you an overview about all available properties:
 
-```sh
+```
 $ jyt --help
 Usage:
   jyt [OPTIONS]
@@ -61,6 +61,117 @@ Options:
 
 ```
 
-### Usage With API Calls
+Let's assume we have a YAML file located in _./data/my.yaml_ holding this data
+
+```yaml
+myproperty: old value
+```
+
+we can transform it to a JSON file _./data/my.json_:
+
+```javascript
+{
+  "myproperty": "new value"
+}
+```
+
+using this command:
+
+```
+$ jyt -s ./data/my.yaml -t json -i 2
+```
+
+Here we have overwritten the standard target type (which is 'js') and applying an
+indent of 2 instead of the default 4. As default the output file is written relative 
+to the input file (`dest` option is missing here). 
+
+### Usage As a library (API Calls)
+
+Since the usage on CLI is a 2-step process:
+
+1. Read file in -> 2. Write out (to another type)
+
+the direct API calls additionally provide the usage of a middleware function 
+where you can alter the input JSON object before it is put out which turns 
+this into a 3-step process:
+ 
+1. Read file in -> 2. Alter the JSON -> 3. Write out (to another type) 
+
+The main transformation methods are the following:
+
+```javascript
+function yamlToJs(middleware)
+function jsToYaml(middleware)
+```
+
+### Using Middleware
+
+The `middleware` is optional but if provided it must be of type `Function` and 
+a Promise. One of the easiest is the identify function _f(data) -> data_ which 
+could be expressed as Promise function as shown:
+
+```javascript
+var middleware = function (json) {
+    return Promise.resolve(json);
+}
+```
+
+Of course, his would have no effect on the provided JSON data. Actually, this one is 
+used internally when no middleware is provided to ensure the proper promisified 
+control flow.
+
+OK, lets go back to a more practical example, e.g. we want to alter the value of
+JSON property before it is written to a file. Assuming we have this piece of YAML
+object as input:
+
+```javascript
+myproperty: old value
+```
+
+Applying this Promise as middleware
+
+```javascript
+var middleware = function (json) {
+    json.myproperty = 'new value'; 
+    return Promise.resolve(json);
+}
+```
+will result in such JSON file:
+
+```javascript
+{
+	"myproperty": "new value"
+}
+```
+
+Following this you can do everything with the JSON object, like
+
+- deleting properties
+- changing properties to other types
+- validating and throwing error if not valid
+- ...
+
+Whatever, but keep it valid when transforming ;-)
+
+## Injecting Logger
+
+Optionally, the constructor accepts a logger object.
+
+```javascript
+var options = {...}
+var logger = ...;
+
+var transformer = new Transformer(options, logger);
+...
+``
+
+At least, this passed logger object should support the following functions:
+
+```javascript
+function info(msg)
+function debug(msg)
+function error(msg)
+function fatal(msg) // wishfully, but not mandatory
+```
 
 TODO...
