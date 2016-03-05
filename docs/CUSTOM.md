@@ -58,20 +58,19 @@ Options:
       --debug            Show debug information
   -v, --version          Display the current version
   -h, --help             Display help and usage details
-
 ```
 
 Let's assume we have a YAML file located in _./data/my.yaml_ holding this data
 
 ```yaml
-myproperty: old value
+myproperty: value
 ```
 
 we can transform it to a JSON file _./data/my.json_:
 
 ```javascript
 {
-  "myproperty": "new value"
+  "myproperty": "value"
 }
 ```
 
@@ -85,7 +84,7 @@ Here we have overwritten the standard target type (which is 'js') and applying a
 indent of _2_ instead of the default _4_. As default the output file is written relative 
 to the input file (`dest` option is missing here). 
 
-### Usage As a library (API Calls)
+### Usage As a Library (API Calls)
 
 Since the usage on CLI is a 2-step process:
 
@@ -117,7 +116,7 @@ var middleware = function (json) {
 }
 ```
 
-Of course, his would have no effect on the provided JSON data. Actually, this one is 
+Of course, this would have no effect on the provided JSON data. Actually, this one is 
 used internally when no middleware is provided to ensure the proper promisified 
 control flow.
 
@@ -125,7 +124,7 @@ OK, lets go back to a more practical example, e.g. we want to alter the value of
 JSON property before it is written to a file. Assuming we have this piece of YAML
 object as input:
 
-```javascript
+```yaml
 myproperty: old value
 ```
 
@@ -137,6 +136,7 @@ var middleware = function (json) {
     return Promise.resolve(json);
 }
 ```
+
 will result in such JSON file:
 
 ```javascript
@@ -145,7 +145,7 @@ will result in such JSON file:
 }
 ```
 
-Following this you can do everything with the JSON object, like
+Following this pattern you can do everything with the JSON object, like
 
 - deleting properties
 - changing properties to other types
@@ -161,6 +161,7 @@ Optionally, the constructor accepts a logger object.
 ```javascript
 var options = {...}
 var logger = ...;
+
 var transformer = new Transformer(options, logger);
 ```
 
