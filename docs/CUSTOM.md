@@ -164,7 +164,7 @@ var logger = ...;
 
 var transformer = new Transformer(options, logger);
 ...
-``
+```
 
 At least, this passed logger object should support the following functions:
 
