@@ -240,7 +240,7 @@ Class which defines all used constants.
     * [.JSON](#Constants+JSON) : <code>string</code>
     * [.JS](#Constants+JS) : <code>string</code>
     * [.TYPES](#Constants+TYPES) : <code>Array.&lt;string&gt;</code>
-    * [.DEFAULT_OPTIONS](#Constants+DEFAULT_OPTIONS) : <code>object</code>
+    * [.DEFAULT_OPTIONS](#Constants+DEFAULT_OPTIONS)
 
 <a name="new_Constants_new"></a>
 ### new Constants()
@@ -264,14 +264,14 @@ The 'js' type constant.
 **Kind**: instance property of <code>[Constants](#Constants)</code>  
 <a name="Constants+TYPES"></a>
 ### constants.TYPES : <code>Array.&lt;string&gt;</code>
-The type constants assembled in an array.
+The type constants assembled in an array: <tt>[ 'yaml', 'json', 'js' ]</tt>
 
 **Kind**: instance property of <code>[Constants](#Constants)</code>  
 <a name="Constants+DEFAULT_OPTIONS"></a>
-### constants.DEFAULT_OPTIONS : <code>object</code>
-The default options:
+### constants.DEFAULT_OPTIONS
+The default options.
 
-**Kind**: instance namespace of <code>[Constants](#Constants)</code>  
+**Kind**: instance property of <code>[Constants](#Constants)</code>  
 **Properties**
 
 | Name | Type | Description |
