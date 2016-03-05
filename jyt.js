@@ -35,7 +35,8 @@ cli.parse({
     target: ['t', 'The conversion target: [ ' + constants.JS + ' | ' + constants.JSON + ' | ' + constants.YAML + ' ]', 'string', constants.DEFAULT_OPTIONS.target ],
     src:    ['s', 'The absolute/relative input file path', 'path'],
     dest:   ['d', 'The absolute/relative output file path', 'path', constants.DEFAULT_OPTIONS.dest],
-    indent: ['i', 'The indention for pretty print (0 - 8)', 'int', constants.DEFAULT_OPTIONS.indent]
+    indent: ['i', 'The indention for pretty-print: 0 - 8', 'int', constants.DEFAULT_OPTIONS.indent],
+    //prefix: ['p', 'Whether the JS should get a \'module.exports = \' prefix', 'boolean']
 });
 cli.main(function(args, options) {
     var transformer = new Transformer(options, cli);

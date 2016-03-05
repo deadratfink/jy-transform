@@ -50,10 +50,11 @@ Usage:
   jyt [OPTIONS]
 
 Options: 
-  -t, --target STRING    The conversion target: [ js | json | yaml ]
+  -o, --origin [STRING]  The conversion origin: [ js | json | yaml ] (Default is yaml)
+  -t, --target [STRING]  The conversion target: [ js | json | yaml ] (Default is js)
   -s, --src PATH         The absolute/relative input file path
   -d, --dest [PATH]      The absolute/relative output file path (Default is relative to input file.)
-  -i, --indent [NUMBER]  The indention for pretty print (0 - 8) (Default is 4)
+  -i, --indent [NUMBER]  The indention for pretty-print: 0 - 8 (Default is 4)
   -k, --no-color         Omit color from output
       --debug            Show debug information
   -v, --version          Display the current version

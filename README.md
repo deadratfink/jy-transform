@@ -90,10 +90,11 @@ Usage:
   jyt [OPTIONS]
 
 Options: 
-  -t, --target STRING    The conversion target: [ js | json | yaml ]
+  -o, --origin [STRING]  The conversion origin: [ js | json | yaml ] (Default is yaml)
+  -t, --target [STRING]  The conversion target: [ js | json | yaml ] (Default is js)
   -s, --src PATH         The absolute/relative input file path
   -d, --dest [PATH]      The absolute/relative output file path (Default is relative to input file.)
-  -i, --indent [NUMBER]  The indention for pretty print (0 - 8) (Default is 4)
+  -i, --indent [NUMBER]  The indention for pretty-print: 0 - 8 (Default is 4)
   -k, --no-color         Omit color from output
       --debug            Show debug information
   -v, --version          Display the current version
@@ -280,6 +281,7 @@ The default options.
 | target | <code>string</code> | The default target type: 'js'. |
 | dest | <code>string</code> | The default dest description: 'relative to input file.'. |
 | indent | <code>number</code> | The default indention for files: 4. |
+| prefix | <code>boolean</code> | The 'module.exports = ' prefix writing for JS files: true. |
 
 <a name="Transformer"></a>
 ## Transformer
@@ -290,6 +292,7 @@ This class provides all methods usable to handle YAML, JSON and JS and
 
 * [Transformer](#Transformer)
     * [new Transformer(options, logger)](#new_Transformer_new)
+    * [.writeYaml(json)](#Transformer+writeYaml) ⇒ <code>Promise</code>
     * [.writeJson(json)](#Transformer+writeJson) ⇒ <code>Promise</code>
     * [.writeJs(json)](#Transformer+writeJs) ⇒ <code>Promise</code>
     * [.write(serializedJson)](#Transformer+write) ⇒ <code>Promise</code>
@@ -316,36 +319,48 @@ var logger = ...;
 
 var transformer = new Transformer(options, logger);
 ```
-<a name="Transformer+writeJson"></a>
-### transformer.writeJson(json) ⇒ <code>Promise</code>
-Writes a JSON object to a *.json file.
+<a name="Transformer+writeYaml"></a>
+### transformer.writeYaml(json) ⇒ <code>Promise</code>
+Writes a JSON object to a _*.yaml_ file.
 
 **Kind**: instance method of <code>[Transformer](#Transformer)</code>  
-**Returns**: <code>Promise</code> - Containing no result.  
+**Returns**: <code>Promise</code> - Containing the write success message to handle by caller (e.g. for logging).  
 **Access:** public  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| json | <code>object</code> | The JSON to write into *.json file. |
+| json | <code>object</code> | The JSON to write into _*.yaml_ file. |
+
+<a name="Transformer+writeJson"></a>
+### transformer.writeJson(json) ⇒ <code>Promise</code>
+Writes a JSON object to a _*.json_ file.
+
+**Kind**: instance method of <code>[Transformer](#Transformer)</code>  
+**Returns**: <code>Promise</code> - Containing the write success message to handle by caller (e.g. for logging).  
+**Access:** public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| json | <code>object</code> | The JSON to write into _*.json_ file. |
 
 <a name="Transformer+writeJs"></a>
 ### transformer.writeJs(json) ⇒ <code>Promise</code>
-Writes a JSON object to a *.js file.
+Writes a JSON object to a _*.js_ file.
 
 **Kind**: instance method of <code>[Transformer](#Transformer)</code>  
-**Returns**: <code>Promise</code> - Containing no result.  
+**Returns**: <code>Promise</code> - Containing the write success message to handle by caller (e.g. for logging).  
 **Access:** public  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| json | <code>object</code> | The JSON to write into *.js file. |
+| json | <code>object</code> | The JSON to write into _*.js_ file. |
 
 <a name="Transformer+write"></a>
 ### transformer.write(serializedJson) ⇒ <code>Promise</code>
 Writes a serialized JSON object to file.
 
 **Kind**: instance method of <code>[Transformer](#Transformer)</code>  
-**Returns**: <code>Promise</code> - Containing no result.  
+**Returns**: <code>Promise</code> - Containing the write success message to handle by caller (e.g. for logging).  
 **Access:** public  
 
 | Param | Type | Description |
@@ -382,12 +397,19 @@ Convert YAML file to JSON/JS file.
 **Example**  
 ```js
 var Promise = require('bluebird');
+var logger = ...;
 var middleware = function (json) {
     json.myproperty = 'new value';
     return Promise.resolve(json);
 };
 
-transformer.yamlToJs(middleware);
+transformer.yamlToJs(middleware)
+    .then(function (msg){
+        logger.info(msg);
+    })
+    .catch(function (err) {
+        logger.error(err.stack);
+    });
 ```
 <a name="Transformer+jsToYaml"></a>
 ### transformer.jsToYaml(middleware) ⇒ <code>Promise</code>
@@ -410,10 +432,17 @@ Convert JSON/JS file to YAML file.
 **Example**  
 ```js
 var Promise = require('bluebird');
+var logger = ...;
 var middleware = function (json) {
     json.myproperty = 'new value';
     return Promise.resolve(json);
 };
 
-transformer.jsToYaml(middleware);
+transformer.jsToYaml(middleware)
+    .then(function (msg){
+        logger.info(msg);
+    })
+    .catch(function (err) {
+        logger.error(err.stack);
+    });
 ```
