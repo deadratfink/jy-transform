@@ -201,10 +201,8 @@ Optionally, the constructor accepts a logger object.
 ```javascript
 var options = {...}
 var logger = ...;
-
 var transformer = new Transformer(options, logger);
-...
-``
+```
 
 At least, this passed logger object should support the following functions:
 
