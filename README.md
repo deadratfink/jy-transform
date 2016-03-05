@@ -281,7 +281,6 @@ The default options.
 | target | <code>string</code> | The default target type: 'js'. |
 | dest | <code>string</code> | The default dest description: 'relative to input file.'. |
 | indent | <code>number</code> | The default indention for files: 4. |
-| prefix | <code>boolean</code> | The 'module.exports = ' prefix writing for JS files: true. |
 
 <a name="Transformer"></a>
 ## Transformer
