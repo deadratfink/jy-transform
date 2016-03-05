@@ -122,7 +122,7 @@ $ jyt -s ./data/my.yaml -t json -i 2
 ```
 
 Here we have overwritten the standard target type (which is 'js') and applying an
-indent of 2 instead of the default 4. As default the output file is written relative 
+indent of _2_ instead of the default _4_. As default the output file is written relative 
 to the input file (`dest` option is missing here). 
 
 ### Usage As a library (API Calls)
@@ -147,8 +147,9 @@ function jsToYaml(middleware)
 ### Using Middleware
 
 The `middleware` is optional but if provided it must be of type `Function` and 
-a Promise. One of the easiest is the identify function _f(data) -> data_ which 
-could be expressed as Promise function as shown:
+a [Promise](http://bluebirdjs.com/docs/api-reference.html). One of the easiest 
+ones is the identity function _f(data) -> data_ which could be expressed as 
+[Promise](http://bluebirdjs.com/docs/api-reference.html) function as shown:
 
 ```javascript
 var middleware = function (json) {
@@ -168,7 +169,7 @@ object as input:
 myproperty: old value
 ```
 
-Applying this Promise as middleware
+Applying this [Promise](http://bluebirdjs.com/docs/api-reference.html) as middleware
 
 ```javascript
 var middleware = function (json) {
@@ -214,7 +215,6 @@ function error(msg)
 function fatal(msg) // wishfully, but not mandatory
 ```
 
-TODO...
 # API Reference
 
 ## Classes
