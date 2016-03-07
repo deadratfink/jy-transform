@@ -167,7 +167,7 @@ $ jyt -s ./data/my.yaml -t json -i 2
 
 Here we have overwritten the standard target type (which is 'js') and applying an
 indent of _2_ instead of the default _4_. As default the output file _./data/my.json_ 
-is written relative to the input file (simply omit`dest` option here). 
+is written relative to the input file (simply omit the `dest` option here). 
 
 ### Usage As Library (API Calls)
 
@@ -185,7 +185,7 @@ this into a 3-step process:
 3. Write out (to another type)
 
 For more details about this and all the functions provided by this module please refer to the 
-[API Reference](#API Reference) below.
+[API Reference](#api-reference) below.
 
 #### Transformation Properties
 
