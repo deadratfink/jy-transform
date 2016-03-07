@@ -70,15 +70,15 @@ The CLI provides the `jyt` command followed by a bunch of options:
 
 | Name | Type | Description | Default | Required |
 | --- | --- | --- | --- | --- |
-| `-o, --origin` | [ _js_ &#124; _json_ &#124; _yaml_ ] | The origin type. | _yaml_ | no |
-| `-t, --target` | [ _js_ &#124; _json_ &#124; _yaml_ ] | The target type. | _js_ | no |
+| `-o, --origin` | <code>[ _js_ | _json_ | _yaml_ ]</code> | The origin type. | <code>yaml</code> | no |
+| `-t, --target` | <code>[ _js_ | _json_ | _yaml_ ]</code> | The target type. | <code>js</code> | no |
 | `-s, --src` | URI | The source file path. | - | yes |
 | `-d, --dest` | URI | The destination file path. | _'relative to input file'_ | no |
-| `-i, --indent` | positive integer | The indention for files. | _4_ | - |
-| `-k, --no-color` | - | Omit color from output. | - | - |
-| `--debug` | - | Show debug information. | - | - |
-| `-v, --version` | - | Display the current version. | - | - |
-| `-h, --help` | - | Display help and usage details. | - | - |  
+| `-i, --indent` | positive integer | The indention for files. | _4_ | no |
+| `-k, --no-color` | - | Omit color from output. | - | no |
+| `--debug` | - | Show debug information. | - | no |
+| `-v, --version` | - | Display the current version. | - | no |
+| `-h, --help` | - | Display help and usage details. | - | no |  
 
 After the global installation you can access the Transformer command options as follows:
 
