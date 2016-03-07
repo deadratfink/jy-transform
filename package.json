@@ -1,6 +1,6 @@
 {
     "name": "jy-transform",
-    "description": "This project aims to transform _*.yaml_ files to _.js_ or _*.json_ files or vice-versa via CLI or API.",
+    "description": "This project aims to read, write and transform _*.yaml_ files to _.js_ or _*.json_ files or vice-versa via CLI or API.",
     "version": "0.9.0",
     "homepage": "https://github.com/deadratfink/jy-transform",
     "author": {

@@ -38,11 +38,11 @@ The transformation can take place into several directions:
 - JSON -> JSON
 - JS   -> JS       
 
-While:
+while:
 
-- YAML = *.yaml
-- JS   = *.js   (JSON object)  
-- JSON = *.json (JSON serialized)
+- YAML = _*.yaml_
+- JS   = _*.js_   (JSON object)  
+- JSON = _*.json_ (JSON serialized)
 
 ### Middleware
 
@@ -65,6 +65,20 @@ The module can be used in two different ways:
 - Via API (install locally)
 
 ### Usage On CLI
+
+The CLI provides the `jyt` command followed by a bunch of options:
+
+| Name | Type | Description | Default | Required |
+| --- | --- | --- | --- | --- |
+| `-o, --origin` | [ _js_ | _json_ | _yaml_ ] | The origin type. | _yaml_ | no |
+| `-t, --target` | [ _js_ | _json_ | _yaml_ ] | The target type. | _js_ | no |
+| `-s, --src` | URI | The source file path. | - | yes |
+| `-d, --dest` | URI | The destination file path. | _'relative to input file'_ | no |
+| `-i, --indent` | positive integer | The indention for files. | _4_ | - |
+| `-k, --no-color` | - | Omit color from output. | - | - |
+| `--debug` | - | Show debug information. | - | - |
+| `-v, --version` | - | Display the current version. | - | - |
+| `-h, --help` | - | Display help and usage details. | - | - |  
 
 After the global installation you can access the Transformer command options as follows:
 
@@ -91,13 +105,13 @@ Options:
   -h, --help             Display help and usage details
 ```
 
-Let's assume we have a YAML file located in _./data/my.yaml_ holding this data
+Now let's assume we have a YAML file located in _./data/my.yaml_ holding this data:
 
 ```yaml
 myproperty: value
 ```
 
-we can transform it to a JSON file _./data/my.json_:
+then we can transform it to a JSON file _./data/my.json_:
 
 ```javascript
 {
@@ -112,10 +126,10 @@ $ jyt -s ./data/my.yaml -t json -i 2
 ```
 
 Here we have overwritten the standard target type (which is 'js') and applying an
-indent of _2_ instead of the default _4_. As default the output file is written relative 
-to the input file (`dest` option is missing here). 
+indent of _2_ instead of the default _4_. As default the output file _./data/my.json_ 
+is written relative to the input file (simply omit`dest` option here). 
 
-### Usage As a Library (API Calls)
+### Usage As Library (API Calls)
 
 Since the usage on CLI is a 2-step process:
 
@@ -128,15 +142,41 @@ this into a 3-step process:
  
 1. Read source file in -> 
 2. Alter the JSON object -> 
-3. Write out (to another type) 
+3. Write out (to another type)
 
-The transformation method is the following:
+For more details about this and all the functions provided by this module please refer to the 
+[API Reference](#API Reference) below.
+
+#### Transformation Properties
+
+The `Transformer` exposes the following function which takes besides an (optional) 
+`middleware` function the necessary `options for the transformation:
 
 ```javascript
 function transform(options, middleware)
 ```
 
-For more details about all the functions provided please refer to the [API Reference](#API Reference) below.  
+The `options` object parameter have to follow this key-values table:
+
+| Name | Type | Description | Default | Required |
+| --- | --- | --- | --- | --- |
+| origin | <code>string</code> | The origin type. | 'yaml' | no |
+| target | <code>string</code> | The target type. | 'js' | no |
+| src | <code>string</code> | The source file path. | - | yes |
+| dest | <code>string</code> | The destination file path. | 'relative to input file' | no |
+| indent | <code>number</code> | The indention in files. | 4 | - |  
+
+#### Example
+
+```
+var options = {
+    origin: 'json',
+    target: 'yaml',
+    src: './my.json',
+    dest: './temp/my.yaml',
+    indent: 2
+}
+```
 
 ### Using Middleware
 
@@ -195,7 +235,7 @@ Whatever, but keep it valid when transforming ;-)
 
 ## Injecting Logger
 
-The `Reader`, `Transfomer` and `Writer` constructors accepts an (optional) logger object.
+The `Reader`, `Transfomer` and `Writer` constructors accept an (optional) logger object.
 
 ```javascript
 var logger = ...;
