@@ -57,7 +57,7 @@
     },
     "preferGlobal": "true",
     "bin": {
-        "jyt": "jyt.js"
+        "jyt": "./jyt"
     },
     "main": "./index.js",
     "keywords": [

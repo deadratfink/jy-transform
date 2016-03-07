@@ -129,19 +129,21 @@ to the input file (`dest` option is missing here).
 
 Since the usage on CLI is a 2-step process:
 
-1. Read file in -> 2. Write out (to another type)
+1. Read source file in to JSON object -> 
+2. Write out (to another type)
 
-the direct API calls additionally provide the usage of a middleware function 
-where you can alter the input JSON object before it is put out which turns 
+the direct API calls additionally provide the usage of a _middleware_ function 
+where you can alter the input JSON object before it is written and therefore, which turns 
 this into a 3-step process:
  
-1. Read file in -> 2. Alter the JSON -> 3. Write out (to another type) 
+1. Read source file in -> 
+2. Alter the JSON object -> 
+3. Write out (to another type) 
 
-The main transformation methods are the following:
+The transformation method is the following:
 
 ```javascript
-function yamlToJs(middleware)
-function jsToYaml(middleware)
+function transform(options, middleware)
 ```
 
 ### Using Middleware
@@ -197,22 +199,22 @@ Whatever, but keep it valid when transforming ;-)
 
 ## Injecting Logger
 
-Optionally, the constructor accepts a logger object.
+The `Reader`, `Transfomer` and `Writer` constructors accepts an (optional) logger object.
 
 ```javascript
-var options = {...}
 var logger = ...;
 
-var transformer = new Transformer(options, logger);
+var reader = new Reader(logger);
+var transformer = new Transformer(logger);
+var writer = new Writer(logger);
 ```
 
-At least, this passed logger object should support the following functions:
+At least, the passed logger object _has to_ support the following functions:
 
 ```javascript
 function info(msg)
 function debug(msg)
 function error(msg)
-function fatal(msg) // wishfully, but not mandatory
 ```
 
 # API Reference
@@ -221,17 +223,33 @@ function fatal(msg) // wishfully, but not mandatory
 
 <dl>
 <dt><a href="#Constants">Constants</a></dt>
-<dd><p>Class which defines all used constants.</p>
+<dd><p>Class which defines all constants usable in or with this module.</p>
+</dd>
+<dt><a href="#Reader">Reader</a></dt>
+<dd><p>This class provides utility methods usable to read YAML, JSON or JS
+       from a file to JS memory objects.</p>
 </dd>
 <dt><a href="#Transformer">Transformer</a></dt>
 <dd><p>This class provides all methods usable to handle YAML, JSON and JS and
        their transformations.</p>
 </dd>
+<dt><a href="#Writer">Writer</a></dt>
+<dd><p>This class provides utility methods usable to write JSON/JS
+       from memory to a YAML, JSON or JS file.</p>
+</dd>
+</dl>
+
+## Members
+
+<dl>
+<dt><a href="#constants">constants</a> : <code><a href="#Constants">Constants</a></code></dt>
+<dd><p>The exported instance.</p>
+</dd>
 </dl>
 
 <a name="Constants"></a>
 ## Constants
-Class which defines all used constants.
+Class which defines all constants usable in or with this module.
 
 **Kind**: global class  
 
@@ -241,7 +259,21 @@ Class which defines all used constants.
     * [.JSON](#Constants+JSON) : <code>string</code>
     * [.JS](#Constants+JS) : <code>string</code>
     * [.TYPES](#Constants+TYPES) : <code>Array.&lt;string&gt;</code>
+    * [.DEFAULT_INDENT](#Constants+DEFAULT_INDENT) : <code>number</code>
+    * [.MIN_JSON_JS_INDENT](#Constants+MIN_JSON_JS_INDENT) : <code>number</code>
+    * [.MIN_YAML_INDENT](#Constants+MIN_YAML_INDENT) : <code>number</code>
+    * [.MAX_INDENT](#Constants+MAX_INDENT) : <code>number</code>
     * [.DEFAULT_OPTIONS](#Constants+DEFAULT_OPTIONS)
+    * [.YAML_TO_JS](#Constants+YAML_TO_JS) : <code>string</code>
+    * [.YAML_TO_JSON](#Constants+YAML_TO_JSON) : <code>string</code>
+    * [.JS_TO_YAML](#Constants+JS_TO_YAML) : <code>string</code>
+    * [.JSON_TO_YAML](#Constants+JSON_TO_YAML) : <code>string</code>
+    * [.JSON_TO_JS](#Constants+JSON_TO_JS) : <code>string</code>
+    * [.JS_TO_JSON](#Constants+JS_TO_JSON) : <code>string</code>
+    * [.YAML_TO_YAML](#Constants+YAML_TO_YAML) : <code>string</code>
+    * [.JSON_TO_JSON](#Constants+JSON_TO_JSON) : <code>string</code>
+    * [.JS_TO_JS](#Constants+JS_TO_JS) : <code>string</code>
+    * [.TRANSFORMATIONS](#Constants+TRANSFORMATIONS) : <code>Array.&lt;string&gt;</code>
 
 <a name="new_Constants_new"></a>
 ### new Constants()
@@ -252,27 +284,55 @@ Constructs the constants.
 ### constants.YAML : <code>string</code>
 The 'yaml' type constant.
 
-**Kind**: instance property of <code>[Constants](#Constants)</code>  
+**Kind**: instance constant of <code>[Constants](#Constants)</code>  
+**Access:** public  
 <a name="Constants+JSON"></a>
 ### constants.JSON : <code>string</code>
 The 'json' type constant.
 
-**Kind**: instance property of <code>[Constants](#Constants)</code>  
+**Kind**: instance constant of <code>[Constants](#Constants)</code>  
+**Access:** public  
 <a name="Constants+JS"></a>
 ### constants.JS : <code>string</code>
 The 'js' type constant.
 
-**Kind**: instance property of <code>[Constants](#Constants)</code>  
+**Kind**: instance constant of <code>[Constants](#Constants)</code>  
+**Access:** public  
 <a name="Constants+TYPES"></a>
 ### constants.TYPES : <code>Array.&lt;string&gt;</code>
-The type constants assembled in an array: <tt>[ 'yaml', 'json', 'js' ]</tt>
+The type constants assembled in an array: <tt>[ 'yaml', 'json', 'js' ]</tt>.
 
-**Kind**: instance property of <code>[Constants](#Constants)</code>  
+**Kind**: instance constant of <code>[Constants](#Constants)</code>  
+**Access:** public  
+<a name="Constants+DEFAULT_INDENT"></a>
+### constants.DEFAULT_INDENT : <code>number</code>
+The default file indention (4 SPACEs).
+
+**Kind**: instance constant of <code>[Constants](#Constants)</code>  
+**Access:** public  
+<a name="Constants+MIN_JSON_JS_INDENT"></a>
+### constants.MIN_JSON_JS_INDENT : <code>number</code>
+The minimum JSON/JS file indention (0 SPACE).
+
+**Kind**: instance constant of <code>[Constants](#Constants)</code>  
+**Access:** public  
+<a name="Constants+MIN_YAML_INDENT"></a>
+### constants.MIN_YAML_INDENT : <code>number</code>
+The minimum YAML file indention (1 SPACE).
+
+**Kind**: instance constant of <code>[Constants](#Constants)</code>  
+**Access:** public  
+<a name="Constants+MAX_INDENT"></a>
+### constants.MAX_INDENT : <code>number</code>
+The maximum file indention (8 SPACEs).
+
+**Kind**: instance constant of <code>[Constants](#Constants)</code>  
+**Access:** public  
 <a name="Constants+DEFAULT_OPTIONS"></a>
 ### constants.DEFAULT_OPTIONS
 The default options.
 
-**Kind**: instance property of <code>[Constants](#Constants)</code>  
+**Kind**: instance constant of <code>[Constants](#Constants)</code>  
 **Properties**
 
 | Name | Type | Description |
@@ -282,6 +342,189 @@ The default options.
 | dest | <code>string</code> | The default dest description: 'relative to input file.'. |
 | indent | <code>number</code> | The default indention for files: 4. |
 
+<a name="Constants+YAML_TO_JS"></a>
+### constants.YAML_TO_JS : <code>string</code>
+The transformation direction YAML -> JS.
+
+**Kind**: instance constant of <code>[Constants](#Constants)</code>  
+**Access:** public  
+<a name="Constants+YAML_TO_JSON"></a>
+### constants.YAML_TO_JSON : <code>string</code>
+The transformation direction YAML -> JSON.
+
+**Kind**: instance constant of <code>[Constants](#Constants)</code>  
+**Access:** public  
+<a name="Constants+JS_TO_YAML"></a>
+### constants.JS_TO_YAML : <code>string</code>
+The transformation direction JS -> YAML.
+
+**Kind**: instance constant of <code>[Constants](#Constants)</code>  
+**Access:** public  
+<a name="Constants+JSON_TO_YAML"></a>
+### constants.JSON_TO_YAML : <code>string</code>
+The transformation direction JSON -> YAML.
+
+**Kind**: instance constant of <code>[Constants](#Constants)</code>  
+**Access:** public  
+<a name="Constants+JSON_TO_JS"></a>
+### constants.JSON_TO_JS : <code>string</code>
+The transformation direction JSON -> JS.
+
+**Kind**: instance constant of <code>[Constants](#Constants)</code>  
+**Access:** public  
+<a name="Constants+JS_TO_JSON"></a>
+### constants.JS_TO_JSON : <code>string</code>
+The transformation direction JS -> JSON.
+
+**Kind**: instance constant of <code>[Constants](#Constants)</code>  
+**Access:** public  
+<a name="Constants+YAML_TO_YAML"></a>
+### constants.YAML_TO_YAML : <code>string</code>
+The transformation direction YAML -> YAML.
+
+**Kind**: instance constant of <code>[Constants](#Constants)</code>  
+**Access:** public  
+<a name="Constants+JSON_TO_JSON"></a>
+### constants.JSON_TO_JSON : <code>string</code>
+The transformation direction JSON -> JSON.
+
+**Kind**: instance constant of <code>[Constants](#Constants)</code>  
+**Access:** public  
+<a name="Constants+JS_TO_JS"></a>
+### constants.JS_TO_JS : <code>string</code>
+The transformation direction JS -> JS.
+
+**Kind**: instance constant of <code>[Constants](#Constants)</code>  
+**Access:** public  
+<a name="Constants+TRANSFORMATIONS"></a>
+### constants.TRANSFORMATIONS : <code>Array.&lt;string&gt;</code>
+The transformation directions.
+
+**Kind**: instance constant of <code>[Constants](#Constants)</code>  
+**Access:** public  
+<a name="Reader"></a>
+## Reader
+This class provides utility methods usable to read YAML, JSON or JS
+       from a file to JS memory objects.
+
+**Kind**: global class  
+
+* [Reader](#Reader)
+    * [new Reader(logger)](#new_Reader_new)
+    * [.logger](#Reader+logger) : <code>logger</code> &#124; <code>cli</code> &#124; <code>console</code>
+    * [.readJs(src)](#Reader+readJs) ⇒ <code>Promise</code>
+    * [.readJson(src)](#Reader+readJson) ⇒ <code>Promise</code>
+    * [.readYaml(src)](#Reader+readYaml) ⇒ <code>Promise</code>
+
+<a name="new_Reader_new"></a>
+### new Reader(logger)
+Constructs the `Reader` with an (optional) logger.
+
+**Returns**: <code>[Reader](#Reader)</code> - The instance.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| logger | <code>logger</code> &#124; <code>cli</code> &#124; <code>console</code> | (optional) Logger, default is <tt>console</tt>. |
+
+**Example**  
+```js
+var Reader = require('jy-transform').Reader;
+var logger = ...;
+
+var reader = new Reader(logger);
+```
+<a name="Reader+logger"></a>
+### reader.logger : <code>logger</code> &#124; <code>cli</code> &#124; <code>console</code>
+The logger instance.
+
+**Kind**: instance property of <code>[Reader](#Reader)</code>  
+<a name="Reader+readJs"></a>
+### reader.readJs(src) ⇒ <code>Promise</code>
+Reads the data from a given *.js file source.
+
+**Kind**: instance method of <code>[Reader](#Reader)</code>  
+**Returns**: <code>Promise</code> - Containing the JSON object.  
+**Access:** public  
+**Todo**
+
+- [ ] Finish reading of JSON/JS with require and API Doc?
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| src | <code>string</code> | The JS source file to read. |
+
+**Example**  
+```js
+var Reader = require('jy-transform').Reader;
+var logger = ...;
+
+var reader = new Reader(logger);
+reader.readJs(./my.js)
+    .then(function (json){
+        logger.info(JSON.stringify(json));
+    })
+    .catch(function (err) {
+        logger.error(err.stack);
+    });
+```
+<a name="Reader+readJson"></a>
+### reader.readJson(src) ⇒ <code>Promise</code>
+**Kind**: instance method of <code>[Reader](#Reader)</code>  
+**Returns**: <code>Promise</code> - Containing the JSON object.  
+**Access:** public  
+**Todo**
+
+- [ ] Finish reading of JSON/JS with require and API Doc?
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| src | <code>string</code> | The JSON source file to read. |
+
+**Example**  
+```js
+var Reader = require('jy-transform').Reader;
+var logger = ...;
+
+var reader = new Reader(logger);
+reader.readJson(./my.json)
+    .then(function (json){
+        logger.info(JSON.stringify(json));
+    })
+    .catch(function (err) {
+        logger.error(err.stack);
+    });
+```
+<a name="Reader+readYaml"></a>
+### reader.readYaml(src) ⇒ <code>Promise</code>
+Loads a single YAML file containing document and turns a JS object.
+
+*NOTE:* This function does not understand multi-document sources, it throws
+exception on those.
+
+**Kind**: instance method of <code>[Reader](#Reader)</code>  
+**Returns**: <code>Promise</code> - Containing the JSON object.  
+**Access:** public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| src | <code>string</code> | The YAML source file to read. |
+
+**Example**  
+```js
+var Reader = require('jy-transform').Reader;
+var logger = ...;
+
+var reader = new Reader(logger);
+reader.readYaml(./my.yaml)
+    .then(function (json){
+        logger.info(JSON.stringify(json));
+    })
+    .catch(function (err) {
+        logger.error(err.stack);
+    });
+```
 <a name="Transformer"></a>
 ## Transformer
 This class provides all methods usable to handle YAML, JSON and JS and
@@ -290,158 +533,171 @@ This class provides all methods usable to handle YAML, JSON and JS and
 **Kind**: global class  
 
 * [Transformer](#Transformer)
-    * [new Transformer(options, logger)](#new_Transformer_new)
-    * [.writeYaml(json)](#Transformer+writeYaml) ⇒ <code>Promise</code>
-    * [.writeJson(json)](#Transformer+writeJson) ⇒ <code>Promise</code>
-    * [.writeJs(json)](#Transformer+writeJs) ⇒ <code>Promise</code>
-    * [.write(serializedJson)](#Transformer+write) ⇒ <code>Promise</code>
-    * [.readJson()](#Transformer+readJson) ⇒ <code>Promise</code>
-    * [.yamlToJs(middleware)](#Transformer+yamlToJs) ⇒ <code>Promise</code>
-    * [.jsToYaml(middleware)](#Transformer+jsToYaml) ⇒ <code>Promise</code>
+    * [new Transformer(logger)](#new_Transformer_new)
+    * [.logger](#Transformer+logger) : <code>logger</code> &#124; <code>cli</code> &#124; <code>console</code>
+    * [.transform(options, middleware)](#Transformer+transform) ⇒ <code>Promise</code>
 
 <a name="new_Transformer_new"></a>
-### new Transformer(options, logger)
-Constructs the transformer with options and an (optional) logger.
+### new Transformer(logger)
+Constructs the `Transformer` with options and an (optional) logger.
 
 **Returns**: <code>[Transformer](#Transformer)</code> - The instance.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| options | <code>Object</code> | The transformation options. |
 | logger | <code>logger</code> &#124; <code>cli</code> &#124; <code>console</code> | (optional) Logger, default is <tt>console</tt>. |
 
 **Example**  
 ```js
-var Transformer = require('jy-transform');
-var options = {...}
 var logger = ...;
-
-var transformer = new Transformer(options, logger);
+var transformer = require('jy-transform')(logger);
 ```
-<a name="Transformer+writeYaml"></a>
-### transformer.writeYaml(json) ⇒ <code>Promise</code>
-Writes a JSON object to a _*.yaml_ file.
+<a name="Transformer+logger"></a>
+### transformer.logger : <code>logger</code> &#124; <code>cli</code> &#124; <code>console</code>
+The logger instance.
+
+**Kind**: instance property of <code>[Transformer](#Transformer)</code>  
+<a name="Transformer+transform"></a>
+### transformer.transform(options, middleware) ⇒ <code>Promise</code>
+The entry method for all transformation accepting a configuration object and
+an (optional) middleware function.
 
 **Kind**: instance method of <code>[Transformer](#Transformer)</code>  
-**Returns**: <code>Promise</code> - Containing the write success message to handle by caller (e.g. for logging).  
+**Returns**: <code>Promise</code> - Containing the transformation result as message (e.g. to be logged by caller).  
+**Throws**:
+
+- <code>TypeError</code> Will throw this error when the passed `middleware`
+        is not type of `Function`.
+- <code>Error</code> Will throw plain error when writing to file failed due to any reason.
+
 **Access:** public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>Object</code> | The transformation options. |
+| middleware | <code>function</code> | This middleware Promise can be used to intercept        the JSON object for altering the passed JSON, the function signature is:        <p>        <tt>function(json)</tt>        </p>        The Promise has to return the processed JSON! |
+
+**Example**  
+```js
+var transformer = require('jy-transform')(logger);
+var Promise = require('bluebird');
+var logger = ...;
+var options = {...};
+var middleware = function (json) {
+    json.myproperty = 'new value';
+    return Promise.resolve(json);
+};
+
+transformer.transform(options, middleware)
+    .then(function (msg){
+        logger.info(msg);
+    })
+    .catch(function (err) {
+        logger.error(err.stack);
+    });
+```
+<a name="Writer"></a>
+## Writer
+This class provides utility methods usable to write JSON/JS
+       from memory to a YAML, JSON or JS file.
+
+**Kind**: global class  
+
+* [Writer](#Writer)
+    * [new Writer(logger)](#new_Writer_new)
+    * [.logger](#Writer+logger) : <code>logger</code> &#124; <code>cli</code> &#124; <code>console</code>
+    * [.writeYaml(json, dest, indent)](#Writer+writeYaml) ⇒ <code>Promise</code>
+    * [.writeJson(json, dest, indent)](#Writer+writeJson) ⇒ <code>Promise</code>
+    * [.writeJs(json, dest, indent)](#Writer+writeJs) ⇒ <code>Promise</code>
+
+<a name="new_Writer_new"></a>
+### new Writer(logger)
+Constructs the `Writer` with an (optional) logger.
+
+**Returns**: <code>[Writer](#Writer)</code> - The instance.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| logger | <code>logger</code> &#124; <code>cli</code> &#124; <code>console</code> | (optional) Logger, default is <tt>console</tt>. |
+
+**Example**  
+```js
+var Writer = require('jy-transform').Writer;
+var logger = ...;
+
+var writer = new Writer(logger);
+```
+<a name="Writer+logger"></a>
+### writer.logger : <code>logger</code> &#124; <code>cli</code> &#124; <code>console</code>
+The logger instance.
+
+**Kind**: instance property of <code>[Writer](#Writer)</code>  
+<a name="Writer+writeYaml"></a>
+### writer.writeYaml(json, dest, indent) ⇒ <code>Promise</code>
+Writes a JSON object to a _*.yaml_ file.
+
+**Kind**: instance method of <code>[Writer](#Writer)</code>  
+**Returns**: <code>Promise</code> - Containing the write success message to handle by caller (e.g. for logging).  
+**Throws**:
+
+- <code>Error</code> If YAML file could not be written due to any reason.
+
+**Access:** public  
+**See**
+
+- [MIN_YAML_INDENT](#Constants+MIN_YAML_INDENT)
+- [DEFAULT_INDENT](#Constants+DEFAULT_INDENT)
+- [MAX_INDENT](#Constants+MAX_INDENT)
+
 
 | Param | Type | Description |
 | --- | --- | --- |
 | json | <code>object</code> | The JSON to write into _*.yaml_ file. |
+| dest | <code>string</code> | The file destination path. |
+| indent | <code>number</code> | The indent in spaces. |
 
-<a name="Transformer+writeJson"></a>
-### transformer.writeJson(json) ⇒ <code>Promise</code>
+<a name="Writer+writeJson"></a>
+### writer.writeJson(json, dest, indent) ⇒ <code>Promise</code>
 Writes a JSON object to a _*.json_ file.
 
-**Kind**: instance method of <code>[Transformer](#Transformer)</code>  
+**Kind**: instance method of <code>[Writer](#Writer)</code>  
 **Returns**: <code>Promise</code> - Containing the write success message to handle by caller (e.g. for logging).  
 **Access:** public  
+**See**
+
+- [MIN_JSON_JS_INDENT](#Constants+MIN_JSON_JS_INDENT)
+- [DEFAULT_INDENT](#Constants+DEFAULT_INDENT)
+- [MAX_INDENT](#Constants+MAX_INDENT)
+
 
 | Param | Type | Description |
 | --- | --- | --- |
 | json | <code>object</code> | The JSON to write into _*.json_ file. |
+| dest | <code>string</code> | The file destination path. |
+| indent | <code>number</code> | The indent in spaces. |
 
-<a name="Transformer+writeJs"></a>
-### transformer.writeJs(json) ⇒ <code>Promise</code>
+<a name="Writer+writeJs"></a>
+### writer.writeJs(json, dest, indent) ⇒ <code>Promise</code>
 Writes a JSON object to a _*.js_ file.
 
-**Kind**: instance method of <code>[Transformer](#Transformer)</code>  
+**Kind**: instance method of <code>[Writer](#Writer)</code>  
 **Returns**: <code>Promise</code> - Containing the write success message to handle by caller (e.g. for logging).  
 **Access:** public  
+**See**
+
+- [MIN_JSON_JS_INDENT](#Constants+MIN_JSON_JS_INDENT)
+- [DEFAULT_INDENT](#Constants+DEFAULT_INDENT)
+- [MAX_INDENT](#Constants+MAX_INDENT)
+
 
 | Param | Type | Description |
 | --- | --- | --- |
 | json | <code>object</code> | The JSON to write into _*.js_ file. |
+| dest | <code>string</code> | The file destination path. |
+| indent | <code>number</code> | The indent in spaces. |
 
-<a name="Transformer+write"></a>
-### transformer.write(serializedJson) ⇒ <code>Promise</code>
-Writes a serialized JSON object to file.
+<a name="constants"></a>
+## constants : <code>[Constants](#Constants)</code>
+The exported instance.
 
-**Kind**: instance method of <code>[Transformer](#Transformer)</code>  
-**Returns**: <code>Promise</code> - Containing the write success message to handle by caller (e.g. for logging).  
-**Access:** public  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| serializedJson | <code>string</code> | The JSON string to write into file. |
-
-<a name="Transformer+readJson"></a>
-### transformer.readJson() ⇒ <code>Promise</code>
-**Kind**: instance method of <code>[Transformer](#Transformer)</code>  
-**Returns**: <code>Promise</code> - Containing the JSON object.  
-**Access:** public  
-**Todo**
-
-- [ ] Finish reading of JSON/JS with require and API Doc?
-
-<a name="Transformer+yamlToJs"></a>
-### transformer.yamlToJs(middleware) ⇒ <code>Promise</code>
-Convert YAML file to JSON/JS file.
-
-**Kind**: instance method of <code>[Transformer](#Transformer)</code>  
-**Returns**: <code>Promise</code> - Containing the transformation result as message (e.g. to be logged by caller).  
-**Throws**:
-
-- <code>TypeError</code> Will throw this error when the passed <tt>middleware</tt>
-        is not type of <tt>Function</tt>.
-- <code>Error</code> Will throw plain error when writing to JSON/JS file failed due to any reason.
-
-**Access:** public  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| middleware | <code>function</code> | This middleware Promise can be used to intercept        the JSON object for altering he passed JSON, the function signature is:        <p>        <tt>function(json)</tt>        </p>        The Promise has to return the processed JSON! |
-
-**Example**  
-```js
-var Promise = require('bluebird');
-var logger = ...;
-var middleware = function (json) {
-    json.myproperty = 'new value';
-    return Promise.resolve(json);
-};
-
-transformer.yamlToJs(middleware)
-    .then(function (msg){
-        logger.info(msg);
-    })
-    .catch(function (err) {
-        logger.error(err.stack);
-    });
-```
-<a name="Transformer+jsToYaml"></a>
-### transformer.jsToYaml(middleware) ⇒ <code>Promise</code>
-Convert JSON/JS file to YAML file.
-
-**Kind**: instance method of <code>[Transformer](#Transformer)</code>  
-**Returns**: <code>Promise</code> - Containing the transformation result as message (e.g. to be logged by caller).  
-**Throws**:
-
-- <code>TypeError</code> Will throw this error when the passed <tt>middleware</tt>
-        is not type of <tt>Function</tt>.
-- <code>Error</code> Will throw plain error when writing to YAML file failed due to any reason.
-
-**Access:** public  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| middleware | <code>function</code> | This middleware Promise can be used to intercept        the JSON object for altering he passed JSON, the function signature is:        <p>        <tt>function(json)</tt>        </p>        The Promise has to return the processed JSON! |
-
-**Example**  
-```js
-var Promise = require('bluebird');
-var logger = ...;
-var middleware = function (json) {
-    json.myproperty = 'new value';
-    return Promise.resolve(json);
-};
-
-transformer.jsToYaml(middleware)
-    .then(function (msg){
-        logger.info(msg);
-    })
-    .catch(function (err) {
-        logger.error(err.stack);
-    });
-```
+**Kind**: global variable  

@@ -89,19 +89,21 @@ to the input file (`dest` option is missing here).
 
 Since the usage on CLI is a 2-step process:
 
-1. Read file in -> 2. Write out (to another type)
+1. Read source file in to JSON object -> 
+2. Write out (to another type)
 
-the direct API calls additionally provide the usage of a middleware function 
-where you can alter the input JSON object before it is put out which turns 
+the direct API calls additionally provide the usage of a _middleware_ function 
+where you can alter the input JSON object before it is written and therefore, which turns 
 this into a 3-step process:
  
-1. Read file in -> 2. Alter the JSON -> 3. Write out (to another type) 
+1. Read source file in -> 
+2. Alter the JSON object -> 
+3. Write out (to another type) 
 
-The main transformation methods are the following:
+The transformation method is the following:
 
 ```javascript
-function yamlToJs(middleware)
-function jsToYaml(middleware)
+function transform(options, middleware)
 ```
 
 ### Using Middleware
@@ -157,21 +159,21 @@ Whatever, but keep it valid when transforming ;-)
 
 ## Injecting Logger
 
-Optionally, the constructor accepts a logger object.
+The `Reader`, `Transfomer` and `Writer` constructors accepts an (optional) logger object.
 
 ```javascript
-var options = {...}
 var logger = ...;
 
-var transformer = new Transformer(options, logger);
+var reader = new Reader(logger);
+var transformer = new Transformer(logger);
+var writer = new Writer(logger);
 ```
 
-At least, this passed logger object should support the following functions:
+At least, the passed logger object _has to_ support the following functions:
 
 ```javascript
 function info(msg)
 function debug(msg)
 function error(msg)
-function fatal(msg) // wishfully, but not mandatory
 ```
 

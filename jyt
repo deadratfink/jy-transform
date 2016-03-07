@@ -39,23 +39,12 @@ cli.parse({
     //prefix: ['p', 'Whether the JS should get a \'module.exports = \' prefix', 'boolean']
 });
 cli.main(function(args, options) {
-    var transformer = new Transformer(options, cli);
-
-    if (options.target === constants.YAML) {
-        return transformer.jsToYaml()
-            .then(function (msg){
-                cli.info(msg);
-            })
-            .catch(function (err) {
-                fatal(err.stack);
-            });
-    } else {
-        return transformer.yamlToJs()
-            .then(function (msg){
-                cli.info(msg);
-            })
-            .catch(function (err) {
-                fatal(err.stack);
-            });
-    }
+    var transformer = new Transformer(cli);
+    return transformer.transform(options)
+        .then(function (msg) {
+            cli.info(msg);
+        })
+        .catch(function (err) {
+            fatal(err.stack);
+        });
 });
