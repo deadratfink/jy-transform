@@ -136,6 +136,8 @@ The transformation method is the following:
 function transform(options, middleware)
 ```
 
+For more details about all the functions provided please refer to the [API Reference](#API Reference) below.  
+
 ### Using Middleware
 
 The `middleware` is optional but if provided it must be of type `Function` and 
