@@ -2,8 +2,9 @@
 'use strict';
 
 var constants = require('./lib/constants.js');
-var Transformer = require('./lib/transformer.js');
 var cli = require('cli');
+var Transformer = require('./lib/transformer.js');
+var transformer = new Transformer(cli);
 
 ///////////////////////////////////////////////////////////////////////////////
 // PRIVATE
@@ -39,7 +40,6 @@ cli.parse({
     //prefix: ['p', 'Whether the JS should get a \'module.exports = \' prefix', 'boolean']
 });
 cli.main(function(args, options) {
-    var transformer = new Transformer(cli);
     return transformer.transform(options)
         .then(function (msg) {
             cli.info(msg);

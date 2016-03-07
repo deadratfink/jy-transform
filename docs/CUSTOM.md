@@ -140,8 +140,12 @@ function transform(options, middleware)
 
 The `middleware` is optional but if provided it must be of type `Function` and 
 a [Promise](http://bluebirdjs.com/docs/api-reference.html). One of the easiest 
-ones is the identity function _f(data) -> data_ which could be expressed as 
-[Promise](http://bluebirdjs.com/docs/api-reference.html) function as shown:
+ones is the identity function 
+
+_f(data) -> data_ 
+
+which could be expressed as 
+[Promise](http://bluebirdjs.com/docs/api-reference.html) function as follows:
 
 ```javascript
 var middleware = function (json) {

@@ -180,8 +180,12 @@ function transform(options, middleware)
 
 The `middleware` is optional but if provided it must be of type `Function` and 
 a [Promise](http://bluebirdjs.com/docs/api-reference.html). One of the easiest 
-ones is the identity function _f(data) -> data_ which could be expressed as 
-[Promise](http://bluebirdjs.com/docs/api-reference.html) function as shown:
+ones is the identity function 
+
+_f(data) -> data_ 
+
+which could be expressed as 
+[Promise](http://bluebirdjs.com/docs/api-reference.html) function as follows:
 
 ```javascript
 var middleware = function (json) {
@@ -266,14 +270,6 @@ function error(msg)
 <dt><a href="#Writer">Writer</a></dt>
 <dd><p>This class provides utility methods usable to write JSON/JS
        from memory to a YAML, JSON or JS file.</p>
-</dd>
-</dl>
-
-## Members
-
-<dl>
-<dt><a href="#constants">constants</a> : <code><a href="#Constants">Constants</a></code></dt>
-<dd><p>The exported instance.</p>
 </dd>
 </dl>
 
@@ -580,7 +576,8 @@ Constructs the `Transformer` with options and an (optional) logger.
 **Example**  
 ```js
 var logger = ...;
-var transformer = require('jy-transform')(logger);
+var Transformer = require('jy-transform');
+var transformer = new Transformer(logger);
 ```
 <a name="Transformer+logger"></a>
 ### transformer.logger : <code>logger</code> &#124; <code>cli</code> &#124; <code>console</code>
@@ -609,7 +606,8 @@ an (optional) middleware function.
 
 **Example**  
 ```js
-var transformer = require('jy-transform')(logger);
+var Transformer = require('jy-transform');
+var transformer = new Transformer(logger);
 var Promise = require('bluebird');
 var logger = ...;
 var options = {...};
@@ -726,8 +724,3 @@ Writes a JSON object to a _*.js_ file.
 | dest | <code>string</code> | The file destination path. |
 | indent | <code>number</code> | The indent in spaces. |
 
-<a name="constants"></a>
-## constants : <code>[Constants](#Constants)</code>
-The exported instance.
-
-**Kind**: global variable  
