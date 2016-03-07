@@ -70,8 +70,8 @@ The CLI provides the `jyt` command followed by a bunch of options:
 
 | Name | Type | Description | Default | Required |
 | --- | --- | --- | --- | --- |
-| `-o, --origin` | <code>[ _js_ | _json_ | _yaml_ ]</code> | The origin type. | <code>yaml</code> | no |
-| `-t, --target` | <code>[ _js_ | _json_ | _yaml_ ]</code> | The target type. | <code>js</code> | no |
+| `-o, --origin` | [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The origin type. | _yaml_ | no |
+| `-t, --target` | [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The target type. | _js_ | no |
 | `-s, --src` | URI | The source file path. | - | yes |
 | `-d, --dest` | URI | The destination file path. | _'relative to input file'_ | no |
 | `-i, --indent` | positive integer | The indention for files. | _4_ | no |
