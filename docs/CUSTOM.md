@@ -11,20 +11,50 @@ based!
 
 ## Use Cases
 
+- Reading files (`Reader`)
+- Transforming JSON objects (`Transformer`)
+- Transforming JSON objects (`Transformer` + Middleware)
+- Writing files (`Writer`)
+
+### Reading
+
+Reading from:
+
+- _*.yaml_
+- _*.js_
+- _*.json_
+
+### Transformation
+
 The transformation can take place into several directions:
 
 - YAML -> JS
 - YAML -> JSON
 - JS   -> YAML (work in progress)
-- JSON -> YAML (work in progress) 
-- JS   -> JSON (planned) 
-- JSON -> JS (planned)      
+- JSON -> YAML 
+- JS   -> JSON 
+- JSON -> JS 
+- YAML -> YAML     
+- JSON -> JSON
+- JS   -> JS       
 
 While:
 
 - YAML = *.yaml
 - JS   = *.js   (JSON object)  
 - JSON = *.json (JSON serialized)
+
+### Middleware
+
+Alter JSON objects via injected [Promise](http://bluebirdjs.com/docs/api-reference.html) function.
+
+### Writing
+
+Writing to:
+
+- _*.yaml_
+- _*.js_
+- _*.json_
 
 
 ## Usage
