@@ -13,7 +13,7 @@ based!
 
 - Reading files (`Reader`)
 - Transforming JSON objects (`Transformer`)
-- Transforming JSON objects (`Transformer` + Middleware)
+- Altering JSON objects (`Transformer` + Middleware)
 - Writing files (`Writer`)
 
 ### Reading
