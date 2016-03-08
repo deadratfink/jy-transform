@@ -323,6 +323,7 @@ Class which defines all constants usable in or with this module.
 
 * [Constants](#Constants)
     * [new Constants()](#new_Constants_new)
+    * [.UTF8](#Constants+UTF8) : <code>string</code>
     * [.YAML](#Constants+YAML) : <code>string</code>
     * [.JSON](#Constants+JSON) : <code>string</code>
     * [.JS](#Constants+JS) : <code>string</code>
@@ -348,6 +349,12 @@ Class which defines all constants usable in or with this module.
 Constructs the constants.
 
 **Returns**: <code>[Constants](#Constants)</code> - The instance.  
+<a name="Constants+UTF8"></a>
+### constants.UTF8 : <code>string</code>
+The 'utf8' constant.
+
+**Kind**: instance constant of <code>[Constants](#Constants)</code>  
+**Access:** public  
 <a name="Constants+YAML"></a>
 ### constants.YAML : <code>string</code>
 The 'yaml' type constant.
@@ -663,7 +670,7 @@ Constructs the `Writer` with an (optional) logger.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| logger | <code>logger</code> &#124; <code>cli</code> &#124; <code>console</code> | (optional) Logger, default is <tt>console</tt>. |
+| logger | <code>logger</code> &#124; <code>cli</code> &#124; <code>console</code> | (optional) Logger, default is `console`. |
 
 **Example**  
 ```js
