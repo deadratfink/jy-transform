@@ -30,7 +30,7 @@ The transformation can take place into several directions:
 
 - YAML -> JS
 - YAML -> JSON
-- JS   -> YAML (work in progress)
+- JS   -> YAML
 - JSON -> YAML 
 - JS   -> JSON 
 - JSON -> JS 
@@ -150,7 +150,7 @@ For more details about this and all the functions provided by this module please
 #### Transformation Properties
 
 The `Transformer` exposes the following function which takes besides an (optional) 
-`middleware` function the necessary `options for the transformation:
+`middleware` function the necessary `options` for the transformation:
 
 ```javascript
 function transform(options, middleware)
@@ -164,7 +164,7 @@ The `options` object parameter have to follow this key-values table:
 | target | <code>string</code> | The target type. | 'js' | no |
 | src | <code>string</code> | The source file path. | - | yes |
 | dest | <code>string</code> | The destination file path. | 'relative to input file' | no |
-| indent | <code>number</code> | The indention in files. | 4 | - |  
+| indent | <code>number</code> | The indention in files. | 4 | no |  
 
 #### Example
 

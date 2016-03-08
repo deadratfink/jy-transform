@@ -1,4 +1,8 @@
-module.exports = {
+'use strict';
+
+var something = 'test';
+
+module.exports.test = {
     swagger: "2.0",
     info: {
         title: "BDU Content-API",

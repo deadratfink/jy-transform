@@ -70,7 +70,7 @@ The transformation can take place into several directions:
 
 - YAML -> JS
 - YAML -> JSON
-- JS   -> YAML (work in progress)
+- JS   -> YAML
 - JSON -> YAML 
 - JS   -> JSON 
 - JSON -> JS 
@@ -190,7 +190,7 @@ For more details about this and all the functions provided by this module please
 #### Transformation Properties
 
 The `Transformer` exposes the following function which takes besides an (optional) 
-`middleware` function the necessary `options for the transformation:
+`middleware` function the necessary `options` for the transformation:
 
 ```javascript
 function transform(options, middleware)
@@ -204,7 +204,7 @@ The `options` object parameter have to follow this key-values table:
 | target | <code>string</code> | The target type. | 'js' | no |
 | src | <code>string</code> | The source file path. | - | yes |
 | dest | <code>string</code> | The destination file path. | 'relative to input file' | no |
-| indent | <code>number</code> | The indention in files. | 4 | - |  
+| indent | <code>number</code> | The indention in files. | 4 | no |  
 
 #### Example
 
@@ -481,7 +481,6 @@ This class provides utility methods usable to read YAML, JSON or JS
     * [new Reader(logger)](#new_Reader_new)
     * [.logger](#Reader+logger) : <code>logger</code> &#124; <code>cli</code> &#124; <code>console</code>
     * [.readJs(src)](#Reader+readJs) ⇒ <code>Promise</code>
-    * [.readJson(src)](#Reader+readJson) ⇒ <code>Promise</code>
     * [.readYaml(src)](#Reader+readYaml) ⇒ <code>Promise</code>
 
 <a name="new_Reader_new"></a>
@@ -492,7 +491,7 @@ Constructs the `Reader` with an (optional) logger.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| logger | <code>logger</code> &#124; <code>cli</code> &#124; <code>console</code> | (optional) Logger, default is <tt>console</tt>. |
+| logger | <code>logger</code> &#124; <code>cli</code> &#124; <code>console</code> | (optional) Logger, default is `console. |
 
 **Example**  
 ```js
@@ -508,19 +507,15 @@ The logger instance.
 **Kind**: instance property of <code>[Reader](#Reader)</code>  
 <a name="Reader+readJs"></a>
 ### reader.readJs(src) ⇒ <code>Promise</code>
-Reads the data from a given *.js file source.
+Reads the data from a given _*.js_ or _*.json_ file source.
 
 **Kind**: instance method of <code>[Reader](#Reader)</code>  
 **Returns**: <code>Promise</code> - Containing the JSON object.  
 **Access:** public  
-**Todo**
-
-- [ ] Finish reading of JSON/JS with require and API Doc?
-
 
 | Param | Type | Description |
 | --- | --- | --- |
-| src | <code>string</code> | The JS source file to read. |
+| src | <code>string</code> | The JS/JSON source file to read. |
 
 **Example**  
 ```js
@@ -535,28 +530,8 @@ reader.readJs(./my.js)
     .catch(function (err) {
         logger.error(err.stack);
     });
-```
-<a name="Reader+readJson"></a>
-### reader.readJson(src) ⇒ <code>Promise</code>
-**Kind**: instance method of <code>[Reader](#Reader)</code>  
-**Returns**: <code>Promise</code> - Containing the JSON object.  
-**Access:** public  
-**Todo**
 
-- [ ] Finish reading of JSON/JS with require and API Doc?
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| src | <code>string</code> | The JSON source file to read. |
-
-**Example**  
-```js
-var Reader = require('jy-transform').Reader;
-var logger = ...;
-
-var reader = new Reader(logger);
-reader.readJson(./my.json)
+reader.readJs(./my.json)
     .then(function (json){
         logger.info(JSON.stringify(json));
     })
@@ -613,7 +588,7 @@ Constructs the `Transformer` with options and an (optional) logger.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| logger | <code>logger</code> &#124; <code>cli</code> &#124; <code>console</code> | (optional) Logger, default is <tt>console</tt>. |
+| logger | <code>logger</code> &#124; <code>cli</code> &#124; <code>console</code> | (optional) Logger, default is `console`. |
 
 **Example**  
 ```js
@@ -644,7 +619,7 @@ an (optional) middleware function.
 | Param | Type | Description |
 | --- | --- | --- |
 | options | <code>Object</code> | The transformation options. |
-| middleware | <code>function</code> | This middleware Promise can be used to intercept        the JSON object for altering the passed JSON, the function signature is:        <p>        <tt>function(json)</tt>        </p>        The Promise has to return the processed JSON! |
+| middleware | <code>function</code> | This middleware Promise can be used to intercept        the JSON object for altering the passed JSON, the function signature is:        ```        function(json)        ```        The Promise has to return the processed JSON! |
 
 **Example**  
 ```js
