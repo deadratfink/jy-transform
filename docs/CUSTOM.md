@@ -13,7 +13,7 @@ based!
 
 - Reading files (`Reader`)
 - Transforming JSON objects (`Transformer`)
-- Altering JSON objects (`Transformer` + Middleware)
+- Apply dedicated actions on the intermediate JSON objects (`Transformer` + Middleware)
 - Writing files (`Writer`)
 
 ### Reading
@@ -46,7 +46,9 @@ while:
 
 ### Middleware
 
-Alter JSON objects via injected [Promise](http://bluebirdjs.com/docs/api-reference.html) function.
+Apply actions on the intermediate JSON object via injected [Promise](http://bluebirdjs.com/docs/api-reference.html) 
+functions. This is an optional part for [transformation](#transformation) phase 
+or is the transformation itself in case of same origin and target type.
 
 ### Writing
 
@@ -55,7 +57,6 @@ Writing to:
 - _*.yaml_
 - _*.js_
 - _*.json_
-
 
 ## Usage
 
@@ -70,15 +71,15 @@ The CLI provides the `jyt` command followed by a bunch of options:
 
 | Name | Type | Description | Default | Required |
 | --- | --- | --- | --- | --- |
-| `-o, --origin` | [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The origin type. | _yaml_ | no |
-| `-t, --target` | [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The target type. | _js_ | no |
-| `-s, --src` | URI | The source file path. | - | yes |
-| `-d, --dest` | URI | The destination file path. | _'relative to input file'_ | no |
-| `-i, --indent` | positive integer | The indention for files. | _4_ | no |
-| `-k, --no-color` | - | Omit color from output. | - | no |
-| `--debug` | - | Show debug information. | - | no |
-| `-v, --version` | - | Display the current version. | - | no |
-| `-h, --help` | - | Display help and usage details. | - | no |  
+| `-o, --origin` | [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation origin type. | _yaml_ | no |
+| `-t, --target` | [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation target type. | _js_ | no |
+| `-s, --src` | URI | The source file path for transformation. | - | yes |
+| `-d, --dest` | URI | The destination file path to transform to. | _'relative to input file'_ | no |
+| `-i, --indent` | integer<br> - JSON/JS: _0_-_8_<br> - YAML: _1_-_8_ | The code indention used in destination files. | _4_ | no |
+| `-k, --no-color` | n/a | Omit color from output. | - | no |
+| `--debug` | n/a | Show debug information. | _false_ | no |
+| `-v, --version` | n/a | Display the current version. | n/a | no |
+| `-h, --help` | n/a | Display help and usage details. | n/a | no |  
 
 After the global installation you can access the Transformer command options as follows:
 
