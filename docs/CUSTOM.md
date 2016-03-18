@@ -150,7 +150,7 @@ $ jyt -s ./data/my.js -t json -i 2
 
 then `js` `origin` is automatically inferred from file extension.
 
-## Orign and Target Type Inference
+## Origin and Target Type Inference
 
 The example above has shown that we have an automatic type inference from file 
 extensions. This is supported as shown by the following table (from-to):
