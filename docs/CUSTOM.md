@@ -60,6 +60,14 @@ Writing to:
 - _*.js_
 - _*.json_
 
+## Not Supported Yet / Plannings
+
+At the moment we require that each document to trnasform is a _single_ one per file!
+
+Multidocument handling would be a cool feature which refers in general to YAML 
+and JS only and is currently not supported. This is planned and reflected 
+in feature \#14.
+
 ## Usage
 
 The module can be used in two different ways:
@@ -140,9 +148,22 @@ have been applied! If the source would have been a `js` type like
 $ jyt -s ./data/my.js -t json -i 2
 ```
 
-then `js` `origin` is automatically inferred from file extension. 
+then `js` `origin` is automatically inferred from file extension.
 
-**NOTE:** if you have files without an extension or e.g. `.txt` you _have_ to specify the origin or target type!
+## Orign and Target Type Inference
+
+The example above has shown that we have an automatic type inference from file 
+extensions. This is supported as shown by the following table (from-to):
+
+| File Extension | Type |
+| --- | --- |
+| _*.yaml_ | _yaml_ |
+| _*.yml_ | _yaml_ |
+| _*.js_ | _js_ |
+| _*.json_ | _json_ |
+
+**NOTE:** if you have files without an extension or e.g. `.txt` you _have_ to 
+specify the origin or target type!
 
 ### Usage As Library (API Calls)
 
