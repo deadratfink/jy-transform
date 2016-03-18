@@ -1,3 +1,8 @@
+| Type | Status | Branch |
+| --- | --- | --- |
+| Travis | [![Build Status](https://travis-ci.org/deadratfink/jy-transform.svg?branch=master)](https://travis-ci.org/deadratfink/jy-transform) | master |
+| Travis | [![Build Status](https://travis-ci.org/deadratfink/jy-transform.svg?branch=development)](https://travis-ci.org/deadratfink/jy-transform) | development
+
 # jy-transform 
 
 This project aims to read, write and transform _*.yaml_ files to _.js_ or _*.json_ files or vice-versa via CLI or API.
