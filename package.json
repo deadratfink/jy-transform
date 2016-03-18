@@ -39,7 +39,7 @@
         "test": "mocha -R $npm_package_config_test_mocha_unit_reporter ./test/test.js"
     },
     "engines": {
-        "node": ">=0.6.0"
+        "node": ">=0.10.0"
     },
     "dependencies": {
         "bluebird": "^3.3.3",
