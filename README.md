@@ -29,23 +29,27 @@ npm test
 
 ## Dev Dependencies
 
+- [fs-extra](https://github.com/jprichardson/node-fs-extra): fs-extra contains methods that aren&#39;t included in the vanilla Node.js fs package. Such as mkdir -p, cp -r, and rm -rf.
 - [jsdoc-parse](https://github.com/jsdoc2md/jsdoc-parse): Jsdoc-annotated source code in, JSON format documentation out.
 - [jsdoc-to-markdown](https://github.com/jsdoc2md/jsdoc-to-markdown): jsdoc-annotated source in, markdown API docs out.
 - [mocha](https://github.com/mochajs/mocha): simple, flexible, fun test framework
 - [package-json-to-readme](https://github.com/zeke/package-json-to-readme): Generate a README.md from package.json contents
+- [winston](https://github.com/winstonjs/winston): A multi-transport async logging library for Node.js
 
 
 ## License
 
 SEE LICENSE IN [LICENSE.md](https://github.com/deadratfink/jy-transform/blob/master/LICENSE)
 
-# Documentation
+## Motivation
 
 Why this module? After struggling with some huge YAML file and accidentally 
 occurring wrong indentions which results in an annoying failure investigation, 
 I decided to get rid of the YAML file and therefore, create a module which 
 should be aimed as the swiss army knife for transforming YAML, JS and JSON 
 files into each other.
+
+# Usage
 
 The module is fully [Promise](http://bluebirdjs.com/docs/api-reference.html) 
 based!
@@ -54,7 +58,7 @@ based!
 
 - Reading files (`Reader`)
 - Transforming JSON objects (`Transformer`)
-- Apply dedicated actions on the intermediate JSON objects (`Transformer` + Middleware)
+- Apply dedicated actions on the intermediate JSON objects (`Transformer` + `Middleware`)
 - Writing files (`Writer`)
 
 ### Reading
@@ -103,7 +107,7 @@ Writing to:
 
 The module can be used in two different ways:
 
-- On CLI (recommended install globally `-g`)
+- On CLI (recommended install globally via `-g` option)
 - Via API (install locally)
 
 ### Usage On CLI
@@ -117,7 +121,7 @@ The CLI provides the `jyt` command followed by a bunch of options:
 | `-s, --src` | URI | The source file path for transformation. | - | yes |
 | `-d, --dest` | URI | The destination file path to transform to. | _'relative to input file'_ | no |
 | `-i, --indent` | integer<br> - JSON/JS: _0_-_8_<br> - YAML: _1_-_8_ | The code indention used in destination files. | _4_ | no |
-| `-k, --no-color` | n/a | Omit color from output. | - | no |
+| `-k, --no-color` | n/a | Omit color from output. | _color_ | no |
 | `--debug` | n/a | Show debug information. | _false_ | no |
 | `-v, --version` | n/a | Display the current version. | n/a | no |
 | `-h, --help` | n/a | Display help and usage details. | n/a | no |  
@@ -128,7 +132,7 @@ After the global installation you can access the Transformer command options as 
 $ jyt --help
 ```
 
-This prints you an overview about all available properties:
+This prints an overview about all available properties:
 
 ```
 $ jyt --help
@@ -167,9 +171,9 @@ using this command:
 $ jyt -s ./data/my.yaml -t json -i 2
 ```
 
-Here we have overwritten the standard target type (which is 'js') and applying an
+Here we have overwritten the standard target type (which is _js_) and applying an
 indent of _2_ instead of the default _4_. As default the output file _./data/my.json_ 
-is written relative to the input file (simply omit the `dest` option here). 
+is written relative to the input file (simply omitting the `dest` option here). 
 
 ### Usage As Library (API Calls)
 
@@ -198,7 +202,7 @@ The `Transformer` exposes the following function which takes besides an (optiona
 function transform(options, middleware)
 ```
 
-The `options` object parameter have to follow this key-values table:
+The `options` object has to follow this key-values table:
 
 | Name | Type | Description | Default | Required |
 | --- | --- | --- | --- | --- |
@@ -278,6 +282,7 @@ Whatever, but keep it valid when transforming ;-)
 ## Injecting Logger
 
 The `Reader`, `Transfomer` and `Writer` constructors accept an (optional) logger object.
+Default logger is `console`.
 
 ```javascript
 var logger = ...;
@@ -519,7 +524,7 @@ Constructs the `LogWrapper`.
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| logger | <code>logInstance</code> &#124; <code>cli</code> &#124; <code>console</code> | <code>console</code> | Logger object. |
+| logger | <code>logger</code> &#124; <code>cli</code> &#124; <code>console</code> | <code>console</code> | Logger object. |
 
 <a name="LogWrapper+debug"></a>
 ### logWrapper.debug(msg)
@@ -623,7 +628,7 @@ Constructs the `OptionsHandler` with an (optional) logger.
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| [logger] | <code>logInstance</code> &#124; <code>cli</code> &#124; <code>console</code> | <code>console</code> | Logger object. |
+| [logger] | <code>logger</code> &#124; <code>cli</code> &#124; <code>console</code> | <code>console</code> | Logger object. |
 
 **Example**  
 ```js
@@ -680,7 +685,7 @@ Constructs the `Reader` with an (optional) logger.
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| [logger] | <code>logInstance</code> &#124; <code>cli</code> &#124; <code>console</code> | <code>console</code> | Logger object. |
+| [logger] | <code>logger</code> &#124; <code>cli</code> &#124; <code>console</code> | <code>console</code> | Logger object. |
 
 **Example**  
 ```js
@@ -771,7 +776,7 @@ Constructs the `Transformer` with options and an (optional) logger.
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| [logger] | <code>logInstance</code> &#124; <code>cli</code> &#124; <code>console</code> | <code>console</code> | Logger object. |
+| [logger] | <code>logger</code> &#124; <code>cli</code> &#124; <code>console</code> | <code>console</code> | Logger object. |
 
 **Example**  
 ```js
@@ -863,7 +868,7 @@ Constructs the `Writer` with an (optional) logger.
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| [logger] | <code>logInstance</code> &#124; <code>cli</code> &#124; <code>console</code> | <code>console</code> | Logger object. |
+| [logger] | <code>logger</code> &#124; <code>cli</code> &#124; <code>console</code> | <code>console</code> | Logger object. |
 
 **Example**  
 ```js
