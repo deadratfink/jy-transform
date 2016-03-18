@@ -73,8 +73,8 @@ The CLI provides the `jyt` command followed by a bunch of options:
 
 | Name | Type | Description | Default | Required |
 | --- | --- | --- | --- | --- |
-| `-o, --origin` | [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation origin type. | if not given, the type is tried to be inferred from the extension of input path, else it is _yaml_ | no |
-| `-t, --target` | [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation target type. | if not given, the type is tried to be inferred from the extension of output path, else it is _js_ | no |
+| `-o, --origin` | [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation origin type. | if not given, the type is tried to be inferred from the extension of source path, else it is _yaml_ | no |
+| `-t, --target` | [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation target type. | if not given, the type is tried to be inferred from the extension of destination path, else it is _js_ | no |
 | `-s, --src` | URI | The source file path for transformation. | - | yes |
 | `-d, --dest` | URI | The destination file path to transform to. | _'relative to input file'_ | no |
 | `-i, --indent` | integer<br> - JSON/JS: _0_-_8_<br> - YAML: _1_-_8_ | The code indention used in destination files. | _4_ | no |
@@ -129,9 +129,20 @@ using this command:
 $ jyt -s ./data/my.yaml -t json -i 2
 ```
 
-Here we have overwritten the standard target type (which is _js_) and applying an
+In this example we have overwritten the standard target type (which is _js_) and applying an
 indent of _2_ instead of the default _4_. As default the output file _./data/my.json_ 
-is written relative to the input file (simply omitting the `dest` option here). 
+is written relative to the input file (simply omitting the `dest` option here).
+
+**NOTE:** here you _have_ to provide the target with `-t json` or else the default `js` would 
+have been applied! If the source would have been a `js` type like
+
+```
+$ jyt -s ./data/my.js -t json -i 2
+```
+
+then `js` `origin` is automatically inferred from file extension. 
+
+**NOTE:** if you have files without an extension or e.g. `.txt` you _have_ to specify the origin or target type!
 
 ### Usage As Library (API Calls)
 
@@ -164,8 +175,8 @@ The `options` object has to follow this key-values table:
 
 | Name | Type | Description | Default | Required |
 | --- | --- | --- | --- | --- |
-| origin | <code>string</code> | The origin type. | 'yaml' | no |
-| target | <code>string</code> | The target type. | 'js' | no |
+| origin | <code>string</code> | The origin type. | if not given, the type is tried to be inferred from the extension of source path, else it is 'yaml' | no |
+| target | <code>string</code> | The target type. | if not given, the type is tried to be inferred from the extension of destination path, else it is 'js' | no |
 | src | <code>string</code> | The source file path. | - | yes |
 | dest | <code>string</code> | The destination file path. | 'relative to input file' | no |
 | indent | <code>number</code> | The indention in files. | 4 | no |  
