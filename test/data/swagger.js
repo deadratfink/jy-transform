@@ -2,7 +2,7 @@
 
 var something = 'test';
 
-module.exports.test = {
+module.exports = {
     swagger: "2.0",
     info: {
         title: "BDU Content-API",

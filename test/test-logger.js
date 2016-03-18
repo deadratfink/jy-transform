@@ -17,7 +17,8 @@ var winstonFileOptions = {
     timestamp: function() {
         return INDENT + new Date().toISOString();
     },
-    formatter: formatter
+    formatter: formatter,
+    level: 'debug'
 };
 
 fs.ensureDirSync(TEST_TMP_DIR);
@@ -27,7 +28,8 @@ var winstonConsoleOptions = {
     timestamp: function() {
         return INDENT;
     },
-    formatter: formatter
+    formatter: formatter,
+    level: 'info'
 };
 
 var logger = new (winston.Logger)({
