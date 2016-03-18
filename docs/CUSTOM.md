@@ -66,7 +66,7 @@ At the moment we require that each document to trnasform is a _single_ one per f
 
 Multidocument handling would be a cool feature which refers in general to YAML 
 and JS only and is currently not supported. This is planned and reflected 
-in feature \#14.
+in feature #14.
 
 ## Usage
 
