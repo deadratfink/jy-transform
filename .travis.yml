@@ -16,4 +16,4 @@ node_js:
 branches:
     only:
         - master
-        - stable
+        - development
