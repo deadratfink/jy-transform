@@ -73,8 +73,8 @@ The CLI provides the `jyt` command followed by a bunch of options:
 
 | Name | Type | Description | Default | Required |
 | --- | --- | --- | --- | --- |
-| `-o, --origin` | [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation origin type. | _yaml_ | no |
-| `-t, --target` | [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation target type. | _js_ | no |
+| `-o, --origin` | [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation origin type. | if not given, the type is tried to be inferred from the extension of input path, else it is _yaml_ | no |
+| `-t, --target` | [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation target type. | if not given, the type is tried to be inferred from the extension of output path, else it is _js_ | no |
 | `-s, --src` | URI | The source file path for transformation. | - | yes |
 | `-d, --dest` | URI | The destination file path to transform to. | _'relative to input file'_ | no |
 | `-i, --indent` | integer<br> - JSON/JS: _0_-_8_<br> - YAML: _1_-_8_ | The code indention used in destination files. | _4_ | no |
@@ -97,11 +97,12 @@ Usage:
   jyt [OPTIONS]
 
 Options: 
-  -o, --origin [STRING]  The conversion origin: [ js | json | yaml ] (Default is yaml)
-  -t, --target [STRING]  The conversion target: [ js | json | yaml ] (Default is js)
+  -o, --origin [STRING]  The conversion origin: [ js | json | yaml ] (Default is : if not given, the type is tried to be inferred from the extension of input path, else it is yaml)
+  -t, --target [STRING]  The conversion target: [ js | json | yaml ] (Default is : if not given, the type is tried to be inferred from the extension of output path, else it is js)
   -s, --src PATH         The absolute/relative input file path
-  -d, --dest [PATH]      The absolute/relative output file path (Default is relative to input file.)
-  -i, --indent [NUMBER]  The indention for pretty-print: 0 - 8 (Default is 4)
+  -d, --dest [PATH]      The absolute/relative output file path (Default is relative to input file)
+  -i, --indent [NUMBER]  The indention for pretty-print: 0 - 8 (json/js) and 1 - 
+                         8 (yaml)  (Default is 4)
   -k, --no-color         Omit color from output
       --debug            Show debug information
   -v, --version          Display the current version
