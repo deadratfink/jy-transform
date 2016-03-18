@@ -1,7 +1,7 @@
-| Travis | Branch |
-| --- | --- |
-| [![Build Status](https://travis-ci.org/deadratfink/jy-transform.svg?branch=master)](https://travis-ci.org/deadratfink/jy-transform) | master |
-| [![Build Status](https://travis-ci.org/deadratfink/jy-transform.svg?branch=development)](https://travis-ci.org/deadratfink/jy-transform) | development
+| Travis | Codecov | Branch |
+| --- | --- | --- |
+| [![Build Status](https://travis-ci.org/deadratfink/jy-transform.svg?branch=master)](https://travis-ci.org/deadratfink/jy-transform) | [![codecov.io](https://codecov.io/github/deadratfink/jy-transform/coverage.svg?branch=master)](https://codecov.io/github/deadratfink/jy-transform?branch=master) | master |
+| [![Build Status](https://travis-ci.org/deadratfink/jy-transform.svg?branch=development)](https://travis-ci.org/deadratfink/jy-transform) | [![codecov.io](https://codecov.io/github/deadratfink/jy-transform/coverage.svg?branch=development)](https://codecov.io/github/deadratfink/jy-transform?branch=development) | development
 
 # jy-transform 
 
@@ -34,7 +34,9 @@ npm test
 
 ## Dev Dependencies
 
+- [codecov](https://github.com/codecov/codecov-node): Uploading report to Codecov: https://codecov.io
 - [fs-extra](https://github.com/jprichardson/node-fs-extra): fs-extra contains methods that aren&#39;t included in the vanilla Node.js fs package. Such as mkdir -p, cp -r, and rm -rf.
+- [istanbul](https://github.com/gotwarlost/istanbul): Yet another JS code coverage tool that computes statement, line, function and branch coverage with module loader hooks to transparently add coverage when running tests. Supports all JS coverage use cases including unit tests, server side functional tests 
 - [jsdoc-parse](https://github.com/jsdoc2md/jsdoc-parse): Jsdoc-annotated source code in, JSON format documentation out.
 - [jsdoc-to-markdown](https://github.com/jsdoc2md/jsdoc-to-markdown): jsdoc-annotated source in, markdown API docs out.
 - [mocha](https://github.com/mochajs/mocha): simple, flexible, fun test framework
