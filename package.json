@@ -36,7 +36,7 @@
     },
     "scripts": {
         "docs": "cat docs/BADGES.md > README.md && package-json-to-readme --no-footer ./package.json >> README.md && cat docs/CUSTOM.md >> README.md && echo '# API Reference\n' >> README.md && jsdoc2md lib/*.js index.js > docs/API.md >> README.md",
-        "test": "mocha -R $npm_package_config_test_mocha_unit_reporter ./test/test.js"
+        "test": "istanbul cover mocha --report lcovonly -- -R $npm_package_config_test_mocha_unit_reporter ./test/test.js && codecov -t 36207980-a032-4a36-b9f2-d653830089f3"
     },
     "engines": {
         "node": ">=0.10.0"
