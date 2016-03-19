@@ -1,0 +1,9 @@
+/docs/API.md
+.idea
+*.iml
+node_modules
+!/bin
+/.project
+/.settings/*
+npm-debug.log
+coverage
