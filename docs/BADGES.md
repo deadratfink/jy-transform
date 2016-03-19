@@ -24,9 +24,9 @@
 [cc-url-development]: https://codecov.io/github/deadratfink/jy-transform?branch=development
 
 [inch-image-master]: http://inch-ci.org/github/deadratfink/jy-transform.svg?branch=master&style=flat-square
-[inch-url-master]: http://inch-ci.org/github/deadratfink/jy-transform.svg?branch=master
+[inch-url-master]: http://inch-ci.org/github/deadratfink/jy-transform?branch=master
 [inch-image-development]: http://inch-ci.org/github/deadratfink/jy-transform.svg?branch=development&style=flat-square
-[inch-url-development]: http://inch-ci.org/github/deadratfink/jy-transform.svg?branch=development
+[inch-url-development]: http://inch-ci.org/github/deadratfink/jy-transform?branch=development
 
 [dep-image-master]: https://img.shields.io/david/deadratfink/jy-transform/master.svg?style=flat-square
 [dep-url-master]: https://david-dm.org/deadratfink/jy-transform/master
