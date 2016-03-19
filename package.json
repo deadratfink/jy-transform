@@ -36,7 +36,7 @@
     },
     "scripts": {
         "docs": "cat docs/BADGES.md > README.md && package-json-to-readme --no-footer ./package.json >> README.md && cat docs/CUSTOM.md >> README.md && echo '# API Reference\n' >> README.md && jsdoc2md lib/*.js index.js > docs/API.md >> README.md",
-        "test": "istanbul cover mocha --report lcovonly -- -R $npm_package_config_test_mocha_unit_reporter ./test/test.js && codecov -t 36207980-a032-4a36-b9f2-d653830089f3"
+        "test": "istanbul cover _mocha --report lcovonly -- -R $npm_package_config_test_mocha_unit_reporter ./test/test.js && codecov"
     },
     "engines": {
         "node": ">=0.10.0"
@@ -56,6 +56,7 @@
         "jsdoc-parse": "^1.2.7",
         "jsdoc-to-markdown": "^1.3.3",
         "mocha": "^2.3.3",
+        "mocha-lcov-reporter": "0.0.1",
         "package-json-to-readme": "^1.5.0",
         "winston": "^2.2.0"
     },
