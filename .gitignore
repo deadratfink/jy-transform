@@ -6,3 +6,4 @@ node_modules
 /.project
 /.settings/*
 npm-debug.log
+coverage

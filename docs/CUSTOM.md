@@ -109,8 +109,7 @@ Options:
   -t, --target [STRING]  The conversion target: [ js | json | yaml ] (Default is : if not given, the type is tried to be inferred from the extension of output path, else it is js)
   -s, --src PATH         The absolute/relative input file path
   -d, --dest [PATH]      The absolute/relative output file path (Default is relative to input file)
-  -i, --indent [NUMBER]  The indention for pretty-print: 0 - 8 (json/js) and 1 - 
-                         8 (yaml)  (Default is 4)
+  -i, --indent [NUMBER]  The indention for pretty-print: 0 - 8 (json/js) and 1 - 8 (yaml) (Default is 4)
   -k, --no-color         Omit color from output
       --debug            Show debug information
   -v, --version          Display the current version
