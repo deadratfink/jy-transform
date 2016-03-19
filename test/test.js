@@ -16,7 +16,51 @@ describe('Executing \'jy-transform\' project test suite.', function () {
         logger = require('./test-logger.js');
     });
 
+    describe('Testing Transformer transforming from YAML to JS', function () {
+
+        it('should store', function (done) {
+
+            var DEST = TEST_DATA_DIR + '/test-data.js';
+            var EXPECTED_VALUE = 'old value';
+
+            var options = {
+                src: TEST_DATA_DIR + '/test-data.yaml'
+            };
+
+            var transformer = new Transformer(logger);
+
+            return transformer.transform(options)
+                .then(function (msg){
+                    logger.info(msg);
+                    var stats = fs.statSync(DEST);
+                    assert(stats.isFile());
+                    var json = require('./data/test-data.js');
+                    assert.equal(json.myproperty, EXPECTED_VALUE, 'property myproperty should have new value \'' + EXPECTED_VALUE +'\'.');
+                    done();
+                })
+                .catch(function (err) {
+                    logger.error(err.stack);
+                    done(err);
+                });
+
+        });
+    });
+
+
     describe('Testing Transformer transforming from YAML to JSON', function () {
+
+        //it('should alter property using middleware', function (done) {
+        //
+        //    var DEST = TEST_TMP_DIR + '/test-data.json';
+        //
+        //    var options = {
+        //        src: TEST_DATA_DIR + '/test-data.yaml',
+        //        //dest: DEST,
+        //        origin: Constants.YAML,
+        //        target: Constants.JSON
+        //    };
+        //
+        //});
 
         it('should alter property using middleware', function (done) {
 
@@ -26,7 +70,7 @@ describe('Executing \'jy-transform\' project test suite.', function () {
                 return Promise.resolve(json);
             };
 
-            var DEST = TEST_TMP_DIR + '/test-data.json';
+            var DEST = TEST_TMP_DIR + '/test-data-changed.json';
 
             var options = {
                 src: TEST_DATA_DIR + '/test-data.yaml',

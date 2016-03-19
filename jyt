@@ -29,9 +29,9 @@ cli.main(function(args, options) {
         })
         .catch(function (err) {
             cli.error('////////////////////////////////////////////////////////////////////////////////');
-            cli.error(err.stack);
+            cli.error(err);
+            cli.debug(err.stack);
             cli.error('////////////////////////////////////////////////////////////////////////////////');
             cli.getUsage(1);
-            //cli.fatal('Process exit 1');
         });
 });

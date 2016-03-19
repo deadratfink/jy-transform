@@ -1,7 +1,3 @@
-'use strict';
-
-var something = 'test';
-
 module.exports = {
     swagger: "2.0",
     info: {
