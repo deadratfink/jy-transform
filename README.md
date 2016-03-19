@@ -1,13 +1,43 @@
-# Project Status
+# Stats
 
-| Travis | Codecov | David | Branch |
-| --- | --- | --- | --- |
-| [![Build Status](https://travis-ci.org/deadratfink/jy-transform.svg?branch=master)](https://travis-ci.org/deadratfink/jy-transform) | [![codecov.io](https://codecov.io/github/deadratfink/jy-transform/coverage.svg?branch=master)](https://codecov.io/github/deadratfink/jy-transform?branch=master) | [![david-dm.org](https://david-dm.org/deadratfink/jy-transform.svg?branch=master)](https://david-dm.org/deadratfink/jy-transform?branch=master) | master |
-| [![Build Status](https://travis-ci.org/deadratfink/jy-transform.svg?branch=development)](https://travis-ci.org/deadratfink/jy-transform) | [![codecov.io](https://codecov.io/github/deadratfink/jy-transform/coverage.svg?branch=development)](https://codecov.io/github/deadratfink/jy-transform?branch=development) | [![david-dm.org](https://david-dm.org/deadratfink/jy-transform.svg?branch=development)](https://david-dm.org/deadratfink/jy-transform?branch=development) | development
+| Branch | [Travis CI](https://travis-ci.org) | [Codecov](https://codecov.io) | [Inch CI](http://inch-ci.org) | [David](https://david-dm.org) | [David (dev)](https://david-dm.org) |
+| --- | --- | --- | --- | --- | --- |
+| master | [![Build Status][ci-image-master]][ci-url-master] | [![codecov.io][cc-image-master]][cc-url-master] | [![inch-ci.org][inch-image-master]][inch-url-master] | [![Dependency Status][dep-image-master]][dep-url-master]| [![devDependency Status][devdep-image-master]][devdep-url-master] |
+| development | [![Build Status][ci-image-development]][ci-url-development] | [![codecov.io][cc-image-development]][cc-url-development] | [![inch-ci.org][inch-image-development]][inch-url-development] | [![Dependency Status][dep-image-development]][dep-url-development]| [![devDependency Status][devdep-image-development]][devdep-url-development] |
 
-## Branch Graph
+## Branch Graphs
 
-![codecov.io](https://codecov.io/github/deadratfink/jy-transform/branch.svg?branch=development)
+| Branch | Graph |
+| --- | --- |
+| master | ![codecov.io](https://codecov.io/github/deadratfink/jy-transform/branch.svg?branch=master&vg=true) |
+| development| ![codecov.io](https://codecov.io/github/deadratfink/jy-transform/branch.svg?branch=development&vg=true) |
+
+
+[ci-image-master]: https://img.shields.io/travis/deadratfink/jy-transform/master.svg?style=flat-square
+[ci-url-master]: https://travis-ci.org/deadratfink/jy-transform
+[ci-image-development]: https://img.shields.io/travis/deadratfink/jy-transform/development.svg?style=flat-square
+[ci-url-development]: https://travis-ci.org/deadratfink/jy-transform
+
+[cc-image-master]: https://img.shields.io/codecov/c/github/deadratfink/jy-transform/master.svg?style=flat-square
+[cc-url-master]: https://codecov.io/github/deadratfink/jy-transform?branch=master
+[cc-image-development]: https://img.shields.io/codecov/c/github/deadratfink/jy-transform/development.svg?style=flat-square
+[cc-url-development]: https://codecov.io/github/deadratfink/jy-transform?branch=development
+
+[inch-image-master]: http://inch-ci.org/github/deadratfink/jy-transform.svg?branch=master&style=flat-square
+[inch-url-master]: http://inch-ci.org/github/deadratfink/jy-transform.svg?branch=master
+[inch-image-development]: http://inch-ci.org/github/deadratfink/jy-transform.svg?branch=development&style=flat-square
+[inch-url-development]: http://inch-ci.org/github/deadratfink/jy-transform.svg?branch=development
+
+[dep-image-master]: https://img.shields.io/david/deadratfink/jy-transform/master.svg?style=flat-square
+[dep-url-master]: https://david-dm.org/deadratfink/jy-transform/master
+[dep-image-development]: https://img.shields.io/david/deadratfink/jy-transform/development.svg?style=flat-square
+[dep-url-development]: https://david-dm.org/deadratfink/jy-transform/development
+
+[devdep-image-master]: https://img.shields.io/david/dev/deadratfink/jy-transform/master.svg?style=flat-square
+[devdep-url-master]: https://david-dm.org/deadratfink/jy-transform/master#info=devDependencies
+[devdep-image-development]: https://img.shields.io/david/dev/deadratfink/jy-transform/development.svg?style=flat-square
+[devdep-url-development]: https://david-dm.org/deadratfink/jy-transform/development#info=devDependencies
+
 # jy-transform 
 
 This project aims to read, write and transform _*.yaml_ files to _.js_ or _*.json_ files or vice-versa via CLI or API.
