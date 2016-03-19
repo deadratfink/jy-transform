@@ -62,7 +62,7 @@ Writing to:
 
 ## Not Supported Yet / Plannings
 
-At the moment we require that each document to trnasform is a _single_ one per file!
+At the moment we require that each document to transform is a _single_ one per file!
 
 Multidocument handling would be a cool feature which refers in general to YAML 
 and JS only and is currently not supported. This is planned and reflected 
@@ -161,7 +161,7 @@ extensions. This is supported as shown by the following table (from-to):
 | _*.js_ | _js_ |
 | _*.json_ | _json_ |
 
-**NOTE:** if you have files without an extension or e.g. `.txt` you _have_ to 
+**NOTE:** if you have files without an extension or e.g. _*.txt_ you _have_ to 
 specify the origin or target type!
 
 ### Usage As Library (API Calls)

@@ -1,9 +1,11 @@
-| Travis | Codecov | Branch |
-| --- | --- | --- |
-| [![Build Status](https://travis-ci.org/deadratfink/jy-transform.svg?branch=master)](https://travis-ci.org/deadratfink/jy-transform) | [![codecov.io](https://codecov.io/github/deadratfink/jy-transform/coverage.svg?branch=master)](https://codecov.io/github/deadratfink/jy-transform?branch=master) | master |
-| [![Build Status](https://travis-ci.org/deadratfink/jy-transform.svg?branch=development)](https://travis-ci.org/deadratfink/jy-transform) | [![codecov.io](https://codecov.io/github/deadratfink/jy-transform/coverage.svg?branch=development)](https://codecov.io/github/deadratfink/jy-transform?branch=development) | development
+# Project Status
 
-### Branch Graph
+| Travis | Codecov | David | Branch |
+| --- | --- | --- | --- |
+| [![Build Status](https://travis-ci.org/deadratfink/jy-transform.svg?branch=master)](https://travis-ci.org/deadratfink/jy-transform) | [![codecov.io](https://codecov.io/github/deadratfink/jy-transform/coverage.svg?branch=master)](https://codecov.io/github/deadratfink/jy-transform?branch=master) | [![david-dm.org](https://david-dm.org/deadratfink/jy-transform.svg?branch=master)](https://david-dm.org/deadratfink/jy-transform?branch=master) | master |
+| [![Build Status](https://travis-ci.org/deadratfink/jy-transform.svg?branch=development)](https://travis-ci.org/deadratfink/jy-transform) | [![codecov.io](https://codecov.io/github/deadratfink/jy-transform/coverage.svg?branch=development)](https://codecov.io/github/deadratfink/jy-transform?branch=development) | [![david-dm.org](https://david-dm.org/deadratfink/jy-transform.svg?branch=development)](https://david-dm.org/deadratfink/jy-transform?branch=development) | development
+
+## Branch Graph
 
 ![codecov.io](https://codecov.io/github/deadratfink/jy-transform/branch.svg?branch=development)
 # jy-transform 
@@ -43,13 +45,14 @@ npm test
 - [jsdoc-parse](https://github.com/jsdoc2md/jsdoc-parse): Jsdoc-annotated source code in, JSON format documentation out.
 - [jsdoc-to-markdown](https://github.com/jsdoc2md/jsdoc-to-markdown): jsdoc-annotated source in, markdown API docs out.
 - [mocha](https://github.com/mochajs/mocha): simple, flexible, fun test framework
+- [mocha-lcov-reporter](https://github.com/StevenLooman/mocha-lcov-reporter): LCOV reporter for Mocha
 - [package-json-to-readme](https://github.com/zeke/package-json-to-readme): Generate a README.md from package.json contents
 - [winston](https://github.com/winstonjs/winston): A multi-transport async logging library for Node.js
 
 
 ## License
 
-SEE LICENSE IN [LICENSE.md](https://github.com/deadratfink/jy-transform/blob/master/LICENSE)
+SEE LICENSE IN [LICENSE.md](https://github.com/deadratfink/jy-transform/blob/master/LICENSE.md)
 
 ## Motivation
 
@@ -115,7 +118,7 @@ Writing to:
 
 ## Not Supported Yet / Plannings
 
-At the moment we require that each document to trnasform is a _single_ one per file!
+At the moment we require that each document to transform is a _single_ one per file!
 
 Multidocument handling would be a cool feature which refers in general to YAML 
 and JS only and is currently not supported. This is planned and reflected 
@@ -214,7 +217,7 @@ extensions. This is supported as shown by the following table (from-to):
 | _*.js_ | _js_ |
 | _*.json_ | _json_ |
 
-**NOTE:** if you have files without an extension or e.g. `.txt` you _have_ to 
+**NOTE:** if you have files without an extension or e.g. _*.txt_ you _have_ to 
 specify the origin or target type!
 
 ### Usage As Library (API Calls)
@@ -717,7 +720,7 @@ This class provides utility methods usable to read YAML, JSON or JS
 * [Reader](#Reader)
     * [new Reader([logger])](#new_Reader_new)
     * [.readJs(src)](#Reader+readJs) ⇒ <code>Promise</code>
-    * [.readYaml()](#Reader+readYaml) ⇒ <code>Promise</code>
+    * [.readYaml(src)](#Reader+readYaml) ⇒ <code>Promise</code>
 
 <a name="new_Reader_new"></a>
 ### new Reader([logger])
@@ -771,7 +774,7 @@ reader.readJs(./my.json)
     });
 ```
 <a name="Reader+readYaml"></a>
-### reader.readYaml() ⇒ <code>Promise</code>
+### reader.readYaml(src) ⇒ <code>Promise</code>
 Loads a single YAML file containing document and turns a JS object.
 
 *NOTE:* This function does not understand multi-document sources, it throws
@@ -780,7 +783,11 @@ exception on those.
 **Kind**: instance method of <code>[Reader](#Reader)</code>  
 **Returns**: <code>Promise</code> - - Containing the JSON object.  
 **Access:** public  
-**Param{string}**: src - The YAML source file to read.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| src | <code>string</code> | The YAML source file to read. |
+
 **Example**  
 ```js
 var Reader = require('jy-transform').Reader;
@@ -943,6 +950,21 @@ Writes a JSON object to a _*.yaml_ file.
 | dest | <code>string</code> | The file destination path. |
 | indent | <code>number</code> | The indent in spaces. |
 
+**Example**  
+```js
+var Writer = require('jy-transform').Writer;
+var logger = ...;
+var json = {...}
+
+var writer = new Writer(logger);
+writer.writeYaml(json, result.yml, 2);
+    .then(function (msg){
+        logger.info(msg);
+    })
+    .catch(function (err) {
+        logger.error(err.stack);
+    });
+```
 <a name="Writer+writeJson"></a>
 ### writer.writeJson(json, dest, indent) ⇒ <code>Promise</code>
 Writes a JSON object to a _*.json_ file.
@@ -963,9 +985,24 @@ Writes a JSON object to a _*.json_ file.
 | dest | <code>string</code> | The file destination path. |
 | indent | <code>number</code> | The indent in spaces. |
 
+**Example**  
+```js
+var Writer = require('jy-transform').Writer;
+var logger = ...;
+var json = {...}
+
+var writer = new Writer(logger);
+writer.writeJson(json, result.yml, 2);
+    .then(function (msg){
+        logger.info(msg);
+    })
+    .catch(function (err) {
+        logger.error(err.stack);
+    });
+```
 <a name="Writer+writeJs"></a>
 ### writer.writeJs(json, dest, indent) ⇒ <code>Promise</code>
-Writes a JSON object to a _*.js_ file.
+Writes a JSON object to a _*.js_ file. The object is prefixed by `module.exports = `.
 
 **Kind**: instance method of <code>[Writer](#Writer)</code>  
 **Returns**: <code>Promise</code> - - Containing the write success message to handle by caller (e.g. for logging).  
@@ -983,3 +1020,18 @@ Writes a JSON object to a _*.js_ file.
 | dest | <code>string</code> | The file destination path. |
 | indent | <code>number</code> | The indent in spaces. |
 
+**Example**  
+```js
+var Writer = require('jy-transform').Writer;
+var logger = ...;
+var json = {...}
+
+var writer = new Writer(logger);
+writer.writeJs(json, result.yml, 2);
+    .then(function (msg){
+        logger.info(msg);
+    })
+    .catch(function (err) {
+        logger.error(err.stack);
+    });
+```
