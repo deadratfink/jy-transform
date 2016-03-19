@@ -957,7 +957,7 @@ var logger = ...;
 var json = {...}
 
 var writer = new Writer(logger);
-writer.writeYaml(json, result.yml, 2);
+writer.writeYaml(json, result.yml, 2)
     .then(function (msg){
         logger.info(msg);
     })
@@ -992,7 +992,7 @@ var logger = ...;
 var json = {...}
 
 var writer = new Writer(logger);
-writer.writeJson(json, result.yml, 2);
+writer.writeJson(json, result.yml, 2)
     .then(function (msg){
         logger.info(msg);
     })
@@ -1027,7 +1027,7 @@ var logger = ...;
 var json = {...}
 
 var writer = new Writer(logger);
-writer.writeJs(json, result.yml, 2);
+writer.writeJs(json, result.yml, 2)
     .then(function (msg){
         logger.info(msg);
     })
