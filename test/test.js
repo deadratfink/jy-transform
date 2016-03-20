@@ -12,6 +12,9 @@ describe('Executing \'jy-transform\' project test suite.', function () {
     var TEST_TMP_DIR = './test/tmp';
     var TEST_DATA_DIR = './test/data';
 
+    /**
+     * Init the test logger.
+     */
     before(function (){
         logger = require('./test-logger.js');
     });

@@ -1,11 +1,11 @@
 # Stats
 
-| Branch | [Travis CI](https://travis-ci.org) | [Codecov](https://codecov.io) | [Inch CI](http://inch-ci.org) | [David](https://david-dm.org) | [David (dev)](https://david-dm.org) |
+| Branch | [Travis CI](https://travis-ci.org) | [Codecov](https://codecov.io) | [Inch CI](http://inch-ci.org) | [David DM](https://david-dm.org) | [David DM (dev)](https://david-dm.org) |
 | --- | --- | --- | --- | --- | --- |
-| master | [![Build Status][ci-image-master]][ci-url-master] | [![codecov.io][cc-image-master]][cc-url-master] | [![inch-ci.org][inch-image-master]][inch-url-master] | [![Dependency Status][dep-image-master]][dep-url-master]| [![devDependency Status][devdep-image-master]][devdep-url-master] |
-| development | [![Build Status][ci-image-development]][ci-url-development] | [![codecov.io][cc-image-development]][cc-url-development] | [![inch-ci.org][inch-image-development]][inch-url-development] | [![Dependency Status][dep-image-development]][dep-url-development]| [![devDependency Status][devdep-image-development]][devdep-url-development] |
+| master      | [![Build Status][ci-image-master]][ci-url-master]           | [![codecov.io][cc-image-master]][cc-url-master]           | [![inch-ci.org][inch-image-master]][inch-url-master]           | [![Dependency Status][dep-image-master]][dep-url-master]           | [![devDependency Status][devdep-image-master]][devdep-url-master] |
+| development | [![Build Status][ci-image-development]][ci-url-development] | [![codecov.io][cc-image-development]][cc-url-development] | [![inch-ci.org][inch-image-development]][inch-url-development] | [![Dependency Status][dep-image-development]][dep-url-development] | [![devDependency Status][devdep-image-development]][devdep-url-development] |
 
-## Branch Graphs
+## Coverage Graphs
 
 | Branch | Graph |
 | --- | --- |
@@ -14,19 +14,19 @@
 
 
 [ci-image-master]: https://img.shields.io/travis/deadratfink/jy-transform/master.svg?style=flat-square
-[ci-url-master]: https://travis-ci.org/deadratfink/jy-transform
+[ci-url-master]: https://travis-ci.org/deadratfink/jy-transform/branches
 [ci-image-development]: https://img.shields.io/travis/deadratfink/jy-transform/development.svg?style=flat-square
-[ci-url-development]: https://travis-ci.org/deadratfink/jy-transform
+[ci-url-development]: https://travis-ci.org/deadratfink/jy-transform/branches
 
 [cc-image-master]: https://img.shields.io/codecov/c/github/deadratfink/jy-transform/master.svg?style=flat-square
 [cc-url-master]: https://codecov.io/github/deadratfink/jy-transform?branch=master
 [cc-image-development]: https://img.shields.io/codecov/c/github/deadratfink/jy-transform/development.svg?style=flat-square
 [cc-url-development]: https://codecov.io/github/deadratfink/jy-transform?branch=development
 
-[inch-image-master]: http://inch-ci.org/github/deadratfink/jy-transform.svg?branch=master&style=flat-square
-[inch-url-master]: http://inch-ci.org/github/deadratfink/jy-transform?branch=master
-[inch-image-development]: http://inch-ci.org/github/deadratfink/jy-transform.svg?branch=development&style=flat-square
-[inch-url-development]: http://inch-ci.org/github/deadratfink/jy-transform?branch=development
+[inch-image-master]: https://inch-ci.org/github/deadratfink/jy-transform.svg?branch=master&style=flat-square
+[inch-url-master]: https://inch-ci.org/github/deadratfink/jy-transform?branch=master
+[inch-image-development]: https://inch-ci.org/github/deadratfink/jy-transform.svg?branch=development&style=flat-square
+[inch-url-development]: https://inch-ci.org/github/deadratfink/jy-transform?branch=development
 
 [dep-image-master]: https://img.shields.io/david/deadratfink/jy-transform/master.svg?style=flat-square
 [dep-url-master]: https://david-dm.org/deadratfink/jy-transform/master
@@ -585,22 +585,27 @@ Class which defines a `logger` wrapper usable in this module.
 **Kind**: global class  
 
 * [LogWrapper](#LogWrapper)
-    * [new LogWrapper(logger)](#new_LogWrapper_new)
+    * [new LogWrapper([logger])](#new_LogWrapper_new)
     * [.debug(msg)](#LogWrapper+debug)
     * [.info(msg)](#LogWrapper+info)
     * [.error(msg)](#LogWrapper+error)
     * [.verboseOptions(options)](#LogWrapper+verboseOptions) ⇒
 
 <a name="new_LogWrapper_new"></a>
-### new LogWrapper(logger)
+### new LogWrapper([logger])
 Constructs the `LogWrapper`.
 
 **Returns**: <code>[LogWrapper](#LogWrapper)</code> - - The instance.  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| logger | <code>logger</code> &#124; <code>cli</code> &#124; <code>console</code> | <code>console</code> | Logger object. |
+| [logger] | <code>logger</code> &#124; <code>cli</code> &#124; <code>console</code> | <code>console</code> | Logger object. |
 
+**Example**  
+```js
+var logger = ...;
+var logWrapper = new new LogWrapper(logger);
+```
 <a name="LogWrapper+debug"></a>
 ### logWrapper.debug(msg)
 Log the options with DEBUG level (logger supports it, else with INFO).
@@ -612,6 +617,13 @@ Log the options with DEBUG level (logger supports it, else with INFO).
 | --- | --- | --- |
 | msg | <code>string</code> | The message to log. |
 
+**Example**  
+```js
+var logger = ...;
+var logWrapper = new new LogWrapper(logger);
+var msg = '...';
+logWrapper.debug(msg);
+```
 <a name="LogWrapper+info"></a>
 ### logWrapper.info(msg)
 Log the options with INFO level.
@@ -623,6 +635,13 @@ Log the options with INFO level.
 | --- | --- | --- |
 | msg | <code>string</code> | The message to log. |
 
+**Example**  
+```js
+var logger = ...;
+var logWrapper = new new LogWrapper(logger);
+var msg = '...';
+logWrapper.info(msg);
+```
 <a name="LogWrapper+error"></a>
 ### logWrapper.error(msg)
 Log the options with ERROR level.
@@ -634,6 +653,13 @@ Log the options with ERROR level.
 | --- | --- | --- |
 | msg | <code>string</code> | The message to log. |
 
+**Example**  
+```js
+var logger = ...;
+var logWrapper = new new LogWrapper(logger);
+var msg = '...';
+logWrapper.error(msg);
+```
 <a name="LogWrapper+verboseOptions"></a>
 ### logWrapper.verboseOptions(options) ⇒
 Log the options with INFO level.
@@ -646,6 +672,18 @@ Log the options with INFO level.
 | --- | --- | --- |
 | options | <code>Object</code> | The properties to log with INFO. |
 
+**Example**  
+```js
+var logger = ...;
+var logWrapper = new new LogWrapper(logger);
+var options = {
+    ...
+};
+logWrapper.verboseOptions(options)
+    then(function (options) {
+        ...
+    });
+```
 <a name="Middleware"></a>
 ## Middleware
 Class which defines middleware Promises usable in or with this module.
@@ -661,6 +699,10 @@ Class which defines middleware Promises usable in or with this module.
 Constructs the `Middleware`.
 
 **Returns**: <code>[Middleware](#Middleware)</code> - - The instance.  
+**Example**  
+```js
+var middleware = require('./lib/middleware.js');
+```
 <a name="Middleware+ensureMiddleware"></a>
 ### middleware.ensureMiddleware(middleware) ⇒ <code>Promise</code>
 Ensure that the given middleware Promise is a function if set.
@@ -680,6 +722,17 @@ a JSON object.
 | --- | --- | --- |
 | middleware | <code>function</code> | This middleware Promise can be used to intercept        the JSON object for altering he passed JSON, the function signature is:        ```        function(json)        ```        The Promise has to return the processed JSON! |
 
+**Example**  
+```js
+var middleware = require('./lib/middleware.js');
+var myMiddleware = function(json) {
+    ...
+};
+transformer.transform(options, middleware.ensureMiddleware(myMiddleware))
+    .then(function(json) {
+        ...
+    }):
+```
 <a name="OptionsHandler"></a>
 ## OptionsHandler
 Class which defines some useful methods to initialize and prepare the
@@ -692,8 +745,8 @@ Class which defines some useful methods to initialize and prepare the
 
 * [OptionsHandler](#OptionsHandler)
     * [new OptionsHandler([logger])](#new_OptionsHandler_new)
-    * [.ensureOptions(options)](#OptionsHandler+ensureOptions) ⇒
-    * [.validateTransformation(options)](#OptionsHandler+validateTransformation) ⇒
+    * [.ensureOptions(options)](#OptionsHandler+ensureOptions) ⇒ <code>Promise</code>
+    * [.validateTransformation(options)](#OptionsHandler+validateTransformation) ⇒ <code>Promise</code>
 
 <a name="new_OptionsHandler_new"></a>
 ### new OptionsHandler([logger])
@@ -713,26 +766,38 @@ var logger = ...;
 var optionsHandler = new OptionsHandler(logger);
 ```
 <a name="OptionsHandler+ensureOptions"></a>
-### optionsHandler.ensureOptions(options) ⇒
+### optionsHandler.ensureOptions(options) ⇒ <code>Promise</code>
 This method ensures that the options object is set with all necessary and
 correct values. The method does not alter the given object, but creates
 and fills a new instance from the given values and/or default ones.
 
 **Kind**: instance method of <code>[OptionsHandler](#OptionsHandler)</code>  
-**Returns**: A Promise containing a new and complete `options` object.  
+**Returns**: <code>Promise</code> - - A Promise containing a new and complete `options` object.  
 **Access:** public  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | options | <code>Object</code> | The minimum configuration for a transformation. |
 
+**Example**  
+```js
+var OptionsHandler = require('./options-handler.js');
+var logger = ...;
+var options = {...};
+var optionsHandler = new OptionsHandler(logger);
+optionsHandler.ensureOptions(options)
+    .then(function (ensuredOptions) {
+        ...
+    });
+```
 <a name="OptionsHandler+validateTransformation"></a>
-### optionsHandler.validateTransformation(options) ⇒
+### optionsHandler.validateTransformation(options) ⇒ <code>Promise</code>
 This method validates the transformation process described by the given
-options and provides the according name to resolve a proper function.
+options and provides the validate and enriched options and according name
+to resolve a proper function.
 
 **Kind**: instance method of <code>[OptionsHandler](#OptionsHandler)</code>  
-**Returns**: A Promise containing the passed `options` object and a 'transformation' string.  
+**Returns**: <code>Promise</code> - - A Promise containing the passed `options` object and a 'transformation' string in an array.  
 **Access:** public  
 **See**: [transformations](transformations)  
 
@@ -740,6 +805,16 @@ options and provides the according name to resolve a proper function.
 | --- | --- | --- |
 | options | <code>Object</code> | The minimum configuration for a transformation. |
 
+**Example**  
+```js
+var OptionsHandler = require('./options-handler.js');
+var logger = ...;
+var optionsHandler = new OptionsHandler(logger);
+optionsHandler.validateTransformation(options)
+    .spread(function (validatedOptions, transformation) {
+        ...
+    )):
+```
 <a name="Reader"></a>
 ## Reader
 This class provides utility methods usable to read YAML, JSON or JS
@@ -845,7 +920,6 @@ This class provides all methods usable to handle YAML, JSON and JS and
         * [.transform(options, [middleware])](#Transformer+transform) ⇒ <code>Promise</code>
     * _inner_
         * [~ensureMiddleware](#Transformer..ensureMiddleware)
-        * [~itmo(options, read, [middleware], write)](#Transformer..itmo)
 
 <a name="new_Transformer_new"></a>
 ### new Transformer([logger])
@@ -909,23 +983,6 @@ transformer.transform(options, middleware)
 Ensures that basic middleware is set.
 
 **Kind**: inner property of <code>[Transformer](#Transformer)</code>  
-<a name="Transformer..itmo"></a>
-### Transformer~itmo(options, read, [middleware], write)
-Internal function to execute transformation logic (ITMO):
-- Input
-- Transform
-- Middleware
-- Write
-
-**Kind**: inner method of <code>[Transformer](#Transformer)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| options | <code>Object</code> | The minimum configuration for a transformation. |
-| read | <code>function</code> | The reader function. |
-| [middleware] | <code>function</code> | The middleware to apply. |
-| write | <code>function</code> | The writer functions. |
-
 <a name="Writer"></a>
 ## Writer
 This class provides utility methods usable to write JSON/JS/YAML
