@@ -6,10 +6,52 @@ I decided to get rid of the YAML file and therefore, create a module which
 should be aimed as the swiss army knife for transforming YAML, JS and JSON 
 files into each other.
 
+## Contributing
+
+Pull requests and stars are always welcome. Anybody is invited to take part 
+into this project. For bugs and feature requests, please create an 
+[issue](https://github.com/deadratfink/jy-transform/issues).
+When contributing as coder, please take care of the following conventions:
+
+- Enter yourself in the `constributors` section of _package.json_.
+- We strictly follow [Semantic Versioning 2](http://semver.org) rules.
+- The `development` branch is the leading branch. However, you can push directly, 
+  but is highly recommended to create bugfix and feature branches and use pull 
+  requests when finished. Any of these should be prefixed with `bugfix/#...` of 
+  `feature/#...` (containing issue number followed by a short, "underscored" 
+  proper meaning), e.g. 
+  - `bugfix/#8_fix_js_reading_with_require`
+  - `feature/#14_multidocument_support`
+- The `master` branch is protected and will never be pushed directly (always use pull-requests).
+- Indention for any file is 4 SPACEs.
+- Keep code coverage high (> 80%).
+- Doc everything with [JSDocs](http://usejsdoc.org/) and document concepts in 
+  [README.md](https://github.com/deadratfink/jy-transform/blob/development/README.md)
+  or [Wiki](https://github.com/deadratfink/jy-transform/wiki).
+
+
+## Not Supported Yet / Plannings
+
+At the moment we require that each document to transform is a _single_ one per file!
+
+Multidocument handling would be a cool feature which refers in general to YAML 
+and JS only and is currently not supported. This is planned and reflected 
+in feature [#14](https://github.com/deadratfink/jy-transform/issues/14).
+
 # Usage
 
-The module is fully [Promise](http://bluebirdjs.com/docs/api-reference.html) 
-based!
+The module can bu used on CLI or as API. The latter is fully [Promise](http://bluebirdjs.com/docs/api-reference.html) 
+based. Besides transformation this module can also be used for laoding and/or writing 
+YAML, JS or JSON files. 
+
+## Usage Types
+
+The module can be used in two different ways:
+
+- On CLI (recommended install globally via `-g` option)
+- Via API (install locally)
+
+All use cases are described in more detail in the following sections.
 
 ## Use Cases
 
@@ -60,22 +102,7 @@ Writing to:
 - _*.js_
 - _*.json_
 
-## Not Supported Yet / Plannings
-
-At the moment we require that each document to transform is a _single_ one per file!
-
-Multidocument handling would be a cool feature which refers in general to YAML 
-and JS only and is currently not supported. This is planned and reflected 
-in feature [#14](https://github.com/deadratfink/jy-transform/issues/14).
-
-## Usage
-
-The module can be used in two different ways:
-
-- On CLI (recommended install globally via `-g` option)
-- Via API (install locally)
-
-### Usage On CLI
+## CLI Usage
 
 The CLI provides the `jyt` command followed by a bunch of options:
 
@@ -91,13 +118,16 @@ The CLI provides the `jyt` command followed by a bunch of options:
 | `-v, --version` | n/a | Display the current version. | n/a | no |
 | `-h, --help` | n/a | Display help and usage details. | n/a | no |  
 
-After the global installation you can access the Transformer command options as follows:
+After the global installation you can access the Transformer command options 
+with the help command as follows:
 
 ```
 $ jyt --help
 ```
 
-This prints an overview about all available properties:
+### CLI Properties
+
+The help command  prints an overview about all available CLI properties:
 
 ```
 $ jyt --help
@@ -147,7 +177,8 @@ have been applied! If the source would have been a `js` type like
 $ jyt -s ./data/my.js -t json -i 2
 ```
 
-then `js` `origin` is automatically inferred from file extension.
+then the `js` `origin` is automatically inferred from file extension. Analogous, this is also true for 
+the `target` option.
 
 ## Origin and Target Type Inference
 
@@ -164,7 +195,7 @@ extensions. This is supported as shown by the following table (from-to):
 **NOTE:** if you have files without an extension or e.g. _*.txt_ you _have_ to 
 specify the origin or target type!
 
-### Usage As Library (API Calls)
+## API Usage
 
 Since the usage on CLI is a 2-step process:
 
@@ -182,7 +213,9 @@ this into a 3-step process:
 For more details about this and all the functions provided by this module please refer to the 
 [API Reference](#api-reference) below.
 
-#### Transformation Properties
+The `origin` and `target` type inference is also standard for the API level.
+
+### API Properties
 
 The `Transformer` exposes the following function which takes besides an (optional) 
 `middleware` function the necessary `options` for the transformation:

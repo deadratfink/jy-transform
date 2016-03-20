@@ -1,9 +1,13 @@
 # Stats
 
-| Branch | [Travis CI](https://travis-ci.org) | [Codecov](https://codecov.io) | [Inch CI](http://inch-ci.org) | [David DM](https://david-dm.org) | [David DM (dev)](https://david-dm.org) |
-| --- | --- | --- | --- | --- | --- |
-| master      | [![Build Status][ci-image-master]][ci-url-master]           | [![codecov.io][cc-image-master]][cc-url-master]           | [![inch-ci.org][inch-image-master]][inch-url-master]           | [![Dependency Status][dep-image-master]][dep-url-master]           | [![devDependency Status][devdep-image-master]][devdep-url-master] |
-| development | [![Build Status][ci-image-development]][ci-url-development] | [![codecov.io][cc-image-development]][cc-url-development] | [![inch-ci.org][inch-image-development]][inch-url-development] | [![Dependency Status][dep-image-development]][dep-url-development] | [![devDependency Status][devdep-image-development]][devdep-url-development] |
+| [Travis CI](https://travis-ci.org) | [Issue Stats](http://issuestats.com/) (Pull) | [Issue Stats](http://issuestats.com/) (Issue) |
+| --- | --- | --- |
+| [![Build Status][ci-image]][ci-url] | [![Issue Stats][is-pull-image]][is-url] | [![Issue Stats][is-issue-image]][is-url] |
+
+| [Codecov](https://codecov.io) | [Inch CI](http://inch-ci.org) | [David](https://david-dm.org) DM | [David](https://david-dm.org) DM (dev) | Branch |
+| --- | --- | --- | --- | --- |
+| [![codecov.io][cc-image-master]][cc-url-master]           | [![inch-ci.org][inch-image-master]][inch-url-master]           | [![Dependency Status][dep-image-master]][dep-url-master]           | [![devDependency Status][devdep-image-master]][devdep-url-master] | master |
+| [![codecov.io][cc-image-development]][cc-url-development] | [![inch-ci.org][inch-image-development]][inch-url-development] | [![Dependency Status][dep-image-development]][dep-url-development] | [![devDependency Status][devdep-image-development]][devdep-url-development] | development |
 
 ## Coverage Graphs
 
@@ -13,10 +17,13 @@
 | development| ![codecov.io](https://codecov.io/github/deadratfink/jy-transform/branch.svg?branch=development&vg=true) |
 
 
-[ci-image-master]: https://img.shields.io/travis/deadratfink/jy-transform/master.svg?style=flat-square
-[ci-url-master]: https://travis-ci.org/deadratfink/jy-transform/branches
-[ci-image-development]: https://img.shields.io/travis/deadratfink/jy-transform/development.svg?style=flat-square
-[ci-url-development]: https://travis-ci.org/deadratfink/jy-transform/branches
+[ci-image]: https://img.shields.io/travis/deadratfink/jy-transform.svg?style=flat-square
+[ci-url]: https://travis-ci.org/deadratfink/jy-transform/branches
+
+[is-pull-image]: http://issuestats.com/github/deadratfink/jy-transform/badge/pr?style=flat-square
+[is-issue-image]: http://issuestats.com/github/deadratfink/jy-transform/badge/issue?style=flat-square
+[is-url]: http://issuestats.com/github/deadratfink/jy-transform
+
 
 [cc-image-master]: https://img.shields.io/codecov/c/github/deadratfink/jy-transform/master.svg?style=flat-square
 [cc-url-master]: https://codecov.io/github/deadratfink/jy-transform?branch=master
@@ -38,6 +45,38 @@
 [devdep-image-development]: https://img.shields.io/david/dev/deadratfink/jy-transform/development.svg?style=flat-square
 [devdep-url-development]: https://david-dm.org/deadratfink/jy-transform/development#info=devDependencies
 
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+# ToC
+
+- [jy-transform](#jy-transform)
+  - [Installation](#installation)
+  - [Tests](#tests)
+  - [Dependencies](#dependencies)
+  - [Dev Dependencies](#dev-dependencies)
+  - [License](#license)
+  - [Motivation](#motivation)
+  - [Contributing](#contributing)
+  - [Not Supported Yet / Plannings](#not-supported-yet--plannings)
+- [Usage](#usage)
+  - [Usage Types](#usage-types)
+  - [Use Cases](#use-cases)
+  - [CLI Usage](#cli-usage)
+  - [Origin and Target Type Inference](#origin-and-target-type-inference)
+  - [API Usage](#api-usage)
+  - [Injecting Logger](#injecting-logger)
+- [API Reference](#api-reference)
+  - [Classes](#classes)
+  - [Constants](#constants)
+  - [LogWrapper](#logwrapper)
+  - [Middleware](#middleware)
+  - [OptionsHandler](#optionshandler)
+  - [Reader](#reader)
+  - [Transformer](#transformer)
+  - [Writer](#writer)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 # jy-transform 
 
 This project aims to read, write and transform _*.yaml_ files to _.js_ or _*.json_ files or vice-versa via CLI or API.
@@ -70,6 +109,7 @@ npm test
 ## Dev Dependencies
 
 - [codecov](https://github.com/codecov/codecov-node): Uploading report to Codecov: https://codecov.io
+- [doctoc](https://github.com/thlorenz/doctoc): Generates TOC for markdown files of local git repo.
 - [fs-extra](https://github.com/jprichardson/node-fs-extra): fs-extra contains methods that aren&#39;t included in the vanilla Node.js fs package. Such as mkdir -p, cp -r, and rm -rf.
 - [istanbul](https://github.com/gotwarlost/istanbul): Yet another JS code coverage tool that computes statement, line, function and branch coverage with module loader hooks to transparently add coverage when running tests. Supports all JS coverage use cases including unit tests, server side functional tests 
 - [jsdoc-parse](https://github.com/jsdoc2md/jsdoc-parse): Jsdoc-annotated source code in, JSON format documentation out.
@@ -92,10 +132,52 @@ I decided to get rid of the YAML file and therefore, create a module which
 should be aimed as the swiss army knife for transforming YAML, JS and JSON 
 files into each other.
 
+## Contributing
+
+Pull requests and stars are always welcome. Anybody is invited to take part 
+into this project. For bugs and feature requests, please create an 
+[issue](https://github.com/deadratfink/jy-transform/issues).
+When contributing as coder, please take care of the following conventions:
+
+- Enter yourself in the `constributors` section of _package.json_.
+- We strictly follow [Semantic Versioning 2](http://semver.org) rules.
+- The `development` branch is the leading branch. However, you can push directly, 
+  but is highly recommended to create bugfix and feature branches and use pull 
+  requests when finished. Any of these should be prefixed with `bugfix/#...` of 
+  `feature/#...` (containing issue number followed by a short, "underscored" 
+  proper meaning), e.g. 
+  - `bugfix/#8_fix_js_reading_with_require`
+  - `feature/#14_multidocument_support`
+- The `master` branch is protected and will never be pushed directly (always use pull-requests).
+- Indention for any file is 4 SPACEs.
+- Keep code coverage high (> 80%).
+- Doc everything with [JSDocs](http://usejsdoc.org/) and document concepts in 
+  [README.md](https://github.com/deadratfink/jy-transform/blob/development/README.md)
+  or [Wiki](https://github.com/deadratfink/jy-transform/wiki).
+
+
+## Not Supported Yet / Plannings
+
+At the moment we require that each document to transform is a _single_ one per file!
+
+Multidocument handling would be a cool feature which refers in general to YAML 
+and JS only and is currently not supported. This is planned and reflected 
+in feature [#14](https://github.com/deadratfink/jy-transform/issues/14).
+
 # Usage
 
-The module is fully [Promise](http://bluebirdjs.com/docs/api-reference.html) 
-based!
+The module can bu used on CLI or as API. The latter is fully [Promise](http://bluebirdjs.com/docs/api-reference.html) 
+based. Besides transformation this module can also be used for laoding and/or writing 
+YAML, JS or JSON files. 
+
+## Usage Types
+
+The module can be used in two different ways:
+
+- On CLI (recommended install globally via `-g` option)
+- Via API (install locally)
+
+All use cases are described in more detail in the following sections.
 
 ## Use Cases
 
@@ -146,22 +228,7 @@ Writing to:
 - _*.js_
 - _*.json_
 
-## Not Supported Yet / Plannings
-
-At the moment we require that each document to transform is a _single_ one per file!
-
-Multidocument handling would be a cool feature which refers in general to YAML 
-and JS only and is currently not supported. This is planned and reflected 
-in feature [#14](https://github.com/deadratfink/jy-transform/issues/14).
-
-## Usage
-
-The module can be used in two different ways:
-
-- On CLI (recommended install globally via `-g` option)
-- Via API (install locally)
-
-### Usage On CLI
+## CLI Usage
 
 The CLI provides the `jyt` command followed by a bunch of options:
 
@@ -177,13 +244,16 @@ The CLI provides the `jyt` command followed by a bunch of options:
 | `-v, --version` | n/a | Display the current version. | n/a | no |
 | `-h, --help` | n/a | Display help and usage details. | n/a | no |  
 
-After the global installation you can access the Transformer command options as follows:
+After the global installation you can access the Transformer command options 
+with the help command as follows:
 
 ```
 $ jyt --help
 ```
 
-This prints an overview about all available properties:
+### CLI Properties
+
+The help command  prints an overview about all available CLI properties:
 
 ```
 $ jyt --help
@@ -233,7 +303,8 @@ have been applied! If the source would have been a `js` type like
 $ jyt -s ./data/my.js -t json -i 2
 ```
 
-then `js` `origin` is automatically inferred from file extension.
+then the `js` `origin` is automatically inferred from file extension. Analogous, this is also true for 
+the `target` option.
 
 ## Origin and Target Type Inference
 
@@ -250,7 +321,7 @@ extensions. This is supported as shown by the following table (from-to):
 **NOTE:** if you have files without an extension or e.g. _*.txt_ you _have_ to 
 specify the origin or target type!
 
-### Usage As Library (API Calls)
+## API Usage
 
 Since the usage on CLI is a 2-step process:
 
@@ -268,7 +339,9 @@ this into a 3-step process:
 For more details about this and all the functions provided by this module please refer to the 
 [API Reference](#api-reference) below.
 
-#### Transformation Properties
+The `origin` and `target` type inference is also standard for the API level.
+
+### API Properties
 
 The `Transformer` exposes the following function which takes besides an (optional) 
 `middleware` function the necessary `options` for the transformation:

@@ -35,7 +35,7 @@
         }
     },
     "scripts": {
-        "docs": "cat docs/BADGES.md > README.md && package-json-to-readme --no-footer ./package.json >> README.md && cat docs/CUSTOM.md >> README.md && echo '# API Reference\n' >> README.md && jsdoc2md lib/*.js index.js > docs/API.md >> README.md",
+        "docs": "cat docs/BADGES.md > README.md && package-json-to-readme --no-footer ./package.json >> README.md && cat docs/USAGE.md >> README.md && echo '# API Reference\n' >> README.md && jsdoc2md lib/*.js index.js > docs/API.md >> README.md && doctoc README.md --github --title '# ToC' --maxlevel 2",
         "test": "istanbul cover _mocha --report lcovonly -- -R $npm_package_config_test_mocha_unit_reporter ./test/test.js && codecov"
     },
     "engines": {
@@ -51,6 +51,7 @@
     },
     "devDependencies": {
         "codecov": "^1.0.1",
+        "doctoc": "^1.0.0",
         "fs-extra": "^0.26.7",
         "istanbul": "^0.4.2",
         "jsdoc-parse": "^1.2.7",
@@ -60,12 +61,13 @@
         "package-json-to-readme": "^1.5.0",
         "winston": "^2.2.0"
     },
-    "preferGlobal": "true",
+    "preferGlobal": true,
     "bin": {
         "jyt": "./jyt"
     },
     "main": "./index.js",
     "keywords": [
+        "jy",
         "jyt",
         "jy-transform",
         "transform",
@@ -80,6 +82,7 @@
         "yamltojs",
         "yamltojson",
         "jstoyaml",
-        "jsontoyaml"
+        "jsontoyaml",
+        "promise"
     ]
 }
