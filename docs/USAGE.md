@@ -28,6 +28,9 @@ When contributing as coder, please take care of the following conventions:
 - Doc everything with [JSDocs](http://usejsdoc.org/) and document concepts in 
   [README.md](https://github.com/deadratfink/jy-transform/blob/development/README.md)
   or [Wiki](https://github.com/deadratfink/jy-transform/wiki).
+- Use single parenthesis (`'...'`) instead of double parenthesis (`"..."`)
+- Avoid the of use parenthesis for keys in JSON objects.
+- Use the strict mode (`'use strict';`) in _*.js_ files.
 
 
 ## Not Supported Yet / Plannings
@@ -64,9 +67,11 @@ All use cases are described in more detail in the following sections.
 
 Reading from:
 
-- _*.yaml_
-- _*.js_
-- _*.json_
+- _*.yaml_ file
+- _*.js_ file
+- _*.json_ file
+- `stream.Readable` (requires `options.origin` property set)
+- any JS object (actually, this mean read phase is skipped, because object is in-memory already)
 
 ### Transformation
 
@@ -84,7 +89,7 @@ The transformation can take place into several directions:
 
 while:
 
-- YAML = _*.yaml_
+- YAML = _*.yaml_, _*.yml_
 - JS   = _*.js_   (JSON object)  
 - JSON = _*.json_ (JSON serialized)
 
@@ -98,9 +103,11 @@ or is the transformation itself in case of same origin and target type.
 
 Writing to:
 
-- _*.yaml_
-- _*.js_
-- _*.json_
+- _*.yaml_ file
+- _*.js_ file
+- _*.json_ file
+- `stream.Writable`  (requires `options.target` property set)
+- any JS object
 
 ## CLI Usage
 
@@ -230,13 +237,13 @@ The `options` object has to follow this key-values table:
 | --- | --- | --- | --- | --- |
 | origin | <code>string</code> | The origin type. | if not given, the type is tried to be inferred from the extension of source path, else it is 'yaml' | no |
 | target | <code>string</code> | The target type. | if not given, the type is tried to be inferred from the extension of destination path, else it is 'js' | no |
-| src | <code>string</code> | The source file path. | - | yes |
-| dest | <code>string</code> | The destination file path. | 'relative to input file' | no |
+| src | <code>string &#124; Readable &#124; object</code> | The source information object: `string` is used as file path, `Readable` stream provides a stringified source and `object` is used as direct JS source.| - | yes |
+| dest | <code>string &#124; Writable &#124; object</code> | The destination information object: `string` is used as file path, `Writable` stream writes a stringified source and `object` is used as direct JS object for assignment. | 'relative to input file' | no |
 | indent | <code>number</code> | The indention in files. | 4 | no |  
 
 #### Example
 
-```
+```javascript
 var options = {
     origin: 'json',
     target: 'yaml',
@@ -282,6 +289,14 @@ var middleware = function (json) {
     json.myproperty = 'new value'; 
     return Promise.resolve(json);
 }
+
+transformer.transform(options, middleware)
+    .then(function (msg){
+        logger.info(msg);
+    })
+    .catch(function (err) {
+        logger.error(err.stack);
+    });
 ```
 
 will result in such JSON file:
@@ -292,7 +307,73 @@ will result in such JSON file:
 }
 ```
 
-Following this pattern you can do everything with the JSON object, like
+Of course, you might have use cases wiht complex and/or huge logic where one function 
+might be insufficient. This does not raise as a problem because you can create several 
+functions to be applied in the whole transformation process.
+
+Let's assume we have some Promise functions to apply. For simplicity reasons we simulate 
+these for the moment by three functions, each adding key-value to the given (empty) JSON 
+object.
+
+**NOTE:** each has to return the `json` object! 
+
+
+```javascript
+function key1(json) {
+    objectPath.set(json, 'key1', 'value1');
+    return Promise.resolve(json);
+}
+
+function key2(json) {
+    objectPath.set(json, 'key2', 'value2');
+    return Promise.resolve(json);
+}
+
+function key3(json) {
+    objectPath.set(json, 'key3', 'value3');
+    return Promise.resolve(json);
+}
+```
+
+These can be collected by different aggregation or composition functions of the underlying
+Promise framework, e.g. the  [`Promise.all([...])`](http://bluebirdjs.com/docs/api/promise.all.html) 
+function. This can collect all three functions above and ensure their proper execution:
+
+ 
+```javascript
+var middleware = function (json) {
+    return Promise.all([key1(json), key2(json), key3(json)])
+        .then(function(result) {
+            return Promise.resolve(result[result.length - 1]);
+        });
+};
+
+var transformer = new Transformer(logger);
+var logger = ...;
+var options = {...};
+
+return transformer.transform(options, middleware)
+    .then(function (msg){
+        logger.info(msg);
+    })
+    .catch(function (err) {
+        logger.error(err.stack);
+    });
+```
+
+The result in the `middleware` function can be retrieved from the `result` array, in `Promise.all([...])` 
+you have to pick the last element which contains the "final product":
+
+```javascript
+{
+    key1: 'value1',
+    key2: 'value2',
+    key3: 'value3'
+}
+```
+
+which is then to be passed back to the transformation chain. Following this pattern 
+you can do almost everything with the JSON object, like
 
 - deleting properties
 - changing properties to other types
@@ -303,7 +384,7 @@ Whatever, but keep it valid when transforming ;-)
 
 ## Injecting Logger
 
-The `Reader`, `Transfomer` and `Writer` constructors accept an (optional) logger object.
+The `Reader`, `Transformer` and `Writer` constructors accept an (optional) logger object.
 Default logger is `console`.
 
 ```javascript

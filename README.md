@@ -68,6 +68,7 @@
   - [Injecting Logger](#injecting-logger)
 - [API Reference](#api-reference)
   - [Classes](#classes)
+  - [Typedefs](#typedefs)
   - [Constants](#constants)
   - [LogWrapper](#logwrapper)
   - [Middleware](#middleware)
@@ -75,6 +76,7 @@
   - [Reader](#reader)
   - [Transformer](#transformer)
   - [Writer](#writer)
+  - [Options : <code>object</code>](#options--codeobjectcode)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 # jy-transform 
@@ -101,6 +103,7 @@ npm test
 
 - [bluebird](https://github.com/petkaantonov/bluebird): Full featured Promises/A+ implementation with exceptionally good performance
 - [cli](https://github.com/chriso/cli): A tool for rapidly building command line apps
+- [is-stream](https://github.com/sindresorhus/is-stream): Check if something is a Node.js stream
 - [js-yaml](https://github.com/nodeca/js-yaml): YAML 1.2 parser and serializer
 - [json-stringify-safe](https://github.com/isaacs/json-stringify-safe): Like JSON.stringify, but doesn&#39;t blow up on circular refs.
 - [mkdirp-then](https://github.com/fs-utils/mkdirp-then): mkdirp as promised
@@ -116,6 +119,7 @@ npm test
 - [jsdoc-to-markdown](https://github.com/jsdoc2md/jsdoc-to-markdown): jsdoc-annotated source in, markdown API docs out.
 - [mocha](https://github.com/mochajs/mocha): simple, flexible, fun test framework
 - [mocha-lcov-reporter](https://github.com/StevenLooman/mocha-lcov-reporter): LCOV reporter for Mocha
+- [object-path](https://github.com/mariocasciaro/object-path): Access deep properties using a path
 - [package-json-to-readme](https://github.com/zeke/package-json-to-readme): Generate a README.md from package.json contents
 - [winston](https://github.com/winstonjs/winston): A multi-transport async logging library for Node.js
 
@@ -154,6 +158,9 @@ When contributing as coder, please take care of the following conventions:
 - Doc everything with [JSDocs](http://usejsdoc.org/) and document concepts in 
   [README.md](https://github.com/deadratfink/jy-transform/blob/development/README.md)
   or [Wiki](https://github.com/deadratfink/jy-transform/wiki).
+- Use single parenthesis (`'...'`) instead of double parenthesis (`"..."`)
+- Avoid the of use parenthesis for keys in JSON objects.
+- Use the strict mode (`'use strict';`) in _*.js_ files.
 
 
 ## Not Supported Yet / Plannings
@@ -190,9 +197,11 @@ All use cases are described in more detail in the following sections.
 
 Reading from:
 
-- _*.yaml_
-- _*.js_
-- _*.json_
+- _*.yaml_ file
+- _*.js_ file
+- _*.json_ file
+- `stream.Readable` (requires `options.origin` property set)
+- any JS object (actually, this mean read phase is skipped, because object is in-memory already)
 
 ### Transformation
 
@@ -210,7 +219,7 @@ The transformation can take place into several directions:
 
 while:
 
-- YAML = _*.yaml_
+- YAML = _*.yaml_, _*.yml_
 - JS   = _*.js_   (JSON object)  
 - JSON = _*.json_ (JSON serialized)
 
@@ -224,9 +233,11 @@ or is the transformation itself in case of same origin and target type.
 
 Writing to:
 
-- _*.yaml_
-- _*.js_
-- _*.json_
+- _*.yaml_ file
+- _*.js_ file
+- _*.json_ file
+- `stream.Writable`  (requires `options.target` property set)
+- any JS object
 
 ## CLI Usage
 
@@ -356,13 +367,13 @@ The `options` object has to follow this key-values table:
 | --- | --- | --- | --- | --- |
 | origin | <code>string</code> | The origin type. | if not given, the type is tried to be inferred from the extension of source path, else it is 'yaml' | no |
 | target | <code>string</code> | The target type. | if not given, the type is tried to be inferred from the extension of destination path, else it is 'js' | no |
-| src | <code>string</code> | The source file path. | - | yes |
-| dest | <code>string</code> | The destination file path. | 'relative to input file' | no |
+| src | <code>string &#124; Readable &#124; object</code> | The source information object: `string` is used as file path, `Readable` stream provides a stringified source and `object` is used as direct JS source.| - | yes |
+| dest | <code>string &#124; Writable &#124; object</code> | The destination information object: `string` is used as file path, `Writable` stream writes a stringified source and `object` is used as direct JS object for assignment. | 'relative to input file' | no |
 | indent | <code>number</code> | The indention in files. | 4 | no |  
 
 #### Example
 
-```
+```javascript
 var options = {
     origin: 'json',
     target: 'yaml',
@@ -408,6 +419,14 @@ var middleware = function (json) {
     json.myproperty = 'new value'; 
     return Promise.resolve(json);
 }
+
+transformer.transform(options, middleware)
+    .then(function (msg){
+        logger.info(msg);
+    })
+    .catch(function (err) {
+        logger.error(err.stack);
+    });
 ```
 
 will result in such JSON file:
@@ -418,7 +437,73 @@ will result in such JSON file:
 }
 ```
 
-Following this pattern you can do everything with the JSON object, like
+Of course, you might have use cases wiht complex and/or huge logic where one function 
+might be insufficient. This does not raise as a problem because you can create several 
+functions to be applied in the whole transformation process.
+
+Let's assume we have some Promise functions to apply. For simplicity reasons we simulate 
+these for the moment by three functions, each adding key-value to the given (empty) JSON 
+object.
+
+**NOTE:** each has to return the `json` object! 
+
+
+```javascript
+function key1(json) {
+    objectPath.set(json, 'key1', 'value1');
+    return Promise.resolve(json);
+}
+
+function key2(json) {
+    objectPath.set(json, 'key2', 'value2');
+    return Promise.resolve(json);
+}
+
+function key3(json) {
+    objectPath.set(json, 'key3', 'value3');
+    return Promise.resolve(json);
+}
+```
+
+These can be collected by different aggregation or composition functions of the underlying
+Promise framework, e.g. the  [`Promise.all([...])`](http://bluebirdjs.com/docs/api/promise.all.html) 
+function. This can collect all three functions above and ensure their proper execution:
+
+ 
+```javascript
+var middleware = function (json) {
+    return Promise.all([key1(json), key2(json), key3(json)])
+        .then(function(result) {
+            return Promise.resolve(result[result.length - 1]);
+        });
+};
+
+var transformer = new Transformer(logger);
+var logger = ...;
+var options = {...};
+
+return transformer.transform(options, middleware)
+    .then(function (msg){
+        logger.info(msg);
+    })
+    .catch(function (err) {
+        logger.error(err.stack);
+    });
+```
+
+The result in the `middleware` function can be retrieved from the `result` array, in `Promise.all([...])` 
+you have to pick the last element which contains the "final product":
+
+```javascript
+{
+    key1: 'value1',
+    key2: 'value2',
+    key3: 'value3'
+}
+```
+
+which is then to be passed back to the transformation chain. Following this pattern 
+you can do almost everything with the JSON object, like
 
 - deleting properties
 - changing properties to other types
@@ -429,7 +514,7 @@ Whatever, but keep it valid when transforming ;-)
 
 ## Injecting Logger
 
-The `Reader`, `Transfomer` and `Writer` constructors accept an (optional) logger object.
+The `Reader`, `Transformer` and `Writer` constructors accept an (optional) logger object.
 Default logger is `console`.
 
 ```javascript
@@ -486,6 +571,13 @@ function error(msg)
 </dd>
 </dl>
 
+## Typedefs
+
+<dl>
+<dt><a href="#Options">Options</a> : <code>object</code></dt>
+<dd></dd>
+</dl>
+
 <a name="Constants"></a>
 ## Constants
 Class which defines all constants usable in or with this module.
@@ -527,12 +619,12 @@ The default options.
 **Kind**: instance namespace of <code>[Constants](#Constants)</code>  
 **Properties**
 
-| Name | Type | Description |
-| --- | --- | --- |
-| origin | <code>string</code> | The default origin type: 'yaml'. |
-| target | <code>string</code> | The default target type: 'js'. |
-| dest | <code>string</code> | The default dest description: 'relative to input file'. |
-| indent | <code>number</code> | The default indention for files: 4. |
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| origin | <code>string</code> | <code>&quot;yaml&quot;</code> | The default origin type. |
+| target | <code>string</code> | <code>&quot;js&quot;</code> | The default target type. |
+| dest | <code>string</code> | <code>&quot;&#x27;relative&quot;</code> | to input file'   - The default dest description. |
+| indent | <code>number</code> | <code>4</code> | The default indention for files. |
 
 <a name="Constants+UTF8"></a>
 ### constants.UTF8 : <code>string</code>
@@ -677,7 +769,7 @@ Constructs the `LogWrapper`.
 **Example**  
 ```js
 var logger = ...;
-var logWrapper = new new LogWrapper(logger);
+var logWrapper = new LogWrapper(logger);
 ```
 <a name="LogWrapper+debug"></a>
 ### logWrapper.debug(msg)
@@ -693,7 +785,7 @@ Log the options with DEBUG level (logger supports it, else with INFO).
 **Example**  
 ```js
 var logger = ...;
-var logWrapper = new new LogWrapper(logger);
+var logWrapper = new LogWrapper(logger);
 var msg = '...';
 logWrapper.debug(msg);
 ```
@@ -711,7 +803,7 @@ Log the options with INFO level.
 **Example**  
 ```js
 var logger = ...;
-var logWrapper = new new LogWrapper(logger);
+var logWrapper = new LogWrapper(logger);
 var msg = '...';
 logWrapper.info(msg);
 ```
@@ -729,7 +821,7 @@ Log the options with ERROR level.
 **Example**  
 ```js
 var logger = ...;
-var logWrapper = new new LogWrapper(logger);
+var logWrapper = new LogWrapper(logger);
 var msg = '...';
 logWrapper.error(msg);
 ```
@@ -743,12 +835,12 @@ Log the options with INFO level.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| options | <code>Object</code> | The properties to log with INFO. |
+| options | <code>[Options](#Options)</code> | The properties to log with INFO. |
 
 **Example**  
 ```js
 var logger = ...;
-var logWrapper = new new LogWrapper(logger);
+var logWrapper = new LogWrapper(logger);
 var options = {
     ...
 };
@@ -850,7 +942,7 @@ and fills a new instance from the given values and/or default ones.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| options | <code>Object</code> | The minimum configuration for a transformation. |
+| options | <code>[Options](#Options)</code> | The configuration for a transformation. |
 
 **Example**  
 ```js
@@ -876,7 +968,7 @@ to resolve a proper function.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| options | <code>Object</code> | The minimum configuration for a transformation. |
+| options | <code>[Options](#Options)</code> | The configuration for a transformation. |
 
 **Example**  
 ```js
@@ -927,7 +1019,7 @@ Reads the data from a given _*.js_ or _*.json_ file source.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| src | <code>string</code> | The JS/JSON source file to read. |
+| src | <code>string</code> &#124; <code>Readable</code> &#124; <code>object</code> | The JS/JSON source file to read. |
 
 **Example**  
 ```js
@@ -964,7 +1056,7 @@ exception on those.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| src | <code>string</code> | The YAML source file to read. |
+| src | <code>string</code> &#124; <code>Readable</code> &#124; <code>object</code> | The YAML source file to read. |
 
 **Example**  
 ```js
@@ -1028,7 +1120,7 @@ an (optional) middleware function.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| options | <code>Object</code> | Properties to configure the transformation. |
+| options | <code>[Options](#Options)</code> | The configuration for a transformation. |
 | [middleware] | <code>function</code> | This middleware Promise can be used to intercept        the JSON object for altering the passed JSON, the function signature is:        ```        function(json)        ```        <p>        **NOTE:** the Promise has to return the processed JSON! |
 
 **Example**  
@@ -1065,9 +1157,9 @@ This class provides utility methods usable to write JSON/JS/YAML
 
 * [Writer](#Writer)
     * [new Writer([logger])](#new_Writer_new)
-    * [.writeYaml(json, dest, indent)](#Writer+writeYaml) ⇒ <code>Promise</code>
-    * [.writeJson(json, dest, indent)](#Writer+writeJson) ⇒ <code>Promise</code>
-    * [.writeJs(json, dest, indent)](#Writer+writeJs) ⇒ <code>Promise</code>
+    * [.writeYaml(json, options)](#Writer+writeYaml) ⇒ <code>Promise</code>
+    * [.writeJson(json, options)](#Writer+writeJson) ⇒ <code>Promise</code>
+    * [.writeJs(json, options)](#Writer+writeJs) ⇒ <code>Promise</code>
 
 <a name="new_Writer_new"></a>
 ### new Writer([logger])
@@ -1087,7 +1179,7 @@ var logger = ...;
 var writer = new Writer(logger);
 ```
 <a name="Writer+writeYaml"></a>
-### writer.writeYaml(json, dest, indent) ⇒ <code>Promise</code>
+### writer.writeYaml(json, options) ⇒ <code>Promise</code>
 Writes a JSON object to a _*.yaml_ file.
 
 **Kind**: instance method of <code>[Writer](#Writer)</code>  
@@ -1107,8 +1199,7 @@ Writes a JSON object to a _*.yaml_ file.
 | Param | Type | Description |
 | --- | --- | --- |
 | json | <code>object</code> | The JSON to write into _*.yaml_ file. |
-| dest | <code>string</code> | The file destination path. |
-| indent | <code>number</code> | The indent in spaces. |
+| options | <code>[Options](#Options)</code> | The write destination and indention. |
 
 **Example**  
 ```js
@@ -1126,7 +1217,7 @@ writer.writeYaml(json, result.yml, 2)
     });
 ```
 <a name="Writer+writeJson"></a>
-### writer.writeJson(json, dest, indent) ⇒ <code>Promise</code>
+### writer.writeJson(json, options) ⇒ <code>Promise</code>
 Writes a JSON object to a _*.json_ file.
 
 **Kind**: instance method of <code>[Writer](#Writer)</code>  
@@ -1142,8 +1233,7 @@ Writes a JSON object to a _*.json_ file.
 | Param | Type | Description |
 | --- | --- | --- |
 | json | <code>object</code> | The JSON to write into _*.json_ file. |
-| dest | <code>string</code> | The file destination path. |
-| indent | <code>number</code> | The indent in spaces. |
+| options | <code>[Options](#Options)</code> | The write destination and indention. |
 
 **Example**  
 ```js
@@ -1161,7 +1251,7 @@ writer.writeJson(json, result.yml, 2)
     });
 ```
 <a name="Writer+writeJs"></a>
-### writer.writeJs(json, dest, indent) ⇒ <code>Promise</code>
+### writer.writeJs(json, options) ⇒ <code>Promise</code>
 Writes a JSON object to a _*.js_ file. The object is prefixed by `module.exports = `.
 
 **Kind**: instance method of <code>[Writer](#Writer)</code>  
@@ -1177,8 +1267,7 @@ Writes a JSON object to a _*.js_ file. The object is prefixed by `module.exports
 | Param | Type | Description |
 | --- | --- | --- |
 | json | <code>object</code> | The JSON to write into _*.js_ file. |
-| dest | <code>string</code> | The file destination path. |
-| indent | <code>number</code> | The indent in spaces. |
+| options | <code>[Options](#Options)</code> | The write destination and indention. |
 
 **Example**  
 ```js
@@ -1195,3 +1284,16 @@ writer.writeJs(json, result.yml, 2)
         logger.error(err.stack);
     });
 ```
+<a name="Options"></a>
+## Options : <code>object</code>
+**Kind**: global typedef  
+**Properties**
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| origin | <code>string</code> | <code>&quot;yaml&quot;</code> | The origin type. |
+| target | <code>string</code> | <code>&quot;js&quot;</code> | The target type. |
+| src | <code>string</code> &#124; <code>Readable</code> &#124; <code>object</code> |  | The source. |
+| dest | <code>string</code> &#124; <code>Writable</code> &#124; <code>object</code> |  | The destination. |
+| indent | <code>number</code> | <code>4</code> | The indention in files. |
+

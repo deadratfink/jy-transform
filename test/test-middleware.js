@@ -1,0 +1,100 @@
+'use strict';
+
+var Transformer = require('../index.js');
+var transformer;
+var Promise = require('bluebird');
+var logger;
+var assert = require('assert');
+var objectPath = require('object-path');
+
+describe('Executing \'jy-transform\' project middleware test suite.', function () {
+
+    var middleware = function (json) {
+
+        function key1(json) {
+            objectPath.set(json, 'key1', 'value1');
+            logger.info('key1 json: ' + JSON.stringify(json));
+            return Promise.resolve(json);
+        }
+
+        function key2(json) {
+            objectPath.set(json, 'key2', 'value2');
+            logger.info('key2 json: ' + JSON.stringify(json));
+            return Promise.resolve(json);
+        }
+
+        function key3(json) {
+            objectPath.set(json, 'key3', 'value3');
+            logger.info('key3 json: ' + JSON.stringify(json));
+            return Promise.resolve(json);
+        }
+
+        return Promise.all([key1(json), key2(json), key3(json)])
+            .then(function(result) {
+                assert.equal(result.length, 3);
+                logger.info('all the elements were created');
+                logger.info('result: ' + JSON.stringify(result[result.length - 1]));
+                return Promise.resolve(result[result.length - 1]);
+            });
+    };
+
+    var options = {
+        src: {},
+        //origin: 'js',
+        //target: 'js',
+        dest: {}
+    };
+
+    /**
+     * Init the test logger.
+     */
+    before(function () {
+        logger = require('./logger.js');
+        transformer = new Transformer(logger);
+    });
+
+    describe('Testing Transformer middleware', function () {
+
+        it('should alter json', function (done) {
+            transformer.transform(options, middleware)
+                .then(function (msg){
+                    logger.info(msg);
+                    logger.info('options.dest: ' + JSON.stringify(options.dest, null, 4));
+                    assert.equal(options.dest['key1'], 'value1', 'options.dest.key1 should have value: value1, but was ' + options.dest['key1']);
+                    assert.equal(options.dest['key2'], 'value2', 'options.dest.key1 should have value: value2, but was ' + options.dest['key2']);
+                    assert.equal(options.dest['key3'], 'value3', 'options.dest.key1 should have value: value3, but was ' + options.dest['key3']);
+                    done();
+                })
+                .catch(function (err) {
+                    logger.error(err.stack);
+                    done(err);
+                });
+        });
+
+    });
+
+
+
+    //describe('Testing Transformer transforming from YAML to JS', function () {
+    //
+    //    it('should store', function (done) {
+    //
+    //    });
+    //});
+    //
+    //
+    //describe('Testing Transformer transforming from YAML to JS', function () {
+    //
+    //    it('should store', function (done) {
+    //
+    //    });
+    //});
+    //
+    //describe('Testing Transformer transforming from YAML to JS', function () {
+    //
+    //    it('should store', function (done) {
+    //
+    //    });
+    //});
+
+});

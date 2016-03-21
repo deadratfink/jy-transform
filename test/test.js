@@ -6,28 +6,55 @@ var logger;
 var assert = require('assert');
 var fs = require('fs-extra');
 var Promise = require('bluebird');
+var path = require('path');
 
 describe('Executing \'jy-transform\' project test suite.', function () {
 
     var TEST_TMP_DIR = './test/tmp';
     var TEST_DATA_DIR = './test/data';
+    var SRC = TEST_DATA_DIR + '/test-data.yaml';
 
     /**
      * Init the test logger.
      */
-    before(function (){
-        logger = require('./test-logger.js');
+    before(function () {
+        logger = require('./logger.js');
     });
+
+    /**
+     * Prepare test data.
+     */
+    before(function () {
+        try {
+            fs.copySync(SRC, './test/tmp/test-data.yaml');
+            logger.info('copied ' + SRC + ' to ' + TEST_TMP_DIR);
+        } catch (err) {
+            logger.error('could not copy ' + SRC + ' to ' + TEST_TMP_DIR + err.stack);
+            throw err;
+        }
+    });
+
+    //it ('should include all test files', function (done) {
+    //
+    //    require('./test-logger.js');
+    //    require('./test-logger.js');
+    //
+    //    done();
+    //});
+
+
+
 
     describe('Testing Transformer transforming from YAML to JS', function () {
 
-        it('should store', function (done) {
+        var DEST = TEST_TMP_DIR + '/test-data.js';
+        var EXPECTED_VALUE = 'old value';
 
-            var DEST = TEST_DATA_DIR + '/test-data.js';
-            var EXPECTED_VALUE = 'old value';
+        it('should store ' + DEST + ' file relative to ./test/tmp/test-data.yaml', function (done) {
 
+            logger.info('SDASFASDASDFASD: ' + path.resolve('./test/tmp/test-data.yaml'));
             var options = {
-                src: TEST_DATA_DIR + '/test-data.yaml'
+                src: path.resolve('./test/tmp/test-data.yaml')
             };
 
             var transformer = new Transformer(logger);
@@ -37,7 +64,7 @@ describe('Executing \'jy-transform\' project test suite.', function () {
                     logger.info(msg);
                     var stats = fs.statSync(DEST);
                     assert(stats.isFile());
-                    var json = require('./data/test-data.js');
+                    var json = require('./tmp/test-data.js');
                     assert.equal(json.myproperty, EXPECTED_VALUE, 'property myproperty should have new value \'' + EXPECTED_VALUE +'\'.');
                     done();
                 })
