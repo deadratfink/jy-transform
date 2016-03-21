@@ -1,5 +1,9 @@
 # Stats
 
+| [Github License](https://github.com/deadratfink/jy-transform) | [Github Issues](https://github.com/deadratfink/jy-transform) | [Github Release](https://github.com/deadratfink/jy-transform) | [Github Tags](https://github.com/deadratfink/jy-transform) |
+| --- | --- | --- | --- |
+| [![License][gh-license-image]][gh-license-url] | [![Issue Stats][gh-issues-image]][gh-issues-url] | [![Issue Stats][gh-releases-image]][gh-releases-url] | [![Issue Stats][gh-tags-image]][gh-tags-url] |
+
 | [Travis CI](https://travis-ci.org) | [Issue Stats](http://issuestats.com/) (Pull) | [Issue Stats](http://issuestats.com/) (Issue) |
 | --- | --- | --- |
 | [![Build Status][ci-image]][ci-url] | [![Issue Stats][is-pull-image]][is-url] | [![Issue Stats][is-issue-image]][is-url] |
@@ -15,6 +19,19 @@
 | --- | --- |
 | master | ![codecov.io](https://codecov.io/github/deadratfink/jy-transform/branch.svg?branch=master&vg=true) |
 | development| ![codecov.io](https://codecov.io/github/deadratfink/jy-transform/branch.svg?branch=development&vg=true) |
+
+
+[gh-license-image]: https://img.shields.io/github/license/deadratfink/jy-transform.svg?style=flat-square
+[gh-license-url]: https://github.com/deadratfink/jy-transform/blob/master/LICENSE.md
+
+[gh-issues-image]: https://img.shields.io/github/issues/deadratfink/jy-transform.svg?style=flat-square
+[gh-issues-url]: https://github.com/deadratfink/jy-transform/issues
+
+[gh-releases-image]: https://img.shields.io/github/release/deadratfink/jy-transform.svg?style=flat-square
+[gh-releases-url]: https://github.com/deadratfink/jy-transform/releases
+
+[gh-tags-image]: https://img.shields.io/github/tag/deadratfink/jy-transform.svg?style=flat-square
+[gh-tags-url]: https://github.com/deadratfink/jy-transform/tags
 
 
 [ci-image]: https://img.shields.io/travis/deadratfink/jy-transform.svg?style=flat-square
