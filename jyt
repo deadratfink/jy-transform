@@ -12,7 +12,7 @@ var transformer = new Transformer(cli);
 ///////////////////////////////////////////////////////////////////////////////
 
 cli.setUsage('jyt [OPTIONS]');
-cli.setApp('./package.json');
+cli.setApp(__dirname + '/package.json');
 cli.enable('version', 'status', 'timeout');
 cli.parse({
     origin: [ 'o', 'The conversion origin: [ ' + constants.JS + ' | ' + constants.JSON + ' | ' + constants.YAML + ' ]', 'string', constants.DEFAULT_OPTIONS.origin ],

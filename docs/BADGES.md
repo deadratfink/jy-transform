@@ -62,6 +62,3 @@
 [devdep-image-development]: https://img.shields.io/david/dev/deadratfink/jy-transform/development.svg?style=flat-square
 [devdep-url-development]: https://david-dm.org/deadratfink/jy-transform/development#info=devDependencies
 
-
-<!-- START doctoc -->
-<!-- END doctoc -->
