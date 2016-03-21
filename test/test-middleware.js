@@ -1,10 +1,12 @@
 'use strict';
 
 var Transformer = require('../index.js');
+var Middleware = require('../index.js').middleware;
 var transformer;
 var Promise = require('bluebird');
 var logger;
 var assert = require('assert');
+var AssertionError = assert.AssertionError;
 var objectPath = require('object-path');
 
 describe('Executing \'jy-transform\' project middleware test suite.', function () {
@@ -73,28 +75,47 @@ describe('Executing \'jy-transform\' project middleware test suite.', function (
 
     });
 
+    describe('Testing middleware.ensureMiddleware()', function () {
 
+        var myMiddleware = function (json) {
+            return Promise.resolve(json);
+        };
 
-    //describe('Testing Transformer transforming from YAML to JS', function () {
-    //
-    //    it('should store', function (done) {
-    //
-    //    });
-    //});
-    //
-    //
-    //describe('Testing Transformer transforming from YAML to JS', function () {
-    //
-    //    it('should store', function (done) {
-    //
-    //    });
-    //});
-    //
-    //describe('Testing Transformer transforming from YAML to JS', function () {
-    //
-    //    it('should store', function (done) {
-    //
-    //    });
-    //});
+        it('should provide passed function', function (done) {
+            var func = Middleware.ensureMiddleware(myMiddleware);
+            assert(typeof func === 'function');
+            assert.deepStrictEqual(func, myMiddleware, 'should return same function');
+            done();
+        });
 
+        it('should reject Promise if middleware passed is not a function type', function (done) {
+            Middleware.ensureMiddleware({})
+                .then(function (middleware){
+                    done(new AssertionError({
+                        message: 'rejecting with TypeError',
+                        actual: middleware,
+                        expected: TypeError,
+                        operator: 'instanceof'
+                    }));
+                })
+                .catch(function (err) {
+                    assert.notEqual(err, null, 'Promise rejection err should not be null');
+                    assert(err instanceof TypeError);
+                    done();
+                });
+        });
+
+        it('should provide identity Promise if middleware passed is null', function (done) {
+            var func = Middleware.ensureMiddleware();
+            assert(typeof func === 'function');
+            done();
+        });
+
+        it('should provide identity Promise if middleware passed is undefined', function (done) {
+            var func = Middleware.ensureMiddleware(undefined);
+            assert(typeof func === 'function');
+            done();
+        });
+
+    });
 });
