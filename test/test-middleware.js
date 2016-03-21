@@ -84,20 +84,12 @@ describe('Executing \'jy-transform\' project middleware test suite.', function (
         it('should provide passed function', function (done) {
             var func = Middleware.ensureMiddleware(myMiddleware);
             assert(typeof func === 'function');
-            assert.deepStrictEqual(func, myMiddleware, 'should return same function');
+            assert(func === myMiddleware, 'should return same function');
             done();
         });
 
         it('should reject Promise if middleware passed is not a function type', function (done) {
             Middleware.ensureMiddleware({})
-                .then(function (middleware){
-                    done(new AssertionError({
-                        message: 'rejecting with TypeError',
-                        actual: middleware,
-                        expected: TypeError,
-                        operator: 'instanceof'
-                    }));
-                })
                 .catch(function (err) {
                     assert.notEqual(err, null, 'Promise rejection err should not be null');
                     assert(err instanceof TypeError);
