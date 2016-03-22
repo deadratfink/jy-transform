@@ -62,10 +62,9 @@
 [devdep-image-development]: https://img.shields.io/david/dev/deadratfink/jy-transform/development.svg?style=flat-square
 [devdep-url-development]: https://david-dm.org/deadratfink/jy-transform/development#info=devDependencies
 
-
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-# ToC
+# TOC
 
 - [jy-transform](#jy-transform)
   - [Installation](#installation)
@@ -96,6 +95,7 @@
   - [Options : <code>object</code>](#options--codeobjectcode)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # jy-transform 
 
 This project aims to read, write and transform _*.yaml_ files to _.js_ or _*.json_ files or vice-versa via CLI or API.
@@ -1051,7 +1051,7 @@ var Reader = require('jy-transform').Reader;
 var logger = ...;
 
 var reader = new Reader(logger);
-reader.readJs(./my.js)
+reader.readJs('./my.js')
     .then(function (json){
         logger.info(JSON.stringify(json));
     })
@@ -1059,7 +1059,7 @@ reader.readJs(./my.js)
         logger.error(err.stack);
     });
 
-reader.readJs(./my.json)
+reader.readJs('./my.json')
     .then(function (json){
         logger.info(JSON.stringify(json));
     })
@@ -1088,7 +1088,7 @@ var Reader = require('jy-transform').Reader;
 var logger = ...;
 
 var reader = new Reader(logger);
-reader.readYaml(./my.yaml)
+reader.readYaml('./my.yaml')
     .then(function (json){
         logger.info(JSON.stringify(json));
     })
