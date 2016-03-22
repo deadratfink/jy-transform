@@ -62,6 +62,8 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
                 })
                 .catch(function (err) {
                     logger.error('EXPECTED ERROR: ' + err.stack);
+                    assert.notEqual(err, null, 'err should not be null');
+                    assert(err instanceof Error);
                     done();
                 });
         });

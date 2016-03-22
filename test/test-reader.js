@@ -81,6 +81,7 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
                 })
                 .catch(function (err) {
                     logger.info('EXPECTED ERROR: ' + err.stack);
+                    assert.notEqual(err, null, 'err should not be null');
                     assert(err instanceof SyntaxError, 'expected Error message should equal SyntaxError, was: ' + (typeof err));
                     done();
                 });
@@ -93,6 +94,7 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
                 })
                 .catch(function (err) {
                     logger.info('EXPECTED ERROR: ' + err);
+                    assert.notEqual(err, null, 'err should not be null');
                     assert(err instanceof SyntaxError, 'expected Error message should equal SyntaxError, was: ' + (typeof err));
                     done();
                 });
@@ -106,6 +108,7 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
                 })
                 .catch(function (err) {
                     logger.info('EXPECTED ERROR: ' + err.stack);
+                    assert.notEqual(err, null, 'err should not be null');
                     assert(err instanceof SyntaxError, 'expected Error message should equal SyntaxError, was: ' + (typeof err));
                     done();
                 });
@@ -119,6 +122,7 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
                 })
                 .catch(function (err) {
                     logger.info('EXPECTED ERROR: ' + err);
+                    assert.notEqual(err, null, 'err should not be null');
                     assert(err instanceof SyntaxError, 'expected Error message should equal SyntaxError, was: ' + (typeof err));
                     done();
                 });
@@ -177,6 +181,7 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
                 })
                 .catch(function (err) {
                     logger.info('EXPECTED ERROR: ' + err);
+                    assert.notEqual(err, null, 'err should not be null');
                     assert(err instanceof YAMLException, 'expected Error message should equal YAMLException, was: ' + (typeof err));
                     done();
                 });
@@ -190,6 +195,7 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
                 })
                 .catch(function (err) {
                     logger.info('EXPECTED ERROR: ' + err);
+                    assert.notEqual(err, null, 'err should not be null');
                     assert(err instanceof YAMLException, 'expected Error message should equal YAMLException, was: ' + (typeof err));
                     done();
                 });
