@@ -1,0 +1,2263 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>jy-transform by deadratfink</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">jy-transform</h1>
+      <h2 class="project-tagline"> This project aims to transform *.yaml files to .js or *.json files or vice-versa via CLI or APi.</h2>
+      <a href="https://github.com/deadratfink/jy-transform" class="btn">View on GitHub</a>
+      <a href="https://github.com/deadratfink/jy-transform/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/deadratfink/jy-transform/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <p>Welcome to the jy-transform wiki!</p>
+
+<p>Currently, we are in a development mode, release is planned as soon as possible. You can download the project using</p>
+
+<pre><code>$ sudo npm install "https://github.com/deadratfink/jy-transform.git#development" -g
+</code></pre>
+
+<p>Be aware, you might expect some unknown bugs! If you experience any, please report them on issue page, thanx!</p>
+
+<h1>
+<a id="stats" class="anchor" href="#stats" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Stats</h1>
+
+<table>
+<thead>
+<tr>
+<th><a href="https://github.com/deadratfink/jy-transform">Github License</a></th>
+<th><a href="https://github.com/deadratfink/jy-transform">Github Issues</a></th>
+<th><a href="https://github.com/deadratfink/jy-transform">Github Release</a></th>
+<th><a href="https://github.com/deadratfink/jy-transform">Github Tags</a></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/deadratfink/jy-transform/blob/master/LICENSE.md"><img src="https://img.shields.io/github/license/deadratfink/jy-transform.svg?style=flat-square" alt="License"></a></td>
+<td><a href="https://github.com/deadratfink/jy-transform/issues"><img src="https://img.shields.io/github/issues/deadratfink/jy-transform.svg?style=flat-square" alt="Issue Stats"></a></td>
+<td><a href="https://github.com/deadratfink/jy-transform/releases"><img src="https://img.shields.io/github/release/deadratfink/jy-transform.svg?style=flat-square" alt="Issue Stats"></a></td>
+<td><a href="https://github.com/deadratfink/jy-transform/tags"><img src="https://img.shields.io/github/tag/deadratfink/jy-transform.svg?style=flat-square" alt="Issue Stats"></a></td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+<tr>
+<th><a href="https://travis-ci.org">Travis CI</a></th>
+<th>
+<a href="http://issuestats.com/">Issue Stats</a> (Pull)</th>
+<th>
+<a href="http://issuestats.com/">Issue Stats</a> (Issue)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://travis-ci.org/deadratfink/jy-transform/branches"><img src="https://img.shields.io/travis/deadratfink/jy-transform.svg?style=flat-square" alt="Build Status"></a></td>
+<td><a href="http://issuestats.com/github/deadratfink/jy-transform"><img src="http://issuestats.com/github/deadratfink/jy-transform/badge/pr?style=flat-square" alt="Issue Stats"></a></td>
+<td><a href="http://issuestats.com/github/deadratfink/jy-transform"><img src="http://issuestats.com/github/deadratfink/jy-transform/badge/issue?style=flat-square" alt="Issue Stats"></a></td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+<tr>
+<th><a href="https://codecov.io">Codecov</a></th>
+<th><a href="http://inch-ci.org">Inch CI</a></th>
+<th>
+<a href="https://david-dm.org">David</a> DM</th>
+<th>
+<a href="https://david-dm.org">David</a> DM (dev)</th>
+<th>Branch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://codecov.io/github/deadratfink/jy-transform?branch=master"><img src="https://img.shields.io/codecov/c/github/deadratfink/jy-transform/master.svg?style=flat-square" alt="codecov.io"></a></td>
+<td><a href="https://inch-ci.org/github/deadratfink/jy-transform?branch=master"><img src="https://inch-ci.org/github/deadratfink/jy-transform.svg?branch=master&amp;style=flat-square" alt="inch-ci.org"></a></td>
+<td><a href="https://david-dm.org/deadratfink/jy-transform/master"><img src="https://img.shields.io/david/deadratfink/jy-transform/master.svg?style=flat-square" alt="Dependency Status"></a></td>
+<td><a href="https://david-dm.org/deadratfink/jy-transform/master#info=devDependencies"><img src="https://img.shields.io/david/dev/deadratfink/jy-transform/master.svg?style=flat-square" alt="devDependency Status"></a></td>
+<td>master</td>
+</tr>
+<tr>
+<td><a href="https://codecov.io/github/deadratfink/jy-transform?branch=development"><img src="https://img.shields.io/codecov/c/github/deadratfink/jy-transform/development.svg?style=flat-square" alt="codecov.io"></a></td>
+<td><a href="https://inch-ci.org/github/deadratfink/jy-transform?branch=development"><img src="https://inch-ci.org/github/deadratfink/jy-transform.svg?branch=development&amp;style=flat-square" alt="inch-ci.org"></a></td>
+<td><a href="https://david-dm.org/deadratfink/jy-transform/development"><img src="https://img.shields.io/david/deadratfink/jy-transform/development.svg?style=flat-square" alt="Dependency Status"></a></td>
+<td><a href="https://david-dm.org/deadratfink/jy-transform/development#info=devDependencies"><img src="https://img.shields.io/david/dev/deadratfink/jy-transform/development.svg?style=flat-square" alt="devDependency Status"></a></td>
+<td>development</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="coverage-graphs" class="anchor" href="#coverage-graphs" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Coverage Graphs</h2>
+
+<table>
+<thead>
+<tr>
+<th>Branch</th>
+<th>Graph</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>master</td>
+<td><img src="https://codecov.io/github/deadratfink/jy-transform/branch.svg?branch=master&amp;vg=true" alt="codecov.io"></td>
+</tr>
+<tr>
+<td>development</td>
+<td><img src="https://codecov.io/github/deadratfink/jy-transform/branch.svg?branch=development&amp;vg=true" alt="codecov.io"></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+<h1>
+<a id="toc" class="anchor" href="#toc" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>TOC</h1>
+
+<ul>
+<li>
+<a href="#jy-transform">jy-transform</a>
+
+<ul>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#tests">Tests</a></li>
+<li><a href="#dependencies">Dependencies</a></li>
+<li><a href="#dev-dependencies">Dev Dependencies</a></li>
+<li><a href="#license">License</a></li>
+<li><a href="#motivation">Motivation</a></li>
+<li><a href="#contributing">Contributing</a></li>
+<li><a href="#not-supported-yet--plannings">Not Supported Yet / Plannings</a></li>
+</ul>
+</li>
+<li>
+<a href="#usage">Usage</a>
+
+<ul>
+<li><a href="#usage-types">Usage Types</a></li>
+<li><a href="#use-cases">Use Cases</a></li>
+<li><a href="#cli-usage">CLI Usage</a></li>
+<li><a href="#origin-and-target-type-inference">Origin and Target Type Inference</a></li>
+<li><a href="#api-usage">API Usage</a></li>
+<li><a href="#injecting-logger">Injecting Logger</a></li>
+</ul>
+</li>
+<li>
+<a href="#api-reference">API Reference</a>
+
+<ul>
+<li><a href="#classes">Classes</a></li>
+<li><a href="#typedefs">Typedefs</a></li>
+<li><a href="#constants">Constants</a></li>
+<li><a href="#logwrapper">LogWrapper</a></li>
+<li><a href="#middleware">Middleware</a></li>
+<li><a href="#optionshandler">OptionsHandler</a></li>
+<li><a href="#reader">Reader</a></li>
+<li><a href="#transformer">Transformer</a></li>
+<li><a href="#writer">Writer</a></li>
+<li><a href="#options--codeobjectcode">Options : <code>object</code></a></li>
+</ul>
+</li>
+</ul>
+
+
+
+<h1>
+<a id="jy-transform" class="anchor" href="#jy-transform" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>jy-transform</h1>
+
+<p>This project aims to read, write and transform <em>*.yaml</em> files to <em>.js</em> or <em>*.json</em> files or vice-versa via CLI or API.</p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Download node at <a href="http://nodejs.org">nodejs.org</a> and install it, if you haven't already.</p>
+
+<div class="highlight highlight-source-shell"><pre>npm install jy-transform --global</pre></div>
+
+<h2>
+<a id="tests" class="anchor" href="#tests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Tests</h2>
+
+<div class="highlight highlight-source-shell"><pre>npm install
+npm <span class="pl-c1">test</span></pre></div>
+
+<h2>
+<a id="dependencies" class="anchor" href="#dependencies" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dependencies</h2>
+
+<ul>
+<li>
+<a href="https://github.com/petkaantonov/bluebird">bluebird</a>: Full featured Promises/A+ implementation with exceptionally good performance</li>
+<li>
+<a href="https://github.com/chriso/cli">cli</a>: A tool for rapidly building command line apps</li>
+<li>
+<a href="https://github.com/sindresorhus/is-stream">is-stream</a>: Check if something is a Node.js stream</li>
+<li>
+<a href="https://github.com/nodeca/js-yaml">js-yaml</a>: YAML 1.2 parser and serializer</li>
+<li>
+<a href="https://github.com/isaacs/json-stringify-safe">json-stringify-safe</a>: Like JSON.stringify, but doesn't blow up on circular refs.</li>
+<li>
+<a href="https://github.com/fs-utils/mkdirp-then">mkdirp-then</a>: mkdirp as promised</li>
+<li>
+<a href="https://github.com/RReverser/serialize-js">serialize-js</a>: User-readable object serialization for JavaScript.</li>
+</ul>
+
+<h2>
+<a id="dev-dependencies" class="anchor" href="#dev-dependencies" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dev Dependencies</h2>
+
+<ul>
+<li>
+<a href="https://github.com/codecov/codecov-node">codecov</a>: Uploading report to Codecov: <a href="https://codecov.io">https://codecov.io</a>
+</li>
+<li>
+<a href="https://github.com/thlorenz/doctoc">doctoc</a>: Generates TOC for markdown files of local git repo.</li>
+<li>
+<a href="https://github.com/jprichardson/node-fs-extra">fs-extra</a>: fs-extra contains methods that aren't included in the vanilla Node.js fs package. Such as mkdir -p, cp -r, and rm -rf.</li>
+<li>
+<a href="https://github.com/gotwarlost/istanbul">istanbul</a>: Yet another JS code coverage tool that computes statement, line, function and branch coverage with module loader hooks to transparently add coverage when running tests. Supports all JS coverage use cases including unit tests, server side functional tests </li>
+<li>
+<a href="https://github.com/jsdoc2md/jsdoc-parse">jsdoc-parse</a>: Jsdoc-annotated source code in, JSON format documentation out.</li>
+<li>
+<a href="https://github.com/jsdoc2md/jsdoc-to-markdown">jsdoc-to-markdown</a>: jsdoc-annotated source in, markdown API docs out.</li>
+<li>
+<a href="https://github.com/mochajs/mocha">mocha</a>: simple, flexible, fun test framework</li>
+<li>
+<a href="https://github.com/StevenLooman/mocha-lcov-reporter">mocha-lcov-reporter</a>: LCOV reporter for Mocha</li>
+<li>
+<a href="https://github.com/mariocasciaro/object-path">object-path</a>: Access deep properties using a path</li>
+<li>
+<a href="https://github.com/zeke/package-json-to-readme">package-json-to-readme</a>: Generate a README.md from package.json contents</li>
+<li>
+<a href="https://github.com/winstonjs/winston">winston</a>: A multi-transport async logging library for Node.js</li>
+</ul>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h2>
+
+<p>SEE LICENSE IN <a href="https://github.com/deadratfink/jy-transform/blob/master/LICENSE.md">LICENSE.md</a></p>
+
+<h2>
+<a id="motivation" class="anchor" href="#motivation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Motivation</h2>
+
+<p>Why this module? After struggling with some huge YAML file and accidentally 
+occurring wrong indentions which results in an annoying failure investigation, 
+I decided to get rid of the YAML file and therefore, create a module which 
+should be aimed as the swiss army knife for transforming YAML, JS and JSON 
+files into each other.</p>
+
+<h2>
+<a id="contributing" class="anchor" href="#contributing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contributing</h2>
+
+<p>Pull requests and stars are always welcome. Anybody is invited to take part 
+into this project. For bugs and feature requests, please create an 
+<a href="https://github.com/deadratfink/jy-transform/issues">issue</a>.
+When contributing as coder, please take care of the following conventions:</p>
+
+<ul>
+<li>Enter yourself in the <code>constributors</code> section of <em>package.json</em>.</li>
+<li>We strictly follow <a href="http://semver.org">Semantic Versioning 2</a> rules.</li>
+<li>The <code>development</code> branch is the leading branch. However, you can push directly, 
+but is highly recommended to create bugfix and feature branches and use pull 
+requests when finished. Any of these should be prefixed with <code>bugfix/#...</code> of 
+<code>feature/#...</code> (containing issue number followed by a short, "underscored" 
+proper meaning), e.g. 
+
+<ul>
+<li><code>bugfix/#8_fix_js_reading_with_require</code></li>
+<li><code>feature/#14_multidocument_support</code></li>
+</ul>
+</li>
+<li>The <code>master</code> branch is protected and will never be pushed directly (always use pull-requests).</li>
+<li>Indention for any file is 4 SPACEs.</li>
+<li>Keep code coverage high (&gt; 80%).</li>
+<li>Doc everything with <a href="http://usejsdoc.org/">JSDocs</a> and document concepts in 
+<a href="https://github.com/deadratfink/jy-transform/blob/development/README.md">README.md</a>
+or <a href="https://github.com/deadratfink/jy-transform/wiki">Wiki</a>.</li>
+<li>Use single parenthesis (<code>'...'</code>) instead of double parenthesis (<code>"..."</code>)</li>
+<li>Avoid the of use parenthesis for keys in JSON objects.</li>
+<li>Use the strict mode (<code>'use strict';</code>) in <em>*.js</em> files.</li>
+</ul>
+
+<h2>
+<a id="not-supported-yet--plannings" class="anchor" href="#not-supported-yet--plannings" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Not Supported Yet / Plannings</h2>
+
+<p>At the moment we require that each document to transform is a <em>single</em> one per file!</p>
+
+<p>Multidocument handling would be a cool feature which refers in general to YAML 
+and JS only and is currently not supported. This is planned and reflected 
+in feature <a href="https://github.com/deadratfink/jy-transform/issues/14">#14</a>.</p>
+
+<h1>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h1>
+
+<p>The module can bu used on CLI or as API. The latter is fully <a href="http://bluebirdjs.com/docs/api-reference.html">Promise</a> 
+based. Besides transformation this module can also be used for laoding and/or writing 
+YAML, JS or JSON files. </p>
+
+<h2>
+<a id="usage-types" class="anchor" href="#usage-types" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage Types</h2>
+
+<p>The module can be used in two different ways:</p>
+
+<ul>
+<li>On CLI (recommended install globally via <code>-g</code> option)</li>
+<li>Via API (install locally)</li>
+</ul>
+
+<p>All use cases are described in more detail in the following sections.</p>
+
+<h2>
+<a id="use-cases" class="anchor" href="#use-cases" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Use Cases</h2>
+
+<ul>
+<li>Reading files (<code>Reader</code>)</li>
+<li>Transforming JSON objects (<code>Transformer</code>)</li>
+<li>Apply dedicated actions on the intermediate JSON objects (<code>Transformer</code> + <code>Middleware</code>)</li>
+<li>Writing files (<code>Writer</code>)</li>
+</ul>
+
+<h3>
+<a id="reading" class="anchor" href="#reading" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Reading</h3>
+
+<p>Reading from:</p>
+
+<ul>
+<li>
+<em>*.yaml</em> file</li>
+<li>
+<em>*.js</em> file</li>
+<li>
+<em>*.json</em> file</li>
+<li>
+<code>stream.Readable</code> (requires <code>options.origin</code> property set)</li>
+<li>any JS object (actually, this mean read phase is skipped, because object is in-memory already)</li>
+</ul>
+
+<h3>
+<a id="transformation" class="anchor" href="#transformation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Transformation</h3>
+
+<p>The transformation can take place into several directions:</p>
+
+<ul>
+<li>YAML -&gt; JS</li>
+<li>YAML -&gt; JSON</li>
+<li>JS   -&gt; YAML</li>
+<li>JSON -&gt; YAML </li>
+<li>JS   -&gt; JSON </li>
+<li>JSON -&gt; JS </li>
+<li>YAML -&gt; YAML<br>
+</li>
+<li>JSON -&gt; JSON</li>
+<li>JS   -&gt; JS<br>
+</li>
+</ul>
+
+<p>while:</p>
+
+<ul>
+<li>YAML = <em>*.yaml</em>, <em>*.yml</em>
+</li>
+<li>JS   = <em>*.js</em>   (JSON object)<br>
+</li>
+<li>JSON = <em>*.json</em> (JSON serialized)</li>
+</ul>
+
+<h3>
+<a id="middleware" class="anchor" href="#middleware" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Middleware</h3>
+
+<p>Apply actions on the intermediate JSON object via injected <a href="http://bluebirdjs.com/docs/api-reference.html">Promise</a> 
+functions. This is an optional part for <a href="#transformation">transformation</a> phase 
+or is the transformation itself in case of same origin and target type.</p>
+
+<h3>
+<a id="writing" class="anchor" href="#writing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Writing</h3>
+
+<p>Writing to:</p>
+
+<ul>
+<li>
+<em>*.yaml</em> file</li>
+<li>
+<em>*.js</em> file</li>
+<li>
+<em>*.json</em> file</li>
+<li>
+<code>stream.Writable</code>  (requires <code>options.target</code> property set)</li>
+<li>any JS object</li>
+</ul>
+
+<h2>
+<a id="cli-usage" class="anchor" href="#cli-usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>CLI Usage</h2>
+
+<p>The CLI provides the <code>jyt</code> command (actually, this requires the use of a bunch of options):</p>
+
+<pre><code>$ jyt
+</code></pre>
+
+<h3>
+<a id="cli-properties" class="anchor" href="#cli-properties" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>CLI Properties</h3>
+
+<p>After the global installation you can access the Transformer command options 
+with the help command as follows:</p>
+
+<pre><code>$ jyt --help
+</code></pre>
+
+<p>This command  prints an overview about all available CLI properties:</p>
+
+<pre><code>$ jyt --help
+Usage:
+  jyt [OPTIONS]
+
+Options: 
+  -o, --origin [STRING]  The conversion origin: [ js | json | yaml ] (Default is : if not given, the type is tried to be inferred from the extension of input path, else it is yaml)
+  -t, --target [STRING]  The conversion target: [ js | json | yaml ] (Default is : if not given, the type is tried to be inferred from the extension of output path, else it is js)
+  -s, --src PATH         The absolute/relative input file path
+  -d, --dest [PATH]      The absolute/relative output file path (Default is relative to input file)
+  -i, --indent [NUMBER]  The indention for pretty-print: 0 - 8 (json/js) and 1 - 8 (yaml) (Default is 4)
+  -k, --no-color         Omit color from output
+      --debug            Show debug information
+  -v, --version          Display the current version
+  -h, --help             Display help and usage details
+</code></pre>
+
+<p>More formally defined in the following table: </p>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-o, --origin</code></td>
+<td>[ <em>js</em> | <em>json</em> | <em>yaml</em> ]</td>
+<td>The transformation origin type.</td>
+<td>if not given, the type is tried to be inferred from the extension of source path, else it is <em>yaml</em>
+</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>-t, --target</code></td>
+<td>[ <em>js</em> | <em>json</em> | <em>yaml</em> ]</td>
+<td>The transformation target type.</td>
+<td>if not given, the type is tried to be inferred from the extension of destination path, else it is <em>js</em>
+</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>-s, --src</code></td>
+<td>URI</td>
+<td>The source file path for transformation.</td>
+<td>-</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>-d, --dest</code></td>
+<td>URI</td>
+<td>The destination file path to transform to.</td>
+<td><em>'relative to input file'</em></td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>-i, --indent</code></td>
+<td>integer<br> - JSON/JS: <em>0</em>-<em>8</em><br> - YAML: <em>1</em>-<em>8</em>
+</td>
+<td>The code indention used in destination files.</td>
+<td><em>4</em></td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>-k, --no-color</code></td>
+<td>n/a</td>
+<td>Omit color from output.</td>
+<td><em>color</em></td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>--debug</code></td>
+<td>n/a</td>
+<td>Show debug information.</td>
+<td><em>false</em></td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>-v, --version</code></td>
+<td>n/a</td>
+<td>Display the current version.</td>
+<td>n/a</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>-h, --help</code></td>
+<td>n/a</td>
+<td>Display help and usage details.</td>
+<td>n/a</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+
+<p>Now we know which properties we can apply on CLI, so let's assume we 
+have a YAML file located in <em>./data/my.yaml</em> holding this data:</p>
+
+<div class="highlight highlight-source-yaml"><pre><span class="pl-s"><span class="pl-ent">myproperty:</span> <span class="pl-s">value</span></span></pre></div>
+
+<p>then we can transform it to a JSON file <em>./data/my.json</em>:</p>
+
+<div class="highlight highlight-source-js"><pre>{
+  <span class="pl-s"><span class="pl-pds">"</span>myproperty<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>value<span class="pl-pds">"</span></span>
+}</pre></div>
+
+<p>using this command:</p>
+
+<pre><code>$ jyt -s ./data/my.yaml -t json -i 2
+</code></pre>
+
+<p>In this example we have overwritten the standard target type (which is <em>js</em>) and applying an
+indent of <em>2</em> instead of the default <em>4</em>. As default the output file <em>./data/my.json</em> 
+is written relative to the input file (simply omitting the <code>dest</code> option here).</p>
+
+<p><strong>NOTE:</strong> here you <em>have</em> to provide the target with <code>-t json</code> or else the default <code>js</code> would 
+have been applied! If the source would have been a <code>js</code> type like</p>
+
+<pre><code>$ jyt -s ./data/my.js -t json -i 2
+</code></pre>
+
+<p>then the <code>js</code> <code>origin</code> is automatically inferred from file extension. Analogous, this is also true for 
+the <code>target</code> option.</p>
+
+<h2>
+<a id="origin-and-target-type-inference" class="anchor" href="#origin-and-target-type-inference" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Origin and Target Type Inference</h2>
+
+<p>The example above has shown that we have an automatic type inference from file 
+extensions. This is supported as shown by the following table (from-to):</p>
+
+<table>
+<thead>
+<tr>
+<th>File Extension</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>*.yaml</em></td>
+<td><em>yaml</em></td>
+</tr>
+<tr>
+<td><em>*.yml</em></td>
+<td><em>yaml</em></td>
+</tr>
+<tr>
+<td><em>*.js</em></td>
+<td><em>js</em></td>
+</tr>
+<tr>
+<td><em>*.json</em></td>
+<td><em>json</em></td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>NOTE:</strong> if you have files without an extension or e.g. <em>*.txt</em> you <em>have</em> to 
+specify the origin or target type!</p>
+
+<h2>
+<a id="api-usage" class="anchor" href="#api-usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>API Usage</h2>
+
+<p>Since the usage on CLI is a 2-step process:</p>
+
+<ol>
+<li>Read source file in to JSON object -&gt; </li>
+<li>Write out (to another type)</li>
+</ol>
+
+<p>the direct API calls additionally provide the usage of a <em>middleware</em> function 
+where you can alter the input JSON object before it is written and therefore, which turns 
+this into a 3-step process:</p>
+
+<ol>
+<li>Read source file in -&gt; </li>
+<li>Alter the JSON object -&gt; </li>
+<li>Write out (to another type)</li>
+</ol>
+
+<p>For more details about this and all the functions provided by this module please refer to the 
+<a href="#api-reference">API Reference</a> below.</p>
+
+<p>The <code>origin</code> and <code>target</code> type inference is also standard for the API level.</p>
+
+<h3>
+<a id="api-properties" class="anchor" href="#api-properties" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>API Properties</h3>
+
+<p>The <code>Transformer</code> exposes the following function which takes besides an (optional) 
+<code>middleware</code> function the necessary <code>options</code> for the transformation:</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">function</span> <span class="pl-en">transform</span>(<span class="pl-smi">options</span>, <span class="pl-smi">middleware</span>)</pre></div>
+
+<p>The <code>options</code> object has to follow this key-values table:</p>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>origin</td>
+<td><code>string</code></td>
+<td>The origin type.</td>
+<td>if not given, the type is tried to be inferred from the extension of source path, else it is 'yaml'</td>
+<td>no</td>
+</tr>
+<tr>
+<td>target</td>
+<td><code>string</code></td>
+<td>The target type.</td>
+<td>if not given, the type is tried to be inferred from the extension of destination path, else it is 'js'</td>
+<td>no</td>
+</tr>
+<tr>
+<td>src</td>
+<td><code>string | Readable | object</code></td>
+<td>The source information object: <code>string</code> is used as file path, <code>Readable</code> stream provides a stringified source and <code>object</code> is used as direct JS source.</td>
+<td>-</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>dest</td>
+<td><code>string | Writable | object</code></td>
+<td>The destination information object: <code>string</code> is used as file path, <code>Writable</code> stream writes a stringified source and <code>object</code> is used as direct JS object for assignment.</td>
+<td>'relative to input file'</td>
+<td>no</td>
+</tr>
+<tr>
+<td>indent</td>
+<td><code>number</code></td>
+<td>The indention in files.</td>
+<td>4</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+
+<h4>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h4>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> options <span class="pl-k">=</span> {
+    origin<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>json<span class="pl-pds">'</span></span>,
+    target<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>yaml<span class="pl-pds">'</span></span>,
+    src<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>./my.json<span class="pl-pds">'</span></span>,
+    dest<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>./temp/my.yaml<span class="pl-pds">'</span></span>,
+    indent<span class="pl-k">:</span> <span class="pl-c1">2</span>
+}</pre></div>
+
+<h3>
+<a id="using-middleware" class="anchor" href="#using-middleware" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using Middleware</h3>
+
+<p>The <code>middleware</code> is optional but if provided it must be of type <code>Function</code> and 
+a <a href="http://bluebirdjs.com/docs/api-reference.html">Promise</a>. One of the easiest 
+ones is the identity function </p>
+
+<p><em>f(data) -&gt; data</em> </p>
+
+<p>which could be expressed as 
+<a href="http://bluebirdjs.com/docs/api-reference.html">Promise</a> function as follows:</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> <span class="pl-en">middleware</span> <span class="pl-k">=</span> <span class="pl-k">function</span> (<span class="pl-smi">json</span>) {
+    <span class="pl-k">return</span> <span class="pl-smi">Promise</span>.<span class="pl-en">resolve</span>(json);
+}</pre></div>
+
+<p>Of course, this would have no effect on the provided JSON data. Actually, this one is 
+used internally when no middleware is provided to ensure the proper promisified 
+control flow.</p>
+
+<p>OK, lets go back to a more practical example, e.g. we want to alter the value of
+JSON property before it is written to a file. Assuming we have this piece of YAML
+object as input:</p>
+
+<div class="highlight highlight-source-yaml"><pre><span class="pl-s"><span class="pl-ent">myproperty:</span> <span class="pl-s">old value</span></span></pre></div>
+
+<p>Applying this <a href="http://bluebirdjs.com/docs/api-reference.html">Promise</a> as middleware</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> <span class="pl-en">middleware</span> <span class="pl-k">=</span> <span class="pl-k">function</span> (<span class="pl-smi">json</span>) {
+    <span class="pl-smi">json</span>.<span class="pl-smi">myproperty</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>new value<span class="pl-pds">'</span></span>; 
+    <span class="pl-k">return</span> <span class="pl-smi">Promise</span>.<span class="pl-en">resolve</span>(json);
+}
+
+<span class="pl-smi">transformer</span>.<span class="pl-en">transform</span>(options, middleware)
+    .<span class="pl-en">then</span>(<span class="pl-k">function</span> (<span class="pl-smi">msg</span>){
+        <span class="pl-smi">logger</span>.<span class="pl-en">info</span>(msg);
+    })
+    .<span class="pl-en">catch</span>(<span class="pl-k">function</span> (<span class="pl-smi">err</span>) {
+        <span class="pl-smi">logger</span>.<span class="pl-en">error</span>(<span class="pl-smi">err</span>.<span class="pl-smi">stack</span>);
+    });</pre></div>
+
+<p>will result in such JSON file:</p>
+
+<div class="highlight highlight-source-js"><pre>{
+    <span class="pl-s"><span class="pl-pds">"</span>myproperty<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>new value<span class="pl-pds">"</span></span>
+}</pre></div>
+
+<p>Of course, you might have use cases wiht complex and/or huge logic where one function 
+might be insufficient. This does not raise as a problem because you can create several 
+functions to be applied in the whole transformation process.</p>
+
+<p>Let's assume we have some Promise functions to apply. For simplicity reasons we simulate 
+these for the moment by three functions, each adding key-value to the given (empty) JSON 
+object.</p>
+
+<p><strong>NOTE:</strong> each has to return the <code>json</code> object! </p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">function</span> <span class="pl-en">key1</span>(<span class="pl-smi">json</span>) {
+    <span class="pl-smi">objectPath</span>.<span class="pl-en">set</span>(json, <span class="pl-s"><span class="pl-pds">'</span>key1<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>value1<span class="pl-pds">'</span></span>);
+    <span class="pl-k">return</span> <span class="pl-smi">Promise</span>.<span class="pl-en">resolve</span>(json);
+}
+
+<span class="pl-k">function</span> <span class="pl-en">key2</span>(<span class="pl-smi">json</span>) {
+    <span class="pl-smi">objectPath</span>.<span class="pl-en">set</span>(json, <span class="pl-s"><span class="pl-pds">'</span>key2<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>value2<span class="pl-pds">'</span></span>);
+    <span class="pl-k">return</span> <span class="pl-smi">Promise</span>.<span class="pl-en">resolve</span>(json);
+}
+
+<span class="pl-k">function</span> <span class="pl-en">key3</span>(<span class="pl-smi">json</span>) {
+    <span class="pl-smi">objectPath</span>.<span class="pl-en">set</span>(json, <span class="pl-s"><span class="pl-pds">'</span>key3<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>value3<span class="pl-pds">'</span></span>);
+    <span class="pl-k">return</span> <span class="pl-smi">Promise</span>.<span class="pl-en">resolve</span>(json);
+}</pre></div>
+
+<p>These can be collected by different aggregation or composition functions of the underlying
+Promise framework, e.g. the  <a href="http://bluebirdjs.com/docs/api/promise.all.html"><code>Promise.all([...])</code></a> 
+function. This can collect all three functions above and ensure their proper execution:</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> <span class="pl-en">middleware</span> <span class="pl-k">=</span> <span class="pl-k">function</span> (<span class="pl-smi">json</span>) {
+    <span class="pl-k">return</span> <span class="pl-smi">Promise</span>.<span class="pl-c1">all</span>([<span class="pl-en">key1</span>(json), <span class="pl-en">key2</span>(json), <span class="pl-en">key3</span>(json)])
+        .<span class="pl-en">then</span>(<span class="pl-k">function</span>(<span class="pl-smi">result</span>) {
+            <span class="pl-k">return</span> <span class="pl-smi">Promise</span>.<span class="pl-en">resolve</span>(result[<span class="pl-smi">result</span>.<span class="pl-c1">length</span> <span class="pl-k">-</span> <span class="pl-c1">1</span>]);
+        });
+};
+
+<span class="pl-k">var</span> transformer <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Transformer</span>(logger);
+<span class="pl-k">var</span> logger <span class="pl-k">=</span> <span class="pl-k">...</span>;
+<span class="pl-k">var</span> options <span class="pl-k">=</span> {<span class="pl-k">...</span>};
+
+<span class="pl-k">return</span> <span class="pl-smi">transformer</span>.<span class="pl-en">transform</span>(options, middleware)
+    .<span class="pl-en">then</span>(<span class="pl-k">function</span> (<span class="pl-smi">msg</span>){
+        <span class="pl-smi">logger</span>.<span class="pl-en">info</span>(msg);
+    })
+    .<span class="pl-en">catch</span>(<span class="pl-k">function</span> (<span class="pl-smi">err</span>) {
+        <span class="pl-smi">logger</span>.<span class="pl-en">error</span>(<span class="pl-smi">err</span>.<span class="pl-smi">stack</span>);
+    });</pre></div>
+
+<p>The result in the <code>middleware</code> function can be retrieved from the <code>result</code> array, in <code>Promise.all([...])</code> 
+you have to pick the last element which contains the "final product":</p>
+
+<div class="highlight highlight-source-js"><pre>{
+    key1<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>value1<span class="pl-pds">'</span></span>,
+    key2<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>value2<span class="pl-pds">'</span></span>,
+    key3<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>value3<span class="pl-pds">'</span></span>
+}</pre></div>
+
+<p>which is then to be passed back to the transformation chain. Following this pattern 
+you can do almost everything with the JSON object, like</p>
+
+<ul>
+<li>deleting properties</li>
+<li>changing properties to other types</li>
+<li>validating and throwing error if not valid</li>
+<li>...</li>
+</ul>
+
+<p>Whatever, but keep it valid when transforming ;-)</p>
+
+<h2>
+<a id="injecting-logger" class="anchor" href="#injecting-logger" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Injecting Logger</h2>
+
+<p>The <code>Reader</code>, <code>Transformer</code> and <code>Writer</code> constructors accept an (optional) logger object.
+Default logger is <code>console</code>.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> logger <span class="pl-k">=</span> <span class="pl-k">...</span>;
+
+<span class="pl-k">var</span> reader <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Reader</span>(logger);
+<span class="pl-k">var</span> transformer <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Transformer</span>(logger);
+<span class="pl-k">var</span> writer <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Writer</span>(logger);</pre></div>
+
+<p>At least, the passed logger object <em>has to</em> support the following functions:</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">function</span> <span class="pl-en">info</span>(<span class="pl-smi">msg</span>)
+function debug(msg)
+function error(msg)</pre></div>
+
+<h1>
+<a id="api-reference" class="anchor" href="#api-reference" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>API Reference</h1>
+
+<h2>
+<a id="classes" class="anchor" href="#classes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Classes</h2>
+
+<dl>
+<dt><a href="#Constants">Constants</a></dt>
+<dd>
+<p>Class which defines all constants usable in or with this module.</p>
+</dd>
+<dt><a href="#LogWrapper">LogWrapper</a></dt>
+<dd>
+<p>Class which defines a <code>logger</code> wrapper usable in this module.
+       </p>
+<p>
+       <strong>NOTE:</strong> This class is not to be intended to be called from
+       outside this module!</p>
+</dd>
+<dt><a href="#Middleware">Middleware</a></dt>
+<dd>
+<p>Class which defines middleware Promises usable in or with this module.</p>
+</dd>
+<dt><a href="#OptionsHandler">OptionsHandler</a></dt>
+<dd>
+<p>Class which defines some useful methods to initialize and prepare the
+       transformation options used in this module.
+       </p>
+<p>
+       <strong>NOTE:</strong> This class is not to be intended to be called from
+       outside this module!</p>
+</dd>
+<dt><a href="#Reader">Reader</a></dt>
+<dd>
+<p>This class provides utility methods usable to read YAML, JSON or JS
+       from a file to JS memory objects.</p>
+</dd>
+<dt><a href="#Transformer">Transformer</a></dt>
+<dd>
+<p>This class provides all methods usable to handle YAML, JSON and JS and
+       their transformations.</p>
+</dd>
+<dt><a href="#Writer">Writer</a></dt>
+<dd>
+<p>This class provides utility methods usable to write JSON/JS/YAML
+       from memory to a JSON/JS/YAML file.</p>
+</dd>
+</dl>
+
+<h2>
+<a id="typedefs" class="anchor" href="#typedefs" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Typedefs</h2>
+
+<dl>
+<dt>
+<a href="#Options">Options</a> : <code>object</code>
+</dt>
+<dd></dd>
+</dl>
+
+<p><a name="Constants"></a></p>
+
+<h2>
+<a id="constants" class="anchor" href="#constants" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Constants</h2>
+
+<p>Class which defines all constants usable in or with this module.</p>
+
+<p><strong>Kind</strong>: global class  </p>
+
+<ul>
+<li>
+<a href="#Constants">Constants</a>
+
+<ul>
+<li><a href="#new_Constants_new">new Constants()</a></li>
+<li>
+<a href="#Constants+DEFAULT_OPTIONS">.DEFAULT_OPTIONS</a> : <code>object</code>
+</li>
+<li>
+<a href="#Constants+UTF8">.UTF8</a> : <code>string</code>
+</li>
+<li>
+<a href="#Constants+YAML">.YAML</a> : <code>string</code>
+</li>
+<li>
+<a href="#Constants+JSON">.JSON</a> : <code>string</code>
+</li>
+<li>
+<a href="#Constants+JS">.JS</a> : <code>string</code>
+</li>
+<li>
+<a href="#Constants+TYPES">.TYPES</a> : <code>Array.&lt;string&gt;</code>
+</li>
+<li>
+<a href="#Constants+DEFAULT_INDENT">.DEFAULT_INDENT</a> : <code>number</code>
+</li>
+<li>
+<a href="#Constants+MIN_JSON_JS_INDENT">.MIN_JSON_JS_INDENT</a> : <code>number</code>
+</li>
+<li>
+<a href="#Constants+MIN_YAML_INDENT">.MIN_YAML_INDENT</a> : <code>number</code>
+</li>
+<li>
+<a href="#Constants+MAX_INDENT">.MAX_INDENT</a> : <code>number</code>
+</li>
+<li>
+<a href="#Constants+YAML_TO_JS">.YAML_TO_JS</a> : <code>string</code>
+</li>
+<li>
+<a href="#Constants+YAML_TO_JSON">.YAML_TO_JSON</a> : <code>string</code>
+</li>
+<li>
+<a href="#Constants+JS_TO_YAML">.JS_TO_YAML</a> : <code>string</code>
+</li>
+<li>
+<a href="#Constants+JSON_TO_YAML">.JSON_TO_YAML</a> : <code>string</code>
+</li>
+<li>
+<a href="#Constants+JSON_TO_JS">.JSON_TO_JS</a> : <code>string</code>
+</li>
+<li>
+<a href="#Constants+JS_TO_JSON">.JS_TO_JSON</a> : <code>string</code>
+</li>
+<li>
+<a href="#Constants+YAML_TO_YAML">.YAML_TO_YAML</a> : <code>string</code>
+</li>
+<li>
+<a href="#Constants+JSON_TO_JSON">.JSON_TO_JSON</a> : <code>string</code>
+</li>
+<li>
+<a href="#Constants+JS_TO_JS">.JS_TO_JS</a> : <code>string</code>
+</li>
+<li>
+<a href="#Constants+TRANSFORMATIONS">.TRANSFORMATIONS</a> : <code>Array.&lt;string&gt;</code>
+</li>
+</ul>
+</li>
+</ul>
+
+<p><a name="new_Constants_new"></a></p>
+
+<h3>
+<a id="new-constants" class="anchor" href="#new-constants" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>new Constants()</h3>
+
+<p>Constructs the constants.</p>
+
+<p><strong>Returns</strong>: <code><a href="#Constants">Constants</a></code> - - The instance.<br>
+<a name="Constants+DEFAULT_OPTIONS"></a></p>
+
+<h3>
+<a id="constantsdefault_options--object" class="anchor" href="#constantsdefault_options--object" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>constants.DEFAULT_OPTIONS : <code>object</code>
+</h3>
+
+<p>The default options.</p>
+
+<p><strong>Kind</strong>: instance namespace of <code><a href="#Constants">Constants</a></code><br>
+<strong>Properties</strong></p>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>origin</td>
+<td><code>string</code></td>
+<td><code>"yaml"</code></td>
+<td>The default origin type.</td>
+</tr>
+<tr>
+<td>target</td>
+<td><code>string</code></td>
+<td><code>"js"</code></td>
+<td>The default target type.</td>
+</tr>
+<tr>
+<td>dest</td>
+<td><code>string</code></td>
+<td><code>"'relative"</code></td>
+<td>to input file'   - The default dest description.</td>
+</tr>
+<tr>
+<td>indent</td>
+<td><code>number</code></td>
+<td><code>4</code></td>
+<td>The default indention for files.</td>
+</tr>
+</tbody>
+</table>
+
+<p><a name="Constants+UTF8"></a></p>
+
+<h3>
+<a id="constantsutf8--string" class="anchor" href="#constantsutf8--string" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>constants.UTF8 : <code>string</code>
+</h3>
+
+<p>The 'utf8' constant.</p>
+
+<p><strong>Kind</strong>: instance constant of <code><a href="#Constants">Constants</a></code><br>
+<strong>Access:</strong> public<br>
+<a name="Constants+YAML"></a></p>
+
+<h3>
+<a id="constantsyaml--string" class="anchor" href="#constantsyaml--string" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>constants.YAML : <code>string</code>
+</h3>
+
+<p>The 'yaml' type constant.</p>
+
+<p><strong>Kind</strong>: instance constant of <code><a href="#Constants">Constants</a></code><br>
+<strong>Access:</strong> public<br>
+<a name="Constants+JSON"></a></p>
+
+<h3>
+<a id="constantsjson--string" class="anchor" href="#constantsjson--string" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>constants.JSON : <code>string</code>
+</h3>
+
+<p>The 'json' type constant.</p>
+
+<p><strong>Kind</strong>: instance constant of <code><a href="#Constants">Constants</a></code><br>
+<strong>Access:</strong> public<br>
+<a name="Constants+JS"></a></p>
+
+<h3>
+<a id="constantsjs--string" class="anchor" href="#constantsjs--string" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>constants.JS : <code>string</code>
+</h3>
+
+<p>The 'js' type constant.</p>
+
+<p><strong>Kind</strong>: instance constant of <code><a href="#Constants">Constants</a></code><br>
+<strong>Access:</strong> public<br>
+<a name="Constants+TYPES"></a></p>
+
+<h3>
+<a id="constantstypes--arraystring" class="anchor" href="#constantstypes--arraystring" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>constants.TYPES : <code>Array.&lt;string&gt;</code>
+</h3>
+
+<p>The type constants assembled in an array: <code>[ 'yaml', 'json', 'js' ]</code>.</p>
+
+<p><strong>Kind</strong>: instance constant of <code><a href="#Constants">Constants</a></code><br>
+<strong>Access:</strong> public<br>
+<a name="Constants+DEFAULT_INDENT"></a></p>
+
+<h3>
+<a id="constantsdefault_indent--number" class="anchor" href="#constantsdefault_indent--number" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>constants.DEFAULT_INDENT : <code>number</code>
+</h3>
+
+<p>The default file indention (4 SPACEs).</p>
+
+<p><strong>Kind</strong>: instance constant of <code><a href="#Constants">Constants</a></code><br>
+<strong>Access:</strong> public<br>
+<a name="Constants+MIN_JSON_JS_INDENT"></a></p>
+
+<h3>
+<a id="constantsmin_json_js_indent--number" class="anchor" href="#constantsmin_json_js_indent--number" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>constants.MIN_JSON_JS_INDENT : <code>number</code>
+</h3>
+
+<p>The minimum JSON/JS file indention (0 SPACE).</p>
+
+<p><strong>Kind</strong>: instance constant of <code><a href="#Constants">Constants</a></code><br>
+<strong>Access:</strong> public<br>
+<a name="Constants+MIN_YAML_INDENT"></a></p>
+
+<h3>
+<a id="constantsmin_yaml_indent--number" class="anchor" href="#constantsmin_yaml_indent--number" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>constants.MIN_YAML_INDENT : <code>number</code>
+</h3>
+
+<p>The minimum YAML file indention (1 SPACE).</p>
+
+<p><strong>Kind</strong>: instance constant of <code><a href="#Constants">Constants</a></code><br>
+<strong>Access:</strong> public<br>
+<a name="Constants+MAX_INDENT"></a></p>
+
+<h3>
+<a id="constantsmax_indent--number" class="anchor" href="#constantsmax_indent--number" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>constants.MAX_INDENT : <code>number</code>
+</h3>
+
+<p>The maximum file indention (8 SPACEs).</p>
+
+<p><strong>Kind</strong>: instance constant of <code><a href="#Constants">Constants</a></code><br>
+<strong>Access:</strong> public<br>
+<a name="Constants+YAML_TO_JS"></a></p>
+
+<h3>
+<a id="constantsyaml_to_js--string" class="anchor" href="#constantsyaml_to_js--string" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>constants.YAML_TO_JS : <code>string</code>
+</h3>
+
+<p>The transformation direction YAML -&gt; JS.</p>
+
+<p><strong>Kind</strong>: instance constant of <code><a href="#Constants">Constants</a></code><br>
+<strong>Access:</strong> public<br>
+<a name="Constants+YAML_TO_JSON"></a></p>
+
+<h3>
+<a id="constantsyaml_to_json--string" class="anchor" href="#constantsyaml_to_json--string" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>constants.YAML_TO_JSON : <code>string</code>
+</h3>
+
+<p>The transformation direction YAML -&gt; JSON.</p>
+
+<p><strong>Kind</strong>: instance constant of <code><a href="#Constants">Constants</a></code><br>
+<strong>Access:</strong> public<br>
+<a name="Constants+JS_TO_YAML"></a></p>
+
+<h3>
+<a id="constantsjs_to_yaml--string" class="anchor" href="#constantsjs_to_yaml--string" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>constants.JS_TO_YAML : <code>string</code>
+</h3>
+
+<p>The transformation direction JS -&gt; YAML.</p>
+
+<p><strong>Kind</strong>: instance constant of <code><a href="#Constants">Constants</a></code><br>
+<strong>Access:</strong> public<br>
+<a name="Constants+JSON_TO_YAML"></a></p>
+
+<h3>
+<a id="constantsjson_to_yaml--string" class="anchor" href="#constantsjson_to_yaml--string" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>constants.JSON_TO_YAML : <code>string</code>
+</h3>
+
+<p>The transformation direction JSON -&gt; YAML.</p>
+
+<p><strong>Kind</strong>: instance constant of <code><a href="#Constants">Constants</a></code><br>
+<strong>Access:</strong> public<br>
+<a name="Constants+JSON_TO_JS"></a></p>
+
+<h3>
+<a id="constantsjson_to_js--string" class="anchor" href="#constantsjson_to_js--string" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>constants.JSON_TO_JS : <code>string</code>
+</h3>
+
+<p>The transformation direction JSON -&gt; JS.</p>
+
+<p><strong>Kind</strong>: instance constant of <code><a href="#Constants">Constants</a></code><br>
+<strong>Access:</strong> public<br>
+<a name="Constants+JS_TO_JSON"></a></p>
+
+<h3>
+<a id="constantsjs_to_json--string" class="anchor" href="#constantsjs_to_json--string" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>constants.JS_TO_JSON : <code>string</code>
+</h3>
+
+<p>The transformation direction JS -&gt; JSON.</p>
+
+<p><strong>Kind</strong>: instance constant of <code><a href="#Constants">Constants</a></code><br>
+<strong>Access:</strong> public<br>
+<a name="Constants+YAML_TO_YAML"></a></p>
+
+<h3>
+<a id="constantsyaml_to_yaml--string" class="anchor" href="#constantsyaml_to_yaml--string" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>constants.YAML_TO_YAML : <code>string</code>
+</h3>
+
+<p>The transformation direction YAML -&gt; YAML.</p>
+
+<p><strong>Kind</strong>: instance constant of <code><a href="#Constants">Constants</a></code><br>
+<strong>Access:</strong> public<br>
+<a name="Constants+JSON_TO_JSON"></a></p>
+
+<h3>
+<a id="constantsjson_to_json--string" class="anchor" href="#constantsjson_to_json--string" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>constants.JSON_TO_JSON : <code>string</code>
+</h3>
+
+<p>The transformation direction JSON -&gt; JSON.</p>
+
+<p><strong>Kind</strong>: instance constant of <code><a href="#Constants">Constants</a></code><br>
+<strong>Access:</strong> public<br>
+<a name="Constants+JS_TO_JS"></a></p>
+
+<h3>
+<a id="constantsjs_to_js--string" class="anchor" href="#constantsjs_to_js--string" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>constants.JS_TO_JS : <code>string</code>
+</h3>
+
+<p>The transformation direction JS -&gt; JS.</p>
+
+<p><strong>Kind</strong>: instance constant of <code><a href="#Constants">Constants</a></code><br>
+<strong>Access:</strong> public<br>
+<a name="Constants+TRANSFORMATIONS"></a></p>
+
+<h3>
+<a id="constantstransformations--arraystring" class="anchor" href="#constantstransformations--arraystring" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>constants.TRANSFORMATIONS : <code>Array.&lt;string&gt;</code>
+</h3>
+
+<p>The transformation directions.</p>
+
+<p><strong>Kind</strong>: instance constant of <code><a href="#Constants">Constants</a></code><br>
+<strong>Access:</strong> public<br>
+<a name="LogWrapper"></a></p>
+
+<h2>
+<a id="logwrapper" class="anchor" href="#logwrapper" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>LogWrapper</h2>
+
+<p>Class which defines a <code>logger</code> wrapper usable in this module.
+       </p><p>
+       <strong>NOTE:</strong> This class is not to be intended to be called from
+       outside this module!</p>
+
+<p><strong>Kind</strong>: global class  </p>
+
+<ul>
+<li>
+<a href="#LogWrapper">LogWrapper</a>
+
+<ul>
+<li><a href="#new_LogWrapper_new">new LogWrapper([logger])</a></li>
+<li><a href="#LogWrapper+debug">.debug(msg)</a></li>
+<li><a href="#LogWrapper+info">.info(msg)</a></li>
+<li><a href="#LogWrapper+error">.error(msg)</a></li>
+<li>
+<a href="#LogWrapper+verboseOptions">.verboseOptions(options)</a> ⇒</li>
+</ul>
+</li>
+</ul>
+
+<p><a name="new_LogWrapper_new"></a></p>
+
+<h3>
+<a id="new-logwrapperlogger" class="anchor" href="#new-logwrapperlogger" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>new LogWrapper([logger])</h3>
+
+<p>Constructs the <code>LogWrapper</code>.</p>
+
+<p><strong>Returns</strong>: <code><a href="#LogWrapper">LogWrapper</a></code> - - The instance.  </p>
+
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[logger]</td>
+<td>
+<code>logger</code> | <code>cli</code> | <code>console</code>
+</td>
+<td><code>console</code></td>
+<td>Logger object.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong>  </p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> logger <span class="pl-k">=</span> <span class="pl-k">...</span>;
+<span class="pl-k">var</span> logWrapper <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">LogWrapper</span>(logger);</pre></div>
+
+<p><a name="LogWrapper+debug"></a></p>
+
+<h3>
+<a id="logwrapperdebugmsg" class="anchor" href="#logwrapperdebugmsg" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>logWrapper.debug(msg)</h3>
+
+<p>Log the options with DEBUG level (logger supports it, else with INFO).</p>
+
+<p><strong>Kind</strong>: instance method of <code><a href="#LogWrapper">LogWrapper</a></code><br>
+<strong>Access:</strong> public  </p>
+
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>msg</td>
+<td><code>string</code></td>
+<td>The message to log.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong>  </p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> logger <span class="pl-k">=</span> <span class="pl-k">...</span>;
+<span class="pl-k">var</span> logWrapper <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">LogWrapper</span>(logger);
+<span class="pl-k">var</span> msg <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>...<span class="pl-pds">'</span></span>;
+<span class="pl-smi">logWrapper</span>.<span class="pl-en">debug</span>(msg);</pre></div>
+
+<p><a name="LogWrapper+info"></a></p>
+
+<h3>
+<a id="logwrapperinfomsg" class="anchor" href="#logwrapperinfomsg" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>logWrapper.info(msg)</h3>
+
+<p>Log the options with INFO level.</p>
+
+<p><strong>Kind</strong>: instance method of <code><a href="#LogWrapper">LogWrapper</a></code><br>
+<strong>Access:</strong> public  </p>
+
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>msg</td>
+<td><code>string</code></td>
+<td>The message to log.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong>  </p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> logger <span class="pl-k">=</span> <span class="pl-k">...</span>;
+<span class="pl-k">var</span> logWrapper <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">LogWrapper</span>(logger);
+<span class="pl-k">var</span> msg <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>...<span class="pl-pds">'</span></span>;
+<span class="pl-smi">logWrapper</span>.<span class="pl-en">info</span>(msg);</pre></div>
+
+<p><a name="LogWrapper+error"></a></p>
+
+<h3>
+<a id="logwrappererrormsg" class="anchor" href="#logwrappererrormsg" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>logWrapper.error(msg)</h3>
+
+<p>Log the options with ERROR level.</p>
+
+<p><strong>Kind</strong>: instance method of <code><a href="#LogWrapper">LogWrapper</a></code><br>
+<strong>Access:</strong> public  </p>
+
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>msg</td>
+<td><code>string</code></td>
+<td>The message to log.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong>  </p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> logger <span class="pl-k">=</span> <span class="pl-k">...</span>;
+<span class="pl-k">var</span> logWrapper <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">LogWrapper</span>(logger);
+<span class="pl-k">var</span> msg <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>...<span class="pl-pds">'</span></span>;
+<span class="pl-smi">logWrapper</span>.<span class="pl-en">error</span>(msg);</pre></div>
+
+<p><a name="LogWrapper+verboseOptions"></a></p>
+
+<h3>
+<a id="logwrapperverboseoptionsoptions-" class="anchor" href="#logwrapperverboseoptionsoptions-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>logWrapper.verboseOptions(options) ⇒</h3>
+
+<p>Log the options with INFO level.</p>
+
+<p><strong>Kind</strong>: instance method of <code><a href="#LogWrapper">LogWrapper</a></code><br>
+<strong>Returns</strong>: A Promise containing the passed <code>options</code> object.<br>
+<strong>Access:</strong> public  </p>
+
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>options</td>
+<td><code><a href="#Options">Options</a></code></td>
+<td>The properties to log with INFO.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong>  </p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> logger <span class="pl-k">=</span> <span class="pl-k">...</span>;
+<span class="pl-k">var</span> logWrapper <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">LogWrapper</span>(logger);
+<span class="pl-k">var</span> options <span class="pl-k">=</span> {
+    <span class="pl-k">...</span>
+};
+<span class="pl-smi">logWrapper</span>.<span class="pl-en">verboseOptions</span>(options)
+    <span class="pl-en">then</span>(<span class="pl-k">function</span> (<span class="pl-smi">options</span>) {
+        <span class="pl-k">...</span>
+    });</pre></div>
+
+<p><a name="Middleware"></a></p>
+
+<h2>
+<a id="middleware-1" class="anchor" href="#middleware-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Middleware</h2>
+
+<p>Class which defines middleware Promises usable in or with this module.</p>
+
+<p><strong>Kind</strong>: global class  </p>
+
+<ul>
+<li>
+<a href="#Middleware">Middleware</a>
+
+<ul>
+<li><a href="#new_Middleware_new">new Middleware()</a></li>
+<li>
+<a href="#Middleware+ensureMiddleware">.ensureMiddleware(middleware)</a> ⇒ <code>Promise</code>
+</li>
+</ul>
+</li>
+</ul>
+
+<p><a name="new_Middleware_new"></a></p>
+
+<h3>
+<a id="new-middleware" class="anchor" href="#new-middleware" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>new Middleware()</h3>
+
+<p>Constructs the <code>Middleware</code>.</p>
+
+<p><strong>Returns</strong>: <code><a href="#Middleware">Middleware</a></code> - - The instance.<br>
+<strong>Example</strong>  </p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> middleware <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>./lib/middleware.js<span class="pl-pds">'</span></span>);</pre></div>
+
+<p><a name="Middleware+ensureMiddleware"></a></p>
+
+<h3>
+<a id="middlewareensuremiddlewaremiddleware--promise" class="anchor" href="#middlewareensuremiddlewaremiddleware--promise" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>middleware.ensureMiddleware(middleware) ⇒ <code>Promise</code>
+</h3>
+
+<p>Ensure that the given middleware Promise is a function if set.
+If not set a new JSON 'identity' Promise is returned which simply passes
+a JSON object.</p>
+
+<p><strong>Kind</strong>: instance method of <code><a href="#Middleware">Middleware</a></code><br>
+<strong>Returns</strong>: <code>Promise</code> - The given middleware Promise or a new JSON 'identity' middleware Promise.<br>
+<strong>Throws</strong>:</p>
+
+<ul>
+<li>
+<code>TypeError</code> Will throw this error when the passed <code>middleware</code>
+    is not type of <code>Function</code>.</li>
+</ul>
+
+<p><strong>Access:</strong> public  </p>
+
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>middleware</td>
+<td><code>function</code></td>
+<td>This middleware Promise can be used to intercept        the JSON object for altering he passed JSON, the function signature is:        <code>function(json)</code>        The Promise has to return the processed JSON!</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong>  </p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> middleware <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>./lib/middleware.js<span class="pl-pds">'</span></span>);
+<span class="pl-k">var</span> <span class="pl-en">myMiddleware</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">json</span>) {
+    <span class="pl-k">...</span>
+};
+<span class="pl-smi">transformer</span>.<span class="pl-en">transform</span>(options, <span class="pl-smi">middleware</span>.<span class="pl-en">ensureMiddleware</span>(myMiddleware))
+    .<span class="pl-en">then</span>(<span class="pl-k">function</span>(<span class="pl-smi">json</span>) {
+        <span class="pl-k">...</span>
+    })<span class="pl-k">:</span></pre></div>
+
+<p><a name="OptionsHandler"></a></p>
+
+<h2>
+<a id="optionshandler" class="anchor" href="#optionshandler" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>OptionsHandler</h2>
+
+<p>Class which defines some useful methods to initialize and prepare the
+       transformation options used in this module.
+       </p><p>
+       <strong>NOTE:</strong> This class is not to be intended to be called from
+       outside this module!</p>
+
+<p><strong>Kind</strong>: global class  </p>
+
+<ul>
+<li>
+<a href="#OptionsHandler">OptionsHandler</a>
+
+<ul>
+<li><a href="#new_OptionsHandler_new">new OptionsHandler([logger])</a></li>
+<li>
+<a href="#OptionsHandler+ensureOptions">.ensureOptions(options)</a> ⇒ <code>Promise</code>
+</li>
+<li>
+<a href="#OptionsHandler+validateTransformation">.validateTransformation(options)</a> ⇒ <code>Promise</code>
+</li>
+</ul>
+</li>
+</ul>
+
+<p><a name="new_OptionsHandler_new"></a></p>
+
+<h3>
+<a id="new-optionshandlerlogger" class="anchor" href="#new-optionshandlerlogger" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>new OptionsHandler([logger])</h3>
+
+<p>Constructs the <code>OptionsHandler</code> with an (optional) logger.</p>
+
+<p><strong>Returns</strong>: <code><a href="#OptionsHandler">OptionsHandler</a></code> - The instance.  </p>
+
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[logger]</td>
+<td>
+<code>logger</code> | <code>cli</code> | <code>console</code>
+</td>
+<td><code>console</code></td>
+<td>Logger object.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong>  </p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> OptionsHandler <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>./options-handler.js<span class="pl-pds">'</span></span>);
+<span class="pl-k">var</span> logger <span class="pl-k">=</span> <span class="pl-k">...</span>;
+
+<span class="pl-k">var</span> optionsHandler <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">OptionsHandler</span>(logger);</pre></div>
+
+<p><a name="OptionsHandler+ensureOptions"></a></p>
+
+<h3>
+<a id="optionshandlerensureoptionsoptions--promise" class="anchor" href="#optionshandlerensureoptionsoptions--promise" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>optionsHandler.ensureOptions(options) ⇒ <code>Promise</code>
+</h3>
+
+<p>This method ensures that the options object is set with all necessary and
+correct values. The method does not alter the given object, but creates
+and fills a new instance from the given values and/or default ones.</p>
+
+<p><strong>Kind</strong>: instance method of <code><a href="#OptionsHandler">OptionsHandler</a></code><br>
+<strong>Returns</strong>: <code>Promise</code> - - A Promise containing a new and complete <code>options</code> object.<br>
+<strong>Access:</strong> public  </p>
+
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>options</td>
+<td><code><a href="#Options">Options</a></code></td>
+<td>The configuration for a transformation.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong>  </p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> OptionsHandler <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>./options-handler.js<span class="pl-pds">'</span></span>);
+<span class="pl-k">var</span> logger <span class="pl-k">=</span> <span class="pl-k">...</span>;
+<span class="pl-k">var</span> options <span class="pl-k">=</span> {<span class="pl-k">...</span>};
+<span class="pl-k">var</span> optionsHandler <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">OptionsHandler</span>(logger);
+<span class="pl-smi">optionsHandler</span>.<span class="pl-en">ensureOptions</span>(options)
+    .<span class="pl-en">then</span>(<span class="pl-k">function</span> (<span class="pl-smi">ensuredOptions</span>) {
+        <span class="pl-k">...</span>
+    });</pre></div>
+
+<p><a name="OptionsHandler+validateTransformation"></a></p>
+
+<h3>
+<a id="optionshandlervalidatetransformationoptions--promise" class="anchor" href="#optionshandlervalidatetransformationoptions--promise" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>optionsHandler.validateTransformation(options) ⇒ <code>Promise</code>
+</h3>
+
+<p>This method validates the transformation process described by the given
+options and provides the validate and enriched options and according name
+to resolve a proper function.</p>
+
+<p><strong>Kind</strong>: instance method of <code><a href="#OptionsHandler">OptionsHandler</a></code><br>
+<strong>Returns</strong>: <code>Promise</code> - - A Promise containing the passed <code>options</code> object and a 'transformation' string in an array.<br>
+<strong>Access:</strong> public<br>
+<strong>See</strong>: <a href="transformations">transformations</a>  </p>
+
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>options</td>
+<td><code><a href="#Options">Options</a></code></td>
+<td>The configuration for a transformation.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong>  </p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> OptionsHandler <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>./options-handler.js<span class="pl-pds">'</span></span>);
+<span class="pl-k">var</span> logger <span class="pl-k">=</span> <span class="pl-k">...</span>;
+<span class="pl-k">var</span> optionsHandler <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">OptionsHandler</span>(logger);
+<span class="pl-smi">optionsHandler</span>.<span class="pl-en">validateTransformation</span>(options)
+    .<span class="pl-en">spread</span>(<span class="pl-k">function</span> (<span class="pl-smi">validatedOptions</span>, <span class="pl-smi">transformation</span>) {
+        <span class="pl-k">...</span>
+    ))<span class="pl-k">:</span></pre></div>
+
+<p><a name="Reader"></a></p>
+
+<h2>
+<a id="reader" class="anchor" href="#reader" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Reader</h2>
+
+<p>This class provides utility methods usable to read YAML, JSON or JS
+       from a file to JS memory objects.</p>
+
+<p><strong>Kind</strong>: global class  </p>
+
+<ul>
+<li>
+<a href="#Reader">Reader</a>
+
+<ul>
+<li><a href="#new_Reader_new">new Reader([logger])</a></li>
+<li>
+<a href="#Reader+readJs">.readJs(src)</a> ⇒ <code>Promise</code>
+</li>
+<li>
+<a href="#Reader+readYaml">.readYaml(src)</a> ⇒ <code>Promise</code>
+</li>
+</ul>
+</li>
+</ul>
+
+<p><a name="new_Reader_new"></a></p>
+
+<h3>
+<a id="new-readerlogger" class="anchor" href="#new-readerlogger" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>new Reader([logger])</h3>
+
+<p>Constructs the <code>Reader</code> with an (optional) logger.</p>
+
+<p><strong>Returns</strong>: <code><a href="#Reader">Reader</a></code> - The instance.  </p>
+
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[logger]</td>
+<td>
+<code>logger</code> | <code>cli</code> | <code>console</code>
+</td>
+<td><code>console</code></td>
+<td>Logger object.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong>  </p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> Reader <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>jy-transform<span class="pl-pds">'</span></span>).<span class="pl-smi">Reader</span>;
+<span class="pl-k">var</span> logger <span class="pl-k">=</span> <span class="pl-k">...</span>;
+
+<span class="pl-k">var</span> reader <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Reader</span>(logger);</pre></div>
+
+<p><a name="Reader+readJs"></a></p>
+
+<h3>
+<a id="readerreadjssrc--promise" class="anchor" href="#readerreadjssrc--promise" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>reader.readJs(src) ⇒ <code>Promise</code>
+</h3>
+
+<p>Reads the data from a given <em>*.js</em> or <em>*.json</em> file source.</p>
+
+<p><strong>Kind</strong>: instance method of <code><a href="#Reader">Reader</a></code><br>
+<strong>Returns</strong>: <code>Promise</code> - - Containing the JSON object.<br>
+<strong>Access:</strong> public  </p>
+
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>src</td>
+<td>
+<code>string</code> | <code>Readable</code> | <code>object</code>
+</td>
+<td>The JS/JSON source file to read.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong>  </p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> Reader <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>jy-transform<span class="pl-pds">'</span></span>).<span class="pl-smi">Reader</span>;
+<span class="pl-k">var</span> logger <span class="pl-k">=</span> <span class="pl-k">...</span>;
+
+<span class="pl-k">var</span> reader <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Reader</span>(logger);
+<span class="pl-smi">reader</span>.<span class="pl-en">readJs</span>(<span class="pl-s"><span class="pl-pds">'</span>./my.js<span class="pl-pds">'</span></span>)
+    .<span class="pl-en">then</span>(<span class="pl-k">function</span> (<span class="pl-smi">json</span>){
+        <span class="pl-smi">logger</span>.<span class="pl-en">info</span>(<span class="pl-c1">JSON</span>.<span class="pl-en">stringify</span>(json));
+    })
+    .<span class="pl-en">catch</span>(<span class="pl-k">function</span> (<span class="pl-smi">err</span>) {
+        <span class="pl-smi">logger</span>.<span class="pl-en">error</span>(<span class="pl-smi">err</span>.<span class="pl-smi">stack</span>);
+    });
+
+<span class="pl-smi">reader</span>.<span class="pl-en">readJs</span>(<span class="pl-s"><span class="pl-pds">'</span>./my.json<span class="pl-pds">'</span></span>)
+    .<span class="pl-en">then</span>(<span class="pl-k">function</span> (<span class="pl-smi">json</span>){
+        <span class="pl-smi">logger</span>.<span class="pl-en">info</span>(<span class="pl-c1">JSON</span>.<span class="pl-en">stringify</span>(json));
+    })
+    .<span class="pl-en">catch</span>(<span class="pl-k">function</span> (<span class="pl-smi">err</span>) {
+        <span class="pl-smi">logger</span>.<span class="pl-en">error</span>(<span class="pl-smi">err</span>.<span class="pl-smi">stack</span>);
+    });</pre></div>
+
+<p><a name="Reader+readYaml"></a></p>
+
+<h3>
+<a id="readerreadyamlsrc--promise" class="anchor" href="#readerreadyamlsrc--promise" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>reader.readYaml(src) ⇒ <code>Promise</code>
+</h3>
+
+<p>Loads a single YAML file containing document and turns a JS object.</p>
+
+<p><em>NOTE:</em> This function does not understand multi-document sources, it throws
+exception on those.</p>
+
+<p><strong>Kind</strong>: instance method of <code><a href="#Reader">Reader</a></code><br>
+<strong>Returns</strong>: <code>Promise</code> - - Containing the JSON object.<br>
+<strong>Access:</strong> public  </p>
+
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>src</td>
+<td>
+<code>string</code> | <code>Readable</code> | <code>object</code>
+</td>
+<td>The YAML source file to read.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong>  </p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> Reader <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>jy-transform<span class="pl-pds">'</span></span>).<span class="pl-smi">Reader</span>;
+<span class="pl-k">var</span> logger <span class="pl-k">=</span> <span class="pl-k">...</span>;
+
+<span class="pl-k">var</span> reader <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Reader</span>(logger);
+<span class="pl-smi">reader</span>.<span class="pl-en">readYaml</span>(<span class="pl-s"><span class="pl-pds">'</span>./my.yaml<span class="pl-pds">'</span></span>)
+    .<span class="pl-en">then</span>(<span class="pl-k">function</span> (<span class="pl-smi">json</span>){
+        <span class="pl-smi">logger</span>.<span class="pl-en">info</span>(<span class="pl-c1">JSON</span>.<span class="pl-en">stringify</span>(json));
+    })
+    .<span class="pl-en">catch</span>(<span class="pl-k">function</span> (<span class="pl-smi">err</span>) {
+        <span class="pl-smi">logger</span>.<span class="pl-en">error</span>(<span class="pl-smi">err</span>.<span class="pl-smi">stack</span>);
+    });</pre></div>
+
+<p><a name="Transformer"></a></p>
+
+<h2>
+<a id="transformer" class="anchor" href="#transformer" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Transformer</h2>
+
+<p>This class provides all methods usable to handle YAML, JSON and JS and
+       their transformations.</p>
+
+<p><strong>Kind</strong>: global class  </p>
+
+<ul>
+<li>
+<a href="#Transformer">Transformer</a>
+
+<ul>
+<li><a href="#new_Transformer_new">new Transformer([logger])</a></li>
+<li>
+<em>instance</em>
+
+<ul>
+<li>
+<a href="#Transformer+transform">.transform(options, [middleware])</a> ⇒ <code>Promise</code>
+</li>
+</ul>
+</li>
+<li>
+<em>inner</em>
+
+<ul>
+<li><a href="#Transformer..ensureMiddleware">~ensureMiddleware</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<p><a name="new_Transformer_new"></a></p>
+
+<h3>
+<a id="new-transformerlogger" class="anchor" href="#new-transformerlogger" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>new Transformer([logger])</h3>
+
+<p>Constructs the <code>Transformer</code> with options and an (optional) logger.</p>
+
+<p><strong>Returns</strong>: <code><a href="#Transformer">Transformer</a></code> - - The instance.  </p>
+
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[logger]</td>
+<td>
+<code>logger</code> | <code>cli</code> | <code>console</code>
+</td>
+<td><code>console</code></td>
+<td>Logger object.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong>  </p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> logger <span class="pl-k">=</span> <span class="pl-k">...</span>;
+<span class="pl-k">var</span> Transformer <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>jy-transform<span class="pl-pds">'</span></span>);
+<span class="pl-k">var</span> transformer <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Transformer</span>(logger);</pre></div>
+
+<p><a name="Transformer+transform"></a></p>
+
+<h3>
+<a id="transformertransformoptions-middleware--promise" class="anchor" href="#transformertransformoptions-middleware--promise" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>transformer.transform(options, [middleware]) ⇒ <code>Promise</code>
+</h3>
+
+<p>The entry method for all transformation accepting a configuration object and
+an (optional) middleware function.</p>
+
+<p><strong>Kind</strong>: instance method of <code><a href="#Transformer">Transformer</a></code><br>
+<strong>Returns</strong>: <code>Promise</code> - - Containing the transformation result as message (e.g.
+         to be logged by caller).<br>
+<strong>Throws</strong>:</p>
+
+<ul>
+<li>
+<code>TypeError</code> - Will throw this error when the passed <code>middleware</code>
+    is not type of <code>Function</code>.</li>
+<li>
+<code>Error</code> - Will throw plain error when writing to file failed due to any reason.</li>
+</ul>
+
+<p><strong>Access:</strong> public  </p>
+
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>options</td>
+<td><code><a href="#Options">Options</a></code></td>
+<td>The configuration for a transformation.</td>
+</tr>
+<tr>
+<td>[middleware]</td>
+<td><code>function</code></td>
+<td>This middleware Promise can be used to intercept        the JSON object for altering the passed JSON, the function signature is:        <code>function(json)</code>        <p>        <strong>NOTE:</strong> the Promise has to return the processed JSON!</p>
+</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong>  </p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> Transformer <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>jy-transform<span class="pl-pds">'</span></span>);
+<span class="pl-k">var</span> transformer <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Transformer</span>(logger);
+<span class="pl-k">var</span> Promise <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>bluebird<span class="pl-pds">'</span></span>);
+<span class="pl-k">var</span> logger <span class="pl-k">=</span> <span class="pl-k">...</span>;
+<span class="pl-k">var</span> options <span class="pl-k">=</span> {<span class="pl-k">...</span>};
+<span class="pl-k">var</span> <span class="pl-en">middleware</span> <span class="pl-k">=</span> <span class="pl-k">function</span> (<span class="pl-smi">json</span>) {
+    <span class="pl-smi">json</span>.<span class="pl-smi">myproperty</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>new value<span class="pl-pds">'</span></span>;
+    <span class="pl-k">return</span> <span class="pl-smi">Promise</span>.<span class="pl-en">resolve</span>(json);
+};
+
+<span class="pl-smi">transformer</span>.<span class="pl-en">transform</span>(options, middleware)
+    .<span class="pl-en">then</span>(<span class="pl-k">function</span> (<span class="pl-smi">msg</span>){
+        <span class="pl-smi">logger</span>.<span class="pl-en">info</span>(msg);
+    })
+    .<span class="pl-en">catch</span>(<span class="pl-k">function</span> (<span class="pl-smi">err</span>) {
+        <span class="pl-smi">logger</span>.<span class="pl-en">error</span>(<span class="pl-smi">err</span>.<span class="pl-smi">stack</span>);
+    });</pre></div>
+
+<p><a name="Transformer..ensureMiddleware"></a></p>
+
+<h3>
+<a id="transformerensuremiddleware" class="anchor" href="#transformerensuremiddleware" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Transformer~ensureMiddleware</h3>
+
+<p>Ensures that basic middleware is set.</p>
+
+<p><strong>Kind</strong>: inner property of <code><a href="#Transformer">Transformer</a></code><br>
+<a name="Writer"></a></p>
+
+<h2>
+<a id="writer" class="anchor" href="#writer" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Writer</h2>
+
+<p>This class provides utility methods usable to write JSON/JS/YAML
+       from memory to a JSON/JS/YAML file.</p>
+
+<p><strong>Kind</strong>: global class  </p>
+
+<ul>
+<li>
+<a href="#Writer">Writer</a>
+
+<ul>
+<li><a href="#new_Writer_new">new Writer([logger])</a></li>
+<li>
+<a href="#Writer+writeYaml">.writeYaml(json, options)</a> ⇒ <code>Promise</code>
+</li>
+<li>
+<a href="#Writer+writeJson">.writeJson(json, options)</a> ⇒ <code>Promise</code>
+</li>
+<li>
+<a href="#Writer+writeJs">.writeJs(json, options)</a> ⇒ <code>Promise</code>
+</li>
+</ul>
+</li>
+</ul>
+
+<p><a name="new_Writer_new"></a></p>
+
+<h3>
+<a id="new-writerlogger" class="anchor" href="#new-writerlogger" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>new Writer([logger])</h3>
+
+<p>Constructs the <code>Writer</code> with an (optional) logger.</p>
+
+<p><strong>Returns</strong>: <code><a href="#Writer">Writer</a></code> - The instance.  </p>
+
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[logger]</td>
+<td>
+<code>logger</code> | <code>cli</code> | <code>console</code>
+</td>
+<td><code>console</code></td>
+<td>Logger object.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong>  </p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> Writer <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>jy-transform<span class="pl-pds">'</span></span>).<span class="pl-smi">Writer</span>;
+<span class="pl-k">var</span> logger <span class="pl-k">=</span> <span class="pl-k">...</span>;
+
+<span class="pl-k">var</span> writer <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Writer</span>(logger);</pre></div>
+
+<p><a name="Writer+writeYaml"></a></p>
+
+<h3>
+<a id="writerwriteyamljson-options--promise" class="anchor" href="#writerwriteyamljson-options--promise" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>writer.writeYaml(json, options) ⇒ <code>Promise</code>
+</h3>
+
+<p>Writes a JSON object to a <em>*.yaml</em> file.</p>
+
+<p><strong>Kind</strong>: instance method of <code><a href="#Writer">Writer</a></code><br>
+<strong>Returns</strong>: <code>Promise</code> - - Containing the write success message to handle by caller (e.g. for logging).<br>
+<strong>Throws</strong>:</p>
+
+<ul>
+<li>
+<code>Error</code> - If YAML file could not be written due to any reason.</li>
+</ul>
+
+<p><strong>Access:</strong> public<br>
+<strong>See</strong></p>
+
+<ul>
+<li><a href="#Constants+MIN_YAML_INDENT">MIN_YAML_INDENT</a></li>
+<li><a href="#Constants+DEFAULT_INDENT">DEFAULT_INDENT</a></li>
+<li><a href="#Constants+MAX_INDENT">MAX_INDENT</a></li>
+</ul>
+
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>json</td>
+<td><code>object</code></td>
+<td>The JSON to write into <em>*.yaml</em> file.</td>
+</tr>
+<tr>
+<td>options</td>
+<td><code><a href="#Options">Options</a></code></td>
+<td>The write destination and indention.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong>  </p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> Writer <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>jy-transform<span class="pl-pds">'</span></span>).<span class="pl-smi">Writer</span>;
+<span class="pl-k">var</span> logger <span class="pl-k">=</span> <span class="pl-k">...</span>;
+<span class="pl-k">var</span> json <span class="pl-k">=</span> {<span class="pl-k">...</span>},
+<span class="pl-k">var</span> options <span class="pl-k">=</span> {
+    dest<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>result.yml<span class="pl-pds">'</span></span>,
+    indent<span class="pl-k">:</span> <span class="pl-c1">2</span>
+}
+
+<span class="pl-k">var</span> writer <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Writer</span>(logger);
+<span class="pl-smi">writer</span>.<span class="pl-en">writeYaml</span>(json, options)
+    .<span class="pl-en">then</span>(<span class="pl-k">function</span> (<span class="pl-smi">msg</span>){
+        <span class="pl-smi">logger</span>.<span class="pl-en">info</span>(msg);
+    })
+    .<span class="pl-en">catch</span>(<span class="pl-k">function</span> (<span class="pl-smi">err</span>) {
+        <span class="pl-smi">logger</span>.<span class="pl-en">error</span>(<span class="pl-smi">err</span>.<span class="pl-smi">stack</span>);
+    });</pre></div>
+
+<p><a name="Writer+writeJson"></a></p>
+
+<h3>
+<a id="writerwritejsonjson-options--promise" class="anchor" href="#writerwritejsonjson-options--promise" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>writer.writeJson(json, options) ⇒ <code>Promise</code>
+</h3>
+
+<p>Writes a JSON object to a <em>*.json</em> file.</p>
+
+<p><strong>Kind</strong>: instance method of <code><a href="#Writer">Writer</a></code><br>
+<strong>Returns</strong>: <code>Promise</code> - - Containing the write success message to handle by caller (e.g. for logging).<br>
+<strong>Access:</strong> public<br>
+<strong>See</strong></p>
+
+<ul>
+<li><a href="#Constants+MIN_JSON_JS_INDENT">MIN_JSON_JS_INDENT</a></li>
+<li><a href="#Constants+DEFAULT_INDENT">DEFAULT_INDENT</a></li>
+<li><a href="#Constants+MAX_INDENT">MAX_INDENT</a></li>
+</ul>
+
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>json</td>
+<td><code>object</code></td>
+<td>The JSON to write into <em>*.json</em> file.</td>
+</tr>
+<tr>
+<td>options</td>
+<td><code><a href="#Options">Options</a></code></td>
+<td>The write destination and indention.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong>  </p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> Writer <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>jy-transform<span class="pl-pds">'</span></span>).<span class="pl-smi">Writer</span>;
+<span class="pl-k">var</span> logger <span class="pl-k">=</span> <span class="pl-k">...</span>;
+<span class="pl-k">var</span> json <span class="pl-k">=</span> {<span class="pl-k">...</span>};
+<span class="pl-k">var</span> options <span class="pl-k">=</span> {
+    dest<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>result.yml<span class="pl-pds">'</span></span>,
+    indent<span class="pl-k">:</span> <span class="pl-c1">2</span>
+}
+
+<span class="pl-k">var</span> writer <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Writer</span>(logger);
+<span class="pl-smi">writer</span>.<span class="pl-en">writeJson</span>(json, options)
+    .<span class="pl-en">then</span>(<span class="pl-k">function</span> (<span class="pl-smi">msg</span>){
+        <span class="pl-smi">logger</span>.<span class="pl-en">info</span>(msg);
+    })
+    .<span class="pl-en">catch</span>(<span class="pl-k">function</span> (<span class="pl-smi">err</span>) {
+        <span class="pl-smi">logger</span>.<span class="pl-en">error</span>(<span class="pl-smi">err</span>.<span class="pl-smi">stack</span>);
+    });</pre></div>
+
+<p><a name="Writer+writeJs"></a></p>
+
+<h3>
+<a id="writerwritejsjson-options--promise" class="anchor" href="#writerwritejsjson-options--promise" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>writer.writeJs(json, options) ⇒ <code>Promise</code>
+</h3>
+
+<p>Writes a JSON object to a <em>*.js</em> file. The object is prefixed by <code>module.exports =</code>.</p>
+
+<p><strong>Kind</strong>: instance method of <code><a href="#Writer">Writer</a></code><br>
+<strong>Returns</strong>: <code>Promise</code> - - Containing the write success message to handle by caller (e.g. for logging).<br>
+<strong>Access:</strong> public<br>
+<strong>See</strong></p>
+
+<ul>
+<li><a href="#Constants+MIN_JSON_JS_INDENT">MIN_JSON_JS_INDENT</a></li>
+<li><a href="#Constants+DEFAULT_INDENT">DEFAULT_INDENT</a></li>
+<li><a href="#Constants+MAX_INDENT">MAX_INDENT</a></li>
+</ul>
+
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>json</td>
+<td><code>object</code></td>
+<td>The JSON to write into <em>*.js</em> file.</td>
+</tr>
+<tr>
+<td>options</td>
+<td><code><a href="#Options">Options</a></code></td>
+<td>The write destination and indention.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong>  </p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> Writer <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>jy-transform<span class="pl-pds">'</span></span>).<span class="pl-smi">Writer</span>;
+<span class="pl-k">var</span> logger <span class="pl-k">=</span> <span class="pl-k">...</span>;
+<span class="pl-k">var</span> json <span class="pl-k">=</span> {<span class="pl-k">...</span>};
+<span class="pl-k">var</span> options <span class="pl-k">=</span> {
+    dest<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>result.yml<span class="pl-pds">'</span></span>,
+    indent<span class="pl-k">:</span> <span class="pl-c1">2</span>
+}
+
+<span class="pl-k">var</span> writer <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Writer</span>(logger);
+<span class="pl-smi">writer</span>.<span class="pl-en">writeJs</span>(json, options)
+    .<span class="pl-en">then</span>(<span class="pl-k">function</span> (<span class="pl-smi">msg</span>){
+        <span class="pl-smi">logger</span>.<span class="pl-en">info</span>(msg);
+    })
+    .<span class="pl-en">catch</span>(<span class="pl-k">function</span> (<span class="pl-smi">err</span>) {
+        <span class="pl-smi">logger</span>.<span class="pl-en">error</span>(<span class="pl-smi">err</span>.<span class="pl-smi">stack</span>);
+    });</pre></div>
+
+<p><a name="Options"></a></p>
+
+<h2>
+<a id="options--object" class="anchor" href="#options--object" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Options : <code>object</code>
+</h2>
+
+<p><strong>Kind</strong>: global typedef<br>
+<strong>Properties</strong></p>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>origin</td>
+<td><code>string</code></td>
+<td><code>"yaml"</code></td>
+<td>The origin type.</td>
+</tr>
+<tr>
+<td>target</td>
+<td><code>string</code></td>
+<td><code>"js"</code></td>
+<td>The target type.</td>
+</tr>
+<tr>
+<td>src</td>
+<td>
+<code>string</code> | <code>Readable</code> | <code>object</code>
+</td>
+<td></td>
+<td>The source.</td>
+</tr>
+<tr>
+<td>dest</td>
+<td>
+<code>string</code> | <code>Writable</code> | <code>object</code>
+</td>
+<td></td>
+<td>The destination.</td>
+</tr>
+<tr>
+<td>indent</td>
+<td><code>number</code></td>
+<td><code>4</code></td>
+<td>The indention in files.</td>
+</tr>
+</tbody>
+</table>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/deadratfink/jy-transform">jy-transform</a> is maintained by <a href="https://github.com/deadratfink">deadratfink</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
