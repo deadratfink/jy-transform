@@ -1,6 +1,7 @@
 'use strict';
 
 var Transformer = require('../index.js');
+var transformer;
 var Constants = require('../lib/constants.js');
 var logger;
 var assert = require('assert');
@@ -19,6 +20,7 @@ describe('Executing \'jy-transform\' project test suite.', function () {
      */
     before(function () {
         logger = require('./logger.js');
+        transformer = new Transformer(logger);
     });
 
     /**
@@ -52,12 +54,9 @@ describe('Executing \'jy-transform\' project test suite.', function () {
 
         it('should store ' + DEST + ' file relative to ./test/tmp/test-data.yaml', function (done) {
 
-            logger.info('SDASFASDASDFASD: ' + path.resolve('./test/tmp/test-data.yaml'));
             var options = {
                 src: path.resolve('./test/tmp/test-data.yaml')
             };
-
-            var transformer = new Transformer(logger);
 
             return transformer.transform(options)
                 .then(function (msg){
@@ -109,8 +108,6 @@ describe('Executing \'jy-transform\' project test suite.', function () {
                 target: Constants.JSON
             };
 
-            var transformer = new Transformer(logger);
-
             return transformer.transform(options, middleware)
                 .then(function (msg){
                     logger.info(msg);
@@ -125,5 +122,6 @@ describe('Executing \'jy-transform\' project test suite.', function () {
                     done(err);
                 });
         });
+
     });
 });

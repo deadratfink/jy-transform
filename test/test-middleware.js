@@ -6,10 +6,9 @@ var transformer;
 var Promise = require('bluebird');
 var logger;
 var assert = require('assert');
-var AssertionError = assert.AssertionError;
 var objectPath = require('object-path');
 
-describe('Executing \'jy-transform\' project middleware test suite.', function () {
+describe('Executing \'jy-transform\' project reader test suite.', function () {
 
     var middleware = function (json) {
 
