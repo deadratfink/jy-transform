@@ -1,15 +1,7 @@
 'use strict';
 
-var Transformer = require('../index.js');
-var Middleware = require('../index.js').middleware;
-var transformer;
-var Promise = require('bluebird');
 var assert = require('assert');
-var AssertionError = assert.AssertionError;
-var objectPath = require('object-path');
-
 var YAMLException = require('js-yaml/lib/js-yaml/exception.js');
-
 var fs = require('fs');
 var Reader = require('../index.js').Reader;
 var logger;
