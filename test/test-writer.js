@@ -3,6 +3,7 @@
 var assert = require('assert');
 var YAMLException = require('js-yaml/lib/js-yaml/exception.js');
 var fs = require('fs');
+var os = require('os');
 var Writer = require('../index.js').Writer;
 var logger;
 var writer;
@@ -107,13 +108,32 @@ describe('Executing \'jy-transform\' project Writer test suite.', function () {
                 });
         });
 
-        it('should reject with Error on missing destination', function (done) {
+        it('should reject write JS with Error on missing destination', function (done) {
 
             var options = {
             };
 
             writer.writeJs(json, options)
                 .then(function (msg) {
+                    done(new Error('Error expected'));
+                })
+                .catch(function (err) {
+                    logger.info('EXPECTED ERROR: ' + err.stack);
+                    assert.notEqual(err, null, 'err should not be null');
+                    assert(err instanceof Error, 'expected Error should equal Error, was: ' + (typeof err));
+                    done();
+                });
+        });
+
+        it('should reject write JS to file by invalid file path', function (done) {
+
+            var options = {
+                dest: './test/tmp/<>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/test-data-by-js-to-file.js'
+            };
+
+            writer.writeJs(json, options)
+                .then(function (msg) {
+                    assert.notEqual(msg, null);
                     done(new Error('Error expected'));
                 })
                 .catch(function (err) {
@@ -208,6 +228,65 @@ describe('Executing \'jy-transform\' project Writer test suite.', function () {
 
 
     describe('Testing Writer.writeYaml(...)', function () {
+
+        it('should write YAML to file', function (done) {
+
+            var options = {
+                dest: './test/tmp/test-data-by-js-to-file.yaml'
+            };
+
+            writer.writeYaml(json, options)
+                .then(function (msg) {
+                    assert.notEqual(msg, null);
+                    assertDestFile(options.dest, done);
+                })
+                .catch(function (err) {
+                    logger.error(err.stack);
+                    done(err);
+                });
+        });
+
+        it('should write YAML to stream', function (done) {
+
+            var file = './test/tmp/test-data-by-js-stream.yaml';
+            var dest = fs.createWriteStream(file);
+
+            var options = {
+                dest: dest
+            };
+
+            writer.writeYaml(json, options)
+                .then(function (msg) {
+                    assert.notEqual(msg, null, 'msg should not be null, was: ' + msg);
+                    assertDestFile(file, done);
+                })
+                .catch(function (err) {
+                    logger.error(err.stack);
+                    done(err);
+                });
+        });
+
+        it('should write stringified YAML to JS object', function (done) {
+
+            var options = {
+                dest: {}
+            };
+
+            writer.writeYaml(json, options)
+                .then(function (msg) {
+                    assert.notEqual(msg, null, 'msg should not be null, was: ' + msg);
+                    assert.notEqual(options.dest, null, 'options.dest should not be null, was: ' + JSON.stringify(options.dest));
+                    assert(typeof options.dest === 'string');
+                    var key = Object.keys(json)[0];
+                    assert.equal(options.dest, key + ': ' + json[key] + os.EOL, 'options.dest should contain YAML string, was: ' + JSON.stringify(options.dest));
+                    done();
+                })
+                .catch(function (err) {
+                    logger.error(err.stack);
+                    done(err);
+                });
+        });
+
 
 
         it('should reject with Error on missing destination', function (done) {

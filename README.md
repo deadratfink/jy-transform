@@ -868,7 +868,7 @@ var options = {
     ...
 };
 logWrapper.verboseOptions(options)
-    then(function (options) {
+    .then(function (options) {
         ...
     });
 ```
@@ -973,6 +973,7 @@ var OptionsHandler = require('./options-handler.js');
 var logger = ...;
 var options = {...};
 var optionsHandler = new OptionsHandler(logger);
+
 optionsHandler.ensureOptions(options)
     .then(function (ensuredOptions) {
         ...
@@ -998,6 +999,7 @@ to resolve a proper function.
 var OptionsHandler = require('./options-handler.js');
 var logger = ...;
 var optionsHandler = new OptionsHandler(logger);
+
 optionsHandler.validateTransformation(options)
     .spread(function (validatedOptions, transformation) {
         ...
