@@ -67,26 +67,6 @@ describe('Executing \'jy-transform\' project Writer test suite.', function () {
                 });
         });
 
-        it('should write JS to JS object', function (done) {
-
-            var options = {
-                dest: {}
-            };
-
-            writer.writeJs(json, options)
-                .then(function (msg) {
-                    assert.notEqual(msg, null, 'msg should not be null, was: ' + msg);
-                    assert.notEqual(options.dest, null, 'options.dest should not be null, was: ' + JSON.stringify(options.dest));
-                    assert.notEqual(options.dest.hasOwnProperty('test'), null, 'options.dest should not have \'test\' property, was: ' + JSON.stringify(options.dest));
-                    assert.equal(options.dest.test, 'value');
-                    done();
-                })
-                .catch(function (err) {
-                    logger.error(err.stack);
-                    done(err);
-                });
-        });
-
         it('should write JS to stream', function (done) {
 
             var file = './test/tmp/test-data-by-js-stream.js';
@@ -107,59 +87,42 @@ describe('Executing \'jy-transform\' project Writer test suite.', function () {
                 });
         });
 
-        //it('should read corrupted JSON from file path and fail by TypeError', function (done) {
-        //    reader.readJs('./test/data/test-data-corrupted.json')
-        //        .then(function (json) {
-        //            done(new Error('SyntaxError expected'));
-        //        })
-        //        .catch(function (err) {
-        //            logger.info('EXPECTED ERROR: ' + err.stack);
-        //            assert.notEqual(err, null, 'err should not be null');
-        //            assert(err instanceof SyntaxError, 'expected Error message should equal SyntaxError, was: ' + (typeof err));
-        //            done();
-        //        });
-        //});
-        //
-        //it('should read invalid JSON from file path and fail by SyntaxError', function (done) {
-        //    reader.readJs('./test/data/test-data-wrong-syntax.json')
-        //        .then(function (json) {
-        //            done(new Error('SyntaxError expected'));
-        //        })
-        //        .catch(function (err) {
-        //            logger.info('EXPECTED ERROR: ' + err);
-        //            assert.notEqual(err, null, 'err should not be null');
-        //            assert(err instanceof SyntaxError, 'expected Error message should equal SyntaxError, was: ' + (typeof err));
-        //            done();
-        //        });
-        //});
-        //
-        //it('should read corrupted JSON from stream and fail by TypeError', function (done) {
-        //    var readStream = fs.createReadStream('./test/data/test-data-corrupted.json');
-        //    reader.readJs(readStream)
-        //        .then(function (json) {
-        //            done(new Error('SyntaxError expected'));
-        //        })
-        //        .catch(function (err) {
-        //            logger.info('EXPECTED ERROR: ' + err.stack);
-        //            assert.notEqual(err, null, 'err should not be null');
-        //            assert(err instanceof SyntaxError, 'expected Error message should equal SyntaxError, was: ' + (typeof err));
-        //            done();
-        //        });
-        //});
-        //
-        //it('should read invalid JSON from stream and fail by SyntaxError', function (done) {
-        //    var readStream = fs.createReadStream('./test/data/test-data-wrong-syntax.json');
-        //    reader.readJs(readStream)
-        //        .then(function (json) {
-        //            done(new Error('SyntaxError expected'));
-        //        })
-        //        .catch(function (err) {
-        //            logger.info('EXPECTED ERROR: ' + err);
-        //            assert.notEqual(err, null, 'err should not be null');
-        //            assert(err instanceof SyntaxError, 'expected Error message should equal SyntaxError, was: ' + (typeof err));
-        //            done();
-        //        });
-        //});
+        it('should write JS to JS object', function (done) {
+
+            var options = {
+                dest: {}
+            };
+
+            writer.writeJs(json, options)
+                .then(function (msg) {
+                    assert.notEqual(msg, null, 'msg should not be null, was: ' + msg);
+                    assert.notEqual(options.dest, null, 'options.dest should not be null, was: ' + JSON.stringify(options.dest));
+                    assert.notEqual(options.dest.hasOwnProperty('test'), null, 'options.dest should have \'test\' property, was: ' + JSON.stringify(options.dest));
+                    assert.equal(options.dest.test, 'value');
+                    done();
+                })
+                .catch(function (err) {
+                    logger.error(err.stack);
+                    done(err);
+                });
+        });
+
+        it('should reject with Error on missing destination', function (done) {
+
+            var options = {
+            };
+
+            writer.writeJs(json, options)
+                .then(function (msg) {
+                    done(new Error('Error expected'));
+                })
+                .catch(function (err) {
+                    logger.info('EXPECTED ERROR: ' + err.stack);
+                    assert.notEqual(err, null, 'err should not be null');
+                    assert(err instanceof Error, 'expected Error should equal Error, was: ' + (typeof err));
+                    done();
+                });
+        });
 
     });
 
@@ -203,23 +166,67 @@ describe('Executing \'jy-transform\' project Writer test suite.', function () {
                 });
         });
 
-        //it('should read JSON from stream', function (done) {
-        //    var readStream = fs.createReadStream('./test/data/test-data.json');
-        //    reader.readJs(readStream)
-        //        .then(function (json) {
-        //            assert.notEqual(json, null);
-        //            assert.equal(json.myproperty, 'old value');
-        //            done();
-        //        })
-        //        .catch(function (err) {
-        //            logger.error(err.stack);
-        //            done(err);
-        //        });
-        //});
+        it('should write JS to JS object', function (done) {
+
+            var options = {
+                dest: {}
+            };
+
+            writer.writeJson(json, options)
+                .then(function (msg) {
+                    assert.notEqual(msg, null, 'msg should not be null, was: ' + msg);
+                    assert.notEqual(options.dest, null, 'options.dest should not be null, was: ' + JSON.stringify(options.dest));
+                    var result = JSON.parse(options.dest);
+                    assert.notEqual(result.hasOwnProperty('test'), null, 'options.dest should have \'test\' property, was: ' + JSON.stringify(options.dest));
+                    assert.equal(result.test, 'value');
+                    done();
+                })
+                .catch(function (err) {
+                    logger.error(err.stack);
+                    done(err);
+                });
+        });
+
+        it('should reject with Error on missing destination', function (done) {
+
+            var options = {
+            };
+
+            writer.writeJson(json, options)
+                .then(function (msg) {
+                    done(new Error('Error expected'));
+                })
+                .catch(function (err) {
+                    logger.info('EXPECTED ERROR: ' + err.stack);
+                    assert.notEqual(err, null, 'err should not be null');
+                    assert(err instanceof Error, 'expected Error should equal Error, was: ' + (typeof err));
+                    done();
+                });
+        });
 
     });
 
 
-    //var writeStream = fs.createWriteStream('myOutput.txt');
+    describe('Testing Writer.writeYaml(...)', function () {
+
+
+        it('should reject with Error on missing destination', function (done) {
+
+            var options = {
+            };
+
+            writer.writeYaml(json, options)
+                .then(function (msg) {
+                    done(new Error('Error expected'));
+                })
+                .catch(function (err) {
+                    logger.info('EXPECTED ERROR: ' + err.stack);
+                    assert.notEqual(err, null, 'err should not be null');
+                    assert(err instanceof Error, 'expected Error should equal Error, was: ' + (typeof err));
+                    done();
+                });
+        });
+
+    });
 
 });
