@@ -4,6 +4,7 @@ var assert = require('assert');
 var YAMLException = require('js-yaml/lib/js-yaml/exception.js');
 var fs = require('fs');
 var os = require('os');
+var stream = require('stream');
 var Writer = require('../index.js').Writer;
 var logger;
 var writer;
@@ -49,6 +50,14 @@ describe('Executing \'jy-transform\' project Writer test suite.', function () {
         test: 'value'
     };
 
+
+    var errorThrowingStream = new stream.Writable();
+    errorThrowingStream._write = function (chunk, encoding, done) {
+        logger.info('stream emitting Error now');
+        this.emit('error', new Error('Dummy Error'));
+        done();
+    };
+
     describe('Testing Writer.writeJs(...)', function () {
 
         it('should write JS to file', function (done) {
@@ -85,6 +94,24 @@ describe('Executing \'jy-transform\' project Writer test suite.', function () {
                 .catch(function (err) {
                     logger.error(err.stack);
                     done(err);
+                });
+        });
+
+        it('should write JS to stream and fail by provoked error', function (done) {
+
+            var options = {
+                dest: errorThrowingStream
+            };
+
+            writer.writeJs(json, options)
+                .then(function (msg) {
+                    done(new Error('Error expected'));
+                })
+                .catch(function (err) {
+                    logger.info('EXPECTED ERROR: ' + err.stack);
+                    assert.notEqual(err, null, 'err should not be null');
+                    assert(err instanceof Error, 'expected Error should equal Error, was: ' + (typeof err));
+                    done();
                 });
         });
 
@@ -287,7 +314,25 @@ describe('Executing \'jy-transform\' project Writer test suite.', function () {
                 });
         });
 
+        it('should reject with Error by invalid src object', function (done) {
 
+            var options = {
+                dest: './test/tmp/test-data-by-js-to-file-invalid.yaml'
+            };
+
+            var invalidYamlJson = function() {};
+
+            writer.writeYaml(invalidYamlJson, options)
+                .then(function (msg) {
+                    done(new Error('Error expected'));
+                })
+                .catch(function (err) {
+                    logger.info('EXPECTED ERROR: ' + err.stack);
+                    assert.notEqual(err, null, 'err should not be null');
+                    assert(err instanceof YAMLException, 'expected Error should equal YAMLException, was: ' + (typeof err));
+                    done();
+                });
+        });
 
         it('should reject with Error on missing destination', function (done) {
 

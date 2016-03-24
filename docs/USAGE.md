@@ -24,7 +24,7 @@ When contributing as coder, please take care of the following conventions:
   - `feature/#14_multidocument_support`
 - The `master` branch is protected and will never be pushed directly (always use pull-requests).
 - Indention for any file is 4 SPACEs.
-- Keep code coverage high (> 80%).
+- Keep code coverage high (> 90%).
 - Doc everything with [JSDocs](http://usejsdoc.org/) and document concepts in 
   [README.md](https://github.com/deadratfink/jy-transform/blob/development/README.md)
   or [Wiki](https://github.com/deadratfink/jy-transform/wiki).
