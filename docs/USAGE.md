@@ -15,10 +15,10 @@ When contributing as coder, please take care of the following conventions:
 
 - Enter yourself in the `constributors` section of _package.json_.
 - We strictly follow [Semantic Versioning 2](http://semver.org) rules.
-- The `development` branch is the leading branch. However, you can push directly, 
-  but is highly recommended to create bugfix and feature branches and use pull 
-  requests when finished. Any of these should be prefixed with `bugfix/#...` of 
-  `feature/#...` (containing issue number followed by a short, "underscored" 
+- The `development` branch is the leading branch. Create bugfix and feature 
+  branches (or fork into you own namespace) and create pull 
+  requests to `development` when finished. Any of these should be prefixed with 
+  `bugfix/#...` or `feature/#...` (containing issue number followed by a short, "underscored" 
   proper meaning), e.g. 
   - `bugfix/#8_fix_js_reading_with_require`
   - `feature/#14_multidocument_support`
@@ -96,8 +96,7 @@ while:
 ### Middleware
 
 Apply actions on the intermediate JSON object via injected [Promise](http://bluebirdjs.com/docs/api-reference.html) 
-functions. This is an optional part for [transformation](#transformation) phase 
-or is the transformation itself in case of same origin and target type.
+functions. This is an optional part for [transformation](#transformation) phase.
 
 ### Writing
 
@@ -111,22 +110,17 @@ Writing to:
 
 ## CLI Usage
 
-The CLI provides the `jyt` command (actually, this requires the use of a bunch of options):
-
-```
-$ jyt
-``` 
-
-### CLI Properties
-
-After the global installation you can access the Transformer command options 
-with the help command as follows:
+The CLI provides the `jyt` command (actually, this requires the use of a bunch of options). 
+After the global installation you can access the Transformer command options with the help 
+command as follows:
 
 ```
 $ jyt --help
 ```
 
-This command  prints an overview about all available CLI properties:
+### CLI Options
+
+The `--help` options prints an overview about all available CLI properties:
 
 ```
 $ jyt --help
@@ -145,7 +139,7 @@ Options:
   -h, --help             Display help and usage details
 ```
 
-More formally defined in the following table: 
+These are more formally defined in the following table: 
 
 | Name | Type | Description | Default | Required |
 | --- | --- | --- | --- | --- |
@@ -191,8 +185,8 @@ have been applied! If the source would have been a `js` type like
 $ jyt -s ./data/my.js -t json -i 2
 ```
 
-then the `js` `origin` is automatically inferred from file extension. Analogous, this is also true for 
-the `target` option.
+then the `js` value for `origin` is automatically inferred from file extension. 
+Analogous, this is also true for the `target` option.
 
 ## Origin and Target Type Inference
 
@@ -314,15 +308,15 @@ will result in such JSON file:
 }
 ```
 
-Of course, you might have use cases wiht complex and/or huge logic where one function 
-might be insufficient. This does not raise as a problem because you can create several 
-functions to be applied in the whole transformation process.
+Of course, you often will have use cases with much more complex and/or huger logic where one function 
+might be insufficient. This does not raise as a problem at all, because you can create several 
+functions to be applied in the whole transformation process by gathering them in one function.
 
 Let's assume we have some Promise functions to apply. For simplicity reasons we simulate 
 these for the moment by three functions, each adding key-value to the given (empty) JSON 
 object.
 
-**NOTE:** each has to return the `json` object! 
+**BE AWARE:** each of them has to return the `json` object! 
 
 
 ```javascript
@@ -387,12 +381,15 @@ you can do almost everything with the JSON object, like
 - validating and throwing error if not valid
 - ...
 
-Whatever, but keep it valid when transforming ;-)
+Whatever you do during transformation, just keep it valid ;-)
 
-## Injecting Logger
+## Using Custom Logger
 
-The `Reader`, `Transformer` and `Writer` constructors accept an (optional) logger object.
-Default logger is `console`.
+It is usual that you use an own `logger` in your application. This module supports you by 
+letting you inject your logger as constructor argument: the `Reader`, `Transformer` and 
+`Writer` constructor will accept an (optional) logger object.
+
+If you do not provide one, then the default logger is `console`.
 
 ```javascript
 var logger = ...;

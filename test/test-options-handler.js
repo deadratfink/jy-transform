@@ -8,6 +8,9 @@ var OptionsHandler = require('../lib/options-handler.js');
 var logger;
 var optionsHandler;
 
+/**
+ * @classdescription This unit test suite checks the validity and correctness of {@link OptionsHandler} class.
+ */
 describe('Executing \'jy-transform\' project OptionsHandler test suite.', function () {
 
     /**

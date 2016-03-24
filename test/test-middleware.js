@@ -8,7 +8,10 @@ var logger;
 var assert = require('assert');
 var objectPath = require('object-path');
 
-describe('Executing \'jy-transform\' project reader test suite.', function () {
+/**
+ * @classdescription This unit test suite checks the validity and correctness of {@link Middleware} class.
+ */
+describe('Executing \'jy-transform\' project Middleware test suite.', function () {
 
     var middleware = function (json) {
 

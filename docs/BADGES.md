@@ -1,12 +1,12 @@
 # Stats
 
-| [Github License](https://github.com/deadratfink/jy-transform) | [Github Issues](https://github.com/deadratfink/jy-transform) | [Github Release](https://github.com/deadratfink/jy-transform) | [Github Tags](https://github.com/deadratfink/jy-transform) |
+| [Github License](https://github.com/deadratfink/jy-transform/blob/master/LICENSE.md) | [Github Issues](https://github.com/deadratfink/jy-transform/issues) | [Github Release](https://github.com/deadratfink/jy-transform/releases) | [Github Tags](https://github.com/deadratfink/jy-transform/tags) |
 | --- | --- | --- | --- |
-| [![License][gh-license-image]][gh-license-url] | [![Issue Stats][gh-issues-image]][gh-issues-url] | [![Issue Stats][gh-releases-image]][gh-releases-url] | [![Issue Stats][gh-tags-image]][gh-tags-url] |
+| [![License][gh-license-image]][gh-license-url] | [![Issue Stats][gh-issues-image]][gh-issues-url] | [![Github Releases][gh-releases-image]][gh-releases-url] | [![Github Tags][gh-tags-image]][gh-tags-url] |
 
-| [Travis CI](https://travis-ci.org) | [Issue Stats](http://issuestats.com/) (Pull) | [Issue Stats](http://issuestats.com/) (Issue) |
-| --- | --- | --- |
-| [![Build Status][ci-image]][ci-url] | [![Issue Stats][is-pull-image]][is-url] | [![Issue Stats][is-issue-image]][is-url] |
+| [Travis CI](https://travis-ci.org) | [Issue Stats](http://issuestats.com/) (Pull) | [Issue Stats](http://issuestats.com/) (Issue) | [Waffle](https://waffle.io/deadratfink/jy-transform) (In Ready) |
+| --- | --- | --- | --- |
+| [![Build Status][ci-image]][ci-url] | [![Issue Stats][is-pull-image]][is-url] | [![Issue Stats][is-issue-image]][is-url] | [![Waffle][waffle-image]][waffle-url] |
 
 | [Codecov](https://codecov.io) | [Inch CI](http://inch-ci.org) | [David](https://david-dm.org) DM | [David](https://david-dm.org) DM (dev) | Branch |
 | --- | --- | --- | --- | --- |
@@ -41,6 +41,8 @@
 [is-issue-image]: http://issuestats.com/github/deadratfink/jy-transform/badge/issue?style=flat-square
 [is-url]: http://issuestats.com/github/deadratfink/jy-transform
 
+[waffle-image]: https://badge.waffle.io/deadratfink/jy-transform.png?label=ready&title=Ready&style=flat-square
+[waffle-url]: https://waffle.io/deadratfink/jy-transform
 
 [cc-image-master]: https://img.shields.io/codecov/c/github/deadratfink/jy-transform/master.svg?style=flat-square
 [cc-url-master]: https://codecov.io/github/deadratfink/jy-transform?branch=master

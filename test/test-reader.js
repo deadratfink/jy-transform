@@ -7,6 +7,9 @@ var Reader = require('../index.js').Reader;
 var logger;
 var reader;
 
+/**
+ * @classdescription This unit test suite checks the validity and correctness of {@link Reader} class.
+ */
 describe('Executing \'jy-transform\' project Reader test suite.', function () {
 
     /**
@@ -128,6 +131,20 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
                 });
         });
 
+
+        it('should fail JS(ON) read by missing input src', function (done) {
+            reader.readJs()
+                .then(function (json) {
+                    done(new Error('Error expected'));
+                })
+                .catch(function (err) {
+                    logger.info('EXPECTED ERROR: ' + err);
+                    assert.notEqual(err, null, 'err should not be null');
+                    assert(err instanceof Error, 'expected Error message should equal Error, was: ' + (typeof err));
+                    done();
+                });
+        });
+
     });
 
     describe('Testing Reader.readYaml(...)', function () {
@@ -197,6 +214,19 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
                     logger.info('EXPECTED ERROR: ' + err);
                     assert.notEqual(err, null, 'err should not be null');
                     assert(err instanceof YAMLException, 'expected Error message should equal YAMLException, was: ' + (typeof err));
+                    done();
+                });
+        });
+
+        it('should fail YAML read by missing input src', function (done) {
+            reader.readYaml()
+                .then(function (json) {
+                    done(new Error('Error expected'));
+                })
+                .catch(function (err) {
+                    logger.info('EXPECTED ERROR: ' + err);
+                    assert.notEqual(err, null, 'err should not be null');
+                    assert(err instanceof Error, 'expected Error message should equal Error, was: ' + (typeof err));
                     done();
                 });
         });

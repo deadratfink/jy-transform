@@ -1,10 +1,11 @@
 'use strict';
 
-var Transformer = require('../index.js');
-var Constants = require('../lib/constants.js');
 var LogWrapper = require('../lib/log-wrapper.js');
 var assert = require('assert');
 
+/**
+ * @classdescription This unit test suite checks the validity and correctness of {@link LogWrapper} class.
+ */
 describe('Executing \'jy-transform\' project log wrapper test suite.', function () {
 
     var infoMsg;
