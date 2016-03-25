@@ -72,4 +72,89 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
         });
 
     });
+
+    describe('Testing OptionsHandler.completeOptions(...)', function () {
+
+        it('should reject when options is missing', function (done) {
+            var options = {};
+            optionsHandler.completeOptions()
+                .then(function (resultOptions) {
+                    done(new Error('Error expected'));
+                })
+                .catch(function (err) {
+                    logger.error('EXPECTED ERROR: ' + err.stack);
+                    assert.notEqual(err, null, 'err should not be null');
+                    assert(err instanceof Error);
+                    done();
+                });
+        });
+
+    });
+
+    describe('Testing OptionsHandler.ensureIndent(...)', function () {
+
+        it('should set default indent when indent is missing', function (done) {
+            var options = {};
+            optionsHandler.ensureIndent(options)
+                .then(function (resultOptions) {
+                    assert.notEqual(resultOptions.indent, null, 'options should contain indent although missing');
+                    assert.equal(resultOptions.indent, Constants.DEFAULT_INDENT, 'result indent should have length 4');
+                    done();
+                })
+                .catch(function (err) {
+                    logger.error('UNEXPECTED ERROR: ' + err.stack);
+                    done(err);
+                });
+        });
+
+        it('should set default indent when indent below minimum YAML indent', function (done) {
+            var options = {
+                indent: Constants.MIN_YAML_INDENT - 1,
+                target: Constants.YAML
+            };
+            optionsHandler.ensureIndent(options)
+                .then(function (resultOptions) {
+                    assert.notEqual(resultOptions.indent, null, 'options should contain indent although missing');
+                    assert.equal(resultOptions.indent, Constants.DEFAULT_INDENT, 'result indent should have length ' + Constants.DEFAULT_INDENT);
+                    done();
+                })
+                .catch(function (err) {
+                    logger.error('UNEXPECTED ERROR: ' + err.stack);
+                    done(err);
+                });
+        });
+
+        it('should set default indent when indent below minimum indent', function (done) {
+            var options = {
+                indent: Constants.MIN_JSON_JS_INDENT - 1
+            };
+            optionsHandler.ensureIndent(options)
+                .then(function (resultOptions) {
+                    assert.notEqual(resultOptions.indent, null, 'options should contain indent although missing');
+                    assert.equal(resultOptions.indent, Constants.DEFAULT_INDENT, 'result indent should have length ' + Constants.DEFAULT_INDENT);
+                    done();
+                })
+                .catch(function (err) {
+                    logger.error('UNEXPECTED ERROR: ' + err.stack);
+                    done(err);
+                });
+        });
+
+        it('should set default indent when indent higher than minimum indent', function (done) {
+            var options = {
+                indent: Constants.MAX_INDENT + 1
+            };
+            optionsHandler.ensureIndent(options)
+                .then(function (resultOptions) {
+                    assert.notEqual(resultOptions.indent, null, 'options should contain indent although missing');
+                    assert.equal(resultOptions.indent, Constants.DEFAULT_INDENT, 'result indent should have length ' + Constants.DEFAULT_INDENT);
+                    done();
+                })
+                .catch(function (err) {
+                    logger.error('UNEXPECTED ERROR: ' + err.stack);
+                    done(err);
+                });
+        });
+
+    });
 });
