@@ -894,6 +894,7 @@ Class which defines middleware Promises usable in or with this module.
 
 * [Middleware](#Middleware)
     * [new Middleware()](#new_Middleware_new)
+    * [.identityMiddleware(json)](#Middleware+identityMiddleware)
     * [.ensureMiddleware(middleware)](#Middleware+ensureMiddleware) ⇒ <code>Promise</code>
 
 <a name="new_Middleware_new"></a>
@@ -904,6 +905,26 @@ Constructs the `Middleware`.
 **Example**  
 ```js
 var middleware = require('./lib/middleware.js');
+```
+<a name="Middleware+identityMiddleware"></a>
+### middleware.identityMiddleware(json)
+Middleware Promise which reflects the identity of passed JSON: `f(json) -> json`.
+
+**Kind**: instance method of <code>[Middleware](#Middleware)</code>  
+**Access:** public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| json | <code>object</code> | The data which is returned in Promise. |
+
+**Example**  
+```js
+var middleware = require('./lib/middleware.js');
+var identityMiddleware = middleware.identityMiddleware;
+transformer.transform(options, identityMiddleware)
+    .then(function(json) {
+        ...
+    }):
 ```
 <a name="Middleware+ensureMiddleware"></a>
 ### middleware.ensureMiddleware(middleware) ⇒ <code>Promise</code>

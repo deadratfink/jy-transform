@@ -2,6 +2,7 @@
 
 var Transformer = require('../index.js');
 var Middleware = require('../index.js').middleware;
+var identityMiddleware = Middleware.identityMiddleware;
 var transformer;
 var Promise = require('bluebird');
 var logger;
@@ -13,7 +14,13 @@ var objectPath = require('object-path');
  */
 describe('Executing \'jy-transform\' project Middleware test suite.', function () {
 
-    var middleware = function (json) {
+    /**
+     * Middleware function for altering JSON.
+     *
+     * @param {object} json - The JSON object o alter.
+     * @private
+     */
+    function middleware(json) {
 
         function key1(json) {
             objectPath.set(json, 'key1', 'value1');
@@ -40,12 +47,35 @@ describe('Executing \'jy-transform\' project Middleware test suite.', function (
                 logger.info('result: ' + JSON.stringify(result[result.length - 1]));
                 return Promise.resolve(result[result.length - 1]);
             });
-    };
+    }
 
+
+    /**
+     * Helper function to assert the identity Promise.
+     *
+     * @param {function} func - The identity Promise function.
+     * @param {function} done - Test finish callback.
+     * @private
+     */
+    function assertIdentityPromise(func, done) {
+        var json = {test: 'value'};
+        func(json)
+            .then(function (jsonResult) {
+                assert.deepEqual(jsonResult, json, 'JSON passed in should equals JSON put put out from identity Promise');
+                done();
+            })
+            .catch(function(err) {
+                done(err);
+            });
+    }
+
+    /**
+     * Simple transformation options.
+     *
+     * @type {{src: {}, dest: {}}}
+     */
     var options = {
         src: {},
-        //origin: 'js',
-        //target: 'js',
         dest: {}
     };
 
@@ -77,16 +107,29 @@ describe('Executing \'jy-transform\' project Middleware test suite.', function (
 
     });
 
-    describe('Testing middleware.ensureMiddleware()', function () {
-
-        var myMiddleware = function (json) {
-            return Promise.resolve(json);
-        };
+    describe('Testing middleware.identityMiddleware()', function () {
 
         it('should provide passed function', function (done) {
-            var func = Middleware.ensureMiddleware(myMiddleware);
+            var func = identityMiddleware;
             assert(typeof func === 'function');
-            assert(func === myMiddleware, 'should return same function');
+            assert(func === identityMiddleware, 'should return same function');
+
+            var json = {};
+            identityMiddleware(json)
+                .then(function (jsonIdentity) {
+                    assert(jsonIdentity === json, 'should return same json');
+                    done();
+                });
+        });
+
+    });
+
+    describe('Testing middleware.ensureMiddleware()', function () {
+
+        it('should provide passed function', function (done) {
+            var func = Middleware.ensureMiddleware(identityMiddleware);
+            assert(typeof func === 'function');
+            assert(func === identityMiddleware, 'should return same function');
             done();
         });
 
@@ -102,13 +145,14 @@ describe('Executing \'jy-transform\' project Middleware test suite.', function (
         it('should provide identity Promise if middleware passed is null', function (done) {
             var func = Middleware.ensureMiddleware();
             assert(typeof func === 'function');
-            done();
+            var json = {test: 'value'};
+            assertIdentityPromise(func, done);
         });
 
         it('should provide identity Promise if middleware passed is undefined', function (done) {
             var func = Middleware.ensureMiddleware(undefined);
             assert(typeof func === 'function');
-            done();
+            assertIdentityPromise(func, done);
         });
 
     });
