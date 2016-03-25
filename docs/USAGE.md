@@ -15,14 +15,15 @@ When contributing as coder, please take care of the following conventions:
 
 - Enter yourself in the `constributors` section of _package.json_.
 - We strictly follow [Semantic Versioning 2](http://semver.org) rules.
-- The `development` branch is the leading branch. Create bugfix and feature 
+- The `development` branch is the leading branch and is protected. Create bugfix and feature 
   branches (or fork into you own namespace) and create pull 
   requests to `development` when finished. Any of these should be prefixed with 
   `bugfix/#...` or `feature/#...` (containing issue number followed by a short, "underscored" 
   proper meaning), e.g. 
   - `bugfix/#8_fix_js_reading_with_require`
   - `feature/#14_multidocument_support`
-- The `master` branch is protected and will never be pushed directly (always use pull-requests).
+- The `master` branch is protected and is the stable branch after a release. 
+  It will never be pushed directly (only on release build).
 - Indention for any file is 4 SPACEs.
 - Keep code coverage high (> 90%).
 - Doc everything with [JSDocs](http://usejsdoc.org/) and document concepts in 
@@ -49,10 +50,10 @@ YAML, JS or JSON files.
 
 ## Usage Types
 
-The module can be used in two different ways:
+Since the module can be used in two different ways, use installation as follows:
 
-- On CLI (recommended install globally via `-g` option)
-- Via API (install locally)
+- CLI: install globally via `-g` option
+- API: install locally
 
 All use cases are described in more detail in the following sections.
 
@@ -110,8 +111,8 @@ Writing to:
 
 ## CLI Usage
 
-The CLI provides the `jyt` command (actually, this requires the use of a bunch of options). 
-After the global installation you can access the Transformer command options with the help 
+The CLI provides the `jyt` command (actually, this requires the use of options). 
+After the global installation you can access the `Transformer` command options with the help 
 command as follows:
 
 ```
@@ -160,7 +161,7 @@ have a YAML file located in _./data/my.yaml_ holding this data:
 myproperty: value
 ```
 
-then we can transform it to a JSON file _./data/my.json_:
+then we can transform it to a JSON file _./data/my.json_
 
 ```javascript
 {
@@ -168,13 +169,13 @@ then we can transform it to a JSON file _./data/my.json_:
 }
 ```
 
-using this command:
+when using this command:
 
 ```
 $ jyt -s ./data/my.yaml -t json -i 2
 ```
 
-In this example we have overwritten the standard target type (which is _js_) and applying an
+In this example we have overwritten the standard target type (which is `js) and applying an
 indent of _2_ instead of the default _4_. As default the output file _./data/my.json_ 
 is written relative to the input file (simply omitting the `dest` option here).
 
@@ -186,7 +187,10 @@ $ jyt -s ./data/my.js -t json -i 2
 ```
 
 then the `js` value for `origin` is automatically inferred from file extension. 
-Analogous, this is also true for the `target` option.
+Analogous, this is also true for the `target` option.`
+
+**IMPORTANT NOTE:** any subsequent execution using the same target, will overwrite the 
+target created beforehand! (This will controllable with a switch when [#19](https://github.com/deadratfink/jy-transform/issues/19).)
 
 ## Origin and Target Type Inference
 
@@ -272,7 +276,7 @@ var middleware = function (json) {
 ```
 
 Of course, this would have no effect on the provided JSON data. Actually, this one is 
-used internally when no middleware is provided to ensure the proper promisified 
+used internally when no middleware is provided to ensure the proper promised 
 control flow.
 
 OK, lets go back to a more practical example, e.g. we want to alter the value of
@@ -308,15 +312,17 @@ will result in such JSON file:
 }
 ```
 
-Of course, you often will have use cases with much more complex and/or huger logic where one function 
-might be insufficient. This does not raise as a problem at all, because you can create several 
-functions to be applied in the whole transformation process by gathering them in one function.
+Of course, in real world scenarios you will have use cases which usually have a 
+higher complexity where one function might be insufficient or at least 
+inconvenient. but this does not raise a problem at all, because you can create 
+several functions to be applied in the whole transformation process by gathering 
+them in one function.
 
-Let's assume we have some Promise functions to apply. For simplicity reasons we simulate 
-these for the moment by three functions, each adding key-value to the given (empty) JSON 
-object.
+Let's assume we have some Promise functions to apply. For simplicity reasons we 
+simulate these for the moment by three functions, each adding a key-value to the 
+given (initially empty) JSON object.
 
-**BE AWARE:** each of them has to return the `json` object! 
+**NOTE:** each of them has to return the `json` object! 
 
 
 ```javascript
@@ -337,8 +343,8 @@ function key3(json) {
 ```
 
 These can be collected by different aggregation or composition functions of the underlying
-Promise framework, e.g. the  [`Promise.all([...])`](http://bluebirdjs.com/docs/api/promise.all.html) 
-function. This can collect all three functions above and ensure their proper execution:
+Promise framework, e.g. using the  [`Promise.all([...])`](http://bluebirdjs.com/docs/api/promise.all.html) 
+function. This one can collect all three functions above and ensure their proper execution:
 
  
 ```javascript
@@ -362,8 +368,9 @@ return transformer.transform(options, middleware)
     });
 ```
 
-The result in the `middleware` function can be retrieved from the `result` array, in `Promise.all([...])` 
-you have to pick the last element which contains the "final product":
+Then the `result in the `middleware` function can be retrieved from the returned 
+array, i.e. in case of `Promise.all([...])` you have to pick the _last_ element 
+which contains the "final product". From our example above it would be
 
 ```javascript
 {
@@ -373,7 +380,7 @@ you have to pick the last element which contains the "final product":
 }
 ```
 
-which is then to be passed back to the transformation chain. Following this pattern 
+which then is passed back to the transformation chain. Following this pattern 
 you can do almost everything with the JSON object, like
 
 - deleting properties
@@ -407,3 +414,6 @@ function debug(msg)
 function error(msg)
 ```
 
+---
+
+For more details refer to the next section which describes the full API and provides more examples.  

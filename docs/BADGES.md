@@ -4,9 +4,9 @@
 | --- | --- | --- | --- |
 | [![License][gh-license-image]][gh-license-url] | [![Issue Stats][gh-issues-image]][gh-issues-url] | [![Github Releases][gh-releases-image]][gh-releases-url] | [![Github Tags][gh-tags-image]][gh-tags-url] |
 
-| [Travis CI](https://travis-ci.org) | [Issue Stats](http://issuestats.com/) (Pull) | [Issue Stats](http://issuestats.com/) (Issue) | [Waffle](https://waffle.io/deadratfink/jy-transform) (In Ready) |
-| --- | --- | --- | --- |
-| [![Build Status][ci-image]][ci-url] | [![Issue Stats][is-pull-image]][is-url] | [![Issue Stats][is-issue-image]][is-url] | [![Waffle][waffle-image]][waffle-url] |
+| [Travis CI](https://travis-ci.org) | [Issue Stats](http://issuestats.com/) (Pull) | [Issue Stats](http://issuestats.com/) (Issue) | [Waffle](https://waffle.io/deadratfink/jy-transform) (In Ready) | [Code Climate](https://codeclimate.com/github/deadratfink/jy-transform) |
+| --- | --- | --- | --- | --- |
+| [![Build Status][ci-image]][ci-url] | [![Issue Stats][is-pull-image]][is-url] | [![Issue Stats][is-issue-image]][is-url] | [![Waffle][waffle-image]][waffle-url] | [![Code Climate][cocl-image]][cocl-url] |
 
 | [Codecov](https://codecov.io) | [Inch CI](http://inch-ci.org) | [David](https://david-dm.org) DM | [David](https://david-dm.org) DM (dev) | Branch |
 | --- | --- | --- | --- | --- |
@@ -43,6 +43,10 @@
 
 [waffle-image]: https://badge.waffle.io/deadratfink/jy-transform.png?label=ready&title=Ready&style=flat-square
 [waffle-url]: https://waffle.io/deadratfink/jy-transform
+
+[cocl-image]: https://img.shields.io/codeclimate/github/deadratfink/jy-transform.svg?style=flat-square
+[cocl-url]: https://codeclimate.com/github/deadratfink/jy-transform
+
 
 [cc-image-master]: https://img.shields.io/codecov/c/github/deadratfink/jy-transform/master.svg?style=flat-square
 [cc-url-master]: https://codecov.io/github/deadratfink/jy-transform?branch=master
