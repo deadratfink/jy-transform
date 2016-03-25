@@ -137,50 +137,6 @@ describe('Executing \'jy-transform\' project\'s Transformer test suite.', functi
         });
     });
 
-
-    //describe('Testing Transformer transforming from YAML to JSON', function () {
-
-        //it('should alter property using middleware', function (done) {
-        //
-        //    var DEST = TEST_TMP_DIR + '/test-data.json';
-        //
-        //    var options = {
-        //        src: TEST_DATA_DIR + '/test-data.yaml',
-        //        //dest: DEST,
-        //        origin: Constants.YAML,
-        //        target: Constants.JSON
-        //    };
-        //
-        //});
-
-        //it('should alter property using middleware', function (done) {
-        //
-        //    var DEST = TEST_TMP_DIR + '/test-data-changed.json';
-        //
-        //    var options = {
-        //        src: TEST_DATA_DIR + '/test-data.yaml',
-        //        dest: DEST,
-        //        origin: Constants.YAML,
-        //        target: Constants.JSON
-        //    };
-        //
-        //    return transformer.transform(options, middleware)
-        //        .then(function (msg){
-        //            logger.info(msg);
-        //            var stats = fs.statSync(DEST);
-        //            assert(stats.isFile());
-        //            var json = JSON.parse(fs.readFileSync(DEST));
-        //            assert.equal(json.total, EXPECTED_VALUE, 'Altered JSON property should have new value \'' + EXPECTED_VALUE +'\'.');
-        //            done();
-        //        })
-        //        .catch(function (err) {
-        //            logger.error(err.stack);
-        //            done(err);
-        //        });
-        //});
-    //
-    //});
-
     describe('Testing Transformer transforming from JSON to JS', function () {
 
         var SRC  = './test/data/test-file.json';
@@ -215,6 +171,44 @@ describe('Executing \'jy-transform\' project\'s Transformer test suite.', functi
         });
     });
 
+    describe('Testing Transformer transforming from JS to YAML', function () {
+
+        var SRC  = './test/data/test-file.js';
+        var DEST = TEST_TMP_DIR + '/test-data-transform-js-yaml.yaml';
+
+        it('should store ' + SRC + ' file to ' + DEST, function (done) {
+
+            var options = {
+                src: path.resolve(SRC),
+                dest: path.resolve(DEST)
+            };
+
+            return transformer.transform(options, middleware)
+                .then(function (msg){
+                    logger.info(msg);
+                    var stats = fs.statSync(options.dest);
+                    assert(stats.isFile());
+
+                    return fsPromised.readFileAsync(options.dest, Constants.UTF8)
+                        .then(function (yaml) {
+                            logger.debug('YAML loaded from file ' + options.dest);
+                            try {
+                                var resultJson = jsYaml.safeLoad(yaml);
+                                assert.equal(resultJson.total, EXPECTED_VALUE, 'property \'total\' should have new value \'' + EXPECTED_VALUE +'\'.');
+                                done();
+                            } catch (err) { // probably a YAMLException
+                                logger.error('Unexpected error: ' + err.stack);
+                                return done(err);
+                            }
+                        });
+                })
+                .catch(function (err) {
+                    logger.error(err.stack);
+                    done(err);
+                });
+        });
+    });
+
     describe('Testing Transformer transforming from YAML to YAML', function () {
 
         var SRC  = './test/data/test-file.yaml';
@@ -241,18 +235,15 @@ describe('Executing \'jy-transform\' project\'s Transformer test suite.', functi
                                 assert.equal(resultJson.total, EXPECTED_VALUE, 'property \'total\' should have new value \'' + EXPECTED_VALUE +'\'.');
                                 done();
                             } catch (err) { // probably a YAMLException
-                                self.logInstance.error('Unexpected error: ' + err.stack);
+                                logger.error('Unexpected error: ' + err.stack);
                                 return done(err);
                             }
                         });
-
-
                 })
                 .catch(function (err) {
                     logger.error(err.stack);
                     done(err);
                 });
-
         });
     });
 
@@ -275,7 +266,7 @@ describe('Executing \'jy-transform\' project\'s Transformer test suite.', functi
 
     describe('Testing Transformer transforming from JS to JS', function () {
 
-        var SRC  = './test/data/test-file.json';
+        var SRC  = './test/data/test-file.js';
         var DEST = TEST_TMP_DIR + '/test-data-transform-js-js.js';
 
         it('should store ' + SRC + ' file to ' + DEST, function (done) {
