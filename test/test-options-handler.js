@@ -4,6 +4,7 @@ var Constants = require('../lib/constants.js');
 var assert = require('assert');
 var YAMLException = require('js-yaml/lib/js-yaml/exception.js');
 var fs = require('fs');
+var path = require('path');
 var OptionsHandler = require('../lib/options-handler.js');
 var optionsHandler;
 var logger;
@@ -390,7 +391,7 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
                 });
         });
 
-        it('should reject when Writable is given but nor target', function (done) {
+        it('should reject when Writable is given but not target', function (done) {
             var options = {
                 dest: fs.createWriteStream('myOutput.txt')
             };
@@ -430,6 +431,91 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
             optionsHandler.ensureDest(options)
                 .then(function (resultOptions) {
                     assert.equal(resultOptions.dest, null, 'options.dest should be null');
+                    done();
+                })
+                .catch(function (err) {
+                    logger.error('UNEXPECTED ERROR: ' + err.stack);
+                    done(err);
+                });
+        });
+
+    });
+
+    describe('Testing OptionsHandler.ensureSrc(...)', function () {
+
+        it('should reject when options.src is not given', function (done) {
+            optionsHandler.ensureSrc()
+                .then(function (resultOptions) {
+                    done(new Error('Error expected'));
+                })
+                .catch(function (err) {
+                    logger.error('EXPECTED ERROR: ' + err.stack);
+                    assert.notEqual(err, null, 'err should not be null');
+                    assert(err instanceof Error);
+                    done();
+                });
+        });
+
+        it('should resolve original options.src', function (done) {
+            var existingFile = path.resolve('./test/data/test-file.yaml');
+            var options = {
+                src: existingFile
+            };
+            optionsHandler.ensureSrc(options)
+                .then(function (resultOptions) {
+                    assert.notEqual(resultOptions.src, null, 'options should contain src but is missing');
+                    assert.equal(resultOptions.src, existingFile, 'result options.src should have file ' + existingFile);
+                    done();
+                })
+                .catch(function (err) {
+                    logger.error('UNEXPECTED ERROR: ' + err.stack);
+                    done(err);
+                });
+        });
+
+        it('should reject when options.src has value of not existing file', function (done) {
+            var notExistingFile = 'NON_EXISTING_FILE';
+            var options = {
+                src: notExistingFile
+            };
+            optionsHandler.ensureSrc()
+                .then(function (resultOptions) {
+                    done(new Error('Error expected'));
+                })
+                .catch(function (err) {
+                    logger.error('EXPECTED ERROR: ' + err.stack);
+                    assert.notEqual(err, null, 'err should not be null');
+                    assert(err instanceof Error);
+                    done();
+                });
+        });
+
+        it('should reject when Readable is given but nor origin', function (done) {
+            var options = {
+                src: fs.createReadStream('./test/data/readable-test-dummy.txt')
+            };
+            optionsHandler.ensureSrc(options)
+                .then(function (resultOptions) {
+                    done(new Error('Error expected'));
+                })
+                .catch(function (err) {
+                    logger.error('EXPECTED ERROR: ' + err.stack);
+                    assert.notEqual(err, null, 'err should not be null');
+                    assert(err instanceof Error);
+                    done();
+                });
+        });
+
+
+        it('should resolve original options.dest', function (done) {
+            var srcObj = {};
+            var options = {
+                dest: srcObj
+            };
+            optionsHandler.ensureSrc(options)
+                .then(function (resultOptions) {
+                    assert.notEqual(resultOptions.src, null, 'options should contain src but is missing');
+                    assert.equal(resultOptions.src, srcObj, 'result options.src should have type ' + srcObj);
                     done();
                 })
                 .catch(function (err) {
