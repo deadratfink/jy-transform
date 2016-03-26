@@ -1,12 +1,12 @@
 'use strict';
 
-var Constants = require('../index.js').constants;
+var Constants = require('../lib/constants.js');
 var assert = require('assert');
 var YAMLException = require('js-yaml/lib/js-yaml/exception.js');
 var fs = require('fs');
 var OptionsHandler = require('../lib/options-handler.js');
-var logger;
 var optionsHandler;
+var logger;
 
 /**
  * @classdescription This unit test suite checks the validity and correctness of {@link OptionsHandler} class.
@@ -34,12 +34,11 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
 
     describe('Testing OptionsHandler.validateTransformation(...)', function () {
 
-        var options = {
-            origin: Constants.YAML,
-            target: Constants.JS
-        };
-
         it('should resolve transformation correctly from valid origin and target', function (done) {
+            var options = {
+                origin: Constants.YAML,
+                target: Constants.JS
+            };
             optionsHandler.validateTransformation(options)
                 .then(function (results) {
                     assert.equal(results.length, 2, 'result should have length 2');
@@ -53,12 +52,11 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
                 });
         });
 
-        var invalidOptions = {
-            origin: Constants.YAML,
-            target: 'INVALID_TARGET'
-        };
-
         it('should reject with Error due to invalid target', function (done) {
+            var invalidOptions = {
+                origin: Constants.YAML,
+                target: 'INVALID_TARGET'
+            };
             optionsHandler.validateTransformation(invalidOptions)
                 .then(function (results) {
                     done(new Error('Error expected'));
@@ -76,16 +74,15 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
     describe('Testing OptionsHandler.completeOptions(...)', function () {
 
         it('should reject when options is missing', function (done) {
-            var options = {};
-            optionsHandler.completeOptions()
+            return optionsHandler.completeOptions()
                 .then(function (resultOptions) {
-                    done(new Error('Error expected'));
+                    return done(new Error('Error expected'));
                 })
                 .catch(function (err) {
                     logger.error('EXPECTED ERROR: ' + err.stack);
                     assert.notEqual(err, null, 'err should not be null');
                     assert(err instanceof Error);
-                    done();
+                    return done();
                 });
         });
 
@@ -97,8 +94,8 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
             var options = {};
             optionsHandler.ensureIndent(options)
                 .then(function (resultOptions) {
-                    assert.notEqual(resultOptions.indent, null, 'options should contain indent although missing');
-                    assert.equal(resultOptions.indent, Constants.DEFAULT_INDENT, 'result indent should have length 4');
+                    assert.notEqual(resultOptions.indent, null, 'options should contain indent but is missing');
+                    assert.equal(resultOptions.indent, Constants.DEFAULT_INDENT, 'result indent should have length ' + Constants.DEFAULT_INDENT);
                     done();
                 })
                 .catch(function (err) {
@@ -109,28 +106,29 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
 
         it('should set default indent when indent below minimum YAML indent', function (done) {
             var options = {
-                indent: Constants.MIN_YAML_INDENT - 1,
+                indent: (Constants.MIN_YAML_INDENT - 1),
                 target: Constants.YAML
             };
-            optionsHandler.ensureIndent(options)
+            return optionsHandler.ensureIndent(options)
                 .then(function (resultOptions) {
-                    assert.notEqual(resultOptions.indent, null, 'options should contain indent although missing');
+                    assert.equal(resultOptions.target, Constants.YAML, 'result target should have length ' + Constants.YAML);
+                    assert.notEqual(resultOptions.indent, null, 'options should contain indent but is missing');
                     assert.equal(resultOptions.indent, Constants.DEFAULT_INDENT, 'result indent should have length ' + Constants.DEFAULT_INDENT);
-                    done();
+                    return done();
                 })
                 .catch(function (err) {
                     logger.error('UNEXPECTED ERROR: ' + err.stack);
-                    done(err);
+                    return done(err);
                 });
         });
 
-        it('should set default indent when indent below minimum indent', function (done) {
+        it('should set default indent when indent below  JS/JSON minimum indent', function (done) {
             var options = {
                 indent: Constants.MIN_JSON_JS_INDENT - 1
             };
             optionsHandler.ensureIndent(options)
                 .then(function (resultOptions) {
-                    assert.notEqual(resultOptions.indent, null, 'options should contain indent although missing');
+                    assert.notEqual(resultOptions.indent, null, 'options should contain indent but is missing');
                     assert.equal(resultOptions.indent, Constants.DEFAULT_INDENT, 'result indent should have length ' + Constants.DEFAULT_INDENT);
                     done();
                 })
@@ -140,13 +138,13 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
                 });
         });
 
-        it('should set default indent when indent higher than minimum indent', function (done) {
+        it('should set default indent when indent higher than maximum indent', function (done) {
             var options = {
                 indent: Constants.MAX_INDENT + 1
             };
             optionsHandler.ensureIndent(options)
                 .then(function (resultOptions) {
-                    assert.notEqual(resultOptions.indent, null, 'options should contain indent although missing');
+                    assert.notEqual(resultOptions.indent, null, 'options should contain indent but is missing');
                     assert.equal(resultOptions.indent, Constants.DEFAULT_INDENT, 'result indent should have length ' + Constants.DEFAULT_INDENT);
                     done();
                 })

@@ -39,8 +39,9 @@ var winstonFileOptions = {
      * @returns {string} - The {@link Date} ISO string.
      */
     timestamp: function() {
-        return INDENT + new Date().toISOString();
+        return new Date().toISOString();
     },
+    json: false,
     formatter: formatter,
     level: 'debug'
 };
@@ -77,7 +78,8 @@ var logger = new (winston.Logger)({
     transports: [
         new (winston.transports.File)(winstonFileOptions),
         new (winston.transports.Console)(winstonConsoleOptions)
-    ]
+    ],
+    exitOnError: false
 });
 
 logger.info('Test-logger initialized, writing to ', winstonFileOptions.filename);
