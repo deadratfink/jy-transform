@@ -507,10 +507,10 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
         });
 
 
-        it('should resolve original options.dest', function (done) {
+        it('should resolve original options.src', function (done) {
             var srcObj = {};
             var options = {
-                dest: srcObj
+                src: srcObj
             };
             optionsHandler.ensureSrc(options)
                 .then(function (resultOptions) {
