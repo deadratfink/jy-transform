@@ -444,7 +444,8 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
     describe('Testing OptionsHandler.ensureSrc(...)', function () {
 
         it('should reject when options.src is not given', function (done) {
-            optionsHandler.ensureSrc()
+            var options = {};
+            optionsHandler.ensureSrc(options)
                 .then(function (resultOptions) {
                     done(new Error('Error expected'));
                 })
@@ -478,7 +479,7 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
             var options = {
                 src: notExistingFile
             };
-            optionsHandler.ensureSrc()
+            optionsHandler.ensureSrc(options)
                 .then(function (resultOptions) {
                     done(new Error('Error expected'));
                 })
@@ -490,7 +491,7 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
                 });
         });
 
-        it('should reject when Readable is given but nor origin', function (done) {
+        it('should reject when Readable is given but not origin', function (done) {
             var options = {
                 src: fs.createReadStream('./test/data/readable-test-dummy.txt')
             };
@@ -506,8 +507,7 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
                 });
         });
 
-
-        it('should resolve original options.src', function (done) {
+        it('should resolve original options.src object', function (done) {
             var srcObj = {};
             var options = {
                 src: srcObj
