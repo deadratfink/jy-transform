@@ -74,15 +74,35 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
     describe('Testing OptionsHandler.completeOptions(...)', function () {
 
         it('should reject when options is missing', function (done) {
-            return optionsHandler.completeOptions()
+            optionsHandler.completeOptions()
                 .then(function (resultOptions) {
-                    return done(new Error('Error expected'));
+                    done(new Error('Error expected'));
                 })
                 .catch(function (err) {
                     logger.error('EXPECTED ERROR: ' + err.stack);
                     assert.notEqual(err, null, 'err should not be null');
                     assert(err instanceof Error);
-                    return done();
+                    done();
+                });
+        });
+
+        it('should resolve options.src/orign and origin.dest/target with default values (' + Constants.DEFAULT_ORIGIN + '/' + Constants.DEFAULT_TARGET + ')', function (done) {
+            var PATH_WITH_INVALID_EXT = 'PATH_WITH_INVALID.EXT';
+            var options = {
+                src: PATH_WITH_INVALID_EXT,
+                dest: PATH_WITH_INVALID_EXT
+            };
+            optionsHandler.completeOptions(options)
+                .then(function (resultOptions) {
+                    assert.equal(resultOptions.origin, Constants.DEFAULT_ORIGIN, 'options.origin should have value ' + Constants.DEFAULT_ORIGIN);
+                    assert.equal(resultOptions.target, Constants.DEFAULT_TARGET, 'options.target should have value ' + Constants.DEFAULT_TARGET);
+                    assert.equal(resultOptions.dest, PATH_WITH_INVALID_EXT, 'options.dest should have value ' + PATH_WITH_INVALID_EXT);
+                    assert.equal(resultOptions.indent, Constants.DEFAULT_INDENT, 'options.indent should have value ' + Constants.DEFAULT_INDENT);
+                    done();
+                })
+                .catch(function (err) {
+                    logger.error('UNEXPECTED ERROR: ' + err.stack);
+                    done(err);
                 });
         });
 
@@ -109,16 +129,16 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
                 indent: (Constants.MIN_YAML_INDENT - 1),
                 target: Constants.YAML
             };
-            return optionsHandler.ensureIndent(options)
+            optionsHandler.ensureIndent(options)
                 .then(function (resultOptions) {
                     assert.equal(resultOptions.target, Constants.YAML, 'result target should have length ' + Constants.YAML);
                     assert.notEqual(resultOptions.indent, null, 'options should contain indent but is missing');
                     assert.equal(resultOptions.indent, Constants.DEFAULT_INDENT, 'result indent should have length ' + Constants.DEFAULT_INDENT);
-                    return done();
+                    done();
                 })
                 .catch(function (err) {
                     logger.error('UNEXPECTED ERROR: ' + err.stack);
-                    return done(err);
+                    done(err);
                 });
         });
 
@@ -146,6 +166,270 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
                 .then(function (resultOptions) {
                     assert.notEqual(resultOptions.indent, null, 'options should contain indent but is missing');
                     assert.equal(resultOptions.indent, Constants.DEFAULT_INDENT, 'result indent should have length ' + Constants.DEFAULT_INDENT);
+                    done();
+                })
+                .catch(function (err) {
+                    logger.error('UNEXPECTED ERROR: ' + err.stack);
+                    done(err);
+                });
+        });
+
+    });
+
+    describe('Testing OptionsHandler.ensureOrigin(...)', function () {
+
+        it('should resolve options.origin for valid type YAML', function (done) {
+            var options = {
+                origin: Constants.YAML
+            };
+            optionsHandler.ensureOrigin(options)
+                .then(function (resultOptions) {
+                    assert.notEqual(resultOptions.origin, null, 'options should contain origin but is missing');
+                    assert.equal(resultOptions.origin, Constants.YAML, 'result origin should have type ' + Constants.YAML);
+                    done();
+                })
+                .catch(function (err) {
+                    logger.error('UNEXPECTED ERROR: ' + err.stack);
+                    done(err);
+                });
+        });
+
+        it('should resolve options.origin for valid type JS', function (done) {
+            var options = {
+                origin: Constants.JS
+            };
+            optionsHandler.ensureOrigin(options)
+                .then(function (resultOptions) {
+                    assert.notEqual(resultOptions.origin, null, 'options should contain origin but is missing');
+                    assert.equal(resultOptions.origin, Constants.JS, 'result origin should have type ' + Constants.JS);
+                    done();
+                })
+                .catch(function (err) {
+                    logger.error('UNEXPECTED ERROR: ' + err.stack);
+                    done(err);
+                });
+        });
+
+        it('should resolve options.origin for valid type JSON', function (done) {
+            var options = {
+                origin: Constants.JSON
+            };
+            optionsHandler.ensureOrigin(options)
+                .then(function (resultOptions) {
+                    assert.notEqual(resultOptions.origin, null, 'options should contain origin but is missing');
+                    assert.equal(resultOptions.origin, Constants.JSON, 'result origin should have type ' + Constants.JSON);
+                    done();
+                })
+                .catch(function (err) {
+                    logger.error('UNEXPECTED ERROR: ' + err.stack);
+                    done(err);
+                });
+        });
+
+        it('should reject when options.origin is invalid type', function (done) {
+            var options = {
+                origin: 'INVALID_TYPE'
+            };
+            optionsHandler.ensureOrigin(options)
+                .then(function (resultOptions) {
+                    done(new Error('Error expected'));
+                })
+                .catch(function (err) {
+                    logger.error('EXPECTED ERROR: ' + err.stack);
+                    assert.notEqual(err, null, 'err should not be null');
+                    assert(err instanceof Error);
+                    done();
+                });
+        });
+
+    });
+
+    describe('Testing OptionsHandler.ensureTarget(...)', function () {
+
+        it('should resolve options.target for valid type YAML', function (done) {
+            var options = {
+                target: Constants.YAML
+            };
+            optionsHandler.ensureTarget(options)
+                .then(function (resultOptions) {
+                    assert.notEqual(resultOptions.target, null, 'options should contain target but is missing');
+                    assert.equal(resultOptions.target, Constants.YAML, 'result target should have type ' + Constants.YAML);
+                    done();
+                })
+                .catch(function (err) {
+                    logger.error('UNEXPECTED ERROR: ' + err.stack);
+                    done(err);
+                });
+        });
+
+        it('should resolve options.target for valid type JS', function (done) {
+            var options = {
+                target: Constants.JS
+            };
+            optionsHandler.ensureTarget(options)
+                .then(function (resultOptions) {
+                    assert.notEqual(resultOptions.target, null, 'options should contain target but is missing');
+                    assert.equal(resultOptions.target, Constants.JS, 'result target should have type ' + Constants.JS);
+                    done();
+                })
+                .catch(function (err) {
+                    logger.error('UNEXPECTED ERROR: ' + err.stack);
+                    done(err);
+                });
+        });
+
+        it('should resolve options.target for valid type JSON', function (done) {
+            var options = {
+                target: Constants.JSON
+            };
+            optionsHandler.ensureTarget(options)
+                .then(function (resultOptions) {
+                    assert.notEqual(resultOptions.target, null, 'options should contain target but is missing');
+                    assert.equal(resultOptions.target, Constants.JSON, 'result target should have type ' + Constants.JSON);
+                    done();
+                })
+                .catch(function (err) {
+                    logger.error('UNEXPECTED ERROR: ' + err.stack);
+                    done(err);
+                });
+        });
+
+        it('should reject when options.target is invalid type', function (done) {
+            var options = {
+                origin: 'INVALID_TYPE'
+            };
+            optionsHandler.ensureTarget(options)
+                .then(function (resultOptions) {
+                    done(new Error('Error expected'));
+                })
+                .catch(function (err) {
+                    logger.error('EXPECTED ERROR: ' + err.stack);
+                    assert.notEqual(err, null, 'err should not be null');
+                    assert(err instanceof Error);
+                    done();
+                });
+        });
+
+    });
+
+    describe('Testing OptionsHandler.ensureDest(...)', function () {
+
+        it('should resolve options.dest with value \'' + Constants.DEFAULT_OPTIONS.dest + '\' to relative file path to ' + Constants.YAML + ' file', function (done) {
+            var fileBaseName = 'test';
+            var options = {
+                src: fileBaseName + '.' + Constants.JS,
+                dest: Constants.DEFAULT_OPTIONS.dest,
+                target: Constants.YAML
+            };
+            optionsHandler.ensureDest(options)
+                .then(function (resultOptions) {
+                    assert.notEqual(resultOptions.dest, null, 'options should contain dest but is missing');
+                    assert.equal(resultOptions.dest, fileBaseName + '.' + Constants.YAML, 'result options.dest should have type ' + fileBaseName + '.' + Constants.YAML);
+                    done();
+                })
+                .catch(function (err) {
+                    logger.error('UNEXPECTED ERROR: ' + err.stack);
+                    done(err);
+                });
+        });
+
+        it('should resolve options.dest with value \'' + Constants.DEFAULT_OPTIONS.dest + '\' to relative file path to ' + Constants.JS + ' file', function (done) {
+            var fileBaseName = 'test';
+            var options = {
+                src: fileBaseName + '.' + Constants.YAML,
+                dest: Constants.DEFAULT_OPTIONS.dest,
+                target: Constants.JS
+            };
+            optionsHandler.ensureDest(options)
+                .then(function (resultOptions) {
+                    assert.notEqual(resultOptions.dest, null, 'options should contain dest but is missing');
+                    assert.equal(resultOptions.dest, fileBaseName + '.' + Constants.JS, 'result options.dest should have type ' + fileBaseName + '.' + Constants.JS);
+                    done();
+                })
+                .catch(function (err) {
+                    logger.error('UNEXPECTED ERROR: ' + err.stack);
+                    done(err);
+                });
+        });
+
+        it('should resolve options.dest with value \'' + Constants.DEFAULT_OPTIONS.dest + '\' to relative file path to ' + Constants.JSON + ' file', function (done) {
+            var fileBaseName = 'test';
+            var options = {
+                src: fileBaseName + '.' + Constants.YAML,
+                dest: Constants.DEFAULT_OPTIONS.dest,
+                target: Constants.JSON
+            };
+            optionsHandler.ensureDest(options)
+                .then(function (resultOptions) {
+                    assert.notEqual(resultOptions.dest, null, 'options should contain dest but is missing');
+                    assert.equal(resultOptions.dest, fileBaseName + '.' + Constants.JSON, 'result options.dest should have type ' + fileBaseName + '.' + Constants.JSON);
+                    done();
+                })
+                .catch(function (err) {
+                    logger.error('UNEXPECTED ERROR: ' + err.stack);
+                    done(err);
+                });
+        });
+
+        it('should reject options.dest when invalid target type is provided', function (done) {
+            var fileBaseName = 'test';
+            var options = {
+                src: fileBaseName + '.' + Constants.YAML,
+                dest: Constants.DEFAULT_OPTIONS.dest,
+                target: 'INVALID_TARGET'
+            };
+            optionsHandler.ensureDest(options)
+                .then(function (resultOptions) {
+                    done(new Error('Error expected'));
+                })
+                .catch(function (err) {
+                    logger.error('EXPECTED ERROR: ' + err.stack);
+                    assert.notEqual(err, null, 'err should not be null');
+                    assert(err instanceof Error);
+                    done();
+                });
+        });
+
+        it('should reject when Writable is given but nor target', function (done) {
+            var options = {
+                dest: fs.createWriteStream('myOutput.txt')
+            };
+            optionsHandler.ensureDest(options)
+                .then(function (resultOptions) {
+                    done(new Error('Error expected'));
+                })
+                .catch(function (err) {
+                    logger.error('EXPECTED ERROR: ' + err.stack);
+                    assert.notEqual(err, null, 'err should not be null');
+                    assert(err instanceof Error);
+                    done();
+                });
+        });
+
+        it('should resolve original options.dest', function (done) {
+            var destObj = {};
+            var options = {
+                dest: destObj
+            };
+            optionsHandler.ensureDest(options)
+                .then(function (resultOptions) {
+                    assert.notEqual(resultOptions.dest, null, 'options should contain dest but is missing');
+                    assert.equal(resultOptions.dest, destObj, 'result options.dest should have type ' + destObj);
+                    done();
+                })
+                .catch(function (err) {
+                    logger.error('UNEXPECTED ERROR: ' + err.stack);
+                    done(err);
+                });
+        });
+
+        it('should resolve with null value for options.dest', function (done) {
+            var destObj = {};
+            var options = {
+            };
+            optionsHandler.ensureDest(options)
+                .then(function (resultOptions) {
+                    assert.equal(resultOptions.dest, null, 'options.dest should be null');
                     done();
                 })
                 .catch(function (err) {

@@ -77,7 +77,7 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
                 });
         });
 
-        it('should read corrupted JSON from file path and fail by TypeError', function (done) {
+        it('should read corrupted JSON from file path and fail by SyntaxError', function (done) {
             reader.readJs('./test/data/test-data-corrupted.json')
                 .then(function (json) {
                     done(new Error('SyntaxError expected'));
@@ -103,7 +103,7 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
                 });
         });
 
-        it('should read corrupted JSON from stream and fail by TypeError', function (done) {
+        it('should read corrupted JSON from stream and fail by SyntaxError', function (done) {
             var readStream = fs.createReadStream('./test/data/test-data-corrupted.json');
             reader.readJs(readStream)
                 .then(function (json) {

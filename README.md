@@ -623,6 +623,11 @@ Class which defines all constants usable in or with this module.
 
 * [Constants](#Constants)
     * [new Constants()](#new_Constants_new)
+    * [.DEFAULT_ORIGIN](#Constants+DEFAULT_ORIGIN) : <code>string</code>
+    * [.DEFAULT_TARGET](#Constants+DEFAULT_TARGET) : <code>string</code>
+    * [.ORIGIN_DESCRIPTION](#Constants+ORIGIN_DESCRIPTION) : <code>string</code>
+    * [.TARGET_DESCRIPTION](#Constants+TARGET_DESCRIPTION) : <code>string</code>
+    * [.DEST_DESCRIPTION](#Constants+DEST_DESCRIPTION) : <code>string</code>
     * [.DEFAULT_OPTIONS](#Constants+DEFAULT_OPTIONS) : <code>object</code>
     * [.UTF8](#Constants+UTF8) : <code>string</code>
     * [.YAML](#Constants+YAML) : <code>string</code>
@@ -649,18 +654,54 @@ Class which defines all constants usable in or with this module.
 Constructs the constants.
 
 **Returns**: <code>[Constants](#Constants)</code> - - The instance.  
+<a name="Constants+DEFAULT_ORIGIN"></a>
+### constants.DEFAULT_ORIGIN : <code>string</code>
+The default origin value: 'yaml'.
+
+**Kind**: instance property of <code>[Constants](#Constants)</code>  
+**Access:** public  
+<a name="Constants+DEFAULT_TARGET"></a>
+### constants.DEFAULT_TARGET : <code>string</code>
+The default origin value: 'js'.
+
+**Kind**: instance property of <code>[Constants](#Constants)</code>  
+**Access:** public  
+<a name="Constants+ORIGIN_DESCRIPTION"></a>
+### constants.ORIGIN_DESCRIPTION : <code>string</code>
+The origin description value.
+
+**Kind**: instance property of <code>[Constants](#Constants)</code>  
+**Access:** public  
+<a name="Constants+TARGET_DESCRIPTION"></a>
+### constants.TARGET_DESCRIPTION : <code>string</code>
+The target description value.
+
+**Kind**: instance property of <code>[Constants](#Constants)</code>  
+**Access:** public  
+<a name="Constants+DEST_DESCRIPTION"></a>
+### constants.DEST_DESCRIPTION : <code>string</code>
+The dest description value.
+
+**Kind**: instance property of <code>[Constants](#Constants)</code>  
+**Access:** public  
 <a name="Constants+DEFAULT_OPTIONS"></a>
 ### constants.DEFAULT_OPTIONS : <code>object</code>
 The default options.
 
 **Kind**: instance namespace of <code>[Constants](#Constants)</code>  
+**See**
+
+- [ORIGIN_DESCRIPTION](#Constants+ORIGIN_DESCRIPTION)
+- [TARGET_DESCRIPTION](#Constants+TARGET_DESCRIPTION)
+- [DEST_DESCRIPTION](#Constants+DEST_DESCRIPTION)
+
 **Properties**
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | origin | <code>string</code> | <code>&quot;yaml&quot;</code> | The default origin type. |
 | target | <code>string</code> | <code>&quot;js&quot;</code> | The default target type. |
-| dest | <code>string</code> | <code>&quot;&#x27;relative&quot;</code> | to input file'   - The default dest description. |
+| dest | <code>string</code> | <code>&quot;&#x27;relative&quot;</code> | to input file' - The default dest description. |
 | indent | <code>number</code> | <code>4</code> | The default indention for files. |
 
 <a name="Constants+UTF8"></a>
@@ -1049,8 +1090,11 @@ This class provides utility methods usable to read YAML, JSON or JS
 
 * [Reader](#Reader)
     * [new Reader([logger])](#new_Reader_new)
-    * [.readJs(src)](#Reader+readJs) ⇒ <code>Promise</code>
-    * [.readYaml(src)](#Reader+readYaml) ⇒ <code>Promise</code>
+    * _instance_
+        * [.readJs(src)](#Reader+readJs) ⇒ <code>Promise</code>
+        * [.readYaml(src)](#Reader+readYaml) ⇒ <code>Promise</code>
+    * _inner_
+        * [~createReadableFunction(src, bufs)](#Reader..createReadableFunction) ⇒ <code>function</code>
 
 <a name="new_Reader_new"></a>
 ### new Reader([logger])
@@ -1132,6 +1176,18 @@ reader.readYaml('./my.yaml')
         logger.error(err.stack);
     });
 ```
+<a name="Reader..createReadableFunction"></a>
+### Reader~createReadableFunction(src, bufs) ⇒ <code>function</code>
+Creates a function to read from the passed source in to the given buffer array.
+
+**Kind**: inner method of <code>[Reader](#Reader)</code>  
+**Returns**: <code>function</code> - - The function whic hreads and buffers.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| src | <code>stream.Readable</code> | The source to read from. |
+| bufs | <code>array</code> | The temporary buffer array. |
+
 <a name="Transformer"></a>
 ## Transformer
 This class provides all methods usable to handle YAML, JSON and JS and
