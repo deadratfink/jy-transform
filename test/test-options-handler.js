@@ -22,16 +22,51 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
         optionsHandler = new OptionsHandler(logger);
     });
 
-    //describe('Testing OptionsHandler.writeJs(...)', function () {
+    /**
+     * Assert an `Error` for a given options function.
+     *
+     * @param {object} options - The options which potentially produce the error.
+     * @param {function} optionsFunc - The function to call for assertion.
+     * @param {function} done  - Test finish callback.
+     * @param {Error} [errorType=Error] - The error type to assert.
+     */
+    function assertOptionsError(options, optionsFunc, done, errorType) {
+        optionsFunc(options)
+            .then(function (resultOptions) {
+                done(new Error('Error expected when calling options = ' + JSON.stringify(options, null, 4)));
+            })
+            .catch(function (err) {
+                logger.error('is EXPECTED: ' + err.stack);
+                assert.notEqual(err, null, 'err should not be null');
+                var type = errorType;
+                if (!type) {
+                    type = Error;
+                }
+                logger.debug('ERROR type = ' + (typeof err));
+                assert(err instanceof Error);
+                assert.equal(err.name, type.name, err.name + ' should equal ' + type.name);
+                done();
+            });
+    }
+
+    //function getFunctionName(func) {
+    //    var funcStr = func.toString();
+    //    logger.info('FUNCTION:: ' + funcStr);
     //
-    //    it('should write JS to file', function (done) {
+    //    funcStr =funcStr.substr(0, funcStr.indexOf('('));
+    //    logger.info('FUNCTION:: ' + funcStr);
+    //    funcStr =funcStr.replace('function ', '');
+    //    logger.info('FUNCTION:: ' + funcStr);
+    //    funcStr =funcStr.trim();
+    //    logger.info('FUNCTION f:: ' + funcStr);
     //
-    //    });
-    //});
-
-    //var writeStream = fs.createWriteStream('myOutput.txt');
-
-
+    //    return funcStr;
+    //
+    //    //return funcStr
+    //    //    .substr(0, funcStr.indexOf('('))
+    //    //    .replace('function ', '')
+    //    //    .trim();
+    //}
 
     describe('Testing OptionsHandler.validateTransformation(...)', function () {
 
@@ -58,16 +93,7 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
                 origin: Constants.YAML,
                 target: 'INVALID_TARGET'
             };
-            optionsHandler.validateTransformation(invalidOptions)
-                .then(function (results) {
-                    done(new Error('Error expected'));
-                })
-                .catch(function (err) {
-                    logger.error('EXPECTED ERROR: ' + err.stack);
-                    assert.notEqual(err, null, 'err should not be null');
-                    assert(err instanceof Error);
-                    done();
-                });
+            assertOptionsError(invalidOptions, optionsHandler.validateTransformation, done);
         });
 
     });
@@ -75,16 +101,7 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
     describe('Testing OptionsHandler.completeOptions(...)', function () {
 
         it('should reject when options is missing', function (done) {
-            optionsHandler.completeOptions()
-                .then(function (resultOptions) {
-                    done(new Error('Error expected'));
-                })
-                .catch(function (err) {
-                    logger.error('EXPECTED ERROR: ' + err.stack);
-                    assert.notEqual(err, null, 'err should not be null');
-                    assert(err instanceof Error);
-                    done();
-                });
+            assertOptionsError(null, optionsHandler.completeOptions, done);
         });
 
         it('should resolve options.src/orign and origin.dest/target with default values (' + Constants.DEFAULT_ORIGIN + '/' + Constants.DEFAULT_TARGET + ')', function (done) {
@@ -111,7 +128,7 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
 
     describe('Testing OptionsHandler.ensureIndent(...)', function () {
 
-        it('should set default indent when indent is missing', function (done) {
+        it('should set default indent if indent is missing', function (done) {
             var options = {};
             optionsHandler.ensureIndent(options)
                 .then(function (resultOptions) {
@@ -125,7 +142,7 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
                 });
         });
 
-        it('should set default indent when indent below minimum YAML indent', function (done) {
+        it('should set default indent if indent < minimum YAML indent', function (done) {
             var options = {
                 indent: (Constants.MIN_YAML_INDENT - 1),
                 target: Constants.YAML
@@ -143,7 +160,7 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
                 });
         });
 
-        it('should set default indent when indent below  JS/JSON minimum indent', function (done) {
+        it('should set default indent if indent <  JS/JSON minimum indent', function (done) {
             var options = {
                 indent: Constants.MIN_JSON_JS_INDENT - 1
             };
@@ -159,7 +176,7 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
                 });
         });
 
-        it('should set default indent when indent higher than maximum indent', function (done) {
+        it('should set default indent if indent > than maximum indent', function (done) {
             var options = {
                 indent: Constants.MAX_INDENT + 1
             };
@@ -231,16 +248,7 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
             var options = {
                 origin: 'INVALID_TYPE'
             };
-            optionsHandler.ensureOrigin(options)
-                .then(function (resultOptions) {
-                    done(new Error('Error expected'));
-                })
-                .catch(function (err) {
-                    logger.error('EXPECTED ERROR: ' + err.stack);
-                    assert.notEqual(err, null, 'err should not be null');
-                    assert(err instanceof Error);
-                    done();
-                });
+            assertOptionsError(options, optionsHandler.ensureOrigin, done);
         });
 
     });
@@ -299,16 +307,7 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
             var options = {
                 origin: 'INVALID_TYPE'
             };
-            optionsHandler.ensureTarget(options)
-                .then(function (resultOptions) {
-                    done(new Error('Error expected'));
-                })
-                .catch(function (err) {
-                    logger.error('EXPECTED ERROR: ' + err.stack);
-                    assert.notEqual(err, null, 'err should not be null');
-                    assert(err instanceof Error);
-                    done();
-                });
+            assertOptionsError(options, optionsHandler.ensureTarget, done);
         });
 
     });
@@ -379,32 +378,14 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
                 dest: Constants.DEFAULT_OPTIONS.dest,
                 target: 'INVALID_TARGET'
             };
-            optionsHandler.ensureDest(options)
-                .then(function (resultOptions) {
-                    done(new Error('Error expected'));
-                })
-                .catch(function (err) {
-                    logger.error('EXPECTED ERROR: ' + err.stack);
-                    assert.notEqual(err, null, 'err should not be null');
-                    assert(err instanceof Error);
-                    done();
-                });
+            assertOptionsError(options, optionsHandler.ensureDest, done);
         });
 
         it('should reject when Writable is given but not target', function (done) {
             var options = {
                 dest: fs.createWriteStream('myOutput.txt')
             };
-            optionsHandler.ensureDest(options)
-                .then(function (resultOptions) {
-                    done(new Error('Error expected'));
-                })
-                .catch(function (err) {
-                    logger.error('EXPECTED ERROR: ' + err.stack);
-                    assert.notEqual(err, null, 'err should not be null');
-                    assert(err instanceof Error);
-                    done();
-                });
+            assertOptionsError(options, optionsHandler.ensureDest, done);
         });
 
         it('should resolve original options.dest', function (done) {
@@ -445,16 +426,7 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
 
         it('should reject when options.src is not given', function (done) {
             var options = {};
-            optionsHandler.ensureSrc(options)
-                .then(function (resultOptions) {
-                    done(new Error('Error expected'));
-                })
-                .catch(function (err) {
-                    logger.error('EXPECTED ERROR: ' + err.stack);
-                    assert.notEqual(err, null, 'err should not be null');
-                    assert(err instanceof Error);
-                    done();
-                });
+            assertOptionsError(options, optionsHandler.ensureSrc, done);
         });
 
         it('should resolve original options.src', function (done) {
@@ -462,6 +434,7 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
             var options = {
                 src: existingFile
             };
+
             optionsHandler.ensureSrc(options)
                 .then(function (resultOptions) {
                     assert.notEqual(resultOptions.src, null, 'options should contain src but is missing');
@@ -479,32 +452,14 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
             var options = {
                 src: notExistingFile
             };
-            optionsHandler.ensureSrc(options)
-                .then(function (resultOptions) {
-                    done(new Error('Error expected'));
-                })
-                .catch(function (err) {
-                    logger.error('EXPECTED ERROR: ' + err.stack);
-                    assert.notEqual(err, null, 'err should not be null');
-                    assert(err instanceof Error);
-                    done();
-                });
+            assertOptionsError(options, optionsHandler.ensureSrc, done);
         });
 
         it('should reject when Readable is given but not origin', function (done) {
             var options = {
                 src: fs.createReadStream('./test/data/readable-test-dummy.txt')
             };
-            optionsHandler.ensureSrc(options)
-                .then(function (resultOptions) {
-                    done(new Error('Error expected'));
-                })
-                .catch(function (err) {
-                    logger.error('EXPECTED ERROR: ' + err.stack);
-                    assert.notEqual(err, null, 'err should not be null');
-                    assert(err instanceof Error);
-                    done();
-                });
+            assertOptionsError(options, optionsHandler.ensureSrc, done);
         });
 
         it('should resolve original options.src object', function (done) {
