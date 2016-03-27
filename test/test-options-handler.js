@@ -49,26 +49,25 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
             });
     }
 
-    //function getFunctionName(func) {
-    //    var funcStr = func.toString();
-    //    logger.info('FUNCTION:: ' + funcStr);
-    //
-    //    funcStr =funcStr.substr(0, funcStr.indexOf('('));
-    //    logger.info('FUNCTION:: ' + funcStr);
-    //    funcStr =funcStr.replace('function ', '');
-    //    logger.info('FUNCTION:: ' + funcStr);
-    //    funcStr =funcStr.trim();
-    //    logger.info('FUNCTION f:: ' + funcStr);
-    //
-    //    return funcStr;
-    //
-    //    //return funcStr
-    //    //    .substr(0, funcStr.indexOf('('))
-    //    //    .replace('function ', '')
-    //    //    .trim();
-    //}
-
     describe('Testing OptionsHandler.validateTransformation(...)', function () {
+
+        it('should reject when options is missing', function (done) {
+            assertOptionsError(null, optionsHandler.validateTransformation, done);
+        });
+
+        it('should reject when options.origin is missing', function (done) {
+            var options = {
+                target: Constants.YAML
+            };
+            assertOptionsError(options, optionsHandler.validateTransformation, done);
+        });
+
+        it('should reject when options.target is missing', function (done) {
+            var options = {
+                origin: Constants.YAML
+            };
+            assertOptionsError(null, optionsHandler.validateTransformation, done);
+        });
 
         it('should resolve transformation correctly from valid origin and target', function (done) {
             var options = {
@@ -127,6 +126,10 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
     });
 
     describe('Testing OptionsHandler.ensureIndent(...)', function () {
+
+        it('should reject when options is missing', function (done) {
+            assertOptionsError(null, optionsHandler.ensureIndent, done);
+        });
 
         it('should set default indent if indent is missing', function (done) {
             var options = {};
@@ -194,13 +197,17 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
 
     });
 
-    describe('Testing OptionsHandler.ensureOrigin(...)', function () {
+    describe('Testing OptionsHandler.assertOrigin(...)', function () {
+
+        it('should reject when options is missing', function (done) {
+            assertOptionsError(null, optionsHandler.assertOrigin, done);
+        });
 
         it('should resolve options.origin for valid type YAML', function (done) {
             var options = {
                 origin: Constants.YAML
             };
-            optionsHandler.ensureOrigin(options)
+            optionsHandler.assertOrigin(options)
                 .then(function (resultOptions) {
                     assert.notEqual(resultOptions.origin, null, 'options should contain origin but is missing');
                     assert.equal(resultOptions.origin, Constants.YAML, 'result origin should have type ' + Constants.YAML);
@@ -216,7 +223,7 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
             var options = {
                 origin: Constants.JS
             };
-            optionsHandler.ensureOrigin(options)
+            optionsHandler.assertOrigin(options)
                 .then(function (resultOptions) {
                     assert.notEqual(resultOptions.origin, null, 'options should contain origin but is missing');
                     assert.equal(resultOptions.origin, Constants.JS, 'result origin should have type ' + Constants.JS);
@@ -232,7 +239,7 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
             var options = {
                 origin: Constants.JSON
             };
-            optionsHandler.ensureOrigin(options)
+            optionsHandler.assertOrigin(options)
                 .then(function (resultOptions) {
                     assert.notEqual(resultOptions.origin, null, 'options should contain origin but is missing');
                     assert.equal(resultOptions.origin, Constants.JSON, 'result origin should have type ' + Constants.JSON);
@@ -248,18 +255,22 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
             var options = {
                 origin: 'INVALID_TYPE'
             };
-            assertOptionsError(options, optionsHandler.ensureOrigin, done);
+            assertOptionsError(options, optionsHandler.assertOrigin, done);
         });
 
     });
 
-    describe('Testing OptionsHandler.ensureTarget(...)', function () {
+    describe('Testing OptionsHandler.assertTarget(...)', function () {
+
+        it('should reject when options is missing', function (done) {
+            assertOptionsError(null, optionsHandler.assertTarget, done);
+        });
 
         it('should resolve options.target for valid type YAML', function (done) {
             var options = {
                 target: Constants.YAML
             };
-            optionsHandler.ensureTarget(options)
+            optionsHandler.assertTarget(options)
                 .then(function (resultOptions) {
                     assert.notEqual(resultOptions.target, null, 'options should contain target but is missing');
                     assert.equal(resultOptions.target, Constants.YAML, 'result target should have type ' + Constants.YAML);
@@ -275,7 +286,7 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
             var options = {
                 target: Constants.JS
             };
-            optionsHandler.ensureTarget(options)
+            optionsHandler.assertTarget(options)
                 .then(function (resultOptions) {
                     assert.notEqual(resultOptions.target, null, 'options should contain target but is missing');
                     assert.equal(resultOptions.target, Constants.JS, 'result target should have type ' + Constants.JS);
@@ -291,7 +302,7 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
             var options = {
                 target: Constants.JSON
             };
-            optionsHandler.ensureTarget(options)
+            optionsHandler.assertTarget(options)
                 .then(function (resultOptions) {
                     assert.notEqual(resultOptions.target, null, 'options should contain target but is missing');
                     assert.equal(resultOptions.target, Constants.JSON, 'result target should have type ' + Constants.JSON);
@@ -307,12 +318,16 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
             var options = {
                 origin: 'INVALID_TYPE'
             };
-            assertOptionsError(options, optionsHandler.ensureTarget, done);
+            assertOptionsError(options, optionsHandler.assertTarget, done);
         });
 
     });
 
     describe('Testing OptionsHandler.ensureDest(...)', function () {
+
+        it('should reject when options is missing', function (done) {
+            assertOptionsError(null, optionsHandler.ensureDest, done);
+        });
 
         it('should resolve options.dest with value \'' + Constants.DEFAULT_OPTIONS.dest + '\' to relative file path to ' + Constants.YAML + ' file', function (done) {
             var fileBaseName = 'test';
@@ -383,7 +398,7 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
 
         it('should reject when Writable is given but not target', function (done) {
             var options = {
-                dest: fs.createWriteStream('myOutput.txt')
+                dest: fs.createWriteStream('./test/tmp/myOutput.txt')
             };
             assertOptionsError(options, optionsHandler.ensureDest, done);
         });
@@ -423,6 +438,10 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
     });
 
     describe('Testing OptionsHandler.ensureSrc(...)', function () {
+
+        it('should reject when options is missing', function (done) {
+            assertOptionsError(null, optionsHandler.ensureSrc, done);
+        });
 
         it('should reject when options.src is not given', function (done) {
             var options = {};

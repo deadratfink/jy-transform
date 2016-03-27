@@ -352,5 +352,4 @@ describe('Executing \'jy-transform\' project Writer test suite.', function () {
         });
 
     });
-
 });
