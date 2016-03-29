@@ -52,6 +52,7 @@
     },
     "devDependencies": {
         "codecov": "^1.0.1",
+        "coveralls": "^2.11.9",
         "doctoc": "^1.0.0",
         "fs-extra": "^0.26.7",
         "istanbul": "^0.4.2",

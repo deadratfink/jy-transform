@@ -14,6 +14,7 @@ node_js:
     - "iojs"
 after_success:
     - ./bin/codecov -e TRAVIS_NODE_VERSION
+    - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js --verbose
 # whitelist
 branches:
     only:

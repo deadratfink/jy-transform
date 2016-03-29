@@ -45,7 +45,7 @@ in feature [#14](https://github.com/deadratfink/jy-transform/issues/14).
 # Usage
 
 The module can bu used on CLI or as API. The latter is fully [Promise](http://bluebirdjs.com/docs/api-reference.html) 
-based. Besides transformation this module can also be used for laoding and/or writing 
+based. Besides transformation this module can also be used for loading and/or writing 
 YAML, JS or JSON files. 
 
 ## Usage Types
