@@ -58,8 +58,6 @@
 [ca-image-development]: https://img.shields.io/coveralls/deadratfink/jy-transform/development.svg?style=flat-square
 [ca-url-development]: https://coveralls.io/github/deadratfink/jy-transform?branch=development
 
-https://img.shields.io/coveralls/deadratfink/jy-transform/master.svg
-
 
 [inch-image-master]: https://inch-ci.org/github/deadratfink/jy-transform.svg?branch=master&style=flat-square
 [inch-url-master]: https://inch-ci.org/github/deadratfink/jy-transform?branch=master
