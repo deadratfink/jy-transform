@@ -70,16 +70,6 @@ describe('Executing \'jy-transform\' project Middleware test suite.', function (
     }
 
     /**
-     * Simple transformation options.
-     *
-     * @type {{src: {}, dest: {}}}
-     */
-    var options = {
-        src: {},
-        dest: {}
-    };
-
-    /**
      * Init the test logger.
      */
     before(function () {
@@ -90,13 +80,17 @@ describe('Executing \'jy-transform\' project Middleware test suite.', function (
     describe('Testing Transformer middleware', function () {
 
         it('should alter json', function (done) {
+            var options = {
+                src: {},
+                dest: {}
+            };
             transformer.transform(options, middleware)
                 .then(function (msg){
                     logger.info(msg);
                     logger.info('options.dest: ' + JSON.stringify(options.dest, null, 4));
-                    assert.equal(options.dest['key1'], 'value1', 'options.dest.key1 should have value: value1, but was ' + options.dest['key1']);
-                    assert.equal(options.dest['key2'], 'value2', 'options.dest.key1 should have value: value2, but was ' + options.dest['key2']);
-                    assert.equal(options.dest['key3'], 'value3', 'options.dest.key1 should have value: value3, but was ' + options.dest['key3']);
+                    assert.equal(options.dest.key1, 'value1', 'options.dest.key1 should have value: value1, but was ' + options.dest.key1);
+                    assert.equal(options.dest.key2, 'value2', 'options.dest.key1 should have value: value2, but was ' + options.dest.key2);
+                    assert.equal(options.dest.key3, 'value3', 'options.dest.key1 should have value: value3, but was ' + options.dest.key3);
                     done();
                 })
                 .catch(function (err) {
@@ -112,7 +106,7 @@ describe('Executing \'jy-transform\' project Middleware test suite.', function (
         it('should provide passed function', function (done) {
             var func = identityMiddleware;
             assert(typeof func === 'function');
-            assert(func === identityMiddleware, 'should return same function');
+            assert(func === identityMiddleware, 'func should be same function identityMiddleware');
 
             var json = {};
             identityMiddleware(json)
@@ -129,7 +123,7 @@ describe('Executing \'jy-transform\' project Middleware test suite.', function (
         it('should provide passed function', function (done) {
             var func = Middleware.ensureMiddleware(identityMiddleware);
             assert(typeof func === 'function');
-            assert(func === identityMiddleware, 'should return same function');
+            assert(func === identityMiddleware, 'should return passed function (identityMiddleware)');
             done();
         });
 

@@ -100,6 +100,7 @@
   - [OptionsHandler](#optionshandler)
   - [Reader](#reader)
   - [Transformer](#transformer)
+  - [Validator](#validator)
   - [Writer](#writer)
   - [Options : <code>object</code>](#options--codeobjectcode)
 
@@ -715,6 +716,9 @@ the full API and provides more examples.
 <dd><p>This class provides all methods usable to handle YAML, JSON and JS and
        their transformations.</p>
 </dd>
+<dt><a href="#Validator">Validator</a></dt>
+<dd><p>This class validates JSON.</p>
+</dd>
 <dt><a href="#Writer">Writer</a></dt>
 <dd><p>This class provides utility methods usable to write JSON/JS/YAML
        from memory to a JSON/JS/YAML file.</p>
@@ -1057,7 +1061,7 @@ Class which defines middleware Promises usable in or with this module.
 * [Middleware](#Middleware)
     * [new Middleware()](#new_Middleware_new)
     * [.identityMiddleware](#Middleware+identityMiddleware)
-    * [.ensureMiddleware(middleware)](#Middleware+ensureMiddleware) ⇒ <code>Promise</code>
+    * [.ensureMiddleware(middleware, [options])](#Middleware+ensureMiddleware) ⇒ <code>Promise</code>
 
 <a name="new_Middleware_new"></a>
 ### new Middleware()
@@ -1089,7 +1093,7 @@ transformer.transform(options, identityMiddleware)
     }):
 ```
 <a name="Middleware+ensureMiddleware"></a>
-### middleware.ensureMiddleware(middleware) ⇒ <code>Promise</code>
+### middleware.ensureMiddleware(middleware, [options]) ⇒ <code>Promise</code>
 Ensure that the given middleware Promise is a function if set.
 If not set a new JSON 'identity' Promise is returned which simply passes
 a JSON object.
@@ -1106,6 +1110,7 @@ a JSON object.
 | Param | Type | Description |
 | --- | --- | --- |
 | middleware | <code>function</code> | This middleware Promise can be used to intercept        the JSON object for altering he passed JSON, the function signature is:        ```        function(json)        ```        The Promise has to return the processed JSON! |
+| [options] | <code>[Options](#Options)</code> | The transformation options. |
 
 **Example**  
 ```js
@@ -1399,8 +1404,8 @@ This class provides utility methods usable to read YAML, JSON or JS
 * [Reader](#Reader)
     * [new Reader([logger])](#new_Reader_new)
     * _instance_
-        * [.readJs(src)](#Reader+readJs) ⇒ <code>Promise</code>
-        * [.readYaml(src)](#Reader+readYaml) ⇒ <code>Promise</code>
+        * [.readJs(options)](#Reader+readJs) ⇒ <code>Promise</code>
+        * [.readYaml(options)](#Reader+readYaml) ⇒ <code>Promise</code>
     * _inner_
         * [~createReadableFunction(src, bufs)](#Reader..createReadableFunction) ⇒ <code>function</code>
 
@@ -1422,24 +1427,26 @@ var logger = ...;
 var reader = new Reader(logger);
 ```
 <a name="Reader+readJs"></a>
-### reader.readJs(src) ⇒ <code>Promise</code>
+### reader.readJs(options) ⇒ <code>Promise</code>
 Reads the data from a given _*.js_ or _*.json_ file source.
 
 **Kind**: instance method of <code>[Reader](#Reader)</code>  
-**Returns**: <code>Promise</code> - - Containing the JSON object.  
+**Returns**: <code>Promise</code> - - Contains the read JSON object.  
 **Access:** public  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| src | <code>string</code> &#124; <code>Readable</code> &#124; <code>object</code> | The JS/JSON source file to read. |
+| options | <code>[Options](#Options)</code> | Contains the JS/JSON source reference to read from. |
 
 **Example**  
 ```js
 var Reader = require('jy-transform').Reader;
 var logger = ...;
-
+var options = {
+   src: 'foo.js'
+};
 var reader = new Reader(logger);
-reader.readJs('./my.js')
+reader.readJs(options)
     .then(function (json){
         logger.info(JSON.stringify(json));
     })
@@ -1447,7 +1454,23 @@ reader.readJs('./my.js')
         logger.error(err.stack);
     });
 
-reader.readJs('./my.json')
+options = {
+    src: fs.createReadStream('./my.js')
+};
+reader.readJs(options)
+    .then(function (json){
+        logger.info(JSON.stringify(json));
+    })
+    .catch(function (err) {
+        logger.error(err.stack);
+    });
+
+options = {
+    src: {
+        foo: 'bar'
+    }
+};
+reader.readJs(options)
     .then(function (json){
         logger.info(JSON.stringify(json));
     })
@@ -1456,19 +1479,19 @@ reader.readJs('./my.json')
     });
 ```
 <a name="Reader+readYaml"></a>
-### reader.readYaml(src) ⇒ <code>Promise</code>
+### reader.readYaml(options) ⇒ <code>Promise</code>
 Loads a single YAML file containing document and turns a JS object.
 
 *NOTE:* This function does not understand multi-document sources, it throws
 exception on those.
 
 **Kind**: instance method of <code>[Reader](#Reader)</code>  
-**Returns**: <code>Promise</code> - - Containing the JSON object.  
+**Returns**: <code>Promise</code> - - Contains the read JSON object.  
 **Access:** public  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| src | <code>string</code> &#124; <code>Readable</code> &#124; <code>object</code> | The YAML source file to read. |
+| options | <code>[Options](#Options)</code> | Contains the YAML source reference to read from. |
 
 **Example**  
 ```js
@@ -1476,7 +1499,18 @@ var Reader = require('jy-transform').Reader;
 var logger = ...;
 
 var reader = new Reader(logger);
-reader.readYaml('./my.yaml')
+reader.readYaml('foo.yaml')
+    .then(function (json){
+        logger.info(JSON.stringify(json));
+    })
+    .catch(function (err) {
+        logger.error(err.stack);
+    });
+
+options = {
+    src: fs.createReadStream('foo.yml')
+};
+reader.readJs(options)
     .then(function (json){
         logger.info(JSON.stringify(json));
     })
@@ -1572,6 +1606,28 @@ transformer.transform(options, middleware)
 Ensures that basic middleware is set.
 
 **Kind**: inner property of <code>[Transformer](#Transformer)</code>  
+<a name="Validator"></a>
+## Validator
+This class validates JSON.
+
+**Kind**: global class  
+<a name="new_Validator_new"></a>
+### new Validator([logger])
+Constructs the `Validator` with an (optional) logger.
+
+**Returns**: <code>[Writer](#Writer)</code> - The instance.  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [logger] | <code>logger</code> &#124; <code>cli</code> &#124; <code>console</code> | <code>console</code> | Logger object. |
+
+**Example**  
+```js
+var Writer = require('jy-transform').Writer;
+var logger = ...;
+
+var writer = new Writer(logger);
+```
 <a name="Writer"></a>
 ## Writer
 This class provides utility methods usable to write JSON/JS/YAML
@@ -1629,13 +1685,27 @@ Writes a JSON object to a _*.yaml_ file.
 ```js
 var Writer = require('jy-transform').Writer;
 var logger = ...;
+var writer = new Writer(logger);
+
 var json = {...},
 var options = {
     dest: 'result.yml',
     indent: 2
 }
 
-var writer = new Writer(logger);
+writer.writeYaml(json, options)
+    .then(function (msg){
+        logger.info(msg);
+    })
+    .catch(function (err) {
+        logger.error(err.stack);
+    });
+
+options = {
+    dest: fs.createWriteStream('result.yml'),
+    indent: 4
+}
+
 writer.writeYaml(json, options)
     .then(function (msg){
         logger.info(msg);
@@ -1667,13 +1737,40 @@ Writes a JSON object to a _*.json_ file.
 ```js
 var Writer = require('jy-transform').Writer;
 var logger = ...;
+var writer = new Writer(logger);
+
 var json = {...};
 var options = {
-    dest: 'result.yml',
+    dest: 'result.json',
     indent: 2
 }
 
-var writer = new Writer(logger);
+writer.writeJson(json, options)
+    .then(function (msg){
+        logger.info(msg);
+    })
+    .catch(function (err) {
+        logger.error(err.stack);
+    });
+
+options = {
+    dest: fs.createWriteStream('result.json'),
+    indent: 4
+}
+
+writer.writeJson(json, options)
+    .then(function (msg){
+        logger.info(msg);
+    })
+    .catch(function (err) {
+        logger.error(err.stack);
+    });
+
+options = {
+    dest: {},
+    indent: 4
+}
+
 writer.writeJson(json, options)
     .then(function (msg){
         logger.info(msg);
@@ -1705,13 +1802,40 @@ Writes a JSON object to a _*.js_ file. The object is prefixed by `module.exports
 ```js
 var Writer = require('jy-transform').Writer;
 var logger = ...;
+var writer = new Writer(logger);
+
 var json = {...};
 var options = {
-    dest: 'result.yml',
+    dest: 'result.js',
     indent: 2
 }
 
-var writer = new Writer(logger);
+writer.writeJs(json, options)
+    .then(function (msg){
+        logger.info(msg);
+    })
+    .catch(function (err) {
+        logger.error(err.stack);
+    });
+
+options = {
+    dest: fs.createWriteStream('result.json'),
+    indent: 4
+}
+
+writer.writeJs(json, options)
+    .then(function (msg){
+        logger.info(msg);
+    })
+    .catch(function (err) {
+        logger.error(err.stack);
+    });
+
+options = {
+    dest: {},
+    indent: 2
+}
+
 writer.writeJs(json, options)
     .then(function (msg){
         logger.info(msg);

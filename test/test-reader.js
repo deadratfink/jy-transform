@@ -23,7 +23,10 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
     describe('Testing Reader.readJs(...)', function () {
 
         it('should read JS from file', function (done) {
-            reader.readJs('./test/data/test-data.js')
+            var options = {
+                src: './test/data/test-data.js'
+            };
+            reader.readJs(options)
                 .then(function (json) {
                     assert.notEqual(json, null);
                     assert.equal(json.myproperty, 'old value');
@@ -36,7 +39,10 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
         });
 
         it('should read JSON from file', function (done) {
-            reader.readJs('./test/data/test-data.json')
+            var options = {
+                src: './test/data/test-data.json'
+            };
+            reader.readJs(options)
                 .then(function (json) {
                     assert.notEqual(json, null);
                     assert.equal(json.myproperty, 'old value');
@@ -49,9 +55,12 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
         });
 
         it('should read JS from object', function (done) {
-            reader.readJs({
+            var options = {
+                src: {
                     test: 'value'
-                })
+                }
+            };
+            reader.readJs(options)
                 .then(function (json) {
                     assert.notEqual(json, null);
                     assert.equal(json.test, 'value');
@@ -64,8 +73,10 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
         });
 
         it('should read JSON from stream', function (done) {
-            var readStream = fs.createReadStream('./test/data/test-data.json');
-            reader.readJs(readStream)
+            var options = {
+                src: fs.createReadStream('./test/data/test-data.json')
+            };
+            reader.readJs(options)
                 .then(function (json) {
                     assert.notEqual(json, null);
                     assert.equal(json.myproperty, 'old value');
@@ -78,7 +89,10 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
         });
 
         it('should read corrupted JSON from file path and fail by SyntaxError', function (done) {
-            reader.readJs('./test/data/test-data-corrupted.json')
+            var options = {
+                src: './test/data/test-data-corrupted.json'
+            };
+            reader.readJs(options)
                 .then(function (json) {
                     done(new Error('SyntaxError expected'));
                 })
@@ -91,7 +105,10 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
         });
 
         it('should read invalid JSON from file path and fail by SyntaxError', function (done) {
-            reader.readJs('./test/data/test-data-wrong-syntax.json')
+            var options = {
+                src: './test/data/test-data-wrong-syntax.json'
+            };
+            reader.readJs(options)
                 .then(function (json) {
                     done(new Error('SyntaxError expected'));
                 })
@@ -104,8 +121,10 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
         });
 
         it('should read corrupted JSON from stream and fail by SyntaxError', function (done) {
-            var readStream = fs.createReadStream('./test/data/test-data-corrupted.json');
-            reader.readJs(readStream)
+            var options = {
+                src: fs.createReadStream('./test/data/test-data-corrupted.json')
+            };
+            reader.readJs(options)
                 .then(function (json) {
                     done(new Error('SyntaxError expected'));
                 })
@@ -118,8 +137,10 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
         });
 
         it('should read invalid JSON from stream and fail by SyntaxError', function (done) {
-            var readStream = fs.createReadStream('./test/data/test-data-wrong-syntax.json');
-            reader.readJs(readStream)
+            var options = {
+                src: fs.createReadStream('./test/data/test-data-wrong-syntax.json')
+            };
+            reader.readJs(options)
                 .then(function (json) {
                     done(new Error('SyntaxError expected'));
                 })
@@ -131,9 +152,21 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
                 });
         });
 
-
-        it('should fail JS(ON) read by missing input src', function (done) {
+        it('should fail JS(ON) read by missing options', function (done) {
             reader.readJs()
+                .then(function (json) {
+                    done(new Error('Error expected'));
+                })
+                .catch(function (err) {
+                    logger.info('EXPECTED ERROR: ' + err);
+                    assert.notEqual(err, null, 'err should not be null');
+                    assert(err instanceof Error, 'expected Error should equal Error, was: ' + (typeof err));
+                    done();
+                });
+        });
+
+        it('should fail JS(ON) read by missing options.src', function (done) {
+            reader.readJs({})
                 .then(function (json) {
                     done(new Error('Error expected'));
                 })
@@ -150,7 +183,10 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
     describe('Testing Reader.readYaml(...)', function () {
 
         it('should read YAML from file', function (done) {
-            reader.readYaml('./test/data/test-data.yaml')
+            var options = {
+                src: './test/data/test-data.yaml'
+            };
+            reader.readYaml(options)
                 .then(function (json) {
                     assert.notEqual(json, null);
                     assert.equal(json.myproperty, 'old value');
@@ -163,9 +199,12 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
         });
 
         it('should read JS from object', function (done) {
-            reader.readYaml({
+            var options = {
+                src: {
                     test: 'value'
-                })
+                }
+            };
+            reader.readYaml(options)
                 .then(function (json) {
                     assert.notEqual(json, null);
                     assert.equal(json.test, 'value');
@@ -178,8 +217,10 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
         });
 
         it('should read JSON from stream', function (done) {
-            var readStream = fs.createReadStream('./test/data/test-data.yaml');
-            reader.readYaml(readStream)
+            var options = {
+                src: fs.createReadStream('./test/data/test-data.yaml')
+            };
+            reader.readYaml(options)
                 .then(function (json) {
                     assert.notEqual(json, null);
                     assert.equal(json.myproperty, 'old value');
@@ -192,7 +233,10 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
         });
 
         it('should read invalid YAML from file path and fail by SyntaxError', function (done) {
-            reader.readYaml('./test/data/test-data-wrong-syntax.yaml')
+            var options = {
+                src: './test/data/test-data-wrong-syntax.yaml'
+            };
+            reader.readYaml(options)
                 .then(function (json) {
                     done(new Error('YAMLException expected'));
                 })
@@ -205,8 +249,10 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
         });
 
         it('should read invalid YAML from stream and fail by SyntaxError', function (done) {
-            var readStream = fs.createReadStream('./test/data/test-data-wrong-syntax.yaml');
-            reader.readYaml(readStream)
+            var options = {
+                src: fs.createReadStream('./test/data/test-data-wrong-syntax.yaml')
+            };
+            reader.readYaml(options)
                 .then(function (json) {
                     done(new Error('YAMLException expected'));
                 })
@@ -218,8 +264,21 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
                 });
         });
 
-        it('should fail YAML read by missing input src', function (done) {
+        it('should fail YAML read by missing inpu options', function (done) {
             reader.readYaml()
+                .then(function (json) {
+                    done(new Error('Error expected'));
+                })
+                .catch(function (err) {
+                    logger.info('EXPECTED ERROR: ' + err);
+                    assert.notEqual(err, null, 'err should not be null');
+                    assert(err instanceof Error, 'expected Error should equal Error, was: ' + (typeof err));
+                    done();
+                });
+        });
+
+        it('should fail YAML read by missing options.src', function (done) {
+            reader.readYaml({})
                 .then(function (json) {
                     done(new Error('Error expected'));
                 })
