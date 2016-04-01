@@ -115,6 +115,30 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
                     assert.equal(resultOptions.target, Constants.DEFAULT_TARGET, 'options.target should have value ' + Constants.DEFAULT_TARGET);
                     assert.equal(resultOptions.dest, PATH_WITH_INVALID_EXT, 'options.dest should have value ' + PATH_WITH_INVALID_EXT);
                     assert.equal(resultOptions.indent, Constants.DEFAULT_INDENT, 'options.indent should have value ' + Constants.DEFAULT_INDENT);
+                    assert.equal(resultOptions.force, Constants.DEFAULT_FORCE_FILE_OVERWRITE, 'options.indent should have value ' + Constants.DEFAULT_FORCE_FILE_OVERWRITE);
+                    done();
+                })
+                .catch(function (err) {
+                    logger.error('UNEXPECTED ERROR: ' + err.stack);
+                    done(err);
+                });
+        });
+
+        it('should resolve options.force should result to ' + !Constants.DEFAULT_FORCE_FILE_OVERWRITE, function (done) {
+            var PATH_WITH_INVALID_EXT = 'PATH_WITH_INVALID.EXT';
+            var force = !Constants.DEFAULT_FORCE_FILE_OVERWRITE;
+            var options = {
+                src: PATH_WITH_INVALID_EXT,
+                dest: PATH_WITH_INVALID_EXT,
+                force: force
+            };
+            optionsHandler.completeOptions(options)
+                .then(function (resultOptions) {
+                    assert.equal(resultOptions.origin, Constants.DEFAULT_ORIGIN, 'options.origin should have value ' + Constants.DEFAULT_ORIGIN);
+                    assert.equal(resultOptions.target, Constants.DEFAULT_TARGET, 'options.target should have value ' + Constants.DEFAULT_TARGET);
+                    assert.equal(resultOptions.dest, PATH_WITH_INVALID_EXT, 'options.dest should have value ' + PATH_WITH_INVALID_EXT);
+                    assert.equal(resultOptions.indent, Constants.DEFAULT_INDENT, 'options.indent should have value ' + Constants.DEFAULT_INDENT);
+                    assert.equal(resultOptions.force, force, 'options.force should have value ' + force);
                     done();
                 })
                 .catch(function (err) {
