@@ -1,17 +1,13 @@
 # Stats
 
-| [Github License](https://github.com/deadratfink/jy-transform/blob/master/LICENSE.md) | [Github Issues](https://github.com/deadratfink/jy-transform/issues) | [Github Release](https://github.com/deadratfink/jy-transform/releases) | [Github Tags](https://github.com/deadratfink/jy-transform/tags) |
-| --- | --- | --- | --- |
-| [![License][gh-license-image]][gh-license-url] | [![Issue Stats][gh-issues-image]][gh-issues-url] | [![Github Releases][gh-releases-image]][gh-releases-url] | [![Github Tags][gh-tags-image]][gh-tags-url] |
+| [Github License](https://github.com/deadratfink/jy-transform/blob/master/LICENSE.md) | [Github Issues](https://github.com/deadratfink/jy-transform/issues) | [Github Release](https://github.com/deadratfink/jy-transform/releases) | [Github Tags](https://github.com/deadratfink/jy-transform/tags) | [Travis CI](https://travis-ci.org) | [Waffle](https://waffle.io/deadratfink/jy-transform) | [Code Climate](https://codeclimate.com/github/deadratfink/jy-transform) |
+| --- | --- | --- | --- | --- | --- | --- |
+| [![License][gh-license-image]][gh-license-url] | [![Issue Stats][gh-issues-image]][gh-issues-url] | [![Github Releases][gh-releases-image]][gh-releases-url] | [![Github Tags][gh-tags-image]][gh-tags-url] | [![Build Status][ci-image]][ci-url] | [![Waffle][waffle-image]][waffle-url] | [![Code Climate][cocl-image]][cocl-url] |
 
-| [Travis CI](https://travis-ci.org) | [Issue Stats](http://issuestats.com/) (Pull) | [Issue Stats](http://issuestats.com/) (Issue) | [Waffle](https://waffle.io/deadratfink/jy-transform) | [Code Climate](https://codeclimate.com/github/deadratfink/jy-transform) |
-| --- | --- | --- | --- | --- |
-| [![Build Status][ci-image]][ci-url] | [![Issue Stats][is-pull-image]][is-url] | [![Issue Stats][is-issue-image]][is-url] | [![Waffle][waffle-image]][waffle-url] | [![Code Climate][cocl-image]][cocl-url] |
-
-| [Codecov](https://codecov.io) | [Coveralls](https://coveralls.io) | [Inch CI](http://inch-ci.org) | [David](https://david-dm.org) DM | [David](https://david-dm.org) DM (dev) | Branch |
+| Branch | [Codecov](https://codecov.io) | [Coveralls](https://coveralls.io) | [Inch CI](http://inch-ci.org) | [David](https://david-dm.org) DM | [David](https://david-dm.org) DM (dev) |
 | --- | --- | --- | --- | --- | --- |
-| [![codecov.io][cc-image-master]][cc-url-master]           | [![coveralls.io][ca-image-master]][ca-url-master]           | [![inch-ci.org][inch-image-master]][inch-url-master]           | [![Dependency Status][dep-image-master]][dep-url-master]           | [![devDependency Status][devdep-image-master]][devdep-url-master] | master |
-| [![codecov.io][cc-image-development]][cc-url-development] | [![coveralls.io][ca-image-development]][ca-url-development] | [![inch-ci.org][inch-image-development]][inch-url-development] | [![Dependency Status][dep-image-development]][dep-url-development] | [![devDependency Status][devdep-image-development]][devdep-url-development] | development |
+| master | [![codecov.io][cc-image-master]][cc-url-master]           | [![coveralls.io][ca-image-master]][ca-url-master]           | [![inch-ci.org][inch-image-master]][inch-url-master]           | [![Dependency Status][dep-image-master]][dep-url-master]           | [![devDependency Status][devdep-image-master]][devdep-url-master] |
+| development | [![codecov.io][cc-image-development]][cc-url-development] | [![coveralls.io][ca-image-development]][ca-url-development] | [![inch-ci.org][inch-image-development]][inch-url-development] | [![Dependency Status][dep-image-development]][dep-url-development] | [![devDependency Status][devdep-image-development]][devdep-url-development] |
 
 ## Coverage Graphs
 
