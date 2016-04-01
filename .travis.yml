@@ -1,26 +1,23 @@
 language: node_js
 node_js:
-    - "5"
-    - "5.1"
-    - "4"
-    - "4.4"
-    - "4.3"
-    - "4.2"
-    - "4.1"
-    - "4.0"
-    - "0.12"
-    - "0.11"
-    - "0.10"
-#    - "0.8"
-#    - "0.6"
-    - "iojs"
+- "5"
+- "5.1"
+- "4"
+- "4.4"
+- "4.3"
+- "4.2"
+- "4.1"
+- "4.0"
+- "0.12"
+- "0.11"
+- "0.10"
+- "iojs"
 after_success:
-    - ./bin/codecov -e TRAVIS_NODE_VERSION
-    - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js --verbose
-# whitelist
+- ./bin/codecov -e TRAVIS_NODE_VERSION
+- cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js --verbose
 branches:
-    only:
-        - master
-        - development
-        - /^(bugfix|feature)\/#\d+.*$/
-        - /^hotfix\/.*$/
+    only: # whitelist
+    - master
+    - development
+    - /^(bugfix|feature)\/#\d+.*$/
+    - /^hotfix\/.*$/
