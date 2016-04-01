@@ -4,25 +4,58 @@
 
 var constants = require('./lib/constants.js');
 var cli = require('cli');
+var path = require('path');
 var Transformer = require('./lib/transformer.js');
 var transformer = new Transformer(cli);
 
 ///////////////////////////////////////////////////////////////////////////////
-// CLI
+// CLI INIT
 ///////////////////////////////////////////////////////////////////////////////
 
-cli.setUsage('jyt [OPTIONS]');
-cli.setApp(__dirname + '/package.json');
-cli.enable('version', 'status', 'timeout');
-cli.parse({
-    origin: [ 'o', 'The conversion origin: [ ' + constants.JS + ' | ' + constants.JSON + ' | ' + constants.YAML + ' ]', 'string', constants.DEFAULT_OPTIONS.origin ],
-    target: [ 't', 'The conversion target: [ ' + constants.JS + ' | ' + constants.JSON + ' | ' + constants.YAML + ' ]', 'string', constants.DEFAULT_OPTIONS.target ],
-    src:    [ 's', 'The absolute/relative input file path', 'path'],
-    dest:   [ 'd', 'The absolute/relative output file path', 'path', constants.DEFAULT_OPTIONS.dest],
-    indent: [ 'i', 'The indention for pretty-print: 0 - 8 (json/js), 1 - 8 (yaml)', 'int', constants.DEFAULT_INDENT ]
-    //prefix: ['p', 'Whether the JS should get a \'module.exports = \' prefix', 'boolean']
-});
-cli.main(function(args, options) {
+/**
+ * How to use the CLI.
+ *
+ * @type {string}
+ * @private
+ */
+var usage = path.basename(__filename) + ' [OPTIONS]';
+
+/**
+ * The path to package.json.
+ *
+ * @type {string}
+ * @private
+ */
+var packagePath = __dirname + '/package.json';
+
+/**
+ * The options description for parsing the command line input, must be an object with opts defined like:
+ * ```
+ * long_tag: [short_tag, description, value_type, default_value];
+ * ```
+ * @type {{origin: *[], target: *[], src: string[], dest: *[], indent: *[], force: string[]}}
+ * @private
+ */
+var options = {
+    origin: [ 'o', 'The conversion origin: [ ' + constants.JS + ' | ' + constants.JSON + ' | ' + constants.YAML + ' ].', 'string', constants.DEFAULT_OPTIONS.origin ],
+    target: [ 't', 'The conversion target: [ ' + constants.JS + ' | ' + constants.JSON + ' | ' + constants.YAML + ' ].', 'string', constants.DEFAULT_OPTIONS.target ],
+    src:    [ 's', 'The absolute/relative input file path.', 'path'],
+    dest:   [ 'd', 'The absolute/relative output file path. When this options is ommited then the output file is stored relative to the input file (same base name but with another extension if type differs). If input and output type are the same then the file overwriting is handled depending on the \'--force\' value!', 'path', constants.DEFAULT_OPTIONS.dest],
+    indent: [ 'i', 'The indention for pretty-print: 0 - 8 (json/js), 1 - 8 (yaml).', 'int', constants.DEFAULT_INDENT ],
+    force:  [ 'f', 'Force overwriting of existing output files on write phase. When files are not overwritten (which is default), then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of foo.yaml it would be foo(1).yaml.' ]
+    //exports: ['e', 'Define a JS \'module.exports = \' name', 'module.exports = \']
+};
+
+/**
+ * The main entry callback. When calling cli.main() this receives the `options`
+ * given on CLI, does the transformation with these options and prints the
+ * result to the CLI.
+ *
+ * @param args    - Not used inside this method!
+ * @param options - The options set on CLI.
+ * @private
+ */
+function main(args, options) {
     return transformer.transform(options)
         .then(function (msg) {
             cli.info(msg);
@@ -34,4 +67,13 @@ cli.main(function(args, options) {
             cli.error('////////////////////////////////////////////////////////////////////////////////');
             cli.getUsage(1);
         });
-});
+}
+
+/**
+ * Init the CLI instance.
+ */
+cli.setUsage(usage)
+    .setApp(packagePath)
+    .enable('version', 'status', 'timeout')
+    .parse(options)
+    .main(main);

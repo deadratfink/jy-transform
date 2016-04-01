@@ -36,7 +36,7 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
                 done(new Error('Error expected when calling options = ' + JSON.stringify(options, null, 4)));
             })
             .catch(function (err) {
-                logger.error('is EXPECTED: ' + err.stack);
+                logger.info('Error is EXPECTED: ' + err.stack);
                 assert.notEqual(err, null, 'err should not be null');
                 var type = errorType;
                 if (!type) {
@@ -470,6 +470,14 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
             var notExistingFile = 'NON_EXISTING_FILE';
             var options = {
                 src: notExistingFile
+            };
+            assertOptionsError(options, optionsHandler.ensureSrc, done);
+        });
+
+        it('should reject when options.src is a directory', function (done) {
+            var dir = './test/data';
+            var options = {
+                src: dir
             };
             assertOptionsError(options, optionsHandler.ensureSrc, done);
         });
