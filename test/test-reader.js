@@ -94,6 +94,7 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
             };
             reader.readJs(options)
                 .then(function (json) {
+                    assert.equal(json, null, 'json should be null due to expected exception, was: ' + JSON.stringify(json));
                     done(new Error('SyntaxError expected'));
                 })
                 .catch(function (err) {
@@ -110,6 +111,7 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
             };
             reader.readJs(options)
                 .then(function (json) {
+                    assert.equal(json, null, 'json should be null due to expected exception, was: ' + JSON.stringify(json));
                     done(new Error('SyntaxError expected'));
                 })
                 .catch(function (err) {
@@ -126,6 +128,7 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
             };
             reader.readJs(options)
                 .then(function (json) {
+                    assert.equal(json, null, 'json should be null due to expected exception, was: ' + JSON.stringify(json));
                     done(new Error('SyntaxError expected'));
                 })
                 .catch(function (err) {
@@ -142,6 +145,7 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
             };
             reader.readJs(options)
                 .then(function (json) {
+                    assert.equal(json, null, 'json should be null due to expected exception, was: ' + JSON.stringify(json));
                     done(new Error('SyntaxError expected'));
                 })
                 .catch(function (err) {
@@ -155,6 +159,7 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
         it('should fail JS(ON) read by missing options', function (done) {
             reader.readJs()
                 .then(function (json) {
+                    assert.equal(json, null, 'json should be null due to expected exception, was: ' + JSON.stringify(json));
                     done(new Error('Error expected'));
                 })
                 .catch(function (err) {
@@ -168,6 +173,7 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
         it('should fail JS(ON) read by missing options.src', function (done) {
             reader.readJs({})
                 .then(function (json) {
+                    assert.equal(json, null, 'json should be null due to expected exception, was: ' + JSON.stringify(json));
                     done(new Error('Error expected'));
                 })
                 .catch(function (err) {
@@ -188,7 +194,7 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
             };
             reader.readYaml(options)
                 .then(function (json) {
-                    assert.notEqual(json, null);
+                    assert.notEqual(json, null, 'resulting json should not be null');
                     assert.equal(json.myproperty, 'old value');
                     done();
                 })
@@ -206,7 +212,7 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
             };
             reader.readYaml(options)
                 .then(function (json) {
-                    assert.notEqual(json, null);
+                    assert.notEqual(json, null, 'resulting json should not be null');
                     assert.equal(json.test, 'value');
                     done();
                 })
@@ -216,13 +222,13 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
                 });
         });
 
-        it('should read JSON from stream', function (done) {
+        it('should read YAML from stream', function (done) {
             var options = {
                 src: fs.createReadStream('./test/data/test-data.yaml')
             };
             reader.readYaml(options)
                 .then(function (json) {
-                    assert.notEqual(json, null);
+                    assert.notEqual(json, null, 'resulting json should not be null');
                     assert.equal(json.myproperty, 'old value');
                     done();
                 })
@@ -232,12 +238,13 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
                 });
         });
 
-        it('should read invalid YAML from file path and fail by SyntaxError', function (done) {
+        it('should read invalid YAML from file path and fail by YAMLException', function (done) {
             var options = {
                 src: './test/data/test-data-wrong-syntax.yaml'
             };
             reader.readYaml(options)
                 .then(function (json) {
+                    assert.equal(json, null, 'json should be null due to expected exception, was: ' + JSON.stringify(json));
                     done(new Error('YAMLException expected'));
                 })
                 .catch(function (err) {
@@ -248,12 +255,13 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
                 });
         });
 
-        it('should read invalid YAML from stream and fail by SyntaxError', function (done) {
+        it('should read invalid YAML from stream and fail by YAMLException', function (done) {
             var options = {
                 src: fs.createReadStream('./test/data/test-data-wrong-syntax.yaml')
             };
             reader.readYaml(options)
                 .then(function (json) {
+                    assert.equal(json, null, 'json should be null due to expected exception, was: ' + JSON.stringify(json));
                     done(new Error('YAMLException expected'));
                 })
                 .catch(function (err) {
@@ -264,9 +272,10 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
                 });
         });
 
-        it('should fail YAML read by missing inpu options', function (done) {
+        it('should fail YAML read by missing input options', function (done) {
             reader.readYaml()
                 .then(function (json) {
+                    assert.equal(json, null, 'json should be null due to expected exception, was: ' + JSON.stringify(json));
                     done(new Error('Error expected'));
                 })
                 .catch(function (err) {
@@ -280,6 +289,7 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
         it('should fail YAML read by missing options.src', function (done) {
             reader.readYaml({})
                 .then(function (json) {
+                    assert.equal(json, null, 'json should be null due to expected exception, was: ' + JSON.stringify(json));
                     done(new Error('Error expected'));
                 })
                 .catch(function (err) {
