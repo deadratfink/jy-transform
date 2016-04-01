@@ -1061,7 +1061,7 @@ Class which defines middleware Promises usable in or with this module.
 * [Middleware](#Middleware)
     * [new Middleware()](#new_Middleware_new)
     * [.identityMiddleware](#Middleware+identityMiddleware)
-    * [.ensureMiddleware(middleware, [options])](#Middleware+ensureMiddleware) ⇒ <code>Promise</code>
+    * [.ensureMiddleware(middleware)](#Middleware+ensureMiddleware) ⇒ <code>Promise</code>
 
 <a name="new_Middleware_new"></a>
 ### new Middleware()
@@ -1093,7 +1093,7 @@ transformer.transform(options, identityMiddleware)
     }):
 ```
 <a name="Middleware+ensureMiddleware"></a>
-### middleware.ensureMiddleware(middleware, [options]) ⇒ <code>Promise</code>
+### middleware.ensureMiddleware(middleware) ⇒ <code>Promise</code>
 Ensure that the given middleware Promise is a function if set.
 If not set a new JSON 'identity' Promise is returned which simply passes
 a JSON object.
@@ -1110,7 +1110,6 @@ a JSON object.
 | Param | Type | Description |
 | --- | --- | --- |
 | middleware | <code>function</code> | This middleware Promise can be used to intercept        the JSON object for altering he passed JSON, the function signature is:        ```        function(json)        ```        The Promise has to return the processed JSON! |
-| [options] | <code>[Options](#Options)</code> | The transformation options. |
 
 **Example**  
 ```js
