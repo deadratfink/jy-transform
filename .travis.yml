@@ -21,3 +21,4 @@ branches:
         - master
         - development
         - /^(bugfix|feature)\/#\d+.*$/
+        - /^hotfix\/.*$/
