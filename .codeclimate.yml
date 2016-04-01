@@ -26,4 +26,4 @@ ratings:
     - "**.jsx"
     - "**.module"
 exclude_paths:
-    - test/
+- test/
