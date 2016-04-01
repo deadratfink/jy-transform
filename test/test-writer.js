@@ -1,6 +1,7 @@
 'use strict';
 
 var assert = require('assert');
+var Promise = require('bluebird');
 var YAMLException = require('js-yaml/lib/js-yaml/exception.js');
 var fs = require('fs');
 var os = require('os');
@@ -25,24 +26,54 @@ describe('Executing \'jy-transform\' project Writer test suite.', function () {
     /**
      * Asserts that the given `dest` is a file.
      *
-     * @param {string} dest - File destination to assert.
-     * @param {function} done - Test's `done()` callback.
-     * @returns {*}
+     * @param {string} dest     - File destination to assert.
+     * @param {function} [done] - Test's `done` callback.
+     * @returns {Error}         - If dest not exists and `done` is not passed.
      * @private
      */
     function assertDestFile(dest, done) {
         // check for existing source file
         try {
-            var stats = fs.lstatSync(dest); // TODO could we check this in Async mode?
+            var stats = fs.statSync(dest); // TODO could we check this in Async mode?
             assert(stats.isFile(), 'write destination ' + dest + ' should be file');
-            done();
+            if (done) {
+                return done();
+            }
         } catch (err) {
             if (err.code === 'ENOENT') {
                 err.message = 'The input file \'' + dest + '\' does not exists or is not accessible, cause: ' + err.message;
             } else {
                 err.message = 'Some error occurred while accessing input file \'' + dest + '\': ' + err.code + ', ' + err.message;
             }
-            return done(err);
+            if (done) {
+                return done(err);
+            }
+            return err;
+        }
+    }
+
+    /**
+     * Asserts that the given `dest` does not exist.
+     *
+     * @param {string} dest     - File destination to assert.
+     * @param {function} [done] - Test's `done` callback.
+     * @returns {Error}         - If dest not exists and `done` is not passed.
+     * @private
+     */
+    function assertNotDestFile(dest, done) {
+        // check for existing source file
+        try {
+            fs.statSync(dest); // TODO could we check this in Async mode?
+            if (done) {
+                return done(new Error('Error expected when checking file = ' + dest));
+            }
+        } catch (err) {
+            logger.info('Error is EXPECTED: ' + err.stack);
+            assert.notEqual(err, null, 'err should not be null');
+            assert.equal(err.code, 'ENOENT', 'err.code should equal \'ENOENT\'');
+            if (done) {
+                return done();
+            }
         }
     }
 
@@ -179,7 +210,7 @@ describe('Executing \'jy-transform\' project Writer test suite.', function () {
 
             var options = {
                 src: json,
-                dest: './test/data/tmp/test-data-by-json-to-file.json'
+                dest: './test/tmp/test-data-by-json-to-file.json'
             };
 
             writer.writeJson(json, options)
@@ -352,4 +383,101 @@ describe('Executing \'jy-transform\' project Writer test suite.', function () {
         });
 
     });
+
+    describe('Testing force overwrite file', function () {
+
+        it('should reject when options.dest is a directory', function (done) {
+            var dir = './test/data';
+            var options = {
+                dest: dir
+            };
+            writer.writeYaml(json, options)
+                .then(function (msg) {
+                    done(new Error('Error expected'));
+                })
+                .catch(function (err) {
+                    logger.info('EXPECTED ERROR: ' + err.stack);
+                    assert.notEqual(err, null, 'err should not be null');
+                    assert(err instanceof Error, 'expected Error should equal Error, was: ' + (typeof err));
+                    done();
+                });
+        });
+
+        it('should write YAML to stream, overwrite on 2nd write, don\'t overwrite on 3rd write and overwrite on 4th write', function (done) {
+
+            var dest = './test/tmp/test-data-file-overwriting.yaml';
+
+            var options = {
+                indent: 4,
+                dest:  dest
+            };
+            Promise.each([
+                function () {
+                    return writer.writeYaml(json, options)
+                        .then(function (msg) {
+                            assert.notEqual(msg, null, 'msg should not be null, was: ' + msg);
+                            assertDestFile(dest);
+                            return Promise.resolve('overwrite test #1 should initially write YAML to file \'' + dest + '\'');
+                        });
+                },
+                function () {
+                    options = {
+                        indent: 4,
+                        dest:  dest,
+                        force: true
+                    };
+                    return writer.writeYaml(json, options)
+                        .then(function (msg) {
+                            assert.notEqual(msg, null, 'msg should not be null, was: ' + msg);
+                            assertDestFile(dest);
+                            assertNotDestFile('./test/tmp/test-data-file-overwriting(1).yaml');
+                            return Promise.resolve('overwrite test #2 should overwrite existing YAML file \'' + dest + '\'');
+                        });
+                },
+                function () {
+                    return writer.writeYaml(json, options)
+                        .then(function (msg) {
+                            assert.notEqual(msg, null, 'msg should not be null, was: ' + msg);
+                            assertDestFile('./test/tmp/test-data-file-overwriting(1).yaml');
+                            return Promise.resolve('overwrite test #3 shouldn\'t overwrite existing YAML file \'' + dest + '\', but write new file \'./test/tmp/test-data-file-overwriting(1).yaml\'');
+                        });
+                },
+                function () {
+                    options = {
+                        indent: 4,
+                        dest:  dest,
+                        force: false
+                    };
+                    return writer.writeYaml(json, options)
+                        .then(function (msg) {
+                            assert.notEqual(msg, null, 'msg should not be null, was: ' + msg);
+                            assertNotDestFile('./test/tmp/test-data-file-overwriting(2).yaml');
+                            return Promise.resolve('overwrite test #4 should overwrite existing YAML file \'' + dest + '\'');
+                        });
+                },
+                function () {
+                    options = {
+                        indent: 4,
+                        dest:  dest
+                    };
+                    return writer.writeYaml(json, options)
+                        .then(function (msg) {
+                            assert.notEqual(msg, null, 'msg should not be null, was: ' + msg);
+                            assertDestFile('./test/tmp/test-data-file-overwriting(1).yaml');
+                            return Promise.resolve('overwrite test #5 shouldn\'t overwrite existing YAML file \'' + dest + '\' and \'./test/tmp/test-data-file-overwriting(1).yaml\', but write new file \'./test/tmp/test-data-file-overwriting(2).yaml\'');
+                        });
+                }
+            ], function(value, index, length) {
+                return value().then(function (msg) {
+                    logger.info('testing overwrite #' + (index + 1) + '/' + length + ': ' + msg);
+                });
+            }).then(function () {
+                done();
+            }).catch(function (err) {
+                done(err);
+            });
+        });
+
+    });
+
 });

@@ -1,17 +1,13 @@
 # Stats
 
-| [Github License](https://github.com/deadratfink/jy-transform/blob/master/LICENSE.md) | [Github Issues](https://github.com/deadratfink/jy-transform/issues) | [Github Release](https://github.com/deadratfink/jy-transform/releases) | [Github Tags](https://github.com/deadratfink/jy-transform/tags) |
-| --- | --- | --- | --- |
-| [![License][gh-license-image]][gh-license-url] | [![Issue Stats][gh-issues-image]][gh-issues-url] | [![Github Releases][gh-releases-image]][gh-releases-url] | [![Github Tags][gh-tags-image]][gh-tags-url] |
+| [Github License](https://github.com/deadratfink/jy-transform/blob/master/LICENSE.md) | [Github Issues](https://github.com/deadratfink/jy-transform/issues) | [Github Release](https://github.com/deadratfink/jy-transform/releases) | [Github Tags](https://github.com/deadratfink/jy-transform/tags) | [Travis CI](https://travis-ci.org) | [Waffle](https://waffle.io/deadratfink/jy-transform) | [Code Climate](https://codeclimate.com/github/deadratfink/jy-transform) |
+| --- | --- | --- | --- | --- | --- | --- |
+| [![License][gh-license-image]][gh-license-url] | [![Issue Stats][gh-issues-image]][gh-issues-url] | [![Github Releases][gh-releases-image]][gh-releases-url] | [![Github Tags][gh-tags-image]][gh-tags-url] | [![Build Status][ci-image]][ci-url] | [![Waffle][waffle-image]][waffle-url] | [![Code Climate][cocl-image]][cocl-url] |
 
-| [Travis CI](https://travis-ci.org) | [Issue Stats](http://issuestats.com/) (Pull) | [Issue Stats](http://issuestats.com/) (Issue) | [Waffle](https://waffle.io/deadratfink/jy-transform) | [Code Climate](https://codeclimate.com/github/deadratfink/jy-transform) |
-| --- | --- | --- | --- | --- |
-| [![Build Status][ci-image]][ci-url] | [![Issue Stats][is-pull-image]][is-url] | [![Issue Stats][is-issue-image]][is-url] | [![Waffle][waffle-image]][waffle-url] | [![Code Climate][cocl-image]][cocl-url] |
-
-| [Codecov](https://codecov.io) | [Coveralls](https://coveralls.io) | [Inch CI](http://inch-ci.org) | [David](https://david-dm.org) DM | [David](https://david-dm.org) DM (dev) | Branch |
+| Branch | [Codecov](https://codecov.io) | [Coveralls](https://coveralls.io) | [Inch CI](http://inch-ci.org) | [David](https://david-dm.org) DM | [David](https://david-dm.org) DM (dev) |
 | --- | --- | --- | --- | --- | --- |
-| [![codecov.io][cc-image-master]][cc-url-master]           | [![coveralls.io][ca-image-master]][ca-url-master]           | [![inch-ci.org][inch-image-master]][inch-url-master]           | [![Dependency Status][dep-image-master]][dep-url-master]           | [![devDependency Status][devdep-image-master]][devdep-url-master] | master |
-| [![codecov.io][cc-image-development]][cc-url-development] | [![coveralls.io][ca-image-development]][ca-url-development] | [![inch-ci.org][inch-image-development]][inch-url-development] | [![Dependency Status][dep-image-development]][dep-url-development] | [![devDependency Status][devdep-image-development]][devdep-url-development] | development |
+| master | [![codecov.io][cc-image-master]][cc-url-master]           | [![coveralls.io][ca-image-master]][ca-url-master]           | [![inch-ci.org][inch-image-master]][inch-url-master]           | [![Dependency Status][dep-image-master]][dep-url-master]           | [![devDependency Status][devdep-image-master]][devdep-url-master] |
+| development | [![codecov.io][cc-image-development]][cc-url-development] | [![coveralls.io][ca-image-development]][ca-url-development] | [![inch-ci.org][inch-image-development]][inch-url-development] | [![Dependency Status][dep-image-development]][dep-url-development] | [![devDependency Status][devdep-image-development]][devdep-url-development] |
 
 ## Coverage Graphs
 
@@ -85,8 +81,9 @@
   - [Dev Dependencies](#dev-dependencies)
   - [License](#license)
   - [Motivation](#motivation)
-  - [Contributing](#contributing)
+  - [Limitations](#limitations)
   - [Not Supported Yet / Plannings](#not-supported-yet--plannings)
+  - [Contributing](#contributing)
 - [Usage](#usage)
   - [Usage Types](#usage-types)
   - [Use Cases](#use-cases)
@@ -110,7 +107,7 @@
 
 # jy-transform 
 
-This project aims to read, write and transform _*.yaml_ files to _.js_ or _*.json_ files or vice-versa via CLI or API.
+This project aims to read, write and transform YAML, JS or JSON objects into each other using CLI or API. The source and destination resources can be files, objects or streams. Besides the transformation feature this module can also be used for simple loading and/or writing YAML, JS or JSON files.
 
 ## Installation
 
@@ -164,7 +161,47 @@ Why this module? After struggling with some huge YAML file and accidentally
 occurring wrong indentions which results in an annoying failure investigation, 
 I decided to get rid of the YAML file and therefore, create a module which 
 should be aimed as the swiss army knife for transforming YAML, JS and JSON 
-files into each other.
+types into each other format.
+
+## Limitations
+
+Since this API is build to transform from and to different type formats, any 
+`Function`s residing in JS type objects are _not_ supported, e.g. transforming
+
+```javascript
+module.exports = {
+    myKey1: 'value1',
+    myFunction: 'value2'
+}
+```
+
+to JSON would simply result in 
+
+```javascript
+{
+    myKey1: 'value1'
+}
+```
+
+while transforming to YAML type would even result in an `Error`, e.g. printed 
+on CLI usage like this:
+
+```
+ERROR: ////////////////////////////////////////////////////////////////////////////////
+ERROR: YAMLException: unacceptable kind of an object to dump [object Function]
+ERROR: ////////////////////////////////////////////////////////////////////////////////
+```
+
+## Not Supported Yet / Plannings
+
+- Multidocument handling would be a cool feature which refers in general to YAML 
+  and JS only, but at the moment we require that each document to transform is a 
+_single_ one per file! This feature is planned and reflected 
+ in [#14](https://github.com/deadratfink/jy-transform/issues/14).
+- Schema validation for input and output is another topic which is planned by 
+  [#1](https://github.com/deadratfink/jy-transform/issues/1) and 
+  [#2](https://github.com/deadratfink/jy-transform/issues/2).
+
 
 ## Contributing
 
@@ -178,35 +215,28 @@ When contributing as coder, please take care of the following conventions:
 - The `development` branch is the leading branch and is protected. Create bugfix and feature 
   branches (or fork into you own namespace) and create pull 
   requests to `development` when finished. Any of these should be prefixed with 
-  `bugfix/#...` or `feature/#...` (containing issue number followed by a short, "underscored" 
+  `bugfix/#...` or `feature/#...` (followed by issue number and a short, "underscored" 
   proper meaning), e.g. 
-  - `bugfix/#8_fix_js_reading_with_require`
-  - `feature/#14_multidocument_support`
+  - `bugfix/8_fix_js_reading_with_require`
+  - `feature/14_multidocument_support`
+- Remember that name could need to be enclosed in quotes, e.g. 
+  ```$ git checkout -b 'feature/#19_...'```
+  when using git shell command.
 - The `master` branch is protected and is the stable branch after a release. 
   It will never be pushed directly (only on release build).
 - Indention for any file is 4 SPACEs.
-- Keep code coverage high (> 90%).
+- Keep code coverage high (> 95%).
 - Doc everything with [JSDocs](http://usejsdoc.org/) and document concepts in 
   [README.md](https://github.com/deadratfink/jy-transform/blob/development/README.md)
   or [Wiki](https://github.com/deadratfink/jy-transform/wiki).
-- Use single parenthesis (`'...'`) instead of double parenthesis (`"..."`)
+- Use single parenthesis (`'...'`) in _*.js_ files instead of double parenthesis (`"..."`).
 - Avoid the of use parenthesis for keys in JSON objects.
-- Use the strict mode (`'use strict';`) in _*.js_ files.
-
-
-## Not Supported Yet / Plannings
-
-At the moment we require that each document to transform is a _single_ one per file!
-
-Multidocument handling would be a cool feature which refers in general to YAML 
-and JS only and is currently not supported. This is planned and reflected 
-in feature [#14](https://github.com/deadratfink/jy-transform/issues/14).
+- Use the strict mode (`'use strict';`) in _*.js_ files. 
 
 # Usage
 
-The module can bu used on CLI or as API. The latter is fully [Promise](http://bluebirdjs.com/docs/api-reference.html) 
-based. Besides transformation this module can also be used for loading and/or writing 
-YAML, JS or JSON files. 
+The module can be used on CLI or as API (the latter is fully [Promise](http://bluebirdjs.com/docs/api-reference.html) 
+based).
 
 ## Usage Types
 
@@ -215,9 +245,12 @@ Since the module can be used in two different ways, use installation as follows:
 - CLI: install globally via `-g` option
 - API: install locally
 
-All use cases are described in more detail in the following sections.
+Both usage types are described in more detail in the following sections.
 
 ## Use Cases
+
+So, what are the typical use cases for this module? In terms of _transformation_
+these consists of different phases:
 
 - Reading files (`Reader`)
 - Transforming JSON objects (`Transformer`)
@@ -289,11 +322,22 @@ Usage:
   jyt [OPTIONS]
 
 Options: 
-  -o, --origin [STRING]  The conversion origin: [ js | json | yaml ] (Default is : if not given, the type is tried to be inferred from the extension of input path, else it is yaml)
-  -t, --target [STRING]  The conversion target: [ js | json | yaml ] (Default is : if not given, the type is tried to be inferred from the extension of output path, else it is js)
-  -s, --src PATH         The absolute/relative input file path
-  -d, --dest [PATH]      The absolute/relative output file path (Default is relative to input file)
-  -i, --indent [NUMBER]  The indention for pretty-print: 0 - 8 (json/js) and 1 - 8 (yaml) (Default is 4)
+  -o, --origin [STRING]  The conversion origin: [ js | json | yaml ]. (Default is : if not given, the type is tried to be inferred from the extension of source path, else it is yaml)
+  -t, --target [STRING]  The conversion target: [ js | json | yaml ]. (Default is : if not given, the type is tried to be inferred from the extension of destination path, else it is js)
+  -s, --src PATH         The absolute/relative input file path.
+  -d, --dest [PATH]      The absolute/relative output file path. When this 
+                         options is ommited then the output file is stored 
+                         relative to the input file (same base name but with 
+                         another extension if type differs). If input and 
+                         output type are the same then the file overwriting is 
+                         handled depending on the '--force' value!  (Default is relative to input file)
+  -i, --indent [NUMBER]  The indention for pretty-print: 0 - 8 (json/js), 1 - 8 
+                         (yaml).  (Default is 4)
+  -f, --force            Force overwriting of existing output files on write 
+                         phase. When files are not overwritten (which is 
+                         default), then the next transformation with same 
+                         output file name gets a consecutive number on the base 
+                         file name, e.g. foo(1).yaml. 
   -k, --no-color         Omit color from output
       --debug            Show debug information
   -v, --version          Display the current version
@@ -302,26 +346,30 @@ Options:
 
 These are more formally defined in the following table: 
 
-| Name | Type | Description | Default | Required |
+| Name(s) | Type | Description | Default | Required |
 | --- | --- | --- | --- | --- |
-| `-o, --origin` | [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation origin type. | if not given, the type is tried to be inferred from the extension of source path, else it is _yaml_ | no |
-| `-t, --target` | [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation target type. | if not given, the type is tried to be inferred from the extension of destination path, else it is _js_ | no |
-| `-s, --src` | URI | The source file path for transformation. | - | yes |
-| `-d, --dest` | URI | The destination file path to transform to. | _'relative to input file'_ | no |
-| `-i, --indent` | integer<br> - JSON/JS: _0_-_8_<br> - YAML: _1_-_8_ | The code indention used in destination files. | _4_ | no |
-| `-k, --no-color` | n/a | Omit color from output. | _color_ | no |
+| `-o`, `--origin` | [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation origin type. | if not given, the type is tried to be inferred from the extension of source path, else it is _yaml_ | no |
+| `-t`, `--target` | [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation target type. | if not given, the type is tried to be inferred from the extension of destination path, else it is _js_ | no |
+| `-s`, `--src` | URI | The source file path for transformation. | - | yes |
+| `-d`, `--dest` | URI | The destination file path to transform to. | When this options is ommited then the output file is stored relative to the input file (same base name but with another extension if type differs). If input and output type are the same then the file overwriting is handled depending on the `--force` value! | no |
+| `-i`, `--indent` | integer<br> - JSON/JS: _0_-_8_<br> - YAML: _1_-_8_ | The code indention used in destination files. | _4_ | no |
+| `-f`, `--force` | n/a | Force overwriting of existing output files on write phase. When files are not overwritten (which is default), then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of foo.yaml it would be foo(1).yaml.  | _false_ | no |
+| `-k`, `--no-color` | n/a | Omit color from output. | _color_ | no |
 | `--debug` | n/a | Show debug information. | _false_ | no |
-| `-v, --version` | n/a | Display the current version. | n/a | no |
-| `-h, --help` | n/a | Display help and usage details. | n/a | no |
+| `-v`, `--version` | n/a | Display the current version. | n/a | no |
+| `-h`, `--help` | n/a | Display help and usage details. | n/a | no |
+
+#### Examples
 
 Now we know which properties we can apply on CLI, so let's assume we 
-have a YAML file located in _./data/my.yaml_ holding this data:
+have a YAML file located in _./foo.yaml_ holding this data:
 
 ```yaml
 myproperty: value
 ```
+##### Example: YAML -> JSON
 
-then we can transform it to a JSON file _./data/my.json_
+then we can transform it to a JSON file _foo.json_
 
 ```javascript
 {
@@ -329,32 +377,86 @@ then we can transform it to a JSON file _./data/my.json_
 }
 ```
 
-when using this command:
+using this command:
 
 ```
-$ jyt -s ./data/my.yaml -t json -i 2
+$ jyt -s foo.yaml -t json -i 2
 ```
 
-In this example we have overwritten the standard target type (which is `js) and applying an
-indent of _2_ instead of the default _4_. As default the output file _./data/my.json_ 
-is written relative to the input file (simply omitting the `dest` option here).
+In this example we have overwritten the standard target type (which is `js`) 
+and applying an indent of _2_ instead of the default _4_. As default the output 
+file _foo.json_ is written relative to the input file (simply omitting the 
+`dest` option here).
 
-**NOTE:** here you _have_ to provide the target with `-t json` or else the default `js` would 
-have been applied! If the source would have been a `js` type like
+**NOTE:** here you _have_ to provide the target with `-t json` or else the 
+default `js` would have been applied! If the source would have been a `js` 
+type like
 
 ```
-$ jyt -s ./data/my.js -t json -i 2
+$ jyt -s foo.js -t json -i 2
 ```
 
 then the `js` value for `origin` is automatically inferred from file extension. 
-Analogous, this is also true for the `target` option.`
+Analogous, this is also true for the `target` option.
 
-**IMPORTANT NOTE:** any subsequent execution using the same target, will overwrite the 
-target created beforehand! (This will controllable with a switch when [#19](https://github.com/deadratfink/jy-transform/issues/19).)
+##### Example: JSON -> JS
+
+```
+$ jyt -s foo.json
+```
+
+##### Example: JS -> YAML
+
+```
+$ jyt -s foo.json -t yaml
+```
+
+##### Example: Transformation with Different Destination
+
+Simply provide the `-d` with a different file name:
+
+
+```
+$ jyt -s foo.json -d results/foobar.yaml
+```
+
+##### Example: Transformation with Unsupported Source File Extension
+
+As said, normally we infer from file extension to the type but assume the source 
+file has a file name which does not imply the type (here JS 
+type in a TEXT file), then you can simply provide the `-o` option with the 
+correct `origin` type (of course, the `-t` option works analogous):
+
+
+```
+$ jyt -s foo.txt -o js -d foobar.yaml
+```
+
+##### Example: Force Overwriting
+
+**IMPORTANT NOTE:** any subsequent execution using the same target/file name, 
+will overwrite the original source or target created beforehand!
+
+By default this feature is not enbled to prevent you from accidentially 
+overwriting your input source or already generated targets.
+
+But let's say we want to overwrite the original source now because you want 
+to change the indention from 2 to 4 SPACEs, then we can do this as follows:
+
+```
+$ jyt -s foo.js -f
+```
+
+This would change the indention from 2 (created in example before) to 4 
+
+Of course, leaving out the `-f` switch creates a new file relatively to 
+the origin named _foo(1).js_ (note the consecutive number)! Naturally, 
+another run of the command would result int a file called _foo(2).js_ 
+and so forth.
 
 ## Origin and Target Type Inference
 
-The example above has shown that we have an automatic type inference from file 
+The examples above have shown that we have an automatic type inference from file 
 extensions. This is supported as shown by the following table (from-to):
 
 | File Extension | Type |
@@ -400,11 +502,12 @@ The `options` object has to follow this key-values table:
 
 | Name | Type | Description | Default | Required |
 | --- | --- | --- | --- | --- |
-| origin | <code>string</code> | The origin type. | if not given, the type is tried to be inferred from the extension of source path, else it is 'yaml' | no |
-| target | <code>string</code> | The target type. | if not given, the type is tried to be inferred from the extension of destination path, else it is 'js' | no |
-| src | <code>string &#124; Readable &#124; object</code> | The source information object: `string` is used as file path, `Readable` stream provides a stringified source and `object` is used as direct JS source.| - | yes |
-| dest | <code>string &#124; Writable &#124; object</code> | The destination information object: `string` is used as file path, `Writable` stream writes a stringified source and `object` is used as direct JS object for assignment. | 'relative to input file' | no |
-| indent | <code>number</code> | The indention in files. | 4 | no |  
+| origin | <code>string</code> | The origin type. | If not given, the type is tried to be inferred from the extension of source path, else it is _yaml_. | no |
+| target | <code>string</code> | The target type. | If not given, the type is tried to be inferred from the extension of destination path, else it is _js_ | no |
+| src | <code>string &#124; Readable &#124; object</code> | The source information object: `string` is used as file path, `Readable` stream provides a stringified source and `object` is used as direct JS source. | - | yes |
+| dest | <code>string &#124; Writable &#124; object</code> | The destination information object: `string` is used as file path, `Writable` stream writes a stringified source and `object` is used as direct JS object for assignment. | The output file is stored relative to the input file (same base name but with another extension if type differs). If input and output type are the same then the file overwriting is handled depending on the 'force' value! | no |
+| indent | <code>number</code> | The indention in files. | _4_ | no |
+| force | <code>boolean</code> | Force overwriting of existing output files on write phase. When files are not overwritten, then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of _foo.yaml_ it would be _foo(1).yaml_. | _false_ | no |
 
 #### Example
 
@@ -528,9 +631,10 @@ return transformer.transform(options, middleware)
     });
 ```
 
-Then the `result in the `middleware` function can be retrieved from the returned 
-array, i.e. in case of `Promise.all([...])` you have to pick the _last_ element 
-which contains the "final product". From our example above it would be
+Then the result in the `middleware` function can be retrieved from the returned 
+array, i.e. in case of [`Promise.all([...])`](http://bluebirdjs.com/docs/api/promise.all.html) 
+you have to pick the _last_ element which contains the "final product". 
+From our example above it would be
 
 ```javascript
 {
@@ -576,7 +680,9 @@ function error(msg)
 
 ---
 
-For more details refer to the next section which describes the full API and provides more examples.  
+For more details refer to the [API Reference](#api-reference) section which describes 
+the full API and provides more examples.
+
 # API Reference
 
 ## Classes
@@ -632,6 +738,7 @@ Class which defines all constants usable in or with this module.
     * [new Constants()](#new_Constants_new)
     * [.DEFAULT_ORIGIN](#Constants+DEFAULT_ORIGIN) : <code>string</code>
     * [.DEFAULT_TARGET](#Constants+DEFAULT_TARGET) : <code>string</code>
+    * [.DEFAULT_FORCE_FILE_OVERWRITE](#Constants+DEFAULT_FORCE_FILE_OVERWRITE) : <code>boolean</code>
     * [.ORIGIN_DESCRIPTION](#Constants+ORIGIN_DESCRIPTION) : <code>string</code>
     * [.TARGET_DESCRIPTION](#Constants+TARGET_DESCRIPTION) : <code>string</code>
     * [.DEST_DESCRIPTION](#Constants+DEST_DESCRIPTION) : <code>string</code>
@@ -673,6 +780,12 @@ The default origin value: 'js'.
 
 **Kind**: instance property of <code>[Constants](#Constants)</code>  
 **Access:** public  
+<a name="Constants+DEFAULT_FORCE_FILE_OVERWRITE"></a>
+### constants.DEFAULT_FORCE_FILE_OVERWRITE : <code>boolean</code>
+Whether to overwrite existing file or object on output.
+
+**Kind**: instance property of <code>[Constants](#Constants)</code>  
+**Access:** public  
 <a name="Constants+ORIGIN_DESCRIPTION"></a>
 ### constants.ORIGIN_DESCRIPTION : <code>string</code>
 The origin description value.
@@ -710,6 +823,7 @@ The default options.
 | target | <code>string</code> | <code>&quot;js&quot;</code> | The default target type. |
 | dest | <code>string</code> | <code>&quot;&#x27;relative&quot;</code> | to input file' - The default dest description. |
 | indent | <code>number</code> | <code>4</code> | The default indention for files. |
+| force | <code>boolean</code> | <code>false</code> | Whether to overwrite existing file on output. |
 
 <a name="Constants+UTF8"></a>
 ### constants.UTF8 : <code>string</code>
@@ -942,7 +1056,7 @@ Class which defines middleware Promises usable in or with this module.
 
 * [Middleware](#Middleware)
     * [new Middleware()](#new_Middleware_new)
-    * [.identityMiddleware(json)](#Middleware+identityMiddleware)
+    * [.identityMiddleware](#Middleware+identityMiddleware)
     * [.ensureMiddleware(middleware)](#Middleware+ensureMiddleware) ⇒ <code>Promise</code>
 
 <a name="new_Middleware_new"></a>
@@ -955,10 +1069,10 @@ Constructs the `Middleware`.
 var middleware = require('./lib/middleware.js');
 ```
 <a name="Middleware+identityMiddleware"></a>
-### middleware.identityMiddleware(json)
+### middleware.identityMiddleware
 Middleware Promise which reflects the identity of passed JSON: `f(json) -> json`.
 
-**Kind**: instance method of <code>[Middleware](#Middleware)</code>  
+**Kind**: instance property of <code>[Middleware](#Middleware)</code>  
 **Access:** public  
 
 | Param | Type | Description |
@@ -1016,6 +1130,13 @@ Class which defines some useful methods to initialize and prepare the
 
 * [OptionsHandler](#OptionsHandler)
     * [new OptionsHandler([logger])](#new_OptionsHandler_new)
+    * [.assertOptions](#OptionsHandler+assertOptions) ⇒ <code>Promise</code>
+    * [.completeOptions(options)](#OptionsHandler+completeOptions) ⇒ <code>Promise</code>
+    * [.ensureSrc(options)](#OptionsHandler+ensureSrc) ⇒ <code>Promise</code>
+    * [.ensureDest(options)](#OptionsHandler+ensureDest) ⇒ <code>Promise</code>
+    * [.assertOrigin(options)](#OptionsHandler+assertOrigin) ⇒ <code>Promise</code>
+    * [.assertTarget(options)](#OptionsHandler+assertTarget) ⇒ <code>Promise</code>
+    * [.ensureIndent(options)](#OptionsHandler+ensureIndent) ⇒ <code>Promise</code>
     * [.ensureOptions(options)](#OptionsHandler+ensureOptions) ⇒ <code>Promise</code>
     * [.validateTransformation(options)](#OptionsHandler+validateTransformation) ⇒ <code>Promise</code>
 
@@ -1035,6 +1156,186 @@ var OptionsHandler = require('./options-handler.js');
 var logger = ...;
 
 var optionsHandler = new OptionsHandler(logger);
+```
+<a name="OptionsHandler+assertOptions"></a>
+### optionsHandler.assertOptions ⇒ <code>Promise</code>
+Asserts that the given `options` and (optionally) the given properties are
+inside the options. If not, the Promise rejects with proper error message.
+
+**Kind**: instance property of <code>[OptionsHandler](#OptionsHandler)</code>  
+**Returns**: <code>Promise</code> - - Promise which contains the `options` as result.  
+**Access:** public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>object</code> | The objects which should be set. |
+| [properties] | <code>Array.&lt;string&gt;</code> | Properties which should exist in `options`. |
+
+**Example**  
+```js
+var options = {...};
+
+assertOptions(options, ['src', 'origin'])
+    .then(function (assertedOptions) {
+        ...
+    });
+```
+<a name="OptionsHandler+completeOptions"></a>
+### optionsHandler.completeOptions(options) ⇒ <code>Promise</code>
+Completes the given `options` object by enriching from default values or using
+type inference if something required is "missing" (a missing `options.src` cannot
+be completed becaue this is mandatory).
+
+**Kind**: instance method of <code>[OptionsHandler](#OptionsHandler)</code>  
+**Returns**: <code>Promise</code> - - A Promise containing the passed `options` object.  
+**Throws**:
+
+- <code>Error</code> - If `options` or `options.src` not passed.
+
+**Access:** public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>[Options](#Options)</code> | The configuration for a transformation. |
+
+**Example**  
+```js
+var OptionsHandler = require('./options-handler.js');
+var logger = ...;
+var options = {...};
+var optionsHandler = new OptionsHandler(logger);
+
+optionsHandler.completeOptions(options)
+    .then(function (copiedOptions) {
+        ...
+    });
+```
+<a name="OptionsHandler+ensureSrc"></a>
+### optionsHandler.ensureSrc(options) ⇒ <code>Promise</code>
+Ensures that the given input source is valid.
+
+**Kind**: instance method of <code>[OptionsHandler](#OptionsHandler)</code>  
+**Returns**: <code>Promise</code> - - A Promise containing the passed `options` object.  
+**Throws**:
+
+- <code>Error</code> - If the `options.src` is not defined or the file represented by `options.src` does not exist.
+
+**Access:** public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>[Options](#Options)</code> | The configuration for a transformation. |
+
+**Example**  
+```js
+var OptionsHandler = require('./options-handler.js');
+var logger = ...;
+var options = {...};
+var optionsHandler = new OptionsHandler(logger);
+
+optionsHandler.ensureSrc(options)
+    .then(function (ensuredOptions) {
+        ...
+    });
+```
+<a name="OptionsHandler+ensureDest"></a>
+### optionsHandler.ensureDest(options) ⇒ <code>Promise</code>
+This method ensures that destination file path is created if not set in
+options. If not, then it creates the path relative to the source file using
+its name and appending a proper extension depending on the `json`
+property of `options` (if `true` then '.js', else '.json').
+
+**Kind**: instance method of <code>[OptionsHandler](#OptionsHandler)</code>  
+**Returns**: <code>Promise</code> - - A Promise containing the passed `options` object.  
+**Access:** public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>[Options](#Options)</code> | The configuration for a transformation. |
+
+**Example**  
+```js
+var OptionsHandler = require('./options-handler.js');
+var logger = ...;
+var options = {...};
+var optionsHandler = new OptionsHandler(logger);
+
+optionsHandler.ensureDest(options)
+    .then(function (ensuredOptions) {
+        ...
+    });
+```
+<a name="OptionsHandler+assertOrigin"></a>
+### optionsHandler.assertOrigin(options) ⇒ <code>Promise</code>
+Checks if the given origin is valid.
+
+**Kind**: instance method of <code>[OptionsHandler](#OptionsHandler)</code>  
+**Returns**: <code>Promise</code> - - A Promise containing the passed `options` object.  
+**Access:** public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>[Options](#Options)</code> | The configuration for a transformation. |
+
+**Example**  
+```js
+var OptionsHandler = require('./options-handler.js');
+var logger = ...;
+var options = {...};
+var optionsHandler = new OptionsHandler(logger);
+
+optionsHandler.assertOrigin(options)
+    .then(function (ensuredOptions) {
+        ...
+    });
+```
+<a name="OptionsHandler+assertTarget"></a>
+### optionsHandler.assertTarget(options) ⇒ <code>Promise</code>
+Checks if the given target is valid.
+
+**Kind**: instance method of <code>[OptionsHandler](#OptionsHandler)</code>  
+**Returns**: <code>Promise</code> - - A Promise containing the passed `options` object.  
+**Access:** public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>[Options](#Options)</code> | The configuration for a transformation. |
+
+**Example**  
+```js
+var OptionsHandler = require('./options-handler.js');
+var logger = ...;
+var options = {...};
+var optionsHandler = new OptionsHandler(logger);
+
+optionsHandler.assertTarget(options)
+    .then(function (ensuredOptions) {
+        ...
+    });
+```
+<a name="OptionsHandler+ensureIndent"></a>
+### optionsHandler.ensureIndent(options) ⇒ <code>Promise</code>
+Checks if a valid indention value is given and corrects values if invalid (with default value: 4 SPACEs).
+
+**Kind**: instance method of <code>[OptionsHandler](#OptionsHandler)</code>  
+**Returns**: <code>Promise</code> - - A Promise containing the passed `options` object.  
+**Access:** public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>[Options](#Options)</code> | The configuration for a transformation. |
+
+**Example**  
+```js
+var OptionsHandler = require('./options-handler.js');
+var logger = ...;
+var options = {...};
+var optionsHandler = new OptionsHandler(logger);
+
+optionsHandler.ensureIndent(options)
+    .then(function (ensuredOptions) {
+        ...
+    });
 ```
 <a name="OptionsHandler+ensureOptions"></a>
 ### optionsHandler.ensureOptions(options) ⇒ <code>Promise</code>

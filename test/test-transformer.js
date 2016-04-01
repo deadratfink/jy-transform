@@ -75,6 +75,37 @@ describe('Executing \'jy-transform\' project\'s Transformer test suite.', functi
             });
     }
 
+    /**
+     * Helper method which asserts the successful transformation.
+     *
+     * @param {object} options      - The transformation options.
+     * @param {function} middleware - The transformation middleware.
+     * @param {function} done       - Test finished callback;
+     */
+    function assertYamlTransformSuccess(options, middleware, done) {
+        return transformer.transform(options, middleware)
+            .then(function (msg){
+                logger.info(msg);
+                var stats = fs.statSync(options.dest);
+                assert(stats.isFile());
+                return fs.readFileAsync(options.dest, Constants.UTF8)
+                    .then(function (yaml) {
+                        try {
+                            var json = jsYaml.safeLoad(yaml);
+                            assert.equal(json.total, EXPECTED_VALUE, 'property \'total\' should have new value \'' + EXPECTED_VALUE +'\'.');
+                            done();
+                        } catch (err) { // probably a YAMLException
+                            logger.error(err.stack);
+                            return done(err);
+                        }
+                    });
+            })
+            .catch(function (err) {
+                logger.error(err.stack);
+                done(err);
+            });
+    }
+
 
     describe('Testing Transformer transforming from YAML to JS to relative path', function () {
 
@@ -260,6 +291,23 @@ describe('Executing \'jy-transform\' project\'s Transformer test suite.', functi
             };
 
             assertTransformSuccess(options, middleware, done);
+
+        });
+    });
+
+    describe('Testing Transformer transforming from JSON to YAML', function () {
+
+        var SRC  = './test/data/test-file.json';
+        var DEST = TEST_TMP_DIR + '/test-data-transform-json-yaml.yaml';
+
+        it('should store ' + SRC + ' file to ' + DEST, function (done) {
+
+            var options = {
+                src: path.resolve(SRC),
+                dest: path.resolve(DEST)
+            };
+
+            assertYamlTransformSuccess(options, middleware, done);
 
         });
     });
