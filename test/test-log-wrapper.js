@@ -99,6 +99,7 @@ describe('Executing \'jy-transform\' project log wrapper test suite.', function 
             logWrapper = new LogWrapper(mockLoggerWithVerboseFunction);
             logWrapper.verboseOptions(verboseExpected)
                 .then(function (options) {
+                    assert.equal(options, verboseExpected, 'passed options: ' + JSON.stringify(options, null, 4) + ' should equal logged options: ' + JSON.stringify(verboseExpected, null, 4));
                     assert(verboseResultArray.indexOf('origin: ' + verboseExpected.origin) > -1, 'logger verboseResultArray should contain value ' + 'origin: ' + verboseExpected.origin);
                     assert(verboseResultArray.indexOf('target: ' + verboseExpected.target) > -1, 'logger verboseResultArray should contain value ' + 'target: ' + verboseExpected.target);
                     assert(verboseResultArray.indexOf('src:    ' + verboseExpected.src)    > -1, 'logger verboseResultArray should contain value ' + 'src:    ' + verboseExpected.src);
