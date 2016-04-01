@@ -1130,6 +1130,13 @@ Class which defines some useful methods to initialize and prepare the
 
 * [OptionsHandler](#OptionsHandler)
     * [new OptionsHandler([logger])](#new_OptionsHandler_new)
+    * [.assertOptions](#OptionsHandler+assertOptions) ⇒ <code>Promise</code>
+    * [.completeOptions(options)](#OptionsHandler+completeOptions) ⇒ <code>Promise</code>
+    * [.ensureSrc(options)](#OptionsHandler+ensureSrc) ⇒ <code>Promise</code>
+    * [.ensureDest(options)](#OptionsHandler+ensureDest) ⇒ <code>Promise</code>
+    * [.assertOrigin(options)](#OptionsHandler+assertOrigin) ⇒ <code>Promise</code>
+    * [.assertTarget(options)](#OptionsHandler+assertTarget) ⇒ <code>Promise</code>
+    * [.ensureIndent(options)](#OptionsHandler+ensureIndent) ⇒ <code>Promise</code>
     * [.ensureOptions(options)](#OptionsHandler+ensureOptions) ⇒ <code>Promise</code>
     * [.validateTransformation(options)](#OptionsHandler+validateTransformation) ⇒ <code>Promise</code>
 
@@ -1149,6 +1156,186 @@ var OptionsHandler = require('./options-handler.js');
 var logger = ...;
 
 var optionsHandler = new OptionsHandler(logger);
+```
+<a name="OptionsHandler+assertOptions"></a>
+### optionsHandler.assertOptions ⇒ <code>Promise</code>
+Asserts that the given `options` and (optionally) the given properties are
+inside the options. If not, the Promise rejects with proper error message.
+
+**Kind**: instance property of <code>[OptionsHandler](#OptionsHandler)</code>  
+**Returns**: <code>Promise</code> - - Promise which contains the `options` as result.  
+**Access:** public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>object</code> | The objects which should be set. |
+| [properties] | <code>Array.&lt;string&gt;</code> | Properties which should exist in `options`. |
+
+**Example**  
+```js
+var options = {...};
+
+assertOptions(options, ['src', 'origin'])
+    .then(function (assertedOptions) {
+        ...
+    });
+```
+<a name="OptionsHandler+completeOptions"></a>
+### optionsHandler.completeOptions(options) ⇒ <code>Promise</code>
+Completes the given `options` object by enriching from default values or using
+type inference if something required is "missing" (a missing `options.src` cannot
+be completed becaue this is mandatory).
+
+**Kind**: instance method of <code>[OptionsHandler](#OptionsHandler)</code>  
+**Returns**: <code>Promise</code> - - A Promise containing the passed `options` object.  
+**Throws**:
+
+- <code>Error</code> - If `options` or `options.src` not passed.
+
+**Access:** public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>[Options](#Options)</code> | The configuration for a transformation. |
+
+**Example**  
+```js
+var OptionsHandler = require('./options-handler.js');
+var logger = ...;
+var options = {...};
+var optionsHandler = new OptionsHandler(logger);
+
+optionsHandler.completeOptions(options)
+    .then(function (copiedOptions) {
+        ...
+    });
+```
+<a name="OptionsHandler+ensureSrc"></a>
+### optionsHandler.ensureSrc(options) ⇒ <code>Promise</code>
+Ensures that the given input source is valid.
+
+**Kind**: instance method of <code>[OptionsHandler](#OptionsHandler)</code>  
+**Returns**: <code>Promise</code> - - A Promise containing the passed `options` object.  
+**Throws**:
+
+- <code>Error</code> - If the `options.src` is not defined or the file represented by `options.src` does not exist.
+
+**Access:** public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>[Options](#Options)</code> | The configuration for a transformation. |
+
+**Example**  
+```js
+var OptionsHandler = require('./options-handler.js');
+var logger = ...;
+var options = {...};
+var optionsHandler = new OptionsHandler(logger);
+
+optionsHandler.ensureSrc(options)
+    .then(function (ensuredOptions) {
+        ...
+    });
+```
+<a name="OptionsHandler+ensureDest"></a>
+### optionsHandler.ensureDest(options) ⇒ <code>Promise</code>
+This method ensures that destination file path is created if not set in
+options. If not, then it creates the path relative to the source file using
+its name and appending a proper extension depending on the `json`
+property of `options` (if `true` then '.js', else '.json').
+
+**Kind**: instance method of <code>[OptionsHandler](#OptionsHandler)</code>  
+**Returns**: <code>Promise</code> - - A Promise containing the passed `options` object.  
+**Access:** public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>[Options](#Options)</code> | The configuration for a transformation. |
+
+**Example**  
+```js
+var OptionsHandler = require('./options-handler.js');
+var logger = ...;
+var options = {...};
+var optionsHandler = new OptionsHandler(logger);
+
+optionsHandler.ensureDest(options)
+    .then(function (ensuredOptions) {
+        ...
+    });
+```
+<a name="OptionsHandler+assertOrigin"></a>
+### optionsHandler.assertOrigin(options) ⇒ <code>Promise</code>
+Checks if the given origin is valid.
+
+**Kind**: instance method of <code>[OptionsHandler](#OptionsHandler)</code>  
+**Returns**: <code>Promise</code> - - A Promise containing the passed `options` object.  
+**Access:** public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>[Options](#Options)</code> | The configuration for a transformation. |
+
+**Example**  
+```js
+var OptionsHandler = require('./options-handler.js');
+var logger = ...;
+var options = {...};
+var optionsHandler = new OptionsHandler(logger);
+
+optionsHandler.assertOrigin(options)
+    .then(function (ensuredOptions) {
+        ...
+    });
+```
+<a name="OptionsHandler+assertTarget"></a>
+### optionsHandler.assertTarget(options) ⇒ <code>Promise</code>
+Checks if the given target is valid.
+
+**Kind**: instance method of <code>[OptionsHandler](#OptionsHandler)</code>  
+**Returns**: <code>Promise</code> - - A Promise containing the passed `options` object.  
+**Access:** public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>[Options](#Options)</code> | The configuration for a transformation. |
+
+**Example**  
+```js
+var OptionsHandler = require('./options-handler.js');
+var logger = ...;
+var options = {...};
+var optionsHandler = new OptionsHandler(logger);
+
+optionsHandler.assertTarget(options)
+    .then(function (ensuredOptions) {
+        ...
+    });
+```
+<a name="OptionsHandler+ensureIndent"></a>
+### optionsHandler.ensureIndent(options) ⇒ <code>Promise</code>
+Checks if a valid indention value is given and corrects values if invalid (with default value: 4 SPACEs).
+
+**Kind**: instance method of <code>[OptionsHandler](#OptionsHandler)</code>  
+**Returns**: <code>Promise</code> - - A Promise containing the passed `options` object.  
+**Access:** public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>[Options](#Options)</code> | The configuration for a transformation. |
+
+**Example**  
+```js
+var OptionsHandler = require('./options-handler.js');
+var logger = ...;
+var options = {...};
+var optionsHandler = new OptionsHandler(logger);
+
+optionsHandler.ensureIndent(options)
+    .then(function (ensuredOptions) {
+        ...
+    });
 ```
 <a name="OptionsHandler+ensureOptions"></a>
 ### optionsHandler.ensureOptions(options) ⇒ <code>Promise</code>
