@@ -72,8 +72,8 @@ function main(args, options) {
 /**
  * Init the CLI instance.
  */
-cli.setUsage(usage)
-    .setApp(packagePath)
-    .enable('version', 'status', 'timeout')
-    .parse(options)
-    .main(main);
+cli.setUsage(usage);
+cli.setApp(packagePath);
+cli.enable('version', 'status', 'timeout');
+cli.parse(options);
+cli.main(main);

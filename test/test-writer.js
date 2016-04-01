@@ -210,7 +210,7 @@ describe('Executing \'jy-transform\' project Writer test suite.', function () {
 
             var options = {
                 src: json,
-                dest: './test/data/tmp/test-data-by-json-to-file.json'
+                dest: './test/tmp/test-data-by-json-to-file.json'
             };
 
             writer.writeJson(json, options)
