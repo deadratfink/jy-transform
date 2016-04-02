@@ -492,6 +492,9 @@ describe('Executing \'jy-transform\' project Writer test suite.', function () {
 
         it('should write YAML to stream, overwrite on 2nd write, don\'t overwrite on 3rd write and overwrite on 4th write', function (done) {
 
+            // we have to set higher timeout here because some travis jobs failed due to 2 sec timeout
+            this.timeout(10000);
+
             var dest = './test/tmp/test-data-file-overwriting.yaml';
 
             var options = {
