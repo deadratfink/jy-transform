@@ -169,9 +169,9 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
                 });
         });
 
-        it('should set default indent if indent < minimum YAML indent', function (done) {
+        it('should set default indent if indent < minimum indent', function (done) {
             var options = {
-                indent: (Constants.MIN_YAML_INDENT - 1),
+                indent: (Constants.MIN_INDENT - 1),
                 target: Constants.YAML
             };
             optionsHandler.ensureIndent(options)
@@ -189,7 +189,7 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
 
         it('should set default indent if indent <  JS/JSON minimum indent', function (done) {
             var options = {
-                indent: Constants.MIN_JSON_JS_INDENT - 1
+                indent: Constants.MIN_INDENT - 1
             };
             optionsHandler.ensureIndent(options)
                 .then(function (resultOptions) {

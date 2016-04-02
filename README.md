@@ -325,8 +325,7 @@ Options:
                          another extension if type differs). If input and 
                          output type are the same then the file overwriting is 
                          handled depending on the '--force' value!  (Default is storing relative to input file)
-  -i, --indent [NUMBER]  The indention for pretty-print: 0 - 8 (json/js), 1 - 8 
-                         (yaml).  (Default is 4)
+  -i, --indent [NUMBER]  The indention for pretty-print: 1 - 8.  (Default is 4)
   -f, --force            Force overwriting of existing output files on write 
                          phase. When files are not overwritten (which is 
                          default), then the next transformation with same 
@@ -350,13 +349,15 @@ These are more formally defined in the following table:
 | `-t` | `--target` | [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation target type. | if not given, the type is tried to be inferred from the extension of destination path, else it is _js_ | no |
 | `-s` | `--src` | URI | The source file path for transformation. | - | yes |
 | `-d` | `--dest` | URI | The destination file path to transform to. | When this options is ommited then the output file is stored relative to the input file (same base name but with another extension if type differs). If input and output type are the same then the file overwriting is handled depending on the `--force` value! | no |
-| `-i` | `--indent` | integer<br> - JSON/JS: _0_-_8_<br> - YAML: _1_-_8_ | The code indention used in destination files. | _4_ | no |
+| `-i` | `--indent` | integer<br> - [ _1_-_8_ ]<br> | The code indention used in destination files. | _4_ | no |
 | `-f` | `--force` | n/a | Force overwriting of existing output files on write phase. When files are not overwritten (which is default), then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of foo.yaml it would be foo(1).yaml.  | _false_ | no |
 | `-x` | `--exports` | string | Define a 'module.exports[.identifier] = ' identifier, for usage in JS destination files only and must be a valid JS identifier!  | _undefined_ | no |
 | `-k` | `--no-color` | n/a | Omit color from output. | _color_ | no |
 |  n/a | `--debug` | n/a | Show debug information. | _false_ | no |
 | `-v` | `--version` | n/a | Display the current version. | n/a | no |
 | `-h` | `--help` | n/a | Display help and usage details. | n/a | no |
+
+**NOTE:** an invalid indention setting (_1_ > `-i`, `--indent` < _8_) does not raise an error but a default of _4_ SPACEs is applied instead.
 
 ### Examples
 
@@ -542,6 +543,8 @@ The `options` object has to follow this key-values table:
 | indent | <code>number</code> | The indention in files. | _4_ | no |
 | force | <code>boolean</code> | Force overwriting of existing output files on write phase. When files are not overwritten, then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of _foo.yaml_ it would be _foo(1).yaml_. | _false_ | no |
 | exports | <code>string</code> | Define a 'module.exports[.identifier] = ' identifier, for usage in JS destination files only and must be a valid JS identifier! | _undefined_ | no |
+
+**NOTE:** an invalid indention setting (_1_ > indent < _8_) does not raise an error but a default of _4_ SPACEs is applied instead.
 
 #### Example
 
@@ -787,8 +790,7 @@ Class which defines all constants usable in or with this module.
     * [.JS](#Constants+JS) : <code>string</code>
     * [.TYPES](#Constants+TYPES) : <code>Array.&lt;string&gt;</code>
     * [.DEFAULT_INDENT](#Constants+DEFAULT_INDENT) : <code>number</code>
-    * [.MIN_JSON_JS_INDENT](#Constants+MIN_JSON_JS_INDENT) : <code>number</code>
-    * [.MIN_YAML_INDENT](#Constants+MIN_YAML_INDENT) : <code>number</code>
+    * [.MIN_INDENT](#Constants+MIN_INDENT) : <code>number</code>
     * [.MAX_INDENT](#Constants+MAX_INDENT) : <code>number</code>
     * [.YAML_TO_JS](#Constants+YAML_TO_JS) : <code>string</code>
     * [.YAML_TO_JSON](#Constants+YAML_TO_JSON) : <code>string</code>
@@ -844,7 +846,7 @@ The dest description value.
 **Access:** public  
 <a name="Constants+DEFAULT_JS_FILE_EXPORTS_IDENTIFIER"></a>
 ### constants.DEFAULT_JS_FILE_EXPORTS_IDENTIFIER : <code>string</code>
-The default exports name for usage in JS files only.
+The dest description value.
 
 **Kind**: instance property of <code>[Constants](#Constants)</code>  
 **Access:** public  
@@ -906,15 +908,9 @@ The default file indention (4 SPACEs).
 
 **Kind**: instance constant of <code>[Constants](#Constants)</code>  
 **Access:** public  
-<a name="Constants+MIN_JSON_JS_INDENT"></a>
-### constants.MIN_JSON_JS_INDENT : <code>number</code>
-The minimum JSON/JS file indention (0 SPACE).
-
-**Kind**: instance constant of <code>[Constants](#Constants)</code>  
-**Access:** public  
-<a name="Constants+MIN_YAML_INDENT"></a>
-### constants.MIN_YAML_INDENT : <code>number</code>
-The minimum YAML file indention (1 SPACE).
+<a name="Constants+MIN_INDENT"></a>
+### constants.MIN_INDENT : <code>number</code>
+The minimum file indention (0 SPACE).
 
 **Kind**: instance constant of <code>[Constants](#Constants)</code>  
 **Access:** public  
@@ -1365,6 +1361,12 @@ Checks if a valid indention value is given and corrects values if invalid (with 
 **Kind**: instance method of <code>[OptionsHandler](#OptionsHandler)</code>  
 **Returns**: <code>Promise</code> - - A Promise containing the passed `options` object.  
 **Access:** public  
+**See**
+
+- [MIN_INDENT](#Constants+MIN_INDENT)
+- [DEFAULT_INDENT](#Constants+DEFAULT_INDENT)
+- [MAX_INDENT](#Constants+MAX_INDENT)
+
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -1734,7 +1736,7 @@ Writes a JSON object to a _*.yaml_ file.
 **Access:** public  
 **See**
 
-- [MIN_YAML_INDENT](#Constants+MIN_YAML_INDENT)
+- [MIN_INDENT](#Constants+MIN_INDENT)
 - [DEFAULT_INDENT](#Constants+DEFAULT_INDENT)
 - [MAX_INDENT](#Constants+MAX_INDENT)
 
@@ -1786,7 +1788,7 @@ Writes a JSON object to a _*.json_ file.
 **Access:** public  
 **See**
 
-- [MIN_JSON_JS_INDENT](#Constants+MIN_JSON_JS_INDENT)
+- [MIN_INDENT](#Constants+MIN_INDENT)
 - [DEFAULT_INDENT](#Constants+DEFAULT_INDENT)
 - [MAX_INDENT](#Constants+MAX_INDENT)
 
@@ -1851,7 +1853,7 @@ Writes a JSON object to a _*.js_ file. The object is prefixed by `module.exports
 **Access:** public  
 **See**
 
-- [MIN_JSON_JS_INDENT](#Constants+MIN_JSON_JS_INDENT)
+- [MIN_INDENT](#Constants+MIN_INDENT)
 - [DEFAULT_INDENT](#Constants+DEFAULT_INDENT)
 - [MAX_INDENT](#Constants+MAX_INDENT)
 
