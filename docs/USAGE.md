@@ -201,7 +201,7 @@ These are more formally defined in the following table:
 | `-v` | `--version` | n/a | Display the current version. | n/a | no |
 | `-h` | `--help` | n/a | Display help and usage details. | n/a | no |
 
-#### Examples
+### Examples
 
 Now we know which properties we can apply on CLI, so let's assume we 
 have a YAML file located in _./foo.yaml_ holding this data:
@@ -209,7 +209,7 @@ have a YAML file located in _./foo.yaml_ holding this data:
 ```yaml
 foo: bar
 ```
-##### Example: YAML -> JSON
+#### Example: YAML -> JSON
 
 then we can transform it to a JSON file _foo.json_
 
@@ -239,30 +239,37 @@ $ jyt -s foo.js -t json -i 2
 ```
 
 then the `js` value for `origin` is automatically inferred from file extension. 
-Analogous, this is also true for the `target` option.
+Accordingly, this is also true for the `target` option.
 
-##### Example: JSON -> JS
+#### Example: JSON -> JS
 
 ```
-$ jyt -s foo.json
+$ jyt -s foo.json -i 2
+```
+```javascript
+module.exports = {
+  foo: "bar"
+}
 ```
 
-##### Example: JS -> YAML
+#### Example: JS -> YAML
 
 ```
 $ jyt -s foo.json -t yaml
 ```
+```yaml
+foo: bar
+```
 
-##### Example: Transformation with Different Destination
+#### Example: Transformation with Different Destination
 
 Simply provide the `-d` with a different file name:
-
 
 ```
 $ jyt -s foo.json -d results/foobar.yaml
 ```
 
-##### Example: Transformation with Unsupported Source File Extension
+#### Example: Transformation with Unsupported Source File Extension
 
 As said, normally we infer from file extension to the type but assume the source 
 file has a file name which does not imply the type (here JS 
@@ -274,7 +281,7 @@ correct `origin` type (of course, the `-t` option works analogous):
 $ jyt -s foo.txt -o js -d foobar.yaml
 ```
 
-##### Example: Write Exports Identifier for JS File
+#### Example: Write Exports Identifier for JS File
 
 Assume you want to generate a JS file with an exports string which gets an 
 identifier. We reuse the YAML file from above 
@@ -301,7 +308,7 @@ module.exports.foobar = {
 (see also [Valid JavaScript variable names in ECMAScript 6](https://mathiasbynens.be/notes/javascript-identifiers-es6) 
 and [Generating a regular expression to match valid JavaScript identifiers](https://mathiasbynens.be/demo/javascript-identifier-regex)).
 
-##### Example: Force Overwriting
+#### Example: Force Overwriting
 
 **IMPORTANT NOTE:** any subsequent execution using the same target/file name, 
 will overwrite the original source or target created beforehand!
