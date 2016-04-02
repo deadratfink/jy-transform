@@ -1,6 +1,6 @@
 {
     "name": "jy-transform",
-    "description": "This project aims to read, write and transform YAML, JS or JSON objects into each other using CLI or API. The source and destination resources can be files, objects or streams. Besides the transformation feature this module can also be used for simple loading and/or writing YAML, JS or JSON files.",
+    "description": "This project aims to read, write and transform [YAML](http://http://yaml.org/), [JS](https://developer.mozilla.org/en-US/docs/Web/JavaScript) or [JSON](http://json.org) objects into each other using CLI or API. The source and destination resources can be files, objects or streams. Besides the transformation feature this module can also be used for simple loading and/or writing YAML, JS or JSON files.",
     "version": "0.9.0",
     "homepage": "https://github.com/deadratfink/jy-transform",
     "author": {

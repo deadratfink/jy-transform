@@ -81,18 +81,18 @@
   - [Dev Dependencies](#dev-dependencies)
   - [License](#license)
   - [Motivation](#motivation)
-  - [Limitations](#limitations)
-  - [Not Supported Yet / Plannings](#not-supported-yet--plannings)
   - [Contributing](#contributing)
 - [Usage](#usage)
   - [Usage Types](#usage-types)
   - [Use Cases](#use-cases)
+  - [Limitations](#limitations)
   - [CLI Usage](#cli-usage)
   - [Origin and Target Type Inference](#origin-and-target-type-inference)
   - [API Usage](#api-usage)
   - [Using Custom Logger](#using-custom-logger)
 - [API Reference](#api-reference)
   - [Classes](#classes)
+  - [Members](#members)
   - [Typedefs](#typedefs)
   - [Constants](#constants)
   - [LogWrapper](#logwrapper)
@@ -102,13 +102,14 @@
   - [Transformer](#transformer)
   - [Validator](#validator)
   - [Writer](#writer)
+  - [identifierRegExpECMAScript6 : <code>RegExp</code>](#identifierregexpecmascript6--coderegexpcode)
   - [Options : <code>object</code>](#options--codeobjectcode)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # jy-transform 
 
-This project aims to read, write and transform YAML, JS or JSON objects into each other using CLI or API. The source and destination resources can be files, objects or streams. Besides the transformation feature this module can also be used for simple loading and/or writing YAML, JS or JSON files.
+This project aims to read, write and transform [YAML](http://http://yaml.org/), [JS](https://developer.mozilla.org/en-US/docs/Web/JavaScript) or [JSON](http://json.org) objects into each other using CLI or API. The source and destination resources can be files, objects or streams. Besides the transformation feature this module can also be used for simple loading and/or writing YAML, JS or JSON files.
 
 ## Installation
 
@@ -164,46 +165,6 @@ I decided to get rid of the YAML file and therefore, create a module which
 should be aimed as the swiss army knife for transforming YAML, JS and JSON 
 types into each other format.
 
-## Limitations
-
-Since this API is build to transform from and to different type formats, any 
-`Function`s residing in JS type objects are _not_ supported, e.g. transforming
-
-```javascript
-module.exports = {
-    myKey1: 'value1',
-    myFunction: 'value2'
-}
-```
-
-to JSON would simply result in 
-
-```javascript
-{
-    myKey1: 'value1'
-}
-```
-
-while transforming to YAML type would even result in an `Error`, e.g. printed 
-on CLI usage like this:
-
-```
-ERROR: ////////////////////////////////////////////////////////////////////////////////
-ERROR: YAMLException: unacceptable kind of an object to dump [object Function]
-ERROR: ////////////////////////////////////////////////////////////////////////////////
-```
-
-## Not Supported Yet / Plannings
-
-- Multidocument handling would be a cool feature which refers in general to YAML 
-  and JS only, but at the moment we require that each document to transform is a 
-_single_ one per file! This feature is planned and reflected 
- in [#14](https://github.com/deadratfink/jy-transform/issues/14).
-- Schema validation for input and output is another topic which is planned by 
-  [#1](https://github.com/deadratfink/jy-transform/issues/1) and 
-  [#2](https://github.com/deadratfink/jy-transform/issues/2).
-
-
 ## Contributing
 
 Pull requests and stars are always welcome. Anybody is invited to take part 
@@ -218,8 +179,8 @@ When contributing as coder, please take care of the following conventions:
   requests to `development` when finished. Any of these should be prefixed with 
   `bugfix/#...` or `feature/#...` (followed by issue number and a short, "underscored" 
   proper meaning), e.g. 
-  - `bugfix/8_fix_js_reading_with_require`
-  - `feature/14_multidocument_support`
+  - `bugfix/#8_fix_js_reading_with_require`
+  - `feature/#14_multidocument_support`
 - Remember that name could need to be enclosed in quotes, e.g. 
   ```$ git checkout -b 'feature/#19_...'```
   when using git shell command.
@@ -232,7 +193,12 @@ When contributing as coder, please take care of the following conventions:
   or [Wiki](https://github.com/deadratfink/jy-transform/wiki).
 - Use single parenthesis (`'...'`) in _*.js_ files instead of double parenthesis (`"..."`).
 - Avoid the of use parenthesis for keys in JSON objects.
-- Use the strict mode (`'use strict';`) in _*.js_ files. 
+- Use the strict mode (`'use strict';`) in _*.js_ files.
+- File names should be lower-case with hyphens as divider, e.g. _options-handler.js_.
+- Markdown documentation files should be upper-case with _.md_ as extension, placed 
+  in _./docs_, e.g. _USAGE.md_. The _README.md_ is build up by these files concatenated 
+  by `npm run docs` command. Any new files have to be added to `scripts.docs` section of 
+  _package.json_. Don't forget to regenerate _README.md_ before committing.
 
 # Usage
 
@@ -303,6 +269,35 @@ Writing to:
 - `stream.Writable`  (requires `options.target` property set)
 - any JS object
 
+## Limitations
+
+- Since this module is build to transform from and to different type formats, any 
+  `Function`s residing in JS type objects are _not_ supported, e.g. transforming
+  ```javascript
+  module.exports = {
+      myKey1: 'value1',
+      myFunction: 'value2'
+  }
+  ```
+  to JSON would simply result in 
+  ```javascript
+  {
+      myKey1: 'value1'
+  }
+  ```
+  while transforming to YAML type would even result in an `Error`, e.g. printed 
+  on CLI usage like this:
+  ```
+  ERROR: YAMLException: unacceptable kind of an object to dump [object Function]
+  ```
+- Multidocument handling would be a cool feature which refers in general to YAML 
+  and JS only, but at the moment we require that each document to transform is a 
+_single_ one per file! This feature is planned and reflected 
+ in [#14](https://github.com/deadratfink/jy-transform/issues/14).
+- Schema validation for input and output is another topic which is planned by 
+  [#1](https://github.com/deadratfink/jy-transform/issues/1) and 
+  [#2](https://github.com/deadratfink/jy-transform/issues/2).
+
 ## CLI Usage
 
 The CLI provides the `jyt` command (actually, this requires the use of options). 
@@ -315,7 +310,7 @@ $ jyt --help
 
 ### CLI Options
 
-The `--help` options prints an overview about all available CLI properties:
+The `--help` option prints an overview about all available CLI properties:
 
 ```
 $ jyt --help
@@ -331,14 +326,18 @@ Options:
                          relative to the input file (same base name but with 
                          another extension if type differs). If input and 
                          output type are the same then the file overwriting is 
-                         handled depending on the '--force' value!  (Default is relative to input file)
+                         handled depending on the '--force' value!  (Default is storing relative to input file)
   -i, --indent [NUMBER]  The indention for pretty-print: 0 - 8 (json/js), 1 - 8 
                          (yaml).  (Default is 4)
   -f, --force            Force overwriting of existing output files on write 
                          phase. When files are not overwritten (which is 
                          default), then the next transformation with same 
                          output file name gets a consecutive number on the base 
-                         file name, e.g. foo(1).yaml. 
+                         file name, e.g. in case of foo.yaml it would be 
+                         foo(1).yaml. 
+  -x, --exports STRING   Define a 'module.exports[.identifier] = ' 
+                         identifier, for usage in JS destination files only 
+                         and must be a valid JS identifier! 
   -k, --no-color         Omit color from output
       --debug            Show debug information
   -v, --version          Display the current version
@@ -347,18 +346,19 @@ Options:
 
 These are more formally defined in the following table: 
 
-| Name(s) | Type | Description | Default | Required |
-| --- | --- | --- | --- | --- |
-| `-o`, `--origin` | [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation origin type. | if not given, the type is tried to be inferred from the extension of source path, else it is _yaml_ | no |
-| `-t`, `--target` | [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation target type. | if not given, the type is tried to be inferred from the extension of destination path, else it is _js_ | no |
-| `-s`, `--src` | URI | The source file path for transformation. | - | yes |
-| `-d`, `--dest` | URI | The destination file path to transform to. | When this options is ommited then the output file is stored relative to the input file (same base name but with another extension if type differs). If input and output type are the same then the file overwriting is handled depending on the `--force` value! | no |
-| `-i`, `--indent` | integer<br> - JSON/JS: _0_-_8_<br> - YAML: _1_-_8_ | The code indention used in destination files. | _4_ | no |
-| `-f`, `--force` | n/a | Force overwriting of existing output files on write phase. When files are not overwritten (which is default), then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of foo.yaml it would be foo(1).yaml.  | _false_ | no |
-| `-k`, `--no-color` | n/a | Omit color from output. | _color_ | no |
-| `--debug` | n/a | Show debug information. | _false_ | no |
-| `-v`, `--version` | n/a | Display the current version. | n/a | no |
-| `-h`, `--help` | n/a | Display help and usage details. | n/a | no |
+| Option (short) | Option (long) | Type | Description | Default | Required |
+| --- | --- | --- | --- | --- | --- |
+| `-o` | `--origin` | [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation origin type. | if not given, the type is tried to be inferred from the extension of source path, else it is _yaml_ | no |
+| `-t` | `--target` | [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation target type. | if not given, the type is tried to be inferred from the extension of destination path, else it is _js_ | no |
+| `-s` | `--src` | URI | The source file path for transformation. | - | yes |
+| `-d` | `--dest` | URI | The destination file path to transform to. | When this options is ommited then the output file is stored relative to the input file (same base name but with another extension if type differs). If input and output type are the same then the file overwriting is handled depending on the `--force` value! | no |
+| `-i` | `--indent` | integer<br> - JSON/JS: _0_-_8_<br> - YAML: _1_-_8_ | The code indention used in destination files. | _4_ | no |
+| `-f` | `--force` | n/a | Force overwriting of existing output files on write phase. When files are not overwritten (which is default), then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of foo.yaml it would be foo(1).yaml.  | _false_ | no |
+| `-x` | `--exports` | string | Define a 'module.exports[.identifier] = ' identifier, for usage in JS destination files only and must be a valid JS identifier!  | _undefined_ | no |
+| `-k` | `--no-color` | n/a | Omit color from output. | _color_ | no |
+|  n/a | `--debug` | n/a | Show debug information. | _false_ | no |
+| `-v` | `--version` | n/a | Display the current version. | n/a | no |
+| `-h` | `--help` | n/a | Display help and usage details. | n/a | no |
 
 #### Examples
 
@@ -501,7 +501,7 @@ function transform(options, middleware)
 
 The `options` object has to follow this key-values table:
 
-| Name | Type | Description | Default | Required |
+| Option | Type | Description | Default | Required |
 | --- | --- | --- | --- | --- |
 | origin | <code>string</code> | The origin type. | If not given, the type is tried to be inferred from the extension of source path, else it is _yaml_. | no |
 | target | <code>string</code> | The target type. | If not given, the type is tried to be inferred from the extension of destination path, else it is _js_ | no |
@@ -509,6 +509,7 @@ The `options` object has to follow this key-values table:
 | dest | <code>string &#124; Writable &#124; object</code> | The destination information object: `string` is used as file path, `Writable` stream writes a stringified source and `object` is used as direct JS object for assignment. | The output file is stored relative to the input file (same base name but with another extension if type differs). If input and output type are the same then the file overwriting is handled depending on the 'force' value! | no |
 | indent | <code>number</code> | The indention in files. | _4_ | no |
 | force | <code>boolean</code> | Force overwriting of existing output files on write phase. When files are not overwritten, then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of _foo.yaml_ it would be _foo(1).yaml_. | _false_ | no |
+| exports | <code>string</code> | Define a 'module.exports[.identifier] = ' identifier, for usage in JS destination files only and must be a valid JS identifier! | _undefined_ | no |
 
 #### Example
 
@@ -516,8 +517,8 @@ The `options` object has to follow this key-values table:
 var options = {
     origin: 'json',
     target: 'yaml',
-    src: './my.json',
-    dest: './temp/my.yaml',
+    src: 'foo.json',
+    dest: './foo/bar.yaml',
     indent: 2
 }
 ```
@@ -548,14 +549,14 @@ JSON property before it is written to a file. Assuming we have this piece of YAM
 object as input:
 
 ```yaml
-myproperty: old value
+foo: old bar
 ```
 
 Applying this [Promise](http://bluebirdjs.com/docs/api-reference.html) as middleware
 
 ```javascript
 var middleware = function (json) {
-    json.myproperty = 'new value'; 
+    json.foo = 'new bar'; 
     return Promise.resolve(json);
 }
 
@@ -572,7 +573,7 @@ will result in such JSON file:
 
 ```javascript
 {
-	"myproperty": "new value"
+	"foo": "new bar"
 }
 ```
 
@@ -586,7 +587,7 @@ Let's assume we have some Promise functions to apply. For simplicity reasons we
 simulate these for the moment by three functions, each adding a key-value to the 
 given (initially empty) JSON object.
 
-**NOTE:** each of them has to return the `json` object! 
+**NOTE:** each of them has to resolve with the `json` object! 
 
 
 ```javascript
@@ -608,7 +609,7 @@ function key3(json) {
 
 These can be collected by different aggregation or composition functions of the underlying
 Promise framework, e.g. using the  [`Promise.all([...])`](http://bluebirdjs.com/docs/api/promise.all.html) 
-function. This one can collect all three functions above and ensure their proper execution:
+function. This one can collect all three functions above and ensure their proper subsequent execution:
 
  
 ```javascript
@@ -725,6 +726,14 @@ the full API and provides more examples.
 </dd>
 </dl>
 
+## Members
+
+<dl>
+<dt><a href="#identifierRegExpECMAScript6">identifierRegExpECMAScript6</a> : <code>RegExp</code></dt>
+<dd><p>Created at <a href="https://mathiasbynens.be/demo/javascript-identifier-regex">Generating a regular expression to match valid JavaScript identifiers</a>.</p>
+</dd>
+</dl>
+
 ## Typedefs
 
 <dl>
@@ -746,6 +755,7 @@ Class which defines all constants usable in or with this module.
     * [.ORIGIN_DESCRIPTION](#Constants+ORIGIN_DESCRIPTION) : <code>string</code>
     * [.TARGET_DESCRIPTION](#Constants+TARGET_DESCRIPTION) : <code>string</code>
     * [.DEST_DESCRIPTION](#Constants+DEST_DESCRIPTION) : <code>string</code>
+    * [.DEFAULT_JS_FILE_EXPORTS_IDENTIFIER](#Constants+DEFAULT_JS_FILE_EXPORTS_IDENTIFIER) : <code>string</code>
     * [.DEFAULT_OPTIONS](#Constants+DEFAULT_OPTIONS) : <code>object</code>
     * [.UTF8](#Constants+UTF8) : <code>string</code>
     * [.YAML](#Constants+YAML) : <code>string</code>
@@ -808,6 +818,12 @@ The dest description value.
 
 **Kind**: instance property of <code>[Constants](#Constants)</code>  
 **Access:** public  
+<a name="Constants+DEFAULT_JS_FILE_EXPORTS_IDENTIFIER"></a>
+### constants.DEFAULT_JS_FILE_EXPORTS_IDENTIFIER : <code>string</code>
+The default exports name for usage in JS files only.
+
+**Kind**: instance property of <code>[Constants](#Constants)</code>  
+**Access:** public  
 <a name="Constants+DEFAULT_OPTIONS"></a>
 ### constants.DEFAULT_OPTIONS : <code>object</code>
 The default options.
@@ -828,6 +844,7 @@ The default options.
 | dest | <code>string</code> | <code>&quot;&#x27;relative&quot;</code> | to input file' - The default dest description. |
 | indent | <code>number</code> | <code>4</code> | The default indention for files. |
 | force | <code>boolean</code> | <code>false</code> | Whether to overwrite existing file on output. |
+| exports | <code>string</code> |  | The exports name for usage in JS files only. |
 
 <a name="Constants+UTF8"></a>
 ### constants.UTF8 : <code>string</code>
@@ -1610,6 +1627,11 @@ Ensures that basic middleware is set.
 This class validates JSON.
 
 **Kind**: global class  
+
+* [Validator](#Validator)
+    * [new Validator([logger])](#new_Validator_new)
+    * [.validateIdentifier(identifier)](#Validator+validateIdentifier) ⇒ <code>boolean</code>
+
 <a name="new_Validator_new"></a>
 ### new Validator([logger])
 Constructs the `Validator` with an (optional) logger.
@@ -1622,10 +1644,28 @@ Constructs the `Validator` with an (optional) logger.
 
 **Example**  
 ```js
-var Writer = require('jy-transform').Writer;
+var Validator = require('./validator.js');
 var logger = ...;
 
-var writer = new Writer(logger);
+var validator = new Validator(logger);
+```
+<a name="Validator+validateIdentifier"></a>
+### validator.validateIdentifier(identifier) ⇒ <code>boolean</code>
+**Kind**: instance method of <code>[Validator](#Validator)</code>  
+**Access:** public  
+
+| Param |
+| --- |
+| identifier | 
+
+**Example**  
+```js
+var Validator = require('./validator.js');
+var logger = ...;
+var validator = new Validator(logger);
+var identifier = 'foo';
+
+logger.info('valid = ' + validator.validateIdentifier(identifier));
 ```
 <a name="Writer"></a>
 ## Writer
@@ -1843,6 +1883,12 @@ writer.writeJs(json, options)
         logger.error(err.stack);
     });
 ```
+<a name="identifierRegExpECMAScript6"></a>
+## identifierRegExpECMAScript6 : <code>RegExp</code>
+Created at [Generating a regular expression to match valid JavaScript identifiers](https://mathiasbynens.be/demo/javascript-identifier-regex).
+
+**Kind**: global variable  
+**Access:** public  
 <a name="Options"></a>
 ## Options : <code>object</code>
 **Kind**: global typedef  
@@ -1855,4 +1901,5 @@ writer.writeJs(json, options)
 | src | <code>string</code> &#124; <code>Readable</code> &#124; <code>object</code> |  | The source. |
 | dest | <code>string</code> &#124; <code>Writable</code> &#124; <code>object</code> |  | The destination. |
 | indent | <code>number</code> | <code>4</code> | The indention in files. |
+| exports | <code>string</code> |  | The exports name for usage in JS files only. |
 

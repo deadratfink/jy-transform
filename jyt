@@ -33,17 +33,17 @@ var packagePath = __dirname + '/package.json';
  * ```
  * long_tag: [short_tag, description, value_type, default_value];
  * ```
- * @type {{origin: *[], target: *[], src: string[], dest: *[], indent: *[], force: string[]}}
+ * @type {{origin: *[], target: *[], src: string[], dest: *[], indent: *[], force: string[], exports: string[]}}
  * @private
  */
 var options = {
-    origin: [ 'o', 'The conversion origin: [ ' + constants.JS + ' | ' + constants.JSON + ' | ' + constants.YAML + ' ].', 'string', constants.DEFAULT_OPTIONS.origin ],
-    target: [ 't', 'The conversion target: [ ' + constants.JS + ' | ' + constants.JSON + ' | ' + constants.YAML + ' ].', 'string', constants.DEFAULT_OPTIONS.target ],
-    src:    [ 's', 'The absolute/relative input file path.', 'path'],
-    dest:   [ 'd', 'The absolute/relative output file path. When this options is ommited then the output file is stored relative to the input file (same base name but with another extension if type differs). If input and output type are the same then the file overwriting is handled depending on the \'--force\' value!', 'path', constants.DEFAULT_OPTIONS.dest],
-    indent: [ 'i', 'The indention for pretty-print: 0 - 8 (json/js), 1 - 8 (yaml).', 'int', constants.DEFAULT_INDENT ],
-    force:  [ 'f', 'Force overwriting of existing output files on write phase. When files are not overwritten (which is default), then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of foo.yaml it would be foo(1).yaml.' ]
-    //exports: ['e', 'Define a JS \'module.exports = \' name', 'module.exports = \']
+    origin:  [ 'o', 'The conversion origin: [ ' + constants.JS + ' | ' + constants.JSON + ' | ' + constants.YAML + ' ].', 'string', constants.DEFAULT_OPTIONS.origin ],
+    target:  [ 't', 'The conversion target: [ ' + constants.JS + ' | ' + constants.JSON + ' | ' + constants.YAML + ' ].', 'string', constants.DEFAULT_OPTIONS.target ],
+    src:     [ 's', 'The absolute/relative input file path.', 'path'],
+    dest:    [ 'd', 'The absolute/relative output file path. When this options is ommited then the output file is stored relative to the input file (same base name but with another extension if type differs). If input and output type are the same then the file overwriting is handled depending on the \'--force\' value!', 'path', constants.DEFAULT_OPTIONS.dest],
+    indent:  [ 'i', 'The indention for pretty-print: 0 - 8 (json/js), 1 - 8 (yaml).', 'int', constants.DEFAULT_INDENT ],
+    force:   [ 'f', 'Force overwriting of existing output files on write phase. When files are not overwritten (which is default), then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of foo.yaml it would be foo(1).yaml.' ],
+    exports: [ 'x', 'Define a \'module.exports[.identifier] = \' identifier, for usage in JS destination files only and must be a valid JS identifier!', 'string', constants.DEFAULT_OPTIONS.exports ]
 };
 
 /**

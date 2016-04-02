@@ -128,6 +128,73 @@ describe('Executing \'jy-transform\' project Writer test suite.', function () {
                 });
         });
 
+        it('should write JS to stream with exports identifier', function (done) {
+
+            var file = './test/tmp/test-data-by-js-stream-with-exports-identifier.js';
+            var dest = fs.createWriteStream(file);
+
+            var options = {
+                dest: dest,
+                exports: 'test'
+            };
+
+            writer.writeJs(json, options)
+                .then(function (msg) {
+                    assert.notEqual(msg, null, 'msg should not be null, was: ' + msg);
+                    assertDestFile(file, done);
+                    var json = require('./tmp/test-data-by-js-stream-with-exports-identifier.js').test;
+                    assert.notEqual(json, null, 'json from test identifier should not be null');
+                    assert.equal(json.test, 'value', 'json from test identifier should have a \'test\' property with value \'value\'');
+                })
+                .catch(function (err) {
+                    logger.error(err.stack);
+                    done(err);
+                });
+        });
+
+        it('should write JS to stream and fail by invalid exports identifier (\'#3/-\')', function (done) {
+            var file = './test/tmp/test-data-by-js-stream-with-invalid-exports-identifier.js';
+            var dest = fs.createWriteStream(file);
+
+            var options = {
+                dest: dest,
+                exports: '#3/-'
+            };
+
+            writer.writeJs(json, options)
+                .then(function (msg) {
+                    done(new Error('Error expected'));
+                })
+                .catch(function (err) {
+                    logger.info('EXPECTED ERROR: ' + err.stack);
+                    assert.notEqual(err, null, 'err should not be null');
+                    assert(err instanceof Error, 'expected Error should equal Error, was: ' + (typeof err));
+                    done();
+                });
+        });
+
+        it('should write JS to stream and fail by invalid exports identifier (\'if\')', function (done) {
+            var file = './test/tmp/test-data-by-js-stream-with-invalid-exports-identifier.js';
+            var dest = fs.createWriteStream(file);
+
+            var options = {
+                dest: dest,
+                exports: 'if'
+            };
+
+            writer.writeJs(json, options)
+                .then(function (msg) {
+                    done(new Error('Error expected'));
+                })
+                .catch(function (err) {
+                    logger.info('EXPECTED ERROR: ' + err.stack);
+                    assert.notEqual(err, null, 'err should not be null');
+                    assert(err instanceof Error, 'expected Error should equal Error, was: ' + (typeof err));
+                    done();
+                });
+        });
+
+
         it('should write JS to stream and fail by provoked error', function (done) {
 
             var options = {
