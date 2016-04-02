@@ -207,7 +207,7 @@ Now we know which properties we can apply on CLI, so let's assume we
 have a YAML file located in _./foo.yaml_ holding this data:
 
 ```yaml
-myproperty: value
+foo: bar
 ```
 ##### Example: YAML -> JSON
 
@@ -280,7 +280,7 @@ Assume you want to generate a JS file with an exports string which gets an
 identifier. We reuse the YAML file from above 
 
 ```yaml
-myproperty: value
+foo: bar
 ```
 
 using this command:
@@ -297,7 +297,7 @@ module.exports.foobar = {
 }
 ```
 
-*NOTE:* the identifier must be a valid JS identifier accoding to ECMAScript 6
+**NOTE:** the identifier must be a valid JS identifier accoding to ECMAScript 6
 (see also [Valid JavaScript variable names in ECMAScript 6](https://mathiasbynens.be/notes/javascript-identifiers-es6) 
 and [Generating a regular expression to match valid JavaScript identifiers](https://mathiasbynens.be/demo/javascript-identifier-regex)).
 
