@@ -152,6 +152,26 @@ describe('Executing \'jy-transform\' project Writer test suite.', function () {
                 });
         });
 
+        it('should write JS to file and fail by invalid exports identifier (\'#3/-\')', function (done) {
+            var dest = './test/tmp/test-data-by-js-stream-with-invalid-exports-identifier.js';
+
+            var options = {
+                dest: dest,
+                exports: '#3/-'
+            };
+
+            writer.writeJs(json, options)
+                .then(function (msg) {
+                    done(new Error('Error expected'));
+                })
+                .catch(function (err) {
+                    logger.info('EXPECTED ERROR: ' + err.stack);
+                    assert.notEqual(err, null, 'err should not be null');
+                    assert(err instanceof Error, 'expected Error should equal Error, was: ' + (typeof err));
+                    done();
+                });
+        });
+
         it('should write JS to stream and fail by invalid exports identifier (\'#3/-\')', function (done) {
             var file = './test/tmp/test-data-by-js-stream-with-invalid-exports-identifier.js';
             var dest = fs.createWriteStream(file);
