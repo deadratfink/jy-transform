@@ -92,7 +92,6 @@
   - [Using Custom Logger](#using-custom-logger)
 - [API Reference](#api-reference)
   - [Classes](#classes)
-  - [Members](#members)
   - [Typedefs](#typedefs)
   - [Constants](#constants)
   - [LogWrapper](#logwrapper)
@@ -102,7 +101,6 @@
   - [Transformer](#transformer)
   - [Validator](#validator)
   - [Writer](#writer)
-  - [identifierRegExpECMAScript6 : <code>RegExp</code>](#identifierregexpecmascript6--coderegexpcode)
   - [Options : <code>object</code>](#options--codeobjectcode)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -374,7 +372,7 @@ then we can transform it to a JSON file _foo.json_
 
 ```javascript
 {
-  "myproperty": "value"
+  "foo": "bar"
 }
 ```
 
@@ -432,6 +430,33 @@ correct `origin` type (of course, the `-t` option works analogous):
 ```
 $ jyt -s foo.txt -o js -d foobar.yaml
 ```
+
+##### Example: Write Exports Identifier for JS File
+
+Assume you want to generate a JS file with an exports string which gets an 
+identifier. We reuse the YAML file from above 
+
+```yaml
+myproperty: value
+```
+
+using this command:
+
+```
+$ jyt -s foo.yaml -d foobar.js -x foobar
+```
+
+This generates the following output in JS file using `foobar` as identifier:
+
+```javascript
+module.exports.foobar = {
+    foo: "bar"
+}
+```
+
+*NOTE:* the identifier must be a valid JS identifier accoding to ECMAScript 6
+(see also [Valid JavaScript variable names in ECMAScript 6](https://mathiasbynens.be/notes/javascript-identifiers-es6) 
+and [Generating a regular expression to match valid JavaScript identifiers](https://mathiasbynens.be/demo/javascript-identifier-regex)).
 
 ##### Example: Force Overwriting
 
@@ -723,14 +748,6 @@ the full API and provides more examples.
 <dt><a href="#Writer">Writer</a></dt>
 <dd><p>This class provides utility methods usable to write JSON/JS/YAML
        from memory to a JSON/JS/YAML file.</p>
-</dd>
-</dl>
-
-## Members
-
-<dl>
-<dt><a href="#identifierRegExpECMAScript6">identifierRegExpECMAScript6</a> : <code>RegExp</code></dt>
-<dd><p>Created at <a href="https://mathiasbynens.be/demo/javascript-identifier-regex">Generating a regular expression to match valid JavaScript identifiers</a>.</p>
 </dd>
 </dl>
 
@@ -1883,12 +1900,6 @@ writer.writeJs(json, options)
         logger.error(err.stack);
     });
 ```
-<a name="identifierRegExpECMAScript6"></a>
-## identifierRegExpECMAScript6 : <code>RegExp</code>
-Created at [Generating a regular expression to match valid JavaScript identifiers](https://mathiasbynens.be/demo/javascript-identifier-regex).
-
-**Kind**: global variable  
-**Access:** public  
 <a name="Options"></a>
 ## Options : <code>object</code>
 **Kind**: global typedef  
