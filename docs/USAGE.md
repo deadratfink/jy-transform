@@ -200,7 +200,7 @@ These are more formally defined in the following table:
 | `-v` | `--version` | n/a | Display the current version. | n/a | no |
 | `-h` | `--help` | n/a | Display help and usage details. | n/a | no |
 
-**NOTE:** an invalid indention setting (_1_ > `-i`, `--indent` < _8_) does not raise an error but a default of _4_ SPACEs is applied instead.
+**NOTE:** an invalid indention setting (_1_ > `-i`, `--indent` > _8_) does not raise an error but a default of _4_ SPACEs is applied instead.
 
 ### Examples
 
@@ -387,7 +387,7 @@ The `options` object has to follow this key-values table:
 | force | <code>boolean</code> | Force overwriting of existing output files on write phase. When files are not overwritten, then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of _foo.yaml_ it would be _foo(1).yaml_. | _false_ | no |
 | exports | <code>string</code> | Define a 'module.exports[.identifier] = ' identifier, for usage in JS destination files only and must be a valid JS identifier! | _undefined_ | no |
 
-**NOTE:** an invalid indention setting (_1_ > indent < _8_) does not raise an error but a default of _4_ SPACEs is applied instead.
+**NOTE:** an invalid indention setting (_1_ > indent > _8_) does not raise an error but a default of _4_ SPACEs is applied instead.
 
 #### Example
 

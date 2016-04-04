@@ -357,7 +357,7 @@ These are more formally defined in the following table:
 | `-v` | `--version` | n/a | Display the current version. | n/a | no |
 | `-h` | `--help` | n/a | Display help and usage details. | n/a | no |
 
-**NOTE:** an invalid indention setting (_1_ > `-i`, `--indent` < _8_) does not raise an error but a default of _4_ SPACEs is applied instead.
+**NOTE:** an invalid indention setting (_1_ > `-i`, `--indent` > _8_) does not raise an error but a default of _4_ SPACEs is applied instead.
 
 ### Examples
 
@@ -544,7 +544,7 @@ The `options` object has to follow this key-values table:
 | force | <code>boolean</code> | Force overwriting of existing output files on write phase. When files are not overwritten, then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of _foo.yaml_ it would be _foo(1).yaml_. | _false_ | no |
 | exports | <code>string</code> | Define a 'module.exports[.identifier] = ' identifier, for usage in JS destination files only and must be a valid JS identifier! | _undefined_ | no |
 
-**NOTE:** an invalid indention setting (_1_ > indent < _8_) does not raise an error but a default of _4_ SPACEs is applied instead.
+**NOTE:** an invalid indention setting (_1_ > indent > _8_) does not raise an error but a default of _4_ SPACEs is applied instead.
 
 #### Example
 
@@ -1702,6 +1702,7 @@ This class provides utility methods usable to write JSON/JS/YAML
 
 * [Writer](#Writer)
     * [new Writer([logger])](#new_Writer_new)
+    * [.validator](#Writer+validator) : <code>[Validator](#Validator)</code>
     * [.writeYaml(json, options)](#Writer+writeYaml) ⇒ <code>Promise</code>
     * [.writeJson(json, options)](#Writer+writeJson) ⇒ <code>Promise</code>
     * [.writeJs(json, options)](#Writer+writeJs) ⇒ <code>Promise</code>
@@ -1723,6 +1724,11 @@ var logger = ...;
 
 var writer = new Writer(logger);
 ```
+<a name="Writer+validator"></a>
+### writer.validator : <code>[Validator](#Validator)</code>
+The validator.
+
+**Kind**: instance property of <code>[Writer](#Writer)</code>  
 <a name="Writer+writeYaml"></a>
 ### writer.writeYaml(json, options) ⇒ <code>Promise</code>
 Writes a JSON object to a _*.yaml_ file.
