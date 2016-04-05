@@ -15,7 +15,6 @@ node_js:
 os:
 - linux
 - osx
-- windows
 after_success:
 - ./node_modules/codecov/bin/codecov -e TRAVIS_NODE_VERSION
 - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js --verbose
