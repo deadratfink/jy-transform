@@ -12,6 +12,10 @@ node_js:
 - "0.11"
 - "0.10"
 - "iojs"
+os:
+- linux
+- osx
+- windows
 after_success:
 - ./node_modules/codecov/bin/codecov -e TRAVIS_NODE_VERSION
 - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js --verbose
