@@ -10,7 +10,7 @@ var assert = require('assert');
 var objectPath = require('object-path');
 
 /**
- * @classdescription This unit test suite checks the validity and correctness of {@link Middleware} class.
+ * @classdesc This unit test suite checks the validity and correctness of {@link Middleware} class.
  */
 describe('Executing \'jy-transform\' project Middleware test suite.', function () {
 

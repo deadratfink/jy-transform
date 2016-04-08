@@ -174,10 +174,13 @@ Options:
                          default), then the next transformation with same 
                          output file name gets a consecutive number on the base 
                          file name, e.g. in case of foo.yaml it would be 
-                         foo(1).yaml. 
+                         foo(1).yaml.
+  -m, --imports STRING   Define a 'module.exports[.identifier] = ' 
+                         identifier (to read from JS _source_ file only, must 
+                         be a valid JS identifier!).                          
   -x, --exports STRING   Define a 'module.exports[.identifier] = ' 
-                         identifier, for usage in JS destination files only 
-                         and must be a valid JS identifier! 
+                         identifier, for usage in JS destination file only, 
+                         must be a valid JS identifier! 
   -k, --no-color         Omit color from output
       --debug            Show debug information
   -v, --version          Display the current version
@@ -194,11 +197,14 @@ These are more formally defined in the following table:
 | `-d` | `--dest` | URI | The destination file path to transform to. | When this options is ommited then the output file is stored relative to the input file (same base name but with another extension if type differs). If input and output type are the same then the file overwriting is handled depending on the `--force` value! | no |
 | `-i` | `--indent` | integer<br> - [ _1_-_8_ ]<br> | The code indention used in destination files. | _4_ | no |
 | `-f` | `--force` | n/a | Force overwriting of existing output files on write phase. When files are not overwritten (which is default), then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of foo.yaml it would be foo(1).yaml.  | _false_ | no |
-| `-x` | `--exports` | string | Define a 'module.exports[.identifier] = ' identifier, for usage in JS destination files only and must be a valid JS identifier!  | _undefined_ | no |
+| `-m` | `--imports` | string | Define a 'module.exports[.identifier] = ' identifier (to read from JS _source_ file only, must be a valid JS identifier!) | _undefined_ | no |
+| `-x` | `--exports` | string | Define a 'module.exports[.identifier] = ' identifier (for usage in JS _destination_ file only, must be a valid JS identifier!) | _undefined_ | no |
 | `-k` | `--no-color` | n/a | Omit color from output. | _color_ | no |
 |  n/a | `--debug` | n/a | Show debug information. | _false_ | no |
 | `-v` | `--version` | n/a | Display the current version. | n/a | no |
 | `-h` | `--help` | n/a | Display help and usage details. | n/a | no |
+
+
 
 **NOTE:** an invalid indention setting (_1_ > `-i`, `--indent` > _8_) does not raise an error but a default of _4_ SPACEs is applied instead.
 
@@ -280,6 +286,35 @@ correct `origin` type (of course, the `-t` option works analogous):
 
 ```
 $ jyt -s foo.txt -o js -d foobar.yaml
+```
+
+#### Example: Read from Exports Identifier
+
+It could be that a JS source `exports` several objects and you want to read 
+from exactly the one you specify, then provide the `-m` (`--imports`) option.
+
+In this this example we have a _foo.js_ file:
+
+```javascript
+module.exports.foo = {
+  foo: 'bar'
+};
+
+module.exports.bar = {
+  bar: 'foo'
+};
+```
+
+but you want to convert `bar` object, then call:
+
+```
+$ jyt -s foo.js -m bar -d bar.yaml
+```
+
+to get the YAML result:
+
+```yaml
+bar: foo
 ```
 
 #### Example: Write Exports Identifier for JS File
@@ -385,7 +420,8 @@ The `options` object has to follow this key-values table:
 | dest | <code>string &#124; Writable &#124; object</code> | The destination information object: `string` is used as file path, `Writable` stream writes a stringified source and `object` is used as direct JS object for assignment. | The output file is stored relative to the input file (same base name but with another extension if type differs). If input and output type are the same then the file overwriting is handled depending on the 'force' value! | no |
 | indent | <code>number</code> | The indention in files. | _4_ | no |
 | force | <code>boolean</code> | Force overwriting of existing output files on write phase. When files are not overwritten, then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of _foo.yaml_ it would be _foo(1).yaml_. | _false_ | no |
-| exports | <code>string</code> | Define a 'module.exports[.identifier] = ' identifier, for usage in JS destination files only and must be a valid JS identifier! | _undefined_ | no |
+| imports | <code>string</code> | Define a 'module.exports[.identifier] = ' identifier (to read from JS _source_ file or object only, must be a valid JS identifier!) | _undefined_ | no |
+| exports | <code>string</code> | Define a 'module.exports[.identifier] = ' identifier (for usage in JS _destination_ file or object only, must be a valid JS identifier!) | _undefined_ | no |
 
 **NOTE:** an invalid indention setting (_1_ > indent > _8_) does not raise an error but a default of _4_ SPACEs is applied instead.
 

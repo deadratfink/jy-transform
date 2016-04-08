@@ -8,7 +8,7 @@ var logger;
 var reader;
 
 /**
- * @classdescription This unit test suite checks the validity and correctness of {@link Reader} class.
+ * @classdesc This unit test suite checks the validity and correctness of {@link Reader} class.
  */
 describe('Executing \'jy-transform\' project Reader test suite.', function () {
 

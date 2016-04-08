@@ -92,6 +92,7 @@
   - [Using Custom Logger](#using-custom-logger)
 - [API Reference](#api-reference)
   - [Classes](#classes)
+  - [Functions](#functions)
   - [Typedefs](#typedefs)
   - [Constants](#constants)
   - [LogWrapper](#logwrapper)
@@ -99,8 +100,9 @@
   - [OptionsHandler](#optionshandler)
   - [Reader](#reader)
   - [Transformer](#transformer)
-  - [Validator](#validator)
+  - [This class validates JSON.](#this-class-validates-json)
   - [Writer](#writer)
+  - [validateIdentifier(identifier) ⇒ <code>boolean</code>](#validateidentifieridentifier-%E2%87%92-codebooleancode)
   - [Options : <code>object</code>](#options--codeobjectcode)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -331,10 +333,13 @@ Options:
                          default), then the next transformation with same 
                          output file name gets a consecutive number on the base 
                          file name, e.g. in case of foo.yaml it would be 
-                         foo(1).yaml. 
+                         foo(1).yaml.
+  -m, --imports STRING   Define a 'module.exports[.identifier] = ' 
+                         identifier (to read from JS _source_ file only, must 
+                         be a valid JS identifier!).                          
   -x, --exports STRING   Define a 'module.exports[.identifier] = ' 
-                         identifier, for usage in JS destination files only 
-                         and must be a valid JS identifier! 
+                         identifier, for usage in JS destination file only, 
+                         must be a valid JS identifier! 
   -k, --no-color         Omit color from output
       --debug            Show debug information
   -v, --version          Display the current version
@@ -351,11 +356,14 @@ These are more formally defined in the following table:
 | `-d` | `--dest` | URI | The destination file path to transform to. | When this options is ommited then the output file is stored relative to the input file (same base name but with another extension if type differs). If input and output type are the same then the file overwriting is handled depending on the `--force` value! | no |
 | `-i` | `--indent` | integer<br> - [ _1_-_8_ ]<br> | The code indention used in destination files. | _4_ | no |
 | `-f` | `--force` | n/a | Force overwriting of existing output files on write phase. When files are not overwritten (which is default), then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of foo.yaml it would be foo(1).yaml.  | _false_ | no |
-| `-x` | `--exports` | string | Define a 'module.exports[.identifier] = ' identifier, for usage in JS destination files only and must be a valid JS identifier!  | _undefined_ | no |
+| `-m` | `--imports` | string | Define a 'module.exports[.identifier] = ' identifier (to read from JS _source_ file only, must be a valid JS identifier!) | _undefined_ | no |
+| `-x` | `--exports` | string | Define a 'module.exports[.identifier] = ' identifier (for usage in JS _destination_ file only, must be a valid JS identifier!) | _undefined_ | no |
 | `-k` | `--no-color` | n/a | Omit color from output. | _color_ | no |
 |  n/a | `--debug` | n/a | Show debug information. | _false_ | no |
 | `-v` | `--version` | n/a | Display the current version. | n/a | no |
 | `-h` | `--help` | n/a | Display help and usage details. | n/a | no |
+
+
 
 **NOTE:** an invalid indention setting (_1_ > `-i`, `--indent` > _8_) does not raise an error but a default of _4_ SPACEs is applied instead.
 
@@ -437,6 +445,35 @@ correct `origin` type (of course, the `-t` option works analogous):
 
 ```
 $ jyt -s foo.txt -o js -d foobar.yaml
+```
+
+#### Example: Read from Exports Identifier
+
+It could be that a JS source `exports` several objects and you want to read 
+from exactly the one you specify, then provide the `-m` (`--imports`) option.
+
+In this this example we have a _foo.js_ file:
+
+```javascript
+module.exports.foo = {
+  foo: 'bar'
+};
+
+module.exports.bar = {
+  bar: 'foo'
+};
+```
+
+but you want to convert `bar` object, then call:
+
+```
+$ jyt -s foo.js -m bar -d bar.yaml
+```
+
+to get the YAML result:
+
+```yaml
+bar: foo
 ```
 
 #### Example: Write Exports Identifier for JS File
@@ -542,7 +579,8 @@ The `options` object has to follow this key-values table:
 | dest | <code>string &#124; Writable &#124; object</code> | The destination information object: `string` is used as file path, `Writable` stream writes a stringified source and `object` is used as direct JS object for assignment. | The output file is stored relative to the input file (same base name but with another extension if type differs). If input and output type are the same then the file overwriting is handled depending on the 'force' value! | no |
 | indent | <code>number</code> | The indention in files. | _4_ | no |
 | force | <code>boolean</code> | Force overwriting of existing output files on write phase. When files are not overwritten, then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of _foo.yaml_ it would be _foo(1).yaml_. | _false_ | no |
-| exports | <code>string</code> | Define a 'module.exports[.identifier] = ' identifier, for usage in JS destination files only and must be a valid JS identifier! | _undefined_ | no |
+| imports | <code>string</code> | Define a 'module.exports[.identifier] = ' identifier (to read from JS _source_ file or object only, must be a valid JS identifier!) | _undefined_ | no |
+| exports | <code>string</code> | Define a 'module.exports[.identifier] = ' identifier (for usage in JS _destination_ file or object only, must be a valid JS identifier!) | _undefined_ | no |
 
 **NOTE:** an invalid indention setting (_1_ > indent > _8_) does not raise an error but a default of _4_ SPACEs is applied instead.
 
@@ -752,13 +790,22 @@ the full API and provides more examples.
 <dd><p>This class provides all methods usable to handle YAML, JSON and JS and
        their transformations.</p>
 </dd>
-<dt><a href="#Validator">Validator</a></dt>
-<dd><p>This class validates JSON.</p>
+<dt><a href="#This class validates JSON.">This class validates JSON.</a></dt>
+<dd><p>This class validates JSON.
+           <p>
+           <strong>NOTE:</strong> this class is intended for internal use only!</p>
 </dd>
 <dt><a href="#Writer">Writer</a></dt>
 <dd><p>This class provides utility methods usable to write JSON/JS/YAML
        from memory to a JSON/JS/YAML file.</p>
 </dd>
+</dl>
+
+## Functions
+
+<dl>
+<dt><a href="#validateIdentifier">validateIdentifier(identifier)</a> ⇒ <code>boolean</code></dt>
+<dd></dd>
 </dl>
 
 ## Typedefs
@@ -782,7 +829,8 @@ Class which defines all constants usable in or with this module.
     * [.ORIGIN_DESCRIPTION](#Constants+ORIGIN_DESCRIPTION) : <code>string</code>
     * [.TARGET_DESCRIPTION](#Constants+TARGET_DESCRIPTION) : <code>string</code>
     * [.DEST_DESCRIPTION](#Constants+DEST_DESCRIPTION) : <code>string</code>
-    * [.DEFAULT_JS_FILE_EXPORTS_IDENTIFIER](#Constants+DEFAULT_JS_FILE_EXPORTS_IDENTIFIER) : <code>string</code>
+    * [.DEFAULT_JS_IMPORTS_IDENTIFIER](#Constants+DEFAULT_JS_IMPORTS_IDENTIFIER) : <code>string</code>
+    * [.DEFAULT_JS_EXPORTS_IDENTIFIER](#Constants+DEFAULT_JS_EXPORTS_IDENTIFIER) : <code>string</code>
     * [.DEFAULT_OPTIONS](#Constants+DEFAULT_OPTIONS) : <code>object</code>
     * [.UTF8](#Constants+UTF8) : <code>string</code>
     * [.YAML](#Constants+YAML) : <code>string</code>
@@ -840,13 +888,23 @@ The target description value.
 **Access:** public  
 <a name="Constants+DEST_DESCRIPTION"></a>
 ### constants.DEST_DESCRIPTION : <code>string</code>
-The dest description value.
+The `dest description value.
 
 **Kind**: instance property of <code>[Constants](#Constants)</code>  
 **Access:** public  
-<a name="Constants+DEFAULT_JS_FILE_EXPORTS_IDENTIFIER"></a>
-### constants.DEFAULT_JS_FILE_EXPORTS_IDENTIFIER : <code>string</code>
-The dest description value.
+<a name="Constants+DEFAULT_JS_IMPORTS_IDENTIFIER"></a>
+### constants.DEFAULT_JS_IMPORTS_IDENTIFIER : <code>string</code>
+The source exports identifier value to read.
+
+**Kind**: instance property of <code>[Constants](#Constants)</code>  
+**Access:** public  
+**Example**  
+```js
+module.exports.foo = {...}; // here 'foo' is the identifier for an object to read from the source!
+```
+<a name="Constants+DEFAULT_JS_EXPORTS_IDENTIFIER"></a>
+### constants.DEFAULT_JS_EXPORTS_IDENTIFIER : <code>string</code>
+The `dest` exports identifier value to write.
 
 **Kind**: instance property of <code>[Constants](#Constants)</code>  
 **Access:** public  
@@ -870,7 +928,8 @@ The default options.
 | dest | <code>string</code> | <code>&quot;&#x27;relative&quot;</code> | to input file' - The default dest description. |
 | indent | <code>number</code> | <code>4</code> | The default indention for files. |
 | force | <code>boolean</code> | <code>false</code> | Whether to overwrite existing file on output. |
-| exports | <code>string</code> |  | The exports name for usage in JS files only. |
+| imports | <code>string</code> |  | The exports name for reading from JS source file or objects only. |
+| exports | <code>string</code> |  | The exports name for usage in JS file or object only. |
 
 <a name="Constants+UTF8"></a>
 ### constants.UTF8 : <code>string</code>
@@ -1446,6 +1505,7 @@ This class provides utility methods usable to read YAML, JSON or JS
 * [Reader](#Reader)
     * [new Reader([logger])](#new_Reader_new)
     * _instance_
+        * [.validator](#Reader+validator) : <code>Validator</code>
         * [.readJs(options)](#Reader+readJs) ⇒ <code>Promise</code>
         * [.readYaml(options)](#Reader+readYaml) ⇒ <code>Promise</code>
     * _inner_
@@ -1468,6 +1528,11 @@ var logger = ...;
 
 var reader = new Reader(logger);
 ```
+<a name="Reader+validator"></a>
+### reader.validator : <code>Validator</code>
+The validator.
+
+**Kind**: instance property of <code>[Reader](#Reader)</code>  
 <a name="Reader+readJs"></a>
 ### reader.readJs(options) ⇒ <code>Promise</code>
 Reads the data from a given _*.js_ or _*.json_ file source.
@@ -1648,18 +1713,15 @@ transformer.transform(options, middleware)
 Ensures that basic middleware is set.
 
 **Kind**: inner property of <code>[Transformer](#Transformer)</code>  
-<a name="Validator"></a>
-## Validator
+<a name="This class validates JSON."></a>
+## This class validates JSON.
 This class validates JSON.
+           <p>
+           **NOTE:** this class is intended for internal use only!
 
 **Kind**: global class  
-
-* [Validator](#Validator)
-    * [new Validator([logger])](#new_Validator_new)
-    * [.validateIdentifier(identifier)](#Validator+validateIdentifier) ⇒ <code>boolean</code>
-
-<a name="new_Validator_new"></a>
-### new Validator([logger])
+<a name="new_This class validates JSON._new"></a>
+### new This class validates JSON.([logger])
 Constructs the `Validator` with an (optional) logger.
 
 **Returns**: <code>[Writer](#Writer)</code> - The instance.  
@@ -1675,24 +1737,6 @@ var logger = ...;
 
 var validator = new Validator(logger);
 ```
-<a name="Validator+validateIdentifier"></a>
-### validator.validateIdentifier(identifier) ⇒ <code>boolean</code>
-**Kind**: instance method of <code>[Validator](#Validator)</code>  
-**Access:** public  
-
-| Param |
-| --- |
-| identifier | 
-
-**Example**  
-```js
-var Validator = require('./validator.js');
-var logger = ...;
-var validator = new Validator(logger);
-var identifier = 'foo';
-
-logger.info('valid = ' + validator.validateIdentifier(identifier));
-```
 <a name="Writer"></a>
 ## Writer
 This class provides utility methods usable to write JSON/JS/YAML
@@ -1702,7 +1746,7 @@ This class provides utility methods usable to write JSON/JS/YAML
 
 * [Writer](#Writer)
     * [new Writer([logger])](#new_Writer_new)
-    * [.validator](#Writer+validator) : <code>[Validator](#Validator)</code>
+    * [.validator](#Writer+validator) : <code>Validator</code>
     * [.writeYaml(json, options)](#Writer+writeYaml) ⇒ <code>Promise</code>
     * [.writeJson(json, options)](#Writer+writeJson) ⇒ <code>Promise</code>
     * [.writeJs(json, options)](#Writer+writeJs) ⇒ <code>Promise</code>
@@ -1725,7 +1769,7 @@ var logger = ...;
 var writer = new Writer(logger);
 ```
 <a name="Writer+validator"></a>
-### writer.validator : <code>[Validator](#Validator)</code>
+### writer.validator : <code>Validator</code>
 The validator.
 
 **Kind**: instance property of <code>[Writer](#Writer)</code>  
@@ -1915,6 +1959,24 @@ writer.writeJs(json, options)
         logger.error(err.stack);
     });
 ```
+<a name="validateIdentifier"></a>
+## validateIdentifier(identifier) ⇒ <code>boolean</code>
+**Kind**: global function  
+**Access:** public  
+
+| Param | Type |
+| --- | --- |
+| identifier | <code>string</code> | 
+
+**Example**  
+```js
+var Validator = require('./validator.js');
+var logger = ...;
+var validator = new Validator(logger);
+var identifier = 'foo';
+
+logger.info('valid = ' + validator.validateIdentifier(identifier));
+```
 <a name="Options"></a>
 ## Options : <code>object</code>
 **Kind**: global typedef  
@@ -1927,5 +1989,6 @@ writer.writeJs(json, options)
 | src | <code>string</code> &#124; <code>Readable</code> &#124; <code>object</code> |  | The source. |
 | dest | <code>string</code> &#124; <code>Writable</code> &#124; <code>object</code> |  | The destination. |
 | indent | <code>number</code> | <code>4</code> | The indention in files. |
-| exports | <code>string</code> |  | The exports name for usage in JS files only. |
+| imports | <code>string</code> |  | The exports name for reading from JS source file or objects only. |
+| exports | <code>string</code> |  | The exports name for usage in JS destination files only. |
 

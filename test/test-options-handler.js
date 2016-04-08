@@ -10,7 +10,7 @@ var optionsHandler;
 var logger;
 
 /**
- * @classdescription This unit test suite checks the validity and correctness of {@link OptionsHandler} class.
+ * @classdesc This unit test suite checks the validity and correctness of {@link OptionsHandler} class.
  */
 describe('Executing \'jy-transform\' project OptionsHandler test suite.', function () {
 

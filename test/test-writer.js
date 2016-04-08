@@ -11,7 +11,7 @@ var logger;
 var writer;
 
 /**
- * @classdescription This unit test suite checks the validity and correctness of {@link Writer} class.
+ * @classdesc This unit test suite checks the validity and correctness of {@link Writer} class.
  */
 describe('Executing \'jy-transform\' project Writer test suite.', function () {
 
@@ -245,6 +245,50 @@ describe('Executing \'jy-transform\' project Writer test suite.', function () {
                     assert.notEqual(options.dest, null, 'options.dest should not be null, was: ' + JSON.stringify(options.dest));
                     assert.notEqual(options.dest.hasOwnProperty('test'), null, 'options.dest should have \'test\' property, was: ' + JSON.stringify(options.dest));
                     assert.equal(options.dest.test, 'value');
+                    done();
+                })
+                .catch(function (err) {
+                    logger.error(err.stack);
+                    done(err);
+                });
+        });
+
+        it('should write JS to JS object with options.exports == \'\'', function (done) {
+
+            var options = {
+                dest: {},
+                exports: ''
+            };
+
+            writer.writeJs(json, options)
+                .then(function (msg) {
+                    assert.notEqual(msg, null, 'msg should not be null, was: ' + msg);
+                    assert.notEqual(options.dest, null, 'options.dest should not be null, was: ' + JSON.stringify(options.dest));
+                    assert.notEqual(options.dest.hasOwnProperty('test'), null, 'options.dest should have \'test\' property, was: ' + JSON.stringify(options.dest));
+                    assert.equal(options.dest.test, 'value');
+                    done();
+                })
+                .catch(function (err) {
+                    logger.error(err.stack);
+                    done(err);
+                });
+        });
+
+        var exports = 'foo';
+        it('should write JS to JS object with options.exports == \'exports\'', function (done) {
+
+            var options = {
+                dest: {},
+                exports: exports
+            };
+
+            writer.writeJs(json, options)
+                .then(function (msg) {
+                    assert.notEqual(msg, null, 'msg should not be null, was: ' + msg);
+                    assert.notEqual(options.dest, null, 'options.dest should not be null, was: ' + JSON.stringify(options.dest));
+                    assert.notEqual(options.dest.hasOwnProperty(exports), null, 'options.dest should have \'' + exports + '\' property, was: ' + JSON.stringify(options.dest));
+                    assert.notEqual(options.dest[exports].hasOwnProperty('test'), null, 'options.dest should have \'test\' property, was: ' + JSON.stringify(options.dest[exports]));
+                    assert.equal(options.dest[exports].test, 'value');
                     done();
                 })
                 .catch(function (err) {

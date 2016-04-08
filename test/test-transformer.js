@@ -12,7 +12,7 @@ var fsPromised = Promise.promisifyAll(require('fs'));
 var path = require('path');
 
 /**
- * @classdescription This unit test suite checks the correct trnasfomration behaviour of {@link Transformer} class.
+ * @classdesc This unit test suite checks the correct trnasfomration behaviour of {@link Transformer} class.
  */
 describe('Executing \'jy-transform\' project\'s Transformer test suite.', function () {
 
