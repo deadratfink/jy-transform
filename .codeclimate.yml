@@ -1,0 +1,29 @@
+---
+engines:
+    duplication:
+        enabled: true
+        checks:
+            Similar code:
+                enabled: false
+        exclude_fingerprints:
+        - cd06ec93f03913a7c9c75ac9691eb8d5
+        - 5f0f3506cc81a8d14af4ee128e0bda10
+        - 5a8d88b8c2d1ad47db9c693648c712f8
+        - b2b1606f0ea2fc0f124d138afc0f745b
+        config:
+            languages:
+            - javascript
+        eslint:
+            enabled: true
+            exclude_fingerprints:
+            - 3d846926951c1a14096ab319cb49b83d
+            - 8a0ec16c07343eda9e2c298efe663c2f
+        fixme:
+            enabled: true
+ratings:
+    paths:
+    - "**.js"
+    - "**.jsx"
+    - "**.module"
+exclude_paths:
+- test/

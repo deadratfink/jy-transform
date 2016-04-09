@@ -1,1 +1,3 @@
-module.exports = {myproperty: "old value"};
+module.exports = {
+    myproperty: "old value"
+};

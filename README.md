@@ -1,11 +1,15 @@
 # Stats
 
-| Branch | [Travis CI](https://travis-ci.org) | [Codecov](https://codecov.io) | [Inch CI](http://inch-ci.org) | [David](https://david-dm.org) | [David (dev)](https://david-dm.org) |
-| --- | --- | --- | --- | --- | --- |
-| master | [![Build Status][ci-image-master]][ci-url-master] | [![codecov.io][cc-image-master]][cc-url-master] | [![inch-ci.org][inch-image-master]][inch-url-master] | [![Dependency Status][dep-image-master]][dep-url-master]| [![devDependency Status][devdep-image-master]][devdep-url-master] |
-| development | [![Build Status][ci-image-development]][ci-url-development] | [![codecov.io][cc-image-development]][cc-url-development] | [![inch-ci.org][inch-image-development]][inch-url-development] | [![Dependency Status][dep-image-development]][dep-url-development]| [![devDependency Status][devdep-image-development]][devdep-url-development] |
+| [Github License](https://github.com/deadratfink/jy-transform/blob/master/LICENSE.md) | [Github Issues](https://github.com/deadratfink/jy-transform/issues) | [Github Release](https://github.com/deadratfink/jy-transform/releases) | [Github Tags](https://github.com/deadratfink/jy-transform/tags) | [Travis CI](https://travis-ci.org) | [Waffle](https://waffle.io/deadratfink/jy-transform) | [Code Climate](https://codeclimate.com/github/deadratfink/jy-transform) |
+| --- | --- | --- | --- | --- | --- | --- |
+| [![License][gh-license-image]][gh-license-url] | [![Issue Stats][gh-issues-image]][gh-issues-url] | [![Github Releases][gh-releases-image]][gh-releases-url] | [![Github Tags][gh-tags-image]][gh-tags-url] | [![Build Status][ci-image]][ci-url] | [![Waffle][waffle-image]][waffle-url] | [![Code Climate][cocl-image]][cocl-url] |
 
-## Branch Graphs
+| Branch | [Codecov](https://codecov.io) | [Coveralls](https://coveralls.io) | [Inch CI](http://inch-ci.org) | [David](https://david-dm.org) DM | [David](https://david-dm.org) DM (dev) |
+| --- | --- | --- | --- | --- | --- |
+| master | [![codecov.io][cc-image-master]][cc-url-master]           | [![coveralls.io][ca-image-master]][ca-url-master]           | [![inch-ci.org][inch-image-master]][inch-url-master]           | [![Dependency Status][dep-image-master]][dep-url-master]           | [![devDependency Status][devdep-image-master]][devdep-url-master] |
+| development | [![codecov.io][cc-image-development]][cc-url-development] | [![coveralls.io][ca-image-development]][ca-url-development] | [![inch-ci.org][inch-image-development]][inch-url-development] | [![Dependency Status][dep-image-development]][dep-url-development] | [![devDependency Status][devdep-image-development]][devdep-url-development] |
+
+## Coverage Graphs
 
 | Branch | Graph |
 | --- | --- |
@@ -13,20 +17,48 @@
 | development| ![codecov.io](https://codecov.io/github/deadratfink/jy-transform/branch.svg?branch=development&vg=true) |
 
 
-[ci-image-master]: https://img.shields.io/travis/deadratfink/jy-transform/master.svg?style=flat-square
-[ci-url-master]: https://travis-ci.org/deadratfink/jy-transform
-[ci-image-development]: https://img.shields.io/travis/deadratfink/jy-transform/development.svg?style=flat-square
-[ci-url-development]: https://travis-ci.org/deadratfink/jy-transform
+[gh-license-image]: https://img.shields.io/github/license/deadratfink/jy-transform.svg?style=flat-square
+[gh-license-url]: https://github.com/deadratfink/jy-transform/blob/master/LICENSE.md
+
+[gh-issues-image]: https://img.shields.io/github/issues/deadratfink/jy-transform.svg?style=flat-square
+[gh-issues-url]: https://github.com/deadratfink/jy-transform/issues
+
+[gh-releases-image]: https://img.shields.io/github/release/deadratfink/jy-transform.svg?style=flat-square
+[gh-releases-url]: https://github.com/deadratfink/jy-transform/releases
+
+[gh-tags-image]: https://img.shields.io/github/tag/deadratfink/jy-transform.svg?style=flat-square
+[gh-tags-url]: https://github.com/deadratfink/jy-transform/tags
+
+
+[ci-image]: https://img.shields.io/travis/deadratfink/jy-transform.svg?style=flat-square
+[ci-url]: https://travis-ci.org/deadratfink/jy-transform/branches
+
+[is-pull-image]: http://issuestats.com/github/deadratfink/jy-transform/badge/pr?style=flat-square
+[is-issue-image]: http://issuestats.com/github/deadratfink/jy-transform/badge/issue?style=flat-square
+[is-url]: http://issuestats.com/github/deadratfink/jy-transform
+
+[waffle-image]: https://badge.waffle.io/deadratfink/jy-transform.png?label=ready&title=Ready&style=flat-square
+[waffle-url]: https://waffle.io/deadratfink/jy-transform
+
+[cocl-image]: https://img.shields.io/codeclimate/github/deadratfink/jy-transform.svg?style=flat-square
+[cocl-url]: https://codeclimate.com/github/deadratfink/jy-transform
+
 
 [cc-image-master]: https://img.shields.io/codecov/c/github/deadratfink/jy-transform/master.svg?style=flat-square
 [cc-url-master]: https://codecov.io/github/deadratfink/jy-transform?branch=master
 [cc-image-development]: https://img.shields.io/codecov/c/github/deadratfink/jy-transform/development.svg?style=flat-square
 [cc-url-development]: https://codecov.io/github/deadratfink/jy-transform?branch=development
 
-[inch-image-master]: http://inch-ci.org/github/deadratfink/jy-transform.svg?branch=master&style=flat-square
-[inch-url-master]: http://inch-ci.org/github/deadratfink/jy-transform.svg?branch=master
-[inch-image-development]: http://inch-ci.org/github/deadratfink/jy-transform.svg?branch=development&style=flat-square
-[inch-url-development]: http://inch-ci.org/github/deadratfink/jy-transform.svg?branch=development
+[ca-image-master]: https://img.shields.io/coveralls/deadratfink/jy-transform/master.svg?style=flat-square
+[ca-url-master]: https://coveralls.io/github/deadratfink/jy-transform?branch=master
+[ca-image-development]: https://img.shields.io/coveralls/deadratfink/jy-transform/development.svg?style=flat-square
+[ca-url-development]: https://coveralls.io/github/deadratfink/jy-transform?branch=development
+
+
+[inch-image-master]: https://inch-ci.org/github/deadratfink/jy-transform.svg?branch=master&style=flat-square
+[inch-url-master]: https://inch-ci.org/github/deadratfink/jy-transform?branch=master
+[inch-image-development]: https://inch-ci.org/github/deadratfink/jy-transform.svg?branch=development&style=flat-square
+[inch-url-development]: https://inch-ci.org/github/deadratfink/jy-transform?branch=development
 
 [dep-image-master]: https://img.shields.io/david/deadratfink/jy-transform/master.svg?style=flat-square
 [dep-url-master]: https://david-dm.org/deadratfink/jy-transform/master
@@ -38,9 +70,45 @@
 [devdep-image-development]: https://img.shields.io/david/dev/deadratfink/jy-transform/development.svg?style=flat-square
 [devdep-url-development]: https://david-dm.org/deadratfink/jy-transform/development#info=devDependencies
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+# TOC
+
+- [jy-transform](#jy-transform)
+  - [Installation](#installation)
+  - [Tests](#tests)
+  - [Dependencies](#dependencies)
+  - [Dev Dependencies](#dev-dependencies)
+  - [License](#license)
+  - [Motivation](#motivation)
+- [Usage](#usage)
+  - [Usage Types](#usage-types)
+  - [Use Cases](#use-cases)
+  - [Limitations](#limitations)
+  - [CLI Usage](#cli-usage)
+  - [Origin and Target Type Inference](#origin-and-target-type-inference)
+  - [API Usage](#api-usage)
+  - [Using Custom Logger](#using-custom-logger)
+- [API Reference](#api-reference)
+  - [Classes](#classes)
+  - [Typedefs](#typedefs)
+  - [Constants](#constants)
+  - [LogWrapper](#logwrapper)
+  - [Middleware](#middleware)
+  - [OptionsHandler](#optionshandler)
+  - [Reader](#reader)
+  - [Transformer](#transformer)
+  - [Validator](#validator)
+  - [Writer](#writer)
+  - [Options : <code>object</code>](#options--codeobjectcode)
+- [Contributing](#contributing)
+- [Changelog](#changelog)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # jy-transform 
 
-This project aims to read, write and transform _*.yaml_ files to _.js_ or _*.json_ files or vice-versa via CLI or API.
+This project aims to read, write and transform [YAML](http://http://yaml.org/), [JS](https://developer.mozilla.org/en-US/docs/Web/JavaScript) or [JSON](http://json.org) objects into each other using CLI or API. The source and destination resources can be files, objects or streams. Besides the transformation feature this module can also be used for simple loading and/or writing YAML, JS or JSON files.
 
 ## Installation
 
@@ -62,6 +130,7 @@ npm test
 
 - [bluebird](https://github.com/petkaantonov/bluebird): Full featured Promises/A+ implementation with exceptionally good performance
 - [cli](https://github.com/chriso/cli): A tool for rapidly building command line apps
+- [is-stream](https://github.com/sindresorhus/is-stream): Check if something is a Node.js stream
 - [js-yaml](https://github.com/nodeca/js-yaml): YAML 1.2 parser and serializer
 - [json-stringify-safe](https://github.com/isaacs/json-stringify-safe): Like JSON.stringify, but doesn&#39;t blow up on circular refs.
 - [mkdirp-then](https://github.com/fs-utils/mkdirp-then): mkdirp as promised
@@ -69,13 +138,17 @@ npm test
 
 ## Dev Dependencies
 
+- [codeclimate-test-reporter](https://github.com/codeclimate/javascript-test-reporter): Code Climate test reporter client for javascript projects
 - [codecov](https://github.com/codecov/codecov-node): Uploading report to Codecov: https://codecov.io
+- [coveralls](https://github.com/nickmerwin/node-coveralls): takes json-cov output into stdin and POSTs to coveralls.io
+- [doctoc](https://github.com/thlorenz/doctoc): Generates TOC for markdown files of local git repo.
 - [fs-extra](https://github.com/jprichardson/node-fs-extra): fs-extra contains methods that aren&#39;t included in the vanilla Node.js fs package. Such as mkdir -p, cp -r, and rm -rf.
 - [istanbul](https://github.com/gotwarlost/istanbul): Yet another JS code coverage tool that computes statement, line, function and branch coverage with module loader hooks to transparently add coverage when running tests. Supports all JS coverage use cases including unit tests, server side functional tests 
 - [jsdoc-parse](https://github.com/jsdoc2md/jsdoc-parse): Jsdoc-annotated source code in, JSON format documentation out.
 - [jsdoc-to-markdown](https://github.com/jsdoc2md/jsdoc-to-markdown): jsdoc-annotated source in, markdown API docs out.
 - [mocha](https://github.com/mochajs/mocha): simple, flexible, fun test framework
 - [mocha-lcov-reporter](https://github.com/StevenLooman/mocha-lcov-reporter): LCOV reporter for Mocha
+- [object-path](https://github.com/mariocasciaro/object-path): Access deep properties using a path
 - [package-json-to-readme](https://github.com/zeke/package-json-to-readme): Generate a README.md from package.json contents
 - [winston](https://github.com/winstonjs/winston): A multi-transport async logging library for Node.js
 
@@ -90,14 +163,26 @@ Why this module? After struggling with some huge YAML file and accidentally
 occurring wrong indentions which results in an annoying failure investigation, 
 I decided to get rid of the YAML file and therefore, create a module which 
 should be aimed as the swiss army knife for transforming YAML, JS and JSON 
-files into each other.
+types into each other format.
 
 # Usage
 
-The module is fully [Promise](http://bluebirdjs.com/docs/api-reference.html) 
-based!
+The module can be used on CLI or as API (the latter is fully [Promise](http://bluebirdjs.com/docs/api-reference.html) 
+based).
+
+## Usage Types
+
+Since the module can be used in two different ways, use installation as follows:
+
+- CLI: install globally via `-g` option
+- API: install locally
+
+Both usage types are described in more detail in the following sections.
 
 ## Use Cases
+
+So, what are the typical use cases for this module? In terms of _transformation_
+these consists of different phases:
 
 - Reading files (`Reader`)
 - Transforming JSON objects (`Transformer`)
@@ -108,9 +193,14 @@ based!
 
 Reading from:
 
-- _*.yaml_
-- _*.js_
-- _*.json_
+- _*.yaml_ file
+- _*.js_ file
+- _*.json_ file
+
+Additionally, on API level:
+
+- `stream.Readable` (requires `options.origin` property set, reads as UTF-8)
+- any JS `object` (actually, this means the reading phase is skipped, because object is in-memory already)
 
 ### Transformation
 
@@ -128,62 +218,70 @@ The transformation can take place into several directions:
 
 while:
 
-- YAML = _*.yaml_
+- YAML = _*.yaml_, _*.yml_
 - JS   = _*.js_   (JSON object)  
 - JSON = _*.json_ (JSON serialized)
 
 ### Middleware
 
 Apply actions on the intermediate JSON object via injected [Promise](http://bluebirdjs.com/docs/api-reference.html) 
-functions. This is an optional part for [transformation](#transformation) phase 
-or is the transformation itself in case of same origin and target type.
+functions. This is an optional part for [transformation](#transformation) phase.
 
 ### Writing
 
 Writing to:
 
-- _*.yaml_
-- _*.js_
-- _*.json_
+- _*.yaml_ file
+- _*.js_ file
+- _*.json_ file
 
-## Not Supported Yet / Plannings
+Additionally, on API level:
 
-At the moment we require that each document to transform is a _single_ one per file!
+- `stream.Writable`  (requires `options.target` property set, writes UTF-8)
+- any JS `object`
 
-Multidocument handling would be a cool feature which refers in general to YAML 
-and JS only and is currently not supported. This is planned and reflected 
-in feature [#14](https://github.com/deadratfink/jy-transform/issues/14).
+## Limitations
 
-## Usage
+- Since this module is build to transform from and to different type formats, any 
+  `Function`s residing in JS type objects are _not_ supported, e.g. transforming
+  ```javascript
+  module.exports = {
+      myKey1: 'value1',
+      myFunction: 'value2'
+  }
+  ```
+  to JSON would simply result in 
+  ```javascript
+  {
+      myKey1: 'value1'
+  }
+  ```
+  while transforming to YAML type would even result in an `Error`, e.g. printed 
+  on CLI usage like this:
+  ```
+  ERROR: YAMLException: unacceptable kind of an object to dump [object Function]
+  ```
+- Multidocument handling would be a cool feature which refers in general to YAML 
+  and JS only, but at the moment we require that each document to transform is a 
+_single_ one per file! This feature is planned and reflected 
+ in [#14](https://github.com/deadratfink/jy-transform/issues/14).
+- Schema validation for input and output is another topic which is planned by 
+  [#1](https://github.com/deadratfink/jy-transform/issues/1) and 
+  [#2](https://github.com/deadratfink/jy-transform/issues/2).
 
-The module can be used in two different ways:
+## CLI Usage
 
-- On CLI (recommended install globally via `-g` option)
-- Via API (install locally)
-
-### Usage On CLI
-
-The CLI provides the `jyt` command followed by a bunch of options:
-
-| Name | Type | Description | Default | Required |
-| --- | --- | --- | --- | --- |
-| `-o, --origin` | [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation origin type. | if not given, the type is tried to be inferred from the extension of source path, else it is _yaml_ | no |
-| `-t, --target` | [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation target type. | if not given, the type is tried to be inferred from the extension of destination path, else it is _js_ | no |
-| `-s, --src` | URI | The source file path for transformation. | - | yes |
-| `-d, --dest` | URI | The destination file path to transform to. | _'relative to input file'_ | no |
-| `-i, --indent` | integer<br> - JSON/JS: _0_-_8_<br> - YAML: _1_-_8_ | The code indention used in destination files. | _4_ | no |
-| `-k, --no-color` | n/a | Omit color from output. | _color_ | no |
-| `--debug` | n/a | Show debug information. | _false_ | no |
-| `-v, --version` | n/a | Display the current version. | n/a | no |
-| `-h, --help` | n/a | Display help and usage details. | n/a | no |  
-
-After the global installation you can access the Transformer command options as follows:
+The CLI provides the `jyt` command (actually, this requires the use of options). 
+After the global installation you can access the `Transformer` command options 
+with the usual help command as follows:
 
 ```
 $ jyt --help
 ```
 
-This prints an overview about all available properties:
+### CLI Options
+
+The `--help` option prints an overview about all available CLI properties:
 
 ```
 $ jyt --help
@@ -191,53 +289,242 @@ Usage:
   jyt [OPTIONS]
 
 Options: 
-  -o, --origin [STRING]  The conversion origin: [ js | json | yaml ] (Default is : if not given, the type is tried to be inferred from the extension of input path, else it is yaml)
-  -t, --target [STRING]  The conversion target: [ js | json | yaml ] (Default is : if not given, the type is tried to be inferred from the extension of output path, else it is js)
-  -s, --src PATH         The absolute/relative input file path
-  -d, --dest [PATH]      The absolute/relative output file path (Default is relative to input file)
-  -i, --indent [NUMBER]  The indention for pretty-print: 0 - 8 (json/js) and 1 - 8 (yaml) (Default is 4)
+  -o, --origin [STRING]  The conversion origin: [ js | json | yaml ]. (Default is : if not given, the type is tried to be inferred from the extension of source path, else it is yaml)
+  -t, --target [STRING]  The conversion target: [ js | json | yaml ]. (Default is : if not given, the type is tried to be inferred from the extension of destination path, else it is js)
+  -s, --src PATH         The absolute/relative input file path.
+  -d, --dest [PATH]      The absolute/relative output file path. When this 
+                         options is ommited then the output file is stored 
+                         relative to the input file (same base name but with 
+                         another extension if type differs). If input and 
+                         output type are the same then the file overwriting is 
+                         handled depending on the '--force' value!  (Default is storing relative to input file)
+  -i, --indent [NUMBER]  The indention for pretty-print: 1 - 8.  (Default is 4)
+  -f, --force            Force overwriting of existing output files on write 
+                         phase. When files are not overwritten (which is 
+                         default), then the next transformation with same 
+                         output file name gets a consecutive number on the base 
+                         file name, e.g. in case of foo.yaml it would be 
+                         foo(1).yaml.
+  -m, --imports STRING   Define a 'module.exports[.identifier] = ' 
+                         identifier (to read from JS _source_ file only, must 
+                         be a valid JS identifier!).                          
+  -x, --exports STRING   Define a 'module.exports[.identifier] = ' 
+                         identifier, for usage in JS destination file only, 
+                         must be a valid JS identifier! 
   -k, --no-color         Omit color from output
       --debug            Show debug information
   -v, --version          Display the current version
   -h, --help             Display help and usage details
 ```
 
-Now let's assume we have a YAML file located in _./data/my.yaml_ holding this data:
+These are more formally defined in the following table: 
+
+| Option (short) | Option (long) | Type | Description | Default | Required |
+| --- | --- | --- | --- | --- | --- |
+| `-o` | `--origin` | [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation origin type. | if not given, the type is tried to be inferred from the extension of source path, else it is _yaml_ | no |
+| `-t` | `--target` | [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation target type. | if not given, the type is tried to be inferred from the extension of destination path, else it is _js_ | no |
+| `-s` | `--src` | URI | The source file path for transformation. | - | yes |
+| `-d` | `--dest` | URI | The destination file path to transform to. | When this options is ommited then the output file is stored relative to the input file (same base name but with another extension if type differs). If input and output type are the same then the file overwriting is handled depending on the `--force` value! | no |
+| `-i` | `--indent` | integer<br> - [ _1_-_8_ ]<br> | The code indention used in destination files. | _4_ | no |
+| `-f` | `--force` | n/a | Force overwriting of existing output files on write phase. When files are not overwritten (which is default), then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of foo.yaml it would be foo(1).yaml.  | _false_ | no |
+| `-m` | `--imports` | string | Define a 'module.exports[.identifier] = ' identifier (to read from JS _source_ file only, must be a valid JS identifier!) | _undefined_ | no |
+| `-x` | `--exports` | string | Define a 'module.exports[.identifier] = ' identifier (for usage in JS _destination_ file only, must be a valid JS identifier!) | _undefined_ | no |
+| `-k` | `--no-color` | n/a | Omit color from output. | _color_ | no |
+|  n/a | `--debug` | n/a | Show debug information. | _false_ | no |
+| `-v` | `--version` | n/a | Display the current version. | n/a | no |
+| `-h` | `--help` | n/a | Display help and usage details. | n/a | no |
+
+
+
+**NOTE:** an invalid indention setting (_1_ > `-i`, `--indent` > _8_) does not raise an error but a default of _4_ SPACEs is applied instead.
+
+### Examples
+
+Now we know which properties we can apply on CLI, so let's assume we 
+have a YAML file located in _foo.yaml_ holding this data:
 
 ```yaml
-myproperty: value
+foo: bar
 ```
+#### Example: YAML -> JSON
 
-then we can transform it to a JSON file _./data/my.json_:
+then we can transform it to a JSON file _foo.json_
 
 ```javascript
 {
-  "myproperty": "value"
+  "foo": "bar"
 }
 ```
 
 using this command:
 
 ```
-$ jyt -s ./data/my.yaml -t json -i 2
+$ jyt -s foo.yaml -t json -i 2
 ```
 
-In this example we have overwritten the standard target type (which is _js_) and applying an
-indent of _2_ instead of the default _4_. As default the output file _./data/my.json_ 
-is written relative to the input file (simply omitting the `dest` option here).
+In this example we have overwritten the standard target type (which is `js`) 
+and applying an indent of _2_ instead of the default _4_. As default the output 
+file _foo.json_ is written relative to the input file (simply omitting the 
+`dest` option here).
 
-**NOTE:** here you _have_ to provide the target with `-t json` or else the default `js` would 
-have been applied! If the source would have been a `js` type like
+**NOTE:** here you _have_ to provide the target with `-t json` or else the 
+default `js` would have been applied! If the source would have been a `js` 
+type like
 
 ```
-$ jyt -s ./data/my.js -t json -i 2
+$ jyt -s foo.js -t json -i 2
 ```
 
-then `js` `origin` is automatically inferred from file extension.
+then the `js` value for `origin` is automatically inferred from file extension. 
+Accordingly, this is also true for the `target` option.
+
+#### Example: JSON -> JS
+
+```
+$ jyt -s foo.json -i 2
+```
+```javascript
+module.exports = {
+  foo: "bar"
+}
+```
+
+#### Example: JS -> YAML
+
+```
+$ jyt -s foo.json -t yaml
+```
+```yaml
+foo: bar
+```
+
+#### Example: Transformation with Different Destination
+
+Simply provide the `-d` with a different file name:
+
+```
+$ jyt -s foo.json -d results/foobar.yaml
+```
+
+#### Example: Transformation with Unsupported Source File Extension
+
+As said, normally we infer from file extension to the type but assume the source 
+file has a file name which does not imply the type (here JS 
+type in a TEXT file), then you can simply provide the `-o` option with the 
+correct `origin` type (of course, the `-t` option works analogous):
+
+
+```
+$ jyt -s foo.txt -o js -d foobar.yaml
+```
+
+#### Example: Read from File with Exports Identifier
+
+It could be that a JS source `exports` several objects and you want to read 
+from exactly the one you specify, then provide the `-m` (`--imports`) option.
+
+In this this example we have a _foo.js_ file:
+
+```javascript
+module.exports.foo = {
+    foo: 'bar'
+};
+
+module.exports.bar = {
+    bar: 'foo'
+};
+```
+
+but you want to convert `bar` object, then call:
+
+```
+$ jyt -s foo.js -m bar -d bar.yaml
+```
+
+to get the YAML result:
+
+```yaml
+bar: foo
+```
+
+**NOTE:** the same applies on API level when using JS objects as `dest`:
+
+```javascript
+var fooBar = {
+    foo: 'bar',
+    bar: 'foo'
+};
+
+var options = {
+    src: fooBar,
+    dest: {},
+    exports: 'bar'
+};
+
+//...transform
+```
+
+The transformation will result in this in-memory object:
+
+```javascript
+bar: {
+    foo: 'bar',
+    bar: 'foo'
+}
+```
+as sub-node of `options.dest`.
+
+#### Example: Write Exports Identifier for JS File
+
+Assume you want to generate a JS file with an exports string which gets an 
+identifier. We reuse the YAML file from above 
+
+```yaml
+foo: bar
+```
+
+using this command:
+
+```
+$ jyt -s foo.yaml -d foobar.js -x foobar
+```
+
+This generates the following output in JS file using `foobar` as identifier:
+
+```javascript
+module.exports.foobar = {
+    foo: "bar"
+}
+```
+
+**NOTE:** the identifier must be a valid JS identifier accoding to ECMAScript 6
+(see also [Valid JavaScript variable names in ECMAScript 6](https://mathiasbynens.be/notes/javascript-identifiers-es6) 
+and [Generating a regular expression to match valid JavaScript identifiers](https://mathiasbynens.be/demo/javascript-identifier-regex)).
+
+#### Example: Force Overwriting
+
+**IMPORTANT NOTE:** when using this feature then any subsequent 
+execution which uses the same target/file name, 
+will overwrite the original source or target created beforehand!
+
+By default this feature is not enabled to prevent you from accidentally 
+overwriting your input source or already generated targets.
+
+But let's say we want to overwrite the original source now because you want 
+to change the indention from 2 to 4 SPACEs, then we can do this as follows:
+
+```
+$ jyt -s foo.js -f
+``` 
+
+Of course, leaving out the `-f` switch creates a new file relatively to 
+the `origin`, named as _foo(1).js_ (note the consecutive number). Naturally, 
+another run of the command would result int a file called _foo(2).js_ 
+and so forth.
 
 ## Origin and Target Type Inference
 
-The example above has shown that we have an automatic type inference from file 
+The examples above have shown that we have an automatic type inference from file 
 extensions. This is supported as shown by the following table (from-to):
 
 | File Extension | Type |
@@ -250,7 +537,7 @@ extensions. This is supported as shown by the following table (from-to):
 **NOTE:** if you have files without an extension or e.g. _*.txt_ you _have_ to 
 specify the origin or target type!
 
-### Usage As Library (API Calls)
+## API Usage
 
 Since the usage on CLI is a 2-step process:
 
@@ -268,7 +555,9 @@ this into a 3-step process:
 For more details about this and all the functions provided by this module please refer to the 
 [API Reference](#api-reference) below.
 
-#### Transformation Properties
+The `origin` and `target` type inference is also standard for the API level.
+
+### API Properties
 
 The `Transformer` exposes the following function which takes besides an (optional) 
 `middleware` function the necessary `options` for the transformation:
@@ -279,22 +568,27 @@ function transform(options, middleware)
 
 The `options` object has to follow this key-values table:
 
-| Name | Type | Description | Default | Required |
+| Option | Type | Description | Default | Required |
 | --- | --- | --- | --- | --- |
-| origin | <code>string</code> | The origin type. | if not given, the type is tried to be inferred from the extension of source path, else it is 'yaml' | no |
-| target | <code>string</code> | The target type. | if not given, the type is tried to be inferred from the extension of destination path, else it is 'js' | no |
-| src | <code>string</code> | The source file path. | - | yes |
-| dest | <code>string</code> | The destination file path. | 'relative to input file' | no |
-| indent | <code>number</code> | The indention in files. | 4 | no |  
+| origin | <code>string</code> | The origin type. | If not given, the type is tried to be inferred from the extension of source path, else it is _yaml_. | no |
+| target | <code>string</code> | The target type. | If not given, the type is tried to be inferred from the extension of destination path, else it is _js_ | no |
+| src | <code>string &#124; Readable &#124; object</code> | The source information object: `string` is used as file path, `Readable` stream provides a stringified source and `object` is used as direct JS source. | - | yes |
+| dest | <code>string &#124; Writable &#124; object</code> | The destination information object: `string` is used as file path, `Writable` stream writes a stringified source and `object` is used as direct JS object for assignment. | The output file is stored relative to the input file (same base name but with another extension if type differs). If input and output type are the same then the file overwriting is handled depending on the 'force' value! | no |
+| indent | <code>number</code> | The indention in files. | _4_ | no |
+| force | <code>boolean</code> | Force overwriting of existing output files on write phase. When files are not overwritten, then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of _foo.yaml_ it would be _foo(1).yaml_. | _false_ | no |
+| imports | <code>string</code> | Define a 'module.exports[.identifier] = ' identifier (to read from JS _source_ file or object only, must be a valid JS identifier!) | _undefined_ | no |
+| exports | <code>string</code> | Define a 'module.exports[.identifier] = ' identifier (for usage in JS _destination_ file or object only, must be a valid JS identifier!) | _undefined_ | no |
+
+**NOTE:** an invalid indention setting (_1_ > indent > _8_) does not raise an error but a default of _4_ SPACEs is applied instead.
 
 #### Example
 
-```
+```javascript
 var options = {
     origin: 'json',
     target: 'yaml',
-    src: './my.json',
-    dest: './temp/my.yaml',
+    src: 'foo.json',
+    dest: './foo/bar.yaml',
     indent: 2
 }
 ```
@@ -311,13 +605,13 @@ which could be expressed as
 [Promise](http://bluebirdjs.com/docs/api-reference.html) function as follows:
 
 ```javascript
-var middleware = function (json) {
+var identity = function (json) {
     return Promise.resolve(json);
 }
 ```
 
 Of course, this would have no effect on the provided JSON data. Actually, this one is 
-used internally when no middleware is provided to ensure the proper promisified 
+used internally when no middleware is provided to ensure the proper promised 
 control flow.
 
 OK, lets go back to a more practical example, e.g. we want to alter the value of
@@ -325,39 +619,120 @@ JSON property before it is written to a file. Assuming we have this piece of YAM
 object as input:
 
 ```yaml
-myproperty: old value
+foo: old bar
 ```
 
 Applying this [Promise](http://bluebirdjs.com/docs/api-reference.html) as middleware
 
 ```javascript
 var middleware = function (json) {
-    json.myproperty = 'new value'; 
+    json.foo = 'new bar'; 
     return Promise.resolve(json);
 }
+
+transformer.transform(options, middleware)
+    .then(function (msg){
+        logger.info(msg);
+    })
+    .catch(function (err) {
+        logger.error(err.stack);
+    });
 ```
 
 will result in such JSON file:
 
 ```javascript
 {
-	"myproperty": "new value"
+	"foo": "new bar"
 }
 ```
 
-Following this pattern you can do everything with the JSON object, like
+Of course, in real world scenarios you will have use cases which usually have a 
+higher complexity where one function might be insufficient or at least 
+inconvenient. but this does not raise a problem at all, because you can create 
+several functions to be applied in the whole transformation process by gathering 
+them in one function.
+
+Let's assume we have some Promise functions to apply. For simplicity reasons we 
+simulate these for the moment by three functions, each adding a key-value to the 
+given (initially empty) JSON object.
+
+**NOTE:** each of them has to resolve with the `json` object! 
+
+
+```javascript
+function key1(json) {
+    objectPath.set(json, 'key1', 'value1');
+    return Promise.resolve(json);
+}
+
+function key2(json) {
+    objectPath.set(json, 'key2', 'value2');
+    return Promise.resolve(json);
+}
+
+function key3(json) {
+    objectPath.set(json, 'key3', 'value3');
+    return Promise.resolve(json);
+}
+```
+
+These can be collected by different aggregation or composition functions of the underlying
+Promise framework, e.g. using the  [`Promise.all([...])`](http://bluebirdjs.com/docs/api/promise.all.html) 
+function. This one can collect all three functions above and ensure their proper subsequent execution:
+
+ 
+```javascript
+var middleware = function (json) {
+    return Promise.all([key1(json), key2(json), key3(json)])
+        .then(function(result) {
+            return Promise.resolve(result[result.length - 1]);
+        });
+};
+
+var transformer = new Transformer(logger);
+var logger = ...;
+var options = {...};
+
+return transformer.transform(options, middleware)
+    .then(function (msg){
+        logger.info(msg);
+    })
+    .catch(function (err) {
+        logger.error(err.stack);
+    });
+```
+
+Then the result in the `middleware` function can be retrieved from the returned 
+array, i.e. in case of [`Promise.all([...])`](http://bluebirdjs.com/docs/api/promise.all.html) 
+you have to pick the _last_ element which contains the "final product". 
+From our example above it would be
+
+```javascript
+{
+    key1: 'value1',
+    key2: 'value2',
+    key3: 'value3'
+}
+```
+
+which then is passed back to the transformation chain. Following this pattern 
+you can do almost everything with the JSON object, like
 
 - deleting properties
 - changing properties to other types
 - validating and throwing error if not valid
 - ...
 
-Whatever, but keep it valid when transforming ;-)
+Whatever you do during transformation, just keep it valid ;-)
 
-## Injecting Logger
+## Using Custom Logger
 
-The `Reader`, `Transfomer` and `Writer` constructors accept an (optional) logger object.
-Default logger is `console`.
+It is usual that you use an own `logger` in your application. This module supports you by 
+letting you inject your logger as constructor argument: the `Reader`, `Transformer` and 
+`Writer` constructor will accept an (optional) logger object.
+
+If you do not provide one, then the default logger is `console`.
 
 ```javascript
 var logger = ...;
@@ -374,6 +749,11 @@ function info(msg)
 function debug(msg)
 function error(msg)
 ```
+
+---
+
+For more details refer to the [API Reference](#api-reference) section which describes 
+the full API and provides more examples.
 
 # API Reference
 
@@ -407,10 +787,22 @@ function error(msg)
 <dd><p>This class provides all methods usable to handle YAML, JSON and JS and
        their transformations.</p>
 </dd>
+<dt><a href="#Validator">Validator</a></dt>
+<dd><p>This class validates JSON objects and identifier.
+       <p>
+       <strong>NOTE:</strong> this class is intended for internal use only!</p>
+</dd>
 <dt><a href="#Writer">Writer</a></dt>
 <dd><p>This class provides utility methods usable to write JSON/JS/YAML
        from memory to a JSON/JS/YAML file.</p>
 </dd>
+</dl>
+
+## Typedefs
+
+<dl>
+<dt><a href="#Options">Options</a> : <code>object</code></dt>
+<dd></dd>
 </dl>
 
 <a name="Constants"></a>
@@ -421,6 +813,14 @@ Class which defines all constants usable in or with this module.
 
 * [Constants](#Constants)
     * [new Constants()](#new_Constants_new)
+    * [.DEFAULT_ORIGIN](#Constants+DEFAULT_ORIGIN) : <code>string</code>
+    * [.DEFAULT_TARGET](#Constants+DEFAULT_TARGET) : <code>string</code>
+    * [.DEFAULT_FORCE_FILE_OVERWRITE](#Constants+DEFAULT_FORCE_FILE_OVERWRITE) : <code>boolean</code>
+    * [.ORIGIN_DESCRIPTION](#Constants+ORIGIN_DESCRIPTION) : <code>string</code>
+    * [.TARGET_DESCRIPTION](#Constants+TARGET_DESCRIPTION) : <code>string</code>
+    * [.DEST_DESCRIPTION](#Constants+DEST_DESCRIPTION) : <code>string</code>
+    * [.DEFAULT_JS_IMPORTS_IDENTIFIER](#Constants+DEFAULT_JS_IMPORTS_IDENTIFIER) : <code>string</code>
+    * [.DEFAULT_JS_EXPORTS_IDENTIFIER](#Constants+DEFAULT_JS_EXPORTS_IDENTIFIER) : <code>string</code>
     * [.DEFAULT_OPTIONS](#Constants+DEFAULT_OPTIONS) : <code>object</code>
     * [.UTF8](#Constants+UTF8) : <code>string</code>
     * [.YAML](#Constants+YAML) : <code>string</code>
@@ -428,8 +828,7 @@ Class which defines all constants usable in or with this module.
     * [.JS](#Constants+JS) : <code>string</code>
     * [.TYPES](#Constants+TYPES) : <code>Array.&lt;string&gt;</code>
     * [.DEFAULT_INDENT](#Constants+DEFAULT_INDENT) : <code>number</code>
-    * [.MIN_JSON_JS_INDENT](#Constants+MIN_JSON_JS_INDENT) : <code>number</code>
-    * [.MIN_YAML_INDENT](#Constants+MIN_YAML_INDENT) : <code>number</code>
+    * [.MIN_INDENT](#Constants+MIN_INDENT) : <code>number</code>
     * [.MAX_INDENT](#Constants+MAX_INDENT) : <code>number</code>
     * [.YAML_TO_JS](#Constants+YAML_TO_JS) : <code>string</code>
     * [.YAML_TO_JSON](#Constants+YAML_TO_JSON) : <code>string</code>
@@ -447,19 +846,80 @@ Class which defines all constants usable in or with this module.
 Constructs the constants.
 
 **Returns**: <code>[Constants](#Constants)</code> - - The instance.  
+<a name="Constants+DEFAULT_ORIGIN"></a>
+### constants.DEFAULT_ORIGIN : <code>string</code>
+The default `origin` value: 'yaml'.
+
+**Kind**: instance property of <code>[Constants](#Constants)</code>  
+**Access:** public  
+<a name="Constants+DEFAULT_TARGET"></a>
+### constants.DEFAULT_TARGET : <code>string</code>
+The default `origin` value: 'js'.
+
+**Kind**: instance property of <code>[Constants](#Constants)</code>  
+**Access:** public  
+<a name="Constants+DEFAULT_FORCE_FILE_OVERWRITE"></a>
+### constants.DEFAULT_FORCE_FILE_OVERWRITE : <code>boolean</code>
+Whether to overwrite existing file or object on output.
+
+**Kind**: instance property of <code>[Constants](#Constants)</code>  
+**Access:** public  
+<a name="Constants+ORIGIN_DESCRIPTION"></a>
+### constants.ORIGIN_DESCRIPTION : <code>string</code>
+The `origin` description value.
+
+**Kind**: instance property of <code>[Constants](#Constants)</code>  
+**Access:** public  
+<a name="Constants+TARGET_DESCRIPTION"></a>
+### constants.TARGET_DESCRIPTION : <code>string</code>
+The `target` description value.
+
+**Kind**: instance property of <code>[Constants](#Constants)</code>  
+**Access:** public  
+<a name="Constants+DEST_DESCRIPTION"></a>
+### constants.DEST_DESCRIPTION : <code>string</code>
+The `dest` description value.
+
+**Kind**: instance property of <code>[Constants](#Constants)</code>  
+**Access:** public  
+<a name="Constants+DEFAULT_JS_IMPORTS_IDENTIFIER"></a>
+### constants.DEFAULT_JS_IMPORTS_IDENTIFIER : <code>string</code>
+The `src` exports identifier value to read.
+
+**Kind**: instance property of <code>[Constants](#Constants)</code>  
+**Access:** public  
+**Example**  
+```js
+module.exports.foo = {...}; // here 'foo' is the identifier for an object to read from the source!
+```
+<a name="Constants+DEFAULT_JS_EXPORTS_IDENTIFIER"></a>
+### constants.DEFAULT_JS_EXPORTS_IDENTIFIER : <code>string</code>
+The `dest` exports identifier value to write.
+
+**Kind**: instance property of <code>[Constants](#Constants)</code>  
+**Access:** public  
 <a name="Constants+DEFAULT_OPTIONS"></a>
 ### constants.DEFAULT_OPTIONS : <code>object</code>
 The default options.
 
 **Kind**: instance namespace of <code>[Constants](#Constants)</code>  
+**See**
+
+- [ORIGIN_DESCRIPTION](#Constants+ORIGIN_DESCRIPTION)
+- [TARGET_DESCRIPTION](#Constants+TARGET_DESCRIPTION)
+- [DEST_DESCRIPTION](#Constants+DEST_DESCRIPTION)
+
 **Properties**
 
-| Name | Type | Description |
-| --- | --- | --- |
-| origin | <code>string</code> | The default origin type: 'yaml'. |
-| target | <code>string</code> | The default target type: 'js'. |
-| dest | <code>string</code> | The default dest description: 'relative to input file'. |
-| indent | <code>number</code> | The default indention for files: 4. |
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| origin | <code>string</code> | <code>&quot;yaml&quot;</code> | The default origin type. |
+| target | <code>string</code> | <code>&quot;js&quot;</code> | The default target type. |
+| dest | <code>string</code> | <code>&quot;relative_to_input_file&quot;</code> | The default dest description. |
+| indent | <code>number</code> | <code>4</code> | The default indention for files. |
+| force | <code>boolean</code> | <code>false</code> | Whether to overwrite existing file on output. |
+| imports | <code>string</code> |  | The exports name for reading from JS source file or objects only. |
+| exports | <code>string</code> |  | The exports name for usage in JS file or object only. |
 
 <a name="Constants+UTF8"></a>
 ### constants.UTF8 : <code>string</code>
@@ -497,15 +957,9 @@ The default file indention (4 SPACEs).
 
 **Kind**: instance constant of <code>[Constants](#Constants)</code>  
 **Access:** public  
-<a name="Constants+MIN_JSON_JS_INDENT"></a>
-### constants.MIN_JSON_JS_INDENT : <code>number</code>
-The minimum JSON/JS file indention (0 SPACE).
-
-**Kind**: instance constant of <code>[Constants](#Constants)</code>  
-**Access:** public  
-<a name="Constants+MIN_YAML_INDENT"></a>
-### constants.MIN_YAML_INDENT : <code>number</code>
-The minimum YAML file indention (1 SPACE).
+<a name="Constants+MIN_INDENT"></a>
+### constants.MIN_INDENT : <code>number</code>
+The minimum file indention (0 SPACE).
 
 **Kind**: instance constant of <code>[Constants](#Constants)</code>  
 **Access:** public  
@@ -585,22 +1039,27 @@ Class which defines a `logger` wrapper usable in this module.
 **Kind**: global class  
 
 * [LogWrapper](#LogWrapper)
-    * [new LogWrapper(logger)](#new_LogWrapper_new)
+    * [new LogWrapper([logger])](#new_LogWrapper_new)
     * [.debug(msg)](#LogWrapper+debug)
     * [.info(msg)](#LogWrapper+info)
     * [.error(msg)](#LogWrapper+error)
     * [.verboseOptions(options)](#LogWrapper+verboseOptions) ⇒
 
 <a name="new_LogWrapper_new"></a>
-### new LogWrapper(logger)
+### new LogWrapper([logger])
 Constructs the `LogWrapper`.
 
 **Returns**: <code>[LogWrapper](#LogWrapper)</code> - - The instance.  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| logger | <code>logger</code> &#124; <code>cli</code> &#124; <code>console</code> | <code>console</code> | Logger object. |
+| [logger] | <code>logger</code> &#124; <code>cli</code> &#124; <code>console</code> | <code>console</code> | Logger object. |
 
+**Example**  
+```js
+var logger = ...;
+var logWrapper = new LogWrapper(logger);
+```
 <a name="LogWrapper+debug"></a>
 ### logWrapper.debug(msg)
 Log the options with DEBUG level (logger supports it, else with INFO).
@@ -612,6 +1071,13 @@ Log the options with DEBUG level (logger supports it, else with INFO).
 | --- | --- | --- |
 | msg | <code>string</code> | The message to log. |
 
+**Example**  
+```js
+var logger = ...;
+var logWrapper = new LogWrapper(logger);
+var msg = '...';
+logWrapper.debug(msg);
+```
 <a name="LogWrapper+info"></a>
 ### logWrapper.info(msg)
 Log the options with INFO level.
@@ -623,6 +1089,13 @@ Log the options with INFO level.
 | --- | --- | --- |
 | msg | <code>string</code> | The message to log. |
 
+**Example**  
+```js
+var logger = ...;
+var logWrapper = new LogWrapper(logger);
+var msg = '...';
+logWrapper.info(msg);
+```
 <a name="LogWrapper+error"></a>
 ### logWrapper.error(msg)
 Log the options with ERROR level.
@@ -634,6 +1107,13 @@ Log the options with ERROR level.
 | --- | --- | --- |
 | msg | <code>string</code> | The message to log. |
 
+**Example**  
+```js
+var logger = ...;
+var logWrapper = new LogWrapper(logger);
+var msg = '...';
+logWrapper.error(msg);
+```
 <a name="LogWrapper+verboseOptions"></a>
 ### logWrapper.verboseOptions(options) ⇒
 Log the options with INFO level.
@@ -644,8 +1124,20 @@ Log the options with INFO level.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| options | <code>Object</code> | The properties to log with INFO. |
+| options | <code>[Options](#Options)</code> | The properties to log with INFO. |
 
+**Example**  
+```js
+var logger = ...;
+var logWrapper = new LogWrapper(logger);
+var options = {
+    ...
+};
+logWrapper.verboseOptions(options)
+    .then(function (options) {
+        ...
+    });
+```
 <a name="Middleware"></a>
 ## Middleware
 Class which defines middleware Promises usable in or with this module.
@@ -654,6 +1146,7 @@ Class which defines middleware Promises usable in or with this module.
 
 * [Middleware](#Middleware)
     * [new Middleware()](#new_Middleware_new)
+    * [.identityMiddleware](#Middleware+identityMiddleware)
     * [.ensureMiddleware(middleware)](#Middleware+ensureMiddleware) ⇒ <code>Promise</code>
 
 <a name="new_Middleware_new"></a>
@@ -661,6 +1154,30 @@ Class which defines middleware Promises usable in or with this module.
 Constructs the `Middleware`.
 
 **Returns**: <code>[Middleware](#Middleware)</code> - - The instance.  
+**Example**  
+```js
+var middleware = require('./lib/middleware.js');
+```
+<a name="Middleware+identityMiddleware"></a>
+### middleware.identityMiddleware
+Middleware Promise which reflects the identity of passed JSON: `f(json) -> json`.
+
+**Kind**: instance property of <code>[Middleware](#Middleware)</code>  
+**Access:** public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| json | <code>object</code> | The data which is returned in Promise. |
+
+**Example**  
+```js
+var middleware = require('./lib/middleware.js');
+var identityMiddleware = middleware.identityMiddleware;
+transformer.transform(options, identityMiddleware)
+    .then(function(json) {
+        ...
+    }):
+```
 <a name="Middleware+ensureMiddleware"></a>
 ### middleware.ensureMiddleware(middleware) ⇒ <code>Promise</code>
 Ensure that the given middleware Promise is a function if set.
@@ -680,6 +1197,17 @@ a JSON object.
 | --- | --- | --- |
 | middleware | <code>function</code> | This middleware Promise can be used to intercept        the JSON object for altering he passed JSON, the function signature is:        ```        function(json)        ```        The Promise has to return the processed JSON! |
 
+**Example**  
+```js
+var middleware = require('./lib/middleware.js');
+var myMiddleware = function(json) {
+    ...
+};
+transformer.transform(options, middleware.ensureMiddleware(myMiddleware))
+    .then(function(json) {
+        ...
+    }):
+```
 <a name="OptionsHandler"></a>
 ## OptionsHandler
 Class which defines some useful methods to initialize and prepare the
@@ -692,8 +1220,15 @@ Class which defines some useful methods to initialize and prepare the
 
 * [OptionsHandler](#OptionsHandler)
     * [new OptionsHandler([logger])](#new_OptionsHandler_new)
-    * [.ensureOptions(options)](#OptionsHandler+ensureOptions) ⇒
-    * [.validateTransformation(options)](#OptionsHandler+validateTransformation) ⇒
+    * [.assertOptions](#OptionsHandler+assertOptions) ⇒ <code>Promise</code>
+    * [.completeOptions(options)](#OptionsHandler+completeOptions) ⇒ <code>Promise</code>
+    * [.ensureSrc(options)](#OptionsHandler+ensureSrc) ⇒ <code>Promise</code>
+    * [.ensureDest(options)](#OptionsHandler+ensureDest) ⇒ <code>Promise</code>
+    * [.assertOrigin(options)](#OptionsHandler+assertOrigin) ⇒ <code>Promise</code>
+    * [.assertTarget(options)](#OptionsHandler+assertTarget) ⇒ <code>Promise</code>
+    * [.ensureIndent(options)](#OptionsHandler+ensureIndent) ⇒ <code>Promise</code>
+    * [.ensureOptions(options)](#OptionsHandler+ensureOptions) ⇒ <code>Promise</code>
+    * [.validateTransformation(options)](#OptionsHandler+validateTransformation) ⇒ <code>Promise</code>
 
 <a name="new_OptionsHandler_new"></a>
 ### new OptionsHandler([logger])
@@ -712,34 +1247,244 @@ var logger = ...;
 
 var optionsHandler = new OptionsHandler(logger);
 ```
+<a name="OptionsHandler+assertOptions"></a>
+### optionsHandler.assertOptions ⇒ <code>Promise</code>
+Asserts that the given `options` and (optionally) the given properties are
+inside the options. If not, the Promise rejects with proper error message.
+
+**Kind**: instance property of <code>[OptionsHandler](#OptionsHandler)</code>  
+**Returns**: <code>Promise</code> - - Promise which contains the `options` as result.  
+**Access:** public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>object</code> | The objects which should be set. |
+| [properties] | <code>Array.&lt;string&gt;</code> | Properties which should exist in `options`. |
+
+**Example**  
+```js
+var options = {...};
+
+assertOptions(options, ['src', 'origin'])
+    .then(function (assertedOptions) {
+        ...
+    });
+```
+<a name="OptionsHandler+completeOptions"></a>
+### optionsHandler.completeOptions(options) ⇒ <code>Promise</code>
+Completes the given `options` object by enriching from default values or using
+type inference if something required is "missing" (a missing `options.src` cannot
+be completed becaue this is mandatory).
+
+**Kind**: instance method of <code>[OptionsHandler](#OptionsHandler)</code>  
+**Returns**: <code>Promise</code> - - A Promise containing the passed `options` object.  
+**Throws**:
+
+- <code>Error</code> - If `options` or `options.src` not passed.
+
+**Access:** public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>[Options](#Options)</code> | The configuration for a transformation. |
+
+**Example**  
+```js
+var OptionsHandler = require('./options-handler.js');
+var logger = ...;
+var options = {...};
+var optionsHandler = new OptionsHandler(logger);
+
+optionsHandler.completeOptions(options)
+    .then(function (copiedOptions) {
+        ...
+    });
+```
+<a name="OptionsHandler+ensureSrc"></a>
+### optionsHandler.ensureSrc(options) ⇒ <code>Promise</code>
+Ensures that the given input source is valid.
+
+**Kind**: instance method of <code>[OptionsHandler](#OptionsHandler)</code>  
+**Returns**: <code>Promise</code> - - A Promise containing the passed `options` object.  
+**Throws**:
+
+- <code>Error</code> - If the `options.src` is not defined or the file represented by `options.src` does not exist.
+
+**Access:** public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>[Options](#Options)</code> | The configuration for a transformation. |
+
+**Example**  
+```js
+var OptionsHandler = require('./options-handler.js');
+var logger = ...;
+var options = {...};
+var optionsHandler = new OptionsHandler(logger);
+
+optionsHandler.ensureSrc(options)
+    .then(function (ensuredOptions) {
+        ...
+    });
+```
+<a name="OptionsHandler+ensureDest"></a>
+### optionsHandler.ensureDest(options) ⇒ <code>Promise</code>
+This method ensures that destination file path is created if not set in
+options. If not, then it creates the path relative to the source file using
+its name and appending a proper extension depending on the `json`
+property of `options` (if `true` then '.js', else '.json').
+
+**Kind**: instance method of <code>[OptionsHandler](#OptionsHandler)</code>  
+**Returns**: <code>Promise</code> - - A Promise containing the passed `options` object.  
+**Access:** public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>[Options](#Options)</code> | The configuration for a transformation. |
+
+**Example**  
+```js
+var OptionsHandler = require('./options-handler.js');
+var logger = ...;
+var options = {...};
+var optionsHandler = new OptionsHandler(logger);
+
+optionsHandler.ensureDest(options)
+    .then(function (ensuredOptions) {
+        ...
+    });
+```
+<a name="OptionsHandler+assertOrigin"></a>
+### optionsHandler.assertOrigin(options) ⇒ <code>Promise</code>
+Checks if the given origin is valid.
+
+**Kind**: instance method of <code>[OptionsHandler](#OptionsHandler)</code>  
+**Returns**: <code>Promise</code> - - A Promise containing the passed `options` object.  
+**Access:** public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>[Options](#Options)</code> | The configuration for a transformation. |
+
+**Example**  
+```js
+var OptionsHandler = require('./options-handler.js');
+var logger = ...;
+var options = {...};
+var optionsHandler = new OptionsHandler(logger);
+
+optionsHandler.assertOrigin(options)
+    .then(function (ensuredOptions) {
+        ...
+    });
+```
+<a name="OptionsHandler+assertTarget"></a>
+### optionsHandler.assertTarget(options) ⇒ <code>Promise</code>
+Checks if the given target is valid.
+
+**Kind**: instance method of <code>[OptionsHandler](#OptionsHandler)</code>  
+**Returns**: <code>Promise</code> - - A Promise containing the passed `options` object.  
+**Access:** public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>[Options](#Options)</code> | The configuration for a transformation. |
+
+**Example**  
+```js
+var OptionsHandler = require('./options-handler.js');
+var logger = ...;
+var options = {...};
+var optionsHandler = new OptionsHandler(logger);
+
+optionsHandler.assertTarget(options)
+    .then(function (ensuredOptions) {
+        ...
+    });
+```
+<a name="OptionsHandler+ensureIndent"></a>
+### optionsHandler.ensureIndent(options) ⇒ <code>Promise</code>
+Checks if a valid indention value is given and corrects values if invalid (with default value: 4 SPACEs).
+
+**Kind**: instance method of <code>[OptionsHandler](#OptionsHandler)</code>  
+**Returns**: <code>Promise</code> - - A Promise containing the passed `options` object.  
+**Access:** public  
+**See**
+
+- [MIN_INDENT](#Constants+MIN_INDENT)
+- [DEFAULT_INDENT](#Constants+DEFAULT_INDENT)
+- [MAX_INDENT](#Constants+MAX_INDENT)
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>[Options](#Options)</code> | The configuration for a transformation. |
+
+**Example**  
+```js
+var OptionsHandler = require('./options-handler.js');
+var logger = ...;
+var options = {...};
+var optionsHandler = new OptionsHandler(logger);
+
+optionsHandler.ensureIndent(options)
+    .then(function (ensuredOptions) {
+        ...
+    });
+```
 <a name="OptionsHandler+ensureOptions"></a>
-### optionsHandler.ensureOptions(options) ⇒
+### optionsHandler.ensureOptions(options) ⇒ <code>Promise</code>
 This method ensures that the options object is set with all necessary and
 correct values. The method does not alter the given object, but creates
 and fills a new instance from the given values and/or default ones.
 
 **Kind**: instance method of <code>[OptionsHandler](#OptionsHandler)</code>  
-**Returns**: A Promise containing a new and complete `options` object.  
+**Returns**: <code>Promise</code> - - A Promise containing a new and complete `options` object.  
 **Access:** public  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| options | <code>Object</code> | The minimum configuration for a transformation. |
+| options | <code>[Options](#Options)</code> | The configuration for a transformation. |
 
+**Example**  
+```js
+var OptionsHandler = require('./options-handler.js');
+var logger = ...;
+var options = {...};
+var optionsHandler = new OptionsHandler(logger);
+
+optionsHandler.ensureOptions(options)
+    .then(function (ensuredOptions) {
+        ...
+    });
+```
 <a name="OptionsHandler+validateTransformation"></a>
-### optionsHandler.validateTransformation(options) ⇒
+### optionsHandler.validateTransformation(options) ⇒ <code>Promise</code>
 This method validates the transformation process described by the given
-options and provides the according name to resolve a proper function.
+options and provides the validate and enriched options and according name
+to resolve a proper function.
 
 **Kind**: instance method of <code>[OptionsHandler](#OptionsHandler)</code>  
-**Returns**: A Promise containing the passed `options` object and a 'transformation' string.  
+**Returns**: <code>Promise</code> - - A Promise containing the passed `options` object and a 'transformation' string in an array.  
 **Access:** public  
 **See**: [transformations](transformations)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| options | <code>Object</code> | The minimum configuration for a transformation. |
+| options | <code>[Options](#Options)</code> | The configuration for a transformation. |
 
+**Example**  
+```js
+var OptionsHandler = require('./options-handler.js');
+var logger = ...;
+var optionsHandler = new OptionsHandler(logger);
+
+optionsHandler.validateTransformation(options)
+    .spread(function (validatedOptions, transformation) {
+        ...
+    )):
+```
 <a name="Reader"></a>
 ## Reader
 This class provides utility methods usable to read YAML, JSON or JS
@@ -749,8 +1494,9 @@ This class provides utility methods usable to read YAML, JSON or JS
 
 * [Reader](#Reader)
     * [new Reader([logger])](#new_Reader_new)
-    * [.readJs(src)](#Reader+readJs) ⇒ <code>Promise</code>
-    * [.readYaml(src)](#Reader+readYaml) ⇒ <code>Promise</code>
+    * [.validator](#Reader+validator) : <code>[Validator](#Validator)</code>
+    * [.readJs(options)](#Reader+readJs) ⇒ <code>Promise</code>
+    * [.readYaml(options)](#Reader+readYaml) ⇒ <code>Promise</code>
 
 <a name="new_Reader_new"></a>
 ### new Reader([logger])
@@ -769,25 +1515,32 @@ var logger = ...;
 
 var reader = new Reader(logger);
 ```
+<a name="Reader+validator"></a>
+### reader.validator : <code>[Validator](#Validator)</code>
+The validator.
+
+**Kind**: instance property of <code>[Reader](#Reader)</code>  
 <a name="Reader+readJs"></a>
-### reader.readJs(src) ⇒ <code>Promise</code>
+### reader.readJs(options) ⇒ <code>Promise</code>
 Reads the data from a given _*.js_ or _*.json_ file source.
 
 **Kind**: instance method of <code>[Reader](#Reader)</code>  
-**Returns**: <code>Promise</code> - - Containing the JSON object.  
+**Returns**: <code>Promise</code> - - Contains the read JSON object.  
 **Access:** public  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| src | <code>string</code> | The JS/JSON source file to read. |
+| options | <code>[Options](#Options)</code> | Contains the JS/JSON source reference to read from. |
 
 **Example**  
 ```js
 var Reader = require('jy-transform').Reader;
 var logger = ...;
-
+var options = {
+   src: 'foo.js'
+};
 var reader = new Reader(logger);
-reader.readJs(./my.js)
+reader.readJs(options)
     .then(function (json){
         logger.info(JSON.stringify(json));
     })
@@ -795,7 +1548,23 @@ reader.readJs(./my.js)
         logger.error(err.stack);
     });
 
-reader.readJs(./my.json)
+options = {
+    src: fs.createReadStream('./my.js')
+};
+reader.readJs(options)
+    .then(function (json){
+        logger.info(JSON.stringify(json));
+    })
+    .catch(function (err) {
+        logger.error(err.stack);
+    });
+
+options = {
+    src: {
+        foo: 'bar'
+    }
+};
+reader.readJs(options)
     .then(function (json){
         logger.info(JSON.stringify(json));
     })
@@ -804,19 +1573,19 @@ reader.readJs(./my.json)
     });
 ```
 <a name="Reader+readYaml"></a>
-### reader.readYaml(src) ⇒ <code>Promise</code>
+### reader.readYaml(options) ⇒ <code>Promise</code>
 Loads a single YAML file containing document and turns a JS object.
 
 *NOTE:* This function does not understand multi-document sources, it throws
 exception on those.
 
 **Kind**: instance method of <code>[Reader](#Reader)</code>  
-**Returns**: <code>Promise</code> - - Containing the JSON object.  
+**Returns**: <code>Promise</code> - - Contains the read JSON object.  
 **Access:** public  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| src | <code>string</code> | The YAML source file to read. |
+| options | <code>[Options](#Options)</code> | Contains the YAML source reference to read from. |
 
 **Example**  
 ```js
@@ -824,7 +1593,18 @@ var Reader = require('jy-transform').Reader;
 var logger = ...;
 
 var reader = new Reader(logger);
-reader.readYaml(./my.yaml)
+reader.readYaml('foo.yaml')
+    .then(function (json){
+        logger.info(JSON.stringify(json));
+    })
+    .catch(function (err) {
+        logger.error(err.stack);
+    });
+
+options = {
+    src: fs.createReadStream('foo.yml')
+};
+reader.readJs(options)
     .then(function (json){
         logger.info(JSON.stringify(json));
     })
@@ -845,7 +1625,6 @@ This class provides all methods usable to handle YAML, JSON and JS and
         * [.transform(options, [middleware])](#Transformer+transform) ⇒ <code>Promise</code>
     * _inner_
         * [~ensureMiddleware](#Transformer..ensureMiddleware)
-        * [~itmo(options, read, [middleware], write)](#Transformer..itmo)
 
 <a name="new_Transformer_new"></a>
 ### new Transformer([logger])
@@ -881,7 +1660,7 @@ an (optional) middleware function.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| options | <code>Object</code> | Properties to configure the transformation. |
+| options | <code>[Options](#Options)</code> | The configuration for a transformation. |
 | [middleware] | <code>function</code> | This middleware Promise can be used to intercept        the JSON object for altering the passed JSON, the function signature is:        ```        function(json)        ```        <p>        **NOTE:** the Promise has to return the processed JSON! |
 
 **Example**  
@@ -909,23 +1688,56 @@ transformer.transform(options, middleware)
 Ensures that basic middleware is set.
 
 **Kind**: inner property of <code>[Transformer](#Transformer)</code>  
-<a name="Transformer..itmo"></a>
-### Transformer~itmo(options, read, [middleware], write)
-Internal function to execute transformation logic (ITMO):
-- Input
-- Transform
-- Middleware
-- Write
+<a name="Validator"></a>
+## Validator
+This class validates JSON objects and identifier.
+       <p>
+       **NOTE:** this class is intended for internal use only!
 
-**Kind**: inner method of <code>[Transformer](#Transformer)</code>  
+**Kind**: global class  
+
+* [Validator](#Validator)
+    * [new Validator([logger])](#new_Validator_new)
+    * [.validateIdentifier(identifier)](#Validator+validateIdentifier) ⇒ <code>boolean</code>
+
+<a name="new_Validator_new"></a>
+### new Validator([logger])
+Constructs the `Validator` with an (optional) logger.
+
+**Returns**: <code>[Writer](#Writer)</code> - The instance.  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [logger] | <code>logger</code> &#124; <code>cli</code> &#124; <code>console</code> | <code>console</code> | Logger object. |
+
+**Example**  
+```js
+var Validator = require('./validator.js');
+var logger = ...;
+
+var validator = new Validator(logger);
+```
+<a name="Validator+validateIdentifier"></a>
+### validator.validateIdentifier(identifier) ⇒ <code>boolean</code>
+This method checks if a given `identifier` is a valid ECMAScript 6 identifier.
+
+**Kind**: instance method of <code>[Validator](#Validator)</code>  
+**Returns**: <code>boolean</code> - - `true` if valid, else `false`.  
+**Access:** public  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| options | <code>Object</code> | The minimum configuration for a transformation. |
-| read | <code>function</code> | The reader function. |
-| [middleware] | <code>function</code> | The middleware to apply. |
-| write | <code>function</code> | The writer functions. |
+| identifier | <code>string</code> | The identifier to check. |
 
+**Example**  
+```js
+var Validator = require('./validator.js');
+var logger = ...;
+var validator = new Validator(logger);
+var identifier = 'foo';
+
+logger.info('valid = ' + validator.validateIdentifier(identifier));
+```
 <a name="Writer"></a>
 ## Writer
 This class provides utility methods usable to write JSON/JS/YAML
@@ -935,9 +1747,10 @@ This class provides utility methods usable to write JSON/JS/YAML
 
 * [Writer](#Writer)
     * [new Writer([logger])](#new_Writer_new)
-    * [.writeYaml(json, dest, indent)](#Writer+writeYaml) ⇒ <code>Promise</code>
-    * [.writeJson(json, dest, indent)](#Writer+writeJson) ⇒ <code>Promise</code>
-    * [.writeJs(json, dest, indent)](#Writer+writeJs) ⇒ <code>Promise</code>
+    * [.validator](#Writer+validator) : <code>[Validator](#Validator)</code>
+    * [.writeYaml(json, options)](#Writer+writeYaml) ⇒ <code>Promise</code>
+    * [.writeJson(json, options)](#Writer+writeJson) ⇒ <code>Promise</code>
+    * [.writeJs(json, options)](#Writer+writeJs) ⇒ <code>Promise</code>
 
 <a name="new_Writer_new"></a>
 ### new Writer([logger])
@@ -956,8 +1769,13 @@ var logger = ...;
 
 var writer = new Writer(logger);
 ```
+<a name="Writer+validator"></a>
+### writer.validator : <code>[Validator](#Validator)</code>
+The validator.
+
+**Kind**: instance property of <code>[Writer](#Writer)</code>  
 <a name="Writer+writeYaml"></a>
-### writer.writeYaml(json, dest, indent) ⇒ <code>Promise</code>
+### writer.writeYaml(json, options) ⇒ <code>Promise</code>
 Writes a JSON object to a _*.yaml_ file.
 
 **Kind**: instance method of <code>[Writer](#Writer)</code>  
@@ -969,7 +1787,7 @@ Writes a JSON object to a _*.yaml_ file.
 **Access:** public  
 **See**
 
-- [MIN_YAML_INDENT](#Constants+MIN_YAML_INDENT)
+- [MIN_INDENT](#Constants+MIN_INDENT)
 - [DEFAULT_INDENT](#Constants+DEFAULT_INDENT)
 - [MAX_INDENT](#Constants+MAX_INDENT)
 
@@ -977,17 +1795,34 @@ Writes a JSON object to a _*.yaml_ file.
 | Param | Type | Description |
 | --- | --- | --- |
 | json | <code>object</code> | The JSON to write into _*.yaml_ file. |
-| dest | <code>string</code> | The file destination path. |
-| indent | <code>number</code> | The indent in spaces. |
+| options | <code>[Options](#Options)</code> | The write destination and indention. |
 
 **Example**  
 ```js
 var Writer = require('jy-transform').Writer;
 var logger = ...;
-var json = {...}
-
 var writer = new Writer(logger);
-writer.writeYaml(json, result.yml, 2)
+
+var json = {...},
+var options = {
+    dest: 'result.yml',
+    indent: 2
+}
+
+writer.writeYaml(json, options)
+    .then(function (msg){
+        logger.info(msg);
+    })
+    .catch(function (err) {
+        logger.error(err.stack);
+    });
+
+options = {
+    dest: fs.createWriteStream('result.yml'),
+    indent: 4
+}
+
+writer.writeYaml(json, options)
     .then(function (msg){
         logger.info(msg);
     })
@@ -996,7 +1831,7 @@ writer.writeYaml(json, result.yml, 2)
     });
 ```
 <a name="Writer+writeJson"></a>
-### writer.writeJson(json, dest, indent) ⇒ <code>Promise</code>
+### writer.writeJson(json, options) ⇒ <code>Promise</code>
 Writes a JSON object to a _*.json_ file.
 
 **Kind**: instance method of <code>[Writer](#Writer)</code>  
@@ -1004,7 +1839,7 @@ Writes a JSON object to a _*.json_ file.
 **Access:** public  
 **See**
 
-- [MIN_JSON_JS_INDENT](#Constants+MIN_JSON_JS_INDENT)
+- [MIN_INDENT](#Constants+MIN_INDENT)
 - [DEFAULT_INDENT](#Constants+DEFAULT_INDENT)
 - [MAX_INDENT](#Constants+MAX_INDENT)
 
@@ -1012,17 +1847,47 @@ Writes a JSON object to a _*.json_ file.
 | Param | Type | Description |
 | --- | --- | --- |
 | json | <code>object</code> | The JSON to write into _*.json_ file. |
-| dest | <code>string</code> | The file destination path. |
-| indent | <code>number</code> | The indent in spaces. |
+| options | <code>[Options](#Options)</code> | The write destination and indention. |
 
 **Example**  
 ```js
 var Writer = require('jy-transform').Writer;
 var logger = ...;
-var json = {...}
-
 var writer = new Writer(logger);
-writer.writeJson(json, result.yml, 2)
+
+var json = {...};
+var options = {
+    dest: 'result.json',
+    indent: 2
+}
+
+writer.writeJson(json, options)
+    .then(function (msg){
+        logger.info(msg);
+    })
+    .catch(function (err) {
+        logger.error(err.stack);
+    });
+
+options = {
+    dest: fs.createWriteStream('result.json'),
+    indent: 4
+}
+
+writer.writeJson(json, options)
+    .then(function (msg){
+        logger.info(msg);
+    })
+    .catch(function (err) {
+        logger.error(err.stack);
+    });
+
+options = {
+    dest: {},
+    indent: 4
+}
+
+writer.writeJson(json, options)
     .then(function (msg){
         logger.info(msg);
     })
@@ -1031,7 +1896,7 @@ writer.writeJson(json, result.yml, 2)
     });
 ```
 <a name="Writer+writeJs"></a>
-### writer.writeJs(json, dest, indent) ⇒ <code>Promise</code>
+### writer.writeJs(json, options) ⇒ <code>Promise</code>
 Writes a JSON object to a _*.js_ file. The object is prefixed by `module.exports = `.
 
 **Kind**: instance method of <code>[Writer](#Writer)</code>  
@@ -1039,7 +1904,7 @@ Writes a JSON object to a _*.js_ file. The object is prefixed by `module.exports
 **Access:** public  
 **See**
 
-- [MIN_JSON_JS_INDENT](#Constants+MIN_JSON_JS_INDENT)
+- [MIN_INDENT](#Constants+MIN_INDENT)
 - [DEFAULT_INDENT](#Constants+DEFAULT_INDENT)
 - [MAX_INDENT](#Constants+MAX_INDENT)
 
@@ -1047,17 +1912,47 @@ Writes a JSON object to a _*.js_ file. The object is prefixed by `module.exports
 | Param | Type | Description |
 | --- | --- | --- |
 | json | <code>object</code> | The JSON to write into _*.js_ file. |
-| dest | <code>string</code> | The file destination path. |
-| indent | <code>number</code> | The indent in spaces. |
+| options | <code>[Options](#Options)</code> | The write destination and indention. |
 
 **Example**  
 ```js
 var Writer = require('jy-transform').Writer;
 var logger = ...;
-var json = {...}
-
 var writer = new Writer(logger);
-writer.writeJs(json, result.yml, 2)
+
+var json = {...};
+var options = {
+    dest: 'result.js',
+    indent: 2
+}
+
+writer.writeJs(json, options)
+    .then(function (msg){
+        logger.info(msg);
+    })
+    .catch(function (err) {
+        logger.error(err.stack);
+    });
+
+options = {
+    dest: fs.createWriteStream('result.json'),
+    indent: 4
+}
+
+writer.writeJs(json, options)
+    .then(function (msg){
+        logger.info(msg);
+    })
+    .catch(function (err) {
+        logger.error(err.stack);
+    });
+
+options = {
+    dest: {},
+    indent: 2
+}
+
+writer.writeJs(json, options)
     .then(function (msg){
         logger.info(msg);
     })
@@ -1065,3 +1960,66 @@ writer.writeJs(json, result.yml, 2)
         logger.error(err.stack);
     });
 ```
+<a name="Options"></a>
+## Options : <code>object</code>
+**Kind**: global typedef  
+**Properties**
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| origin | <code>string</code> | <code>&quot;yaml&quot;</code> | The origin type. |
+| target | <code>string</code> | <code>&quot;js&quot;</code> | The target type. |
+| src | <code>string</code> &#124; <code>Readable</code> &#124; <code>object</code> |  | The source. |
+| dest | <code>string</code> &#124; <code>Writable</code> &#124; <code>object</code> |  | The destination. |
+| indent | <code>number</code> | <code>4</code> | The indention in files. |
+| imports | <code>string</code> |  | The exports name for reading from JS source file or objects only. |
+| exports | <code>string</code> |  | The exports name for usage in JS destination files only. |
+
+
+
+
+# Contributing
+
+Pull requests and stars are always welcome. Anybody is invited to take part 
+into this project. For bugs and feature requests, please create an 
+[issue](https://github.com/deadratfink/jy-transform/issues).
+When contributing as coder, please take care of the following conventions:
+
+- Enter yourself in the `constributors` section of _package.json_.
+- We strictly follow [Semantic Versioning 2](http://semver.org) rules.
+- The `development` branch is the leading branch and is protected. Create bugfix and feature 
+  branches (or fork into you own namespace) and create pull 
+  requests to `development` when finished. Any of these should be prefixed with 
+  `bugfix/#...` or `feature/#...` (followed by issue number and a short, "underscored" 
+  proper meaning), e.g. 
+  - `bugfix/#8_fix_js_reading_with_require`
+  - `feature/#14_multidocument_support`
+- Remember that name could need to be enclosed in quotes, e.g. 
+  ```$ git checkout -b 'feature/#19_...'```
+  when using git shell command.
+- The `master` branch is protected and is the stable branch after a release. 
+  It will never be pushed directly (only on release build).
+- Indention for any file is 4 SPACEs.
+- Keep code coverage high (> 95%).
+- Doc everything with [JSDocs](http://usejsdoc.org/) and document concepts in 
+  [README.md](https://github.com/deadratfink/jy-transform/blob/development/README.md)
+  or [Wiki](https://github.com/deadratfink/jy-transform/wiki).
+- Use single parenthesis (`'...'`) in _*.js_ files instead of double parenthesis (`"..."`).
+- Avoid the of use parenthesis for keys in JSON objects.
+- Use the strict mode (`'use strict';`) in _*.js_ files.
+- File names should be lower-case with hyphens as divider, e.g. _options-handler.js_.
+- Markdown documentation files should be upper-case with _.md_ as extension, placed 
+  in _./docs_, e.g. _USAGE.md_. The _README.md_ is build up by these files concatenated 
+  by `npm run docs` command. Any new files have to be added to `scripts.docs` section of 
+  _package.json_. Don't forget to regenerate _README.md_ before committing.
+
+# Changelog
+
+### 1.0.0
+
+Initial release. This covers the basic implementation and tests. The following features and fixes and part of this release:
+  
+- [#3 - #12]
+- [#15 - #20]
+- [#21 - #24]
+- [#27]
