@@ -2015,11 +2015,10 @@ When contributing as coder, please take care of the following conventions:
 
 # Changelog
 
-### 1.0.0
+### v1.0.0
 
 Initial release. This covers the basic implementation and tests. The following features and fixes and part of this release:
   
 - [#3 - #12]
-- [#15 - #20]
-- [#21 - #24]
+- [#15 - #24]
 - [#27]
