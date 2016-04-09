@@ -23,6 +23,7 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
     describe('Testing Reader.readJs(...)', function () {
 
         var exports = 'fooBar';
+        var exportsNotExists = 'notFooBar';
         var invalidIdentifier = '#3/-';
 
         it('should read JS from file', function (done) {
@@ -90,6 +91,25 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
             var options = {
                 src: './test/data/test-imports.js',
                 imports: invalidIdentifier
+            };
+
+            reader.readJs(options)
+                .then(function (msg) {
+                    done(new Error('Error expected'));
+                })
+                .catch(function (err) {
+                    logger.info('EXPECTED ERROR: ' + err.stack);
+                    assert.notEqual(err, null, 'err should not be null');
+                    assert(err instanceof Error, 'expected Error should equal Error, was: ' + (typeof err));
+                    done();
+                });
+        });
+
+        it('should reject read JS from file with Error on non-existent identifier for options.imports: ' + exportsNotExists, function (done) {
+
+            var options = {
+                src: './test/data/test-imports.js',
+                imports: exportsNotExists
             };
 
             reader.readJs(options)
@@ -197,6 +217,30 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
                     }
                 },
                 imports: invalidIdentifier
+            };
+
+            reader.readJs(options)
+                .then(function (msg) {
+                    done(new Error('Error expected'));
+                })
+                .catch(function (err) {
+                    logger.info('EXPECTED ERROR: ' + err.stack);
+                    assert.notEqual(err, null, 'err should not be null');
+                    assert(err instanceof Error, 'expected Error should equal Error, was: ' + (typeof err));
+                    done();
+                });
+        });
+
+        it('should reject read JS from file with Error on non-existent identifier for options.imports: ' + exportsNotExists, function (done) {
+
+            var options = {
+                src: {
+                    fooBar: {
+                        bar: 'foo',
+                        foo: 'bar'
+                    }
+                },
+                imports: exportsNotExists
             };
 
             reader.readJs(options)
