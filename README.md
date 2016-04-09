@@ -2021,5 +2021,5 @@ Initial release. This covers the basic implementation and tests. The following f
   
 - [#3 - #12]
 - [#15 - #20]
-- [#22 - #24]
+- [#21 - #24]
 - [#27]
