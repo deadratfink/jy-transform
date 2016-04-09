@@ -4,6 +4,7 @@ var assert = require('assert');
 var YAMLException = require('js-yaml/lib/js-yaml/exception.js');
 var fs = require('fs');
 var Reader = require('../index.js').Reader;
+var Constants = require('../index.js').constants;
 var logger;
 var reader;
 
@@ -69,6 +70,29 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
             var options = {
                 src: './test/data/test-imports.js',
                 imports: exports
+            };
+
+            reader.readJs(options)
+                .then(function (json) {
+                    assert.notEqual(json, null, 'json should not be null, was: ' + JSON.stringify(json));
+                    assert(!json.hasOwnProperty(exports), 'json should not have \'' + exports + '\' property, was: ' + JSON.stringify(json));
+                    assert(!json.hasOwnProperty('bar'), 'json should not have \'bar\' property, was: ' + JSON.stringify(json[exports]));
+                    assert(json.hasOwnProperty('foo'), 'json should have \'foo\' property, was: ' + JSON.stringify(json[exports]));
+                    assert.equal(json.foo, 'bar');
+                    done();
+                })
+                .catch(function (err) {
+                    logger.error(err.stack);
+                    done(err);
+                });
+        });
+
+        it('should read JS from file with options.imports == \'' + exports + '\' and given origin for unsupported file extension', function (done) {
+
+            var options = {
+                src: './test/data/test-imports.txt',
+                imports: exports,
+                origin: Constants.JS
             };
 
             reader.readJs(options)
