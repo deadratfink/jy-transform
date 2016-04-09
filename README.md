@@ -138,6 +138,7 @@ npm test
 
 ## Dev Dependencies
 
+- [codeclimate-test-reporter](https://github.com/codeclimate/javascript-test-reporter): Code Climate test reporter client for javascript projects
 - [codecov](https://github.com/codecov/codecov-node): Uploading report to Codecov: https://codecov.io
 - [coveralls](https://github.com/nickmerwin/node-coveralls): takes json-cov output into stdin and POSTs to coveralls.io
 - [doctoc](https://github.com/thlorenz/doctoc): Generates TOC for markdown files of local git repo.
@@ -1493,12 +1494,9 @@ This class provides utility methods usable to read YAML, JSON or JS
 
 * [Reader](#Reader)
     * [new Reader([logger])](#new_Reader_new)
-    * _instance_
-        * [.validator](#Reader+validator) : <code>[Validator](#Validator)</code>
-        * [.readJs(options)](#Reader+readJs) ⇒ <code>Promise</code>
-        * [.readYaml(options)](#Reader+readYaml) ⇒ <code>Promise</code>
-    * _inner_
-        * [~createReadableFunction(src, bufs)](#Reader..createReadableFunction) ⇒ <code>function</code>
+    * [.validator](#Reader+validator) : <code>[Validator](#Validator)</code>
+    * [.readJs(options)](#Reader+readJs) ⇒ <code>Promise</code>
+    * [.readYaml(options)](#Reader+readYaml) ⇒ <code>Promise</code>
 
 <a name="new_Reader_new"></a>
 ### new Reader([logger])
@@ -1614,18 +1612,6 @@ reader.readJs(options)
         logger.error(err.stack);
     });
 ```
-<a name="Reader..createReadableFunction"></a>
-### Reader~createReadableFunction(src, bufs) ⇒ <code>function</code>
-Creates a function to read from the passed source in to the given buffer array.
-
-**Kind**: inner method of <code>[Reader](#Reader)</code>  
-**Returns**: <code>function</code> - - The function which reads and buffers.  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| src | <code>stream.Readable</code> | The source to read from. |
-| bufs | <code>array</code> | The temporary buffer array. |
-
 <a name="Transformer"></a>
 ## Transformer
 This class provides all methods usable to handle YAML, JSON and JS and

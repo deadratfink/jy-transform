@@ -51,6 +51,7 @@
         "serialize-js": "^1.1.0"
     },
     "devDependencies": {
+        "codeclimate-test-reporter": "^0.3.1",
         "codecov": "^1.0.1",
         "coveralls": "^2.11.9",
         "doctoc": "^1.0.0",
