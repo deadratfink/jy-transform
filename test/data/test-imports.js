@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports.foo = {
+module.exports.fooBar = {
     foo: 'bar'
 };
 

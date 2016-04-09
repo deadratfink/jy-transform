@@ -275,7 +275,7 @@ describe('Executing \'jy-transform\' project Writer test suite.', function () {
         });
 
         var exports = 'foo';
-        it('should write JS to JS object with options.exports == \'exports\'', function (done) {
+        it('should write JS to JS object with options.exports == \'' + exports + '\'', function (done) {
 
             var options = {
                 dest: {},
@@ -286,14 +286,34 @@ describe('Executing \'jy-transform\' project Writer test suite.', function () {
                 .then(function (msg) {
                     assert.notEqual(msg, null, 'msg should not be null, was: ' + msg);
                     assert.notEqual(options.dest, null, 'options.dest should not be null, was: ' + JSON.stringify(options.dest));
-                    assert.notEqual(options.dest.hasOwnProperty(exports), null, 'options.dest should have \'' + exports + '\' property, was: ' + JSON.stringify(options.dest));
-                    assert.notEqual(options.dest[exports].hasOwnProperty('test'), null, 'options.dest should have \'test\' property, was: ' + JSON.stringify(options.dest[exports]));
+                    assert(options.dest.hasOwnProperty(exports), 'options.dest should have \'' + exports + '\' property, was: ' + JSON.stringify(options.dest));
+                    assert(options.dest[exports].hasOwnProperty('test'), 'options.dest.' + exports + ' should have \'test\' property, was: ' + JSON.stringify(options.dest[exports]));
                     assert.equal(options.dest[exports].test, 'value');
                     done();
                 })
                 .catch(function (err) {
                     logger.error(err.stack);
                     done(err);
+                });
+        });
+
+        var invalidIdentifier = '#3/-';
+        it('should reject write JS with Error on invalid identifier for options.exports: ' + invalidIdentifier, function (done) {
+
+            var options = {
+                dest: {},
+                exports: invalidIdentifier
+            };
+
+            writer.writeJs(json, options)
+                .then(function (msg) {
+                    done(new Error('Error expected'));
+                })
+                .catch(function (err) {
+                    logger.info('EXPECTED ERROR: ' + err.stack);
+                    assert.notEqual(err, null, 'err should not be null');
+                    assert(err instanceof Error, 'expected Error should equal Error, was: ' + (typeof err));
+                    done();
                 });
         });
 

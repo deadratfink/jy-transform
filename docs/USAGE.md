@@ -6,41 +6,6 @@ I decided to get rid of the YAML file and therefore, create a module which
 should be aimed as the swiss army knife for transforming YAML, JS and JSON 
 types into each other format.
 
-## Contributing
-
-Pull requests and stars are always welcome. Anybody is invited to take part 
-into this project. For bugs and feature requests, please create an 
-[issue](https://github.com/deadratfink/jy-transform/issues).
-When contributing as coder, please take care of the following conventions:
-
-- Enter yourself in the `constributors` section of _package.json_.
-- We strictly follow [Semantic Versioning 2](http://semver.org) rules.
-- The `development` branch is the leading branch and is protected. Create bugfix and feature 
-  branches (or fork into you own namespace) and create pull 
-  requests to `development` when finished. Any of these should be prefixed with 
-  `bugfix/#...` or `feature/#...` (followed by issue number and a short, "underscored" 
-  proper meaning), e.g. 
-  - `bugfix/#8_fix_js_reading_with_require`
-  - `feature/#14_multidocument_support`
-- Remember that name could need to be enclosed in quotes, e.g. 
-  ```$ git checkout -b 'feature/#19_...'```
-  when using git shell command.
-- The `master` branch is protected and is the stable branch after a release. 
-  It will never be pushed directly (only on release build).
-- Indention for any file is 4 SPACEs.
-- Keep code coverage high (> 95%).
-- Doc everything with [JSDocs](http://usejsdoc.org/) and document concepts in 
-  [README.md](https://github.com/deadratfink/jy-transform/blob/development/README.md)
-  or [Wiki](https://github.com/deadratfink/jy-transform/wiki).
-- Use single parenthesis (`'...'`) in _*.js_ files instead of double parenthesis (`"..."`).
-- Avoid the of use parenthesis for keys in JSON objects.
-- Use the strict mode (`'use strict';`) in _*.js_ files.
-- File names should be lower-case with hyphens as divider, e.g. _options-handler.js_.
-- Markdown documentation files should be upper-case with _.md_ as extension, placed 
-  in _./docs_, e.g. _USAGE.md_. The _README.md_ is build up by these files concatenated 
-  by `npm run docs` command. Any new files have to be added to `scripts.docs` section of 
-  _package.json_. Don't forget to regenerate _README.md_ before committing.
-
 # Usage
 
 The module can be used on CLI or as API (the latter is fully [Promise](http://bluebirdjs.com/docs/api-reference.html) 
@@ -72,8 +37,11 @@ Reading from:
 - _*.yaml_ file
 - _*.js_ file
 - _*.json_ file
-- `stream.Readable` (requires `options.origin` property set)
-- any JS object (actually, this mean read phase is skipped, because object is in-memory already)
+
+Additionally, on API level:
+
+- `stream.Readable` (requires `options.origin` property set, reads as UTF-8)
+- any JS `object` (actually, this means the reading phase is skipped, because object is in-memory already)
 
 ### Transformation
 
@@ -107,8 +75,11 @@ Writing to:
 - _*.yaml_ file
 - _*.js_ file
 - _*.json_ file
-- `stream.Writable`  (requires `options.target` property set)
-- any JS object
+
+Additionally, on API level:
+
+- `stream.Writable`  (requires `options.target` property set, writes UTF-8)
+- any JS `object`
 
 ## Limitations
 
@@ -142,8 +113,8 @@ _single_ one per file! This feature is planned and reflected
 ## CLI Usage
 
 The CLI provides the `jyt` command (actually, this requires the use of options). 
-After the global installation you can access the `Transformer` command options with the help 
-command as follows:
+After the global installation you can access the `Transformer` command options 
+with the usual help command as follows:
 
 ```
 $ jyt --help
@@ -211,7 +182,7 @@ These are more formally defined in the following table:
 ### Examples
 
 Now we know which properties we can apply on CLI, so let's assume we 
-have a YAML file located in _./foo.yaml_ holding this data:
+have a YAML file located in _foo.yaml_ holding this data:
 
 ```yaml
 foo: bar
@@ -288,7 +259,7 @@ correct `origin` type (of course, the `-t` option works analogous):
 $ jyt -s foo.txt -o js -d foobar.yaml
 ```
 
-#### Example: Read from Exports Identifier
+#### Example: Read from File with Exports Identifier
 
 It could be that a JS source `exports` several objects and you want to read 
 from exactly the one you specify, then provide the `-m` (`--imports`) option.
@@ -297,11 +268,11 @@ In this this example we have a _foo.js_ file:
 
 ```javascript
 module.exports.foo = {
-  foo: 'bar'
+    foo: 'bar'
 };
 
 module.exports.bar = {
-  bar: 'foo'
+    bar: 'foo'
 };
 ```
 
@@ -316,6 +287,33 @@ to get the YAML result:
 ```yaml
 bar: foo
 ```
+
+**NOTE:** the same applies on API level when using JS objects as `dest`:
+
+```javascript
+var fooBar = {
+    foo: 'bar',
+    bar: 'foo'
+};
+
+var options = {
+    src: fooBar,
+    dest: {},
+    exports: 'bar'
+};
+
+//...transform
+```
+
+The transformation will result in this in-memory object:
+
+```javascript
+bar: {
+    foo: 'bar',
+    bar: 'foo'
+}
+```
+as sub-node of `options.dest`.
 
 #### Example: Write Exports Identifier for JS File
 
@@ -346,10 +344,11 @@ and [Generating a regular expression to match valid JavaScript identifiers](http
 
 #### Example: Force Overwriting
 
-**IMPORTANT NOTE:** any subsequent execution using the same target/file name, 
+**IMPORTANT NOTE:** when using this feature then any subsequent 
+execution which uses the same target/file name, 
 will overwrite the original source or target created beforehand!
 
-By default this feature is not enbled to prevent you from accidentially 
+By default this feature is not enabled to prevent you from accidentally 
 overwriting your input source or already generated targets.
 
 But let's say we want to overwrite the original source now because you want 
@@ -357,12 +356,10 @@ to change the indention from 2 to 4 SPACEs, then we can do this as follows:
 
 ```
 $ jyt -s foo.js -f
-```
-
-This would change the indention from 2 (created in example before) to 4 
+``` 
 
 Of course, leaving out the `-f` switch creates a new file relatively to 
-the origin named _foo(1).js_ (note the consecutive number)! Naturally, 
+the `origin`, named as _foo(1).js_ (note the consecutive number). Naturally, 
 another run of the command would result int a file called _foo(2).js_ 
 and so forth.
 
@@ -449,7 +446,7 @@ which could be expressed as
 [Promise](http://bluebirdjs.com/docs/api-reference.html) function as follows:
 
 ```javascript
-var middleware = function (json) {
+var identity = function (json) {
     return Promise.resolve(json);
 }
 ```

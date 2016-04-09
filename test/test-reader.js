@@ -22,10 +22,15 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
 
     describe('Testing Reader.readJs(...)', function () {
 
+        var exports = 'fooBar';
+        var invalidIdentifier = '#3/-';
+
         it('should read JS from file', function (done) {
+
             var options = {
                 src: './test/data/test-data.js'
             };
+
             reader.readJs(options)
                 .then(function (json) {
                     assert.notEqual(json, null);
@@ -35,6 +40,67 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
                 .catch(function (err) {
                     logger.error(err.stack);
                     done(err);
+                });
+        });
+
+        it('should read JS from file with options.imports == \'\'', function (done) {
+
+            var options = {
+                src: './test/data/test-data.js',
+                imports: ''
+            };
+
+            reader.readJs(options)
+                .then(function (json) {
+                    assert.notEqual(json, null);
+                    assert.equal(json.myproperty, 'old value');
+                    done();
+                })
+                .catch(function (err) {
+                    logger.error(err.stack);
+                    done(err);
+                });
+        });
+
+
+        it('should read JS from file with options.imports == \'' + exports + '\'', function (done) {
+
+            var options = {
+                src: './test/data/test-imports.js',
+                imports: exports
+            };
+
+            reader.readJs(options)
+                .then(function (json) {
+                    assert.notEqual(json, null, 'json should not be null, was: ' + JSON.stringify(json));
+                    assert(!json.hasOwnProperty(exports), 'json should not have \'' + exports + '\' property, was: ' + JSON.stringify(json));
+                    assert(!json.hasOwnProperty('bar'), 'json should not have \'bar\' property, was: ' + JSON.stringify(json[exports]));
+                    assert(json.hasOwnProperty('foo'), 'json should have \'foo\' property, was: ' + JSON.stringify(json[exports]));
+                    assert.equal(json.foo, 'bar');
+                    done();
+                })
+                .catch(function (err) {
+                    logger.error(err.stack);
+                    done(err);
+                });
+        });
+
+        it('should reject read JS from file with Error on invalid identifier for options.imports: ' + invalidIdentifier, function (done) {
+
+            var options = {
+                src: './test/data/test-imports.js',
+                imports: invalidIdentifier
+            };
+
+            reader.readJs(options)
+                .then(function (msg) {
+                    done(new Error('Error expected'));
+                })
+                .catch(function (err) {
+                    logger.info('EXPECTED ERROR: ' + err.stack);
+                    assert.notEqual(err, null, 'err should not be null');
+                    assert(err instanceof Error, 'expected Error should equal Error, was: ' + (typeof err));
+                    done();
                 });
         });
 
@@ -69,6 +135,79 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
                 .catch(function (err) {
                     logger.error(err.stack);
                     done(err);
+                });
+        });
+
+        it('should read JS from object with options.imports == \'\'', function (done) {
+
+            var options = {
+                src: {
+                    foo: 'bar'
+                },
+                imports: ''
+            };
+
+            reader.readJs(options)
+                .then(function (json) {
+                    assert.notEqual(json, null);
+                    assert.equal(json.foo, 'bar');
+                    done();
+                })
+                .catch(function (err) {
+                    logger.error(err.stack);
+                    done(err);
+                });
+        });
+
+        it('should read JS from object with options.imports == \'' + exports + '\'', function (done) {
+
+            var options = {
+                src: {
+                    fooBar: {
+                        bar: 'foo',
+                        foo: 'bar'
+                    }
+                },
+                imports: exports
+            };
+
+            reader.readJs(options)
+                .then(function (json) {
+                    assert.notEqual(json, null, 'json should not be null, was: ' + JSON.stringify(json));
+                    assert(!json.hasOwnProperty(exports), 'json should not have \'' + exports + '\' property, was: ' + JSON.stringify(json));
+                    assert(json.hasOwnProperty('bar'), 'json should have \'bar\' property, was: ' + JSON.stringify(json[exports]));
+                    assert(json.hasOwnProperty('foo'), 'json should have \'foo\' property, was: ' + JSON.stringify(json[exports]));
+                    assert.equal(json.bar, 'foo');
+                    assert.equal(json.foo, 'bar');
+                    done();
+                })
+                .catch(function (err) {
+                    logger.error(err.stack);
+                    done(err);
+                });
+        });
+
+        it('should reject read JS from object with Error on invalid identifier for options.imports: ' + invalidIdentifier, function (done) {
+
+            var options = {
+                src: {
+                    fooBar: {
+                        bar: 'foo',
+                        foo: 'bar'
+                    }
+                },
+                imports: invalidIdentifier
+            };
+
+            reader.readJs(options)
+                .then(function (msg) {
+                    done(new Error('Error expected'));
+                })
+                .catch(function (err) {
+                    logger.info('EXPECTED ERROR: ' + err.stack);
+                    assert.notEqual(err, null, 'err should not be null');
+                    assert(err instanceof Error, 'expected Error should equal Error, was: ' + (typeof err));
+                    done();
                 });
         });
 
