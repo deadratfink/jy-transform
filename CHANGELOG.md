@@ -1,6 +1,6 @@
 # Changelog
 
-### 1.0.0
+### v1.0.0
 
 Initial release. This covers the basic implementation and tests. The following features and fixes and part of this release:
   
