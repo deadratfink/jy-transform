@@ -2015,6 +2015,10 @@ When contributing as coder, please take care of the following conventions:
 
 # Changelog
 
+### v1.0.1
+
+- Registry changed in package.json.
+
 ### v1.0.0
 
 Initial release. This covers the basic implementation and tests. The following features and fixes and part of this release:
