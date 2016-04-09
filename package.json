@@ -1,7 +1,7 @@
 {
     "name": "jy-transform",
     "description": "This project aims to read, write and transform [YAML](http://http://yaml.org/), [JS](https://developer.mozilla.org/en-US/docs/Web/JavaScript) or [JSON](http://json.org) objects into each other using CLI or API. The source and destination resources can be files, objects or streams. Besides the transformation feature this module can also be used for simple loading and/or writing YAML, JS or JSON files.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "homepage": "https://github.com/deadratfink/jy-transform",
     "author": {
         "name": "Jens Krefeldt",
@@ -21,7 +21,7 @@
         "url": "https://github.com/deadratfink/jy-transform.git"
     },
     "publishConfig": {
-        "registry": "http://npm.bdu.rocks/"
+        "registry": "https://registry.npmjs.org/"
     },
     "bugs": "https://github.com/deadratfink/jy-transform/issues",
     "private": false,
