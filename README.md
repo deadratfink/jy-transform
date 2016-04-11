@@ -108,7 +108,7 @@
 
 # jy-transform 
 
-This project aims to read, write and transform [YAML](http://http://yaml.org/), [JS](https://developer.mozilla.org/en-US/docs/Web/JavaScript) or [JSON](http://json.org) objects into each other using CLI or API. The source and destination resources can be files, objects or streams. Besides the transformation feature this module can also be used for simple loading and/or writing YAML, JS or JSON files.
+This project aims to read, write and transform YAML, JS or JSON objects into each other using CLI or API. The source and destination resources can be files on CLI and additionally, objects or streams on API level. Besides the transformation feature this module can also be used for simple loading and/or writing YAML, JS or JSON files.
 
 ## Installation
 
@@ -206,25 +206,25 @@ Additionally, on API level:
 
 The transformation can take place into several directions:
 
-- YAML -> JS
-- YAML -> JSON
-- JS   -> YAML
-- JSON -> YAML 
-- JS   -> JSON 
-- JSON -> JS 
-- YAML -> YAML     
-- JSON -> JSON
-- JS   -> JS       
+- YAML => JS
+- YAML => JSON
+- JS   => YAML
+- JSON => YAML 
+- JS   => JSON 
+- JSON => JS 
+- YAML => YAML     
+- JSON => JSON
+- JS   => JS       
 
 while:
 
-- YAML = _*.yaml_, _*.yml_
-- JS   = _*.js_   (JSON object)  
-- JSON = _*.json_ (JSON serialized)
+- [YAML](http://http://yaml.org/) = _*.yaml_, _*.yml_
+- [JS](https://developer.mozilla.org/en-US/docs/Web/JavaScript) = _*.js_   (JS object)  
+- [JSON](http://json.org) = _*.json_ (JS object serialized as JSON)
 
 ### Middleware
 
-Apply actions on the intermediate JSON object via injected [Promise](http://bluebirdjs.com/docs/api-reference.html) 
+Apply actions on the intermediate JS object via injected [Promise](http://bluebirdjs.com/docs/api-reference.html) 
 functions. This is an optional part for [transformation](#transformation) phase.
 
 ### Writing
@@ -246,14 +246,14 @@ Additionally, on API level:
   `Function`s residing in JS type objects are _not_ supported, e.g. transforming
   ```javascript
   module.exports = {
-      myKey1: 'value1',
-      myFunction: 'value2'
+      fooKey: 'foo',
+      fooFunction: foo() {...}
   }
   ```
   to JSON would simply result in 
   ```javascript
   {
-      myKey1: 'value1'
+      fooKey: 'foo'
   }
   ```
   while transforming to YAML type would even result in an `Error`, e.g. printed 
@@ -263,8 +263,8 @@ Additionally, on API level:
   ```
 - Multidocument handling would be a cool feature which refers in general to YAML 
   and JS only, but at the moment we require that each document to transform is a 
-_single_ one per file! This feature is planned and reflected 
- in [#14](https://github.com/deadratfink/jy-transform/issues/14).
+  _single_ one per source (or in case of JS could be identified)! This feature is 
+  planned and reflected in [#14](https://github.com/deadratfink/jy-transform/issues/14).
 - Schema validation for input and output is another topic which is planned by 
   [#1](https://github.com/deadratfink/jy-transform/issues/1) and 
   [#2](https://github.com/deadratfink/jy-transform/issues/2).
@@ -325,7 +325,7 @@ These are more formally defined in the following table:
 | `-t` | `--target` | [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation target type. | if not given, the type is tried to be inferred from the extension of destination path, else it is _js_ | no |
 | `-s` | `--src` | URI | The source file path for transformation. | - | yes |
 | `-d` | `--dest` | URI | The destination file path to transform to. | When this options is ommited then the output file is stored relative to the input file (same base name but with another extension if type differs). If input and output type are the same then the file overwriting is handled depending on the `--force` value! | no |
-| `-i` | `--indent` | integer<br> - [ _1_-_8_ ]<br> | The code indention used in destination files. | _4_ | no |
+| `-i` | `--indent` | integer<br> - [ 1 - 8 ]<br> | The code indention used in destination files. | 4 | no |
 | `-f` | `--force` | n/a | Force overwriting of existing output files on write phase. When files are not overwritten (which is default), then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of foo.yaml it would be foo(1).yaml.  | _false_ | no |
 | `-m` | `--imports` | string | Define a 'module.exports[.identifier] = ' identifier (to read from JS _source_ file only, must be a valid JS identifier!) | _undefined_ | no |
 | `-x` | `--exports` | string | Define a 'module.exports[.identifier] = ' identifier (for usage in JS _destination_ file only, must be a valid JS identifier!) | _undefined_ | no |
@@ -336,7 +336,7 @@ These are more formally defined in the following table:
 
 
 
-**NOTE:** an invalid indention setting (_1_ > `-i`, `--indent` > _8_) does not raise an error but a default of _4_ SPACEs is applied instead.
+**NOTE:** an invalid indention setting (1 > `-i`, `--indent` > 8) does not raise an error but a default of 4 SPACEs is applied instead.
 
 ### Examples
 
@@ -346,7 +346,7 @@ have a YAML file located in _foo.yaml_ holding this data:
 ```yaml
 foo: bar
 ```
-#### Example: YAML -> JSON
+#### Example: YAML => JSON
 
 then we can transform it to a JSON file _foo.json_
 
@@ -378,7 +378,7 @@ $ jyt -s foo.js -t json -i 2
 then the `js` value for `origin` is automatically inferred from file extension. 
 Accordingly, this is also true for the `target` option.
 
-#### Example: JSON -> JS
+#### Example: JSON => JS
 
 ```
 $ jyt -s foo.json -i 2
@@ -389,10 +389,10 @@ module.exports = {
 }
 ```
 
-#### Example: JS -> YAML
+#### Example: JS => YAML
 
 ```
-$ jyt -s foo.json -t yaml
+$ jyt -s foo.js -t yaml
 ```
 ```yaml
 foo: bar
@@ -423,7 +423,7 @@ $ jyt -s foo.txt -o js -d foobar.yaml
 It could be that a JS source `exports` several objects and you want to read 
 from exactly the one you specify, then provide the `-m` (`--imports`) option.
 
-In this this example we have a _foo.js_ file:
+In this this example we have a _foo.js_ file exporting _two_ objects:
 
 ```javascript
 module.exports.foo = {
@@ -541,19 +541,19 @@ specify the origin or target type!
 
 Since the usage on CLI is a 2-step process:
 
-1. Read source file in to JSON object -> 
-2. Write out (to another type)
+1. Read from source file to JS object => 
+2. Write out (maybe to other type)
 
 the direct API calls additionally provide the usage of a _middleware_ function 
-where you can alter the input JSON object before it is written and therefore, which turns 
+where you can alter the input JS object before it is written and therefore, which turns 
 this into a 3-step process:
  
-1. Read source file in -> 
-2. Alter the JSON object -> 
-3. Write out (to another type)
+1. Read from source => 
+2. Alter the JS object => 
+3. Write out (maybe to other type)
 
 For more details about this and all the functions provided by this module please refer to the 
-[API Reference](#api-reference) below.
+[API Reference](#api-reference).
 
 The `origin` and `target` type inference is also standard for the API level.
 
@@ -574,12 +574,12 @@ The `options` object has to follow this key-values table:
 | target | <code>string</code> | The target type. | If not given, the type is tried to be inferred from the extension of destination path, else it is _js_ | no |
 | src | <code>string &#124; Readable &#124; object</code> | The source information object: `string` is used as file path, `Readable` stream provides a stringified source and `object` is used as direct JS source. | - | yes |
 | dest | <code>string &#124; Writable &#124; object</code> | The destination information object: `string` is used as file path, `Writable` stream writes a stringified source and `object` is used as direct JS object for assignment. | The output file is stored relative to the input file (same base name but with another extension if type differs). If input and output type are the same then the file overwriting is handled depending on the 'force' value! | no |
-| indent | <code>number</code> | The indention in files. | _4_ | no |
+| indent | <code>number</code> | The indention in files. | 4 | no |
 | force | <code>boolean</code> | Force overwriting of existing output files on write phase. When files are not overwritten, then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of _foo.yaml_ it would be _foo(1).yaml_. | _false_ | no |
-| imports | <code>string</code> | Define a 'module.exports[.identifier] = ' identifier (to read from JS _source_ file or object only, must be a valid JS identifier!) | _undefined_ | no |
-| exports | <code>string</code> | Define a 'module.exports[.identifier] = ' identifier (for usage in JS _destination_ file or object only, must be a valid JS identifier!) | _undefined_ | no |
+| imports | <code>string</code> | Define a 'module.exports[.identifier] = ' identifier (to read from JS _source_ only, must be a valid JS identifier!) | _undefined_ | no |
+| exports | <code>string</code> | Define a 'module.exports[.identifier] = ' identifier (for usage in JS _destination_ only, must be a valid JS identifier!) | _undefined_ | no |
 
-**NOTE:** an invalid indention setting (_1_ > indent > _8_) does not raise an error but a default of _4_ SPACEs is applied instead.
+**NOTE:** an invalid indention setting (1 > indent > 8) does not raise an error but a default of 4 SPACEs is applied instead.
 
 #### Example
 
@@ -605,17 +605,17 @@ which could be expressed as
 [Promise](http://bluebirdjs.com/docs/api-reference.html) function as follows:
 
 ```javascript
-var identity = function (json) {
-    return Promise.resolve(json);
+var identity = function (data) {
+    return Promise.resolve(data);
 }
 ```
 
-Of course, this would have no effect on the provided JSON data. Actually, this one is 
+Of course, this would have no effect on the provided JS data. Actually, this one is 
 used internally when no middleware is provided to ensure the proper promised 
 control flow.
 
 OK, lets go back to a more practical example, e.g. we want to alter the value of
-JSON property before it is written to a file. Assuming we have this piece of YAML
+JS property before it is written to a file. Assuming we have this piece of YAML
 object as input:
 
 ```yaml
@@ -625,9 +625,9 @@ foo: old bar
 Applying this [Promise](http://bluebirdjs.com/docs/api-reference.html) as middleware
 
 ```javascript
-var middleware = function (json) {
-    json.foo = 'new bar'; 
-    return Promise.resolve(json);
+var middleware = function (data) {
+    data.foo = 'new bar'; 
+    return Promise.resolve(data);
 }
 
 transformer.transform(options, middleware)
@@ -654,26 +654,21 @@ several functions to be applied in the whole transformation process by gathering
 them in one function.
 
 Let's assume we have some Promise functions to apply. For simplicity reasons we 
-simulate these for the moment by three functions, each adding a key-value to the 
-given (initially empty) JSON object.
+simulate these for the moment by two functions, each adding a key-value to the 
+given (initially empty) JS object.
 
-**NOTE:** each of them has to resolve with the `json` object! 
+**NOTE:** each of them has to resolve with the `data` object! 
 
 
 ```javascript
-function key1(json) {
-    objectPath.set(json, 'key1', 'value1');
-    return Promise.resolve(json);
+function key1(data) {
+    objectPath.set(data, 'key1', 'value1');
+    return Promise.resolve(data);
 }
 
-function key2(json) {
-    objectPath.set(json, 'key2', 'value2');
-    return Promise.resolve(json);
-}
-
-function key3(json) {
-    objectPath.set(json, 'key3', 'value3');
-    return Promise.resolve(json);
+function key2(data) {
+    objectPath.set(data, 'key2', 'value2');
+    return Promise.resolve(data);
 }
 ```
 
@@ -683,8 +678,8 @@ function. This one can collect all three functions above and ensure their proper
 
  
 ```javascript
-var middleware = function (json) {
-    return Promise.all([key1(json), key2(json), key3(json)])
+var middleware = function (data) {
+    return Promise.all([key1(data), key2(data)])
         .then(function(result) {
             return Promise.resolve(result[result.length - 1]);
         });
@@ -711,13 +706,12 @@ From our example above it would be
 ```javascript
 {
     key1: 'value1',
-    key2: 'value2',
-    key3: 'value3'
+    key2: 'value2'
 }
 ```
 
 which then is passed back to the transformation chain. Following this pattern 
-you can do almost everything with the JSON object, like
+you can do almost everything with the JS object, like
 
 - deleting properties
 - changing properties to other types
@@ -781,7 +775,7 @@ the full API and provides more examples.
 </dd>
 <dt><a href="#Reader">Reader</a></dt>
 <dd><p>This class provides utility methods usable to read YAML, JSON or JS
-       from a file to JS memory objects.</p>
+       from a source (file, {object} or <a href="stream.Readable">stream.Readable</a>) to JS memory objects.</p>
 </dd>
 <dt><a href="#Transformer">Transformer</a></dt>
 <dd><p>This class provides all methods usable to handle YAML, JSON and JS and
@@ -794,7 +788,8 @@ the full API and provides more examples.
 </dd>
 <dt><a href="#Writer">Writer</a></dt>
 <dd><p>This class provides utility methods usable to write JSON/JS/YAML
-       from memory to a JSON/JS/YAML file.</p>
+       from memory to a JSON/JS/YAML destination
+       (file, {object} or <a href="stream.Readable">stream.Readable</a>).</p>
 </dd>
 </dl>
 
@@ -1488,7 +1483,7 @@ optionsHandler.validateTransformation(options)
 <a name="Reader"></a>
 ## Reader
 This class provides utility methods usable to read YAML, JSON or JS
-       from a file to JS memory objects.
+       from a source (file, {object} or [stream.Readable](stream.Readable)) to JS memory objects.
 
 **Kind**: global class  
 
@@ -1522,7 +1517,7 @@ The validator.
 **Kind**: instance property of <code>[Reader](#Reader)</code>  
 <a name="Reader+readJs"></a>
 ### reader.readJs(options) ⇒ <code>Promise</code>
-Reads the data from a given _*.js_ or _*.json_ file source.
+Reads the data from a given _*.js_ or _*.json_ source.
 
 **Kind**: instance method of <code>[Reader](#Reader)</code>  
 **Returns**: <code>Promise</code> - - Contains the read JSON object.  
@@ -1574,7 +1569,7 @@ reader.readJs(options)
 ```
 <a name="Reader+readYaml"></a>
 ### reader.readYaml(options) ⇒ <code>Promise</code>
-Loads a single YAML file containing document and turns a JS object.
+Loads a single YAML source containing document and turns a JS object.
 
 *NOTE:* This function does not understand multi-document sources, it throws
 exception on those.
@@ -1741,7 +1736,8 @@ logger.info('valid = ' + validator.validateIdentifier(identifier));
 <a name="Writer"></a>
 ## Writer
 This class provides utility methods usable to write JSON/JS/YAML
-       from memory to a JSON/JS/YAML file.
+       from memory to a JSON/JS/YAML destination
+       (file, {object} or [stream.Readable](stream.Readable)).
 
 **Kind**: global class  
 
@@ -1776,13 +1772,13 @@ The validator.
 **Kind**: instance property of <code>[Writer](#Writer)</code>  
 <a name="Writer+writeYaml"></a>
 ### writer.writeYaml(json, options) ⇒ <code>Promise</code>
-Writes a JSON object to a _*.yaml_ file.
+Writes a JSON object to a YAML destination.
 
 **Kind**: instance method of <code>[Writer](#Writer)</code>  
 **Returns**: <code>Promise</code> - - Containing the write success message to handle by caller (e.g. for logging).  
 **Throws**:
 
-- <code>Error</code> - If YAML file could not be written due to any reason.
+- <code>Error</code> - If YAML destination could not be written due to any reason.
 
 **Access:** public  
 **See**
@@ -1794,7 +1790,7 @@ Writes a JSON object to a _*.yaml_ file.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| json | <code>object</code> | The JSON to write into _*.yaml_ file. |
+| json | <code>object</code> | The JSON to write into YAML destination. |
 | options | <code>[Options](#Options)</code> | The write destination and indention. |
 
 **Example**  
@@ -1832,7 +1828,7 @@ writer.writeYaml(json, options)
 ```
 <a name="Writer+writeJson"></a>
 ### writer.writeJson(json, options) ⇒ <code>Promise</code>
-Writes a JSON object to a _*.json_ file.
+Writes a JSON object to a JSON destination.
 
 **Kind**: instance method of <code>[Writer](#Writer)</code>  
 **Returns**: <code>Promise</code> - - Containing the write success message to handle by caller (e.g. for logging).  
@@ -1846,7 +1842,7 @@ Writes a JSON object to a _*.json_ file.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| json | <code>object</code> | The JSON to write into _*.json_ file. |
+| json | <code>object</code> | The JSON to write into JSON destination. |
 | options | <code>[Options](#Options)</code> | The write destination and indention. |
 
 **Example**  
@@ -1897,7 +1893,7 @@ writer.writeJson(json, options)
 ```
 <a name="Writer+writeJs"></a>
 ### writer.writeJs(json, options) ⇒ <code>Promise</code>
-Writes a JSON object to a _*.js_ file. The object is prefixed by `module.exports = `.
+Writes a JSON object to a JS destination. The object is prefixed by `module.exports = `.
 
 **Kind**: instance method of <code>[Writer](#Writer)</code>  
 **Returns**: <code>Promise</code> - - Containing the write success message to handle by caller (e.g. for logging).  
@@ -1911,7 +1907,7 @@ Writes a JSON object to a _*.js_ file. The object is prefixed by `module.exports
 
 | Param | Type | Description |
 | --- | --- | --- |
-| json | <code>object</code> | The JSON to write into _*.js_ file. |
+| json | <code>object</code> | The JSON to write into JS destination. |
 | options | <code>[Options](#Options)</code> | The write destination and indention. |
 
 **Example**  
