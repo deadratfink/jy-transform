@@ -1,3 +1,5 @@
+![jy-transform logo](https://raw.githubusercontent.com/deadratfink/jy-transform/master/image/jytransform.png)
+
 # Stats
 
 | [Github License](https://github.com/deadratfink/jy-transform/blob/master/LICENSE.md) | [Github Issues](https://github.com/deadratfink/jy-transform/issues) | [Github Release](https://github.com/deadratfink/jy-transform/releases) | [Github Tags](https://github.com/deadratfink/jy-transform/tags) | [Travis CI](https://travis-ci.org) | [Waffle](https://waffle.io/deadratfink/jy-transform) | [Code Climate](https://codeclimate.com/github/deadratfink/jy-transform) |
@@ -295,7 +297,7 @@ Options:
                          file name, e.g. in case of foo.yaml it would be 
                          foo(1).yaml.
   -m, --imports STRING   Define a 'module.exports[.identifier] = ' 
-                         identifier (to read from JS _source_ file only, must 
+                         identifier (to read from JS source file only, must 
                          be a valid JS identifier!).                          
   -x, --exports STRING   Define a 'module.exports[.identifier] = ' 
                          identifier, for usage in JS destination file only, 
