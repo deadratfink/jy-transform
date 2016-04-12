@@ -89,8 +89,9 @@
   - [Origin and Target Type Inference](#origin-and-target-type-inference)
   - [API Usage](#api-usage)
   - [Using Custom Logger](#using-custom-logger)
-- [Contributing](#contributing)
+- [API Reference](#api-reference)
 - [Changelog](#changelog)
+- [Contributing](#contributing)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -541,7 +542,7 @@ this into a 3-step process:
 3. Write out (maybe to other type)
 
 For more details about this and all the functions provided by this module please refer to the 
-[API Reference](https://github.com/deadratfink/jy-transform/wiki/API-Reference).
+[API Reference](https://github.com/deadratfink/jy-transform/wiki/API-v1.0).
 
 The `origin` and `target` type inference is also standard for the API level.
 
@@ -732,11 +733,15 @@ function debug(msg)
 function error(msg)
 ```
 
----
+# API Reference
 
 For more details on how to use the API, please refer to the 
-[API Reference](https://github.com/deadratfink/jy-transform/wiki/API-Reference) 
+[API Reference](https://github.com/deadratfink/jy-transform/wiki/API-v1.0) 
 wiki which describes the full API and provides more examples.
+
+# Changelog
+
+The complete changelog is listed in the wiki [Changelog](https://github.com/deadratfink/jy-transform/wiki/Changelog) section.
 
 
 
@@ -776,16 +781,3 @@ When contributing as coder, please take care of the following conventions:
   by `npm run docs` command. Any new files have to be added to `scripts.docs` section of 
   _package.json_. Don't forget to regenerate _README.md_ before committing.
 
-# Changelog
-
-### v1.0.1
-
-- Registry changed in package.json.
-
-### v1.0.0
-
-Initial release. This covers the basic implementation and tests. The following features and fixes and part of this release:
-  
-- [#3 - #12]
-- [#15 - #24]
-- [#27]

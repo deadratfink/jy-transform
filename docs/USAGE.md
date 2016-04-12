@@ -394,7 +394,7 @@ this into a 3-step process:
 3. Write out (maybe to other type)
 
 For more details about this and all the functions provided by this module please refer to the 
-[API Reference](https://github.com/deadratfink/jy-transform/wiki/API-Reference).
+[API Reference](https://github.com/deadratfink/jy-transform/wiki/API-v1.0).
 
 The `origin` and `target` type inference is also standard for the API level.
 
@@ -585,9 +585,13 @@ function debug(msg)
 function error(msg)
 ```
 
----
+# API Reference
 
 For more details on how to use the API, please refer to the 
-[API Reference](https://github.com/deadratfink/jy-transform/wiki/API-Reference) 
+[API Reference](https://github.com/deadratfink/jy-transform/wiki/API-v1.0) 
 wiki which describes the full API and provides more examples.
+
+# Changelog
+
+The complete changelog is listed in the wiki [Changelog](https://github.com/deadratfink/jy-transform/wiki/Changelog) section.
 
