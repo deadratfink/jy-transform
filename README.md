@@ -2,22 +2,30 @@
 
 # Stats
 
+## General
+
 | [Github License](https://github.com/deadratfink/jy-transform/blob/master/LICENSE.md) | [Github Issues](https://github.com/deadratfink/jy-transform/issues) | [Github Release](https://github.com/deadratfink/jy-transform/releases) | [Github Tags](https://github.com/deadratfink/jy-transform/tags) | [Travis CI](https://travis-ci.org) | [Waffle](https://waffle.io/deadratfink/jy-transform) | [Code Climate](https://codeclimate.com/github/deadratfink/jy-transform) |
 | --- | --- | --- | --- | --- | --- | --- |
 | [![License][gh-license-image]][gh-license-url] | [![Issue Stats][gh-issues-image]][gh-issues-url] | [![Github Releases][gh-releases-image]][gh-releases-url] | [![Github Tags][gh-tags-image]][gh-tags-url] | [![Build Status][ci-image]][ci-url] | [![Waffle][waffle-image]][waffle-url] | [![Code Climate][cocl-image]][cocl-url] |
+
+## Branches
 
 | Branch | [Codecov](https://codecov.io) | [Coveralls](https://coveralls.io) | [Inch CI](http://inch-ci.org) | [David](https://david-dm.org) DM | [David](https://david-dm.org) DM (dev) |
 | --- | --- | --- | --- | --- | --- |
 | master | [![codecov.io][cc-image-master]][cc-url-master]           | [![coveralls.io][ca-image-master]][ca-url-master]           | [![inch-ci.org][inch-image-master]][inch-url-master]           | [![Dependency Status][dep-image-master]][dep-url-master]           | [![devDependency Status][devdep-image-master]][devdep-url-master] |
 | development | [![codecov.io][cc-image-development]][cc-url-development] | [![coveralls.io][ca-image-development]][ca-url-development] | [![inch-ci.org][inch-image-development]][inch-url-development] | [![Dependency Status][dep-image-development]][dep-url-development] | [![devDependency Status][devdep-image-development]][devdep-url-development] |
 
-## Coverage Graphs
+### Coverage Graphs
 
 | Branch | Graph |
 | --- | --- |
 | master | ![codecov.io](https://codecov.io/github/deadratfink/jy-transform/branch.svg?branch=master&vg=true) |
 | development| ![codecov.io](https://codecov.io/github/deadratfink/jy-transform/branch.svg?branch=development&vg=true) |
 
+## NPM
+
+[![NPM](https://nodei.co/npm/jy-transform.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/jy-transform/)
+[![NPM](https://nodei.co/npm-dl/jy-transform.png?height=3&months=9)](https://nodei.co/npm-dl/jy-transform/)
 
 [gh-license-image]: https://img.shields.io/github/license/deadratfink/jy-transform.svg?style=flat-square
 [gh-license-url]: https://github.com/deadratfink/jy-transform/blob/master/LICENSE.md
@@ -197,15 +205,15 @@ Additionally, on API level:
 
 The transformation can take place into several directions:
 
-- YAML => JS
-- YAML => JSON
-- JS   => YAML
-- JSON => YAML 
-- JS   => JSON 
-- JSON => JS 
-- YAML => YAML     
-- JSON => JSON
-- JS   => JS       
+- YAML ⇒ JS
+- YAML ⇒ JSON
+- JS   ⇒ YAML
+- JSON ⇒ YAML 
+- JS   ⇒ JSON 
+- JSON ⇒ JS 
+- YAML ⇒ YAML     
+- JSON ⇒ JSON
+- JS   ⇒ JS       
 
 while:
 
@@ -337,7 +345,7 @@ have a YAML file located in _foo.yaml_ holding this data:
 ```yaml
 foo: bar
 ```
-#### Example: YAML => JSON
+#### Example: YAML ⇒ JSON
 
 then we can transform it to a JSON file _foo.json_
 
@@ -369,7 +377,7 @@ $ jyt -s foo.js -t json -i 2
 then the `js` value for `origin` is automatically inferred from file extension. 
 Accordingly, this is also true for the `target` option.
 
-#### Example: JSON => JS
+#### Example: JSON ⇒ JS
 
 ```
 $ jyt -s foo.json -i 2
@@ -380,7 +388,7 @@ module.exports = {
 }
 ```
 
-#### Example: JS => YAML
+#### Example: JS ⇒ YAML
 
 ```
 $ jyt -s foo.js -t yaml
@@ -400,13 +408,13 @@ $ jyt -s foo.json -d results/foobar.yaml
 #### Example: Transformation with Unsupported Source File Extension
 
 As said, normally we infer from file extension to the type but assume the source 
-file has a file name which does not imply the type (here JS 
+file has a file name which does not imply the type (here a JSON 
 type in a TEXT file), then you can simply provide the `-o` option with the 
 correct `origin` type (of course, the `-t` option works analogous):
 
 
 ```
-$ jyt -s foo.txt -o js -d foobar.yaml
+$ jyt -s foo.txt -o json -d foobar.yaml
 ```
 
 #### Example: Read from File with Exports Identifier
@@ -510,7 +518,7 @@ $ jyt -s foo.js -f
 
 Of course, leaving out the `-f` switch creates a new file relatively to 
 the `origin`, named as _foo(1).js_ (note the consecutive number). Naturally, 
-another run of the command would result int a file called _foo(2).js_ 
+another run of the command would result in a file called _foo(2).js_ 
 and so forth.
 
 ## Origin and Target Type Inference
@@ -532,16 +540,13 @@ specify the origin or target type!
 
 Since the usage on CLI is a 2-step process:
 
-1. Read from source file to JS object => 
-2. Write out (maybe to other type)
+1. Read from source file to JS object ⇒ 2. Write out (maybe to other type)
 
 the direct API calls additionally provide the usage of a _middleware_ function 
 where you can alter the input JS object before it is written and therefore, which turns 
 this into a 3-step process:
  
-1. Read from source => 
-2. Alter the JS object => 
-3. Write out (maybe to other type)
+1. Read from source ⇒ 2. Alter the JS object ⇒ 3. Write out (maybe to other type)
 
 For more details about this and all the functions provided by this module please refer to the 
 [API Reference](https://github.com/deadratfink/jy-transform/wiki/API-v1.0).
@@ -590,7 +595,7 @@ The `middleware` is optional but if provided it must be of type `Function` and
 a [Promise](http://bluebirdjs.com/docs/api-reference.html). One of the easiest 
 ones is the identity function 
 
-_f(data) -> data_ 
+_f(data) → data_ 
 
 which could be expressed as 
 [Promise](http://bluebirdjs.com/docs/api-reference.html) function as follows:
@@ -634,7 +639,7 @@ will result in such JSON file:
 
 ```javascript
 {
-	"foo": "new bar"
+    "foo": "new bar"
 }
 ```
 
@@ -661,6 +666,11 @@ function key2(data) {
     objectPath.set(data, 'key2', 'value2');
     return Promise.resolve(data);
 }
+
+function key3(data) {
+    objectPath.set(data, 'key3', 'value3');
+    return Promise.resolve(data);
+}
 ```
 
 These can be collected by different aggregation or composition functions of the underlying
@@ -670,7 +680,7 @@ function. This one can collect all three functions above and ensure their proper
  
 ```javascript
 var middleware = function (data) {
-    return Promise.all([key1(data), key2(data)])
+    return Promise.all([key1(data), key2(data), key3(data)])
         .then(function(result) {
             return Promise.resolve(result[result.length - 1]);
         });
@@ -678,7 +688,9 @@ var middleware = function (data) {
 
 var transformer = new Transformer(logger);
 var logger = ...;
-var options = {...};
+var options = {
+   src: {}
+};
 
 return transformer.transform(options, middleware)
     .then(function (msg){
@@ -691,13 +703,15 @@ return transformer.transform(options, middleware)
 
 Then the result in the `middleware` function can be retrieved from the returned 
 array, i.e. in case of [`Promise.all([...])`](http://bluebirdjs.com/docs/api/promise.all.html) 
-you have to pick the _last_ element which contains the "final product". 
-From our example above it would be
+you have to pick the _last_ element which contains the "final product".
+ 
+From our example above it would be result in this object
 
 ```javascript
 {
     key1: 'value1',
-    key2: 'value2'
+    key2: 'value2',
+    key3: 'value3'
 }
 ```
 
@@ -727,7 +741,7 @@ var transformer = new Transformer(logger);
 var writer = new Writer(logger);
 ```
 
-At least, the passed logger object _has to_ support the following functions:
+At least, the passed logger object _has_ to support the following functions:
 
 ```javascript
 function info(msg)
@@ -755,7 +769,7 @@ into this project. For bugs and feature requests, please create an
 [issue](https://github.com/deadratfink/jy-transform/issues).
 When contributing as coder, please take care of the following conventions:
 
-- Enter yourself in the `constributors` section of _package.json_.
+- Enter yourself in the `contributors` section of _package.json_.
 - We strictly follow [Semantic Versioning 2](http://semver.org) rules.
 - The `development` branch is the leading branch and is protected. Create bugfix and feature 
   branches (or fork into you own namespace) and create pull 
@@ -774,12 +788,13 @@ When contributing as coder, please take care of the following conventions:
 - Doc everything with [JSDocs](http://usejsdoc.org/) and document concepts in 
   [README.md](https://github.com/deadratfink/jy-transform/blob/development/README.md)
   or [Wiki](https://github.com/deadratfink/jy-transform/wiki).
-- Use single parenthesis (`'...'`) in _*.js_ files instead of double parenthesis (`"..."`).
+- Use _single_ parenthesis (`'...'`) in _*.js_ files instead of _double_ parenthesis (`"..."`).
 - Avoid the of use parenthesis for keys in JSON objects.
 - Use the strict mode (`'use strict';`) in _*.js_ files.
 - File names should be lower-case with hyphens as divider, e.g. _options-handler.js_.
 - Markdown documentation files should be upper-case with _.md_ as extension, placed 
   in _./docs_, e.g. _USAGE.md_. The _README.md_ is build up by these files concatenated 
   by `npm run docs` command. Any new files have to be added to `scripts.docs` section of 
-  _package.json_. Don't forget to regenerate _README.md_ before committing.
+  _package.json_. Don't forget to regenerate _README.md_ (`$ npm run docs`) and wiki 
+  (`$ npm run wiki`) before committing.
 
