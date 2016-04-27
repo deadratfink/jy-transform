@@ -757,7 +757,7 @@ function error(msg)
 # API Reference
 
 For more details on how to use the API, please refer to the 
-[API Reference](https://github.com/deadratfink/jy-transform/wiki/API-v1.0) 
+[API Reference](https://github.com/deadratfink/jy-transform/wiki/API-v2) 
 wiki which describes the full API and provides more examples.
 
 # Contributing
