@@ -1,11 +1,25 @@
+# Changelog
+
+### v2.0.0
+
+- [[#32](https://github.com/deadratfink/jy-transform/issues/32)] Introduce input and output on CLI as ARGS instead of OPTIONS (non-backwards compatible change for CLI usage!)
+ - E.g. type `$ jyt foo.js bar.yaml` instead of `$ jyt -s foo.js -d bar.yaml`
+- [[#31](https://github.com/deadratfink/jy-transform/issues/31)] Fix: given `Object` source results in 'yaml' for origin (API)
+- [[#26](https://github.com/deadratfink/jy-transform/issues/26)] API level `dest`: support for writing serialized JSON and YAML to _single_ (i.e. non-streamed) `Buffer` 
+ - Requires `options.target` property set
+ - Writes UTF-8 to Buffer
+- [[#25](https://github.com/deadratfink/jy-transform/issues/25)] API level `src`: support for reading serialized JSON and YAML from _single_ (i.e. non-streamed) `Buffer`
+ - Requires `options.origin` property set
+ - Expects UTF-8 data in Buffer
+
 ### v1.0.2
 
-- [[#30](https://github.com/deadratfink/jy-transform/issues/30)] Fix README and externalize API Reference to wiki
+- [[#30](https://github.com/deadratfink/jy-transform/issues/30)] Fix README and externalize API reference to wiki
 - [[#29](https://github.com/deadratfink/jy-transform/issues/29)] Fix Promise warning on write process
 
 ### v1.0.1
 
-Initial release. This covers the basic implementation and tests. The following features and fixes and part of this release:
+Initial public release. This covers the basic implementation and tests. The following features and fixes and part of this release:
 
 - [[#27](https://github.com/deadratfink/jy-transform/issues/27)] Export variable for JS input
 - [[#22](https://github.com/deadratfink/jy-transform/issues/22)] Integrate Coveralls

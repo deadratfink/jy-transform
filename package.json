@@ -1,6 +1,6 @@
 {
     "name": "jy-transform",
-    "description": "This project aims to read, write and transform YAML, JS or JSON objects into each other using CLI or API. The source and destination resources can be files on CLI and additionally, objects or streams on API level. Besides the transformation feature this module can also be used for simple loading and/or writing YAML, JS or JSON files.",
+    "description": "This project aims to read, write and transform YAML, JS or JSON objects into each other using CLI or API, while the source and destination resources can be files on CLI and additionally, objects, buffers or streams on API level.",
     "version": "1.0.2",
     "homepage": "https://github.com/deadratfink/jy-transform",
     "author": {
@@ -35,8 +35,8 @@
         }
     },
     "scripts": {
-        "docs": "cat docs/BADGES.md > README.md && cat docs/TOC.md >> README.md && package-json-to-readme --no-footer ./package.json >> README.md && cat docs/USAGE.md >> README.md && echo '\n\n' >> README.md && cat docs/CONTRIBUTING.md >> README.md && doctoc README.md --github --title '# TOC' --maxlevel 2",
-        "wiki": "jsdoc2md lib/*.js index.js > docs/API.md && doctoc docs/API.md --github --title '### TOC' --maxlevel 2 && cat docs/API.md > '../jy-transform.wiki/API-v1.0.md' && cat CHANGELOG.md > ../jy-transform.wiki/Changelog.md && doctoc ../jy-transform.wiki/Changelog.md --github --title '### TOC' --maxlevel 3",
+        "docs": "cat docs/LOGO.md > README.md && cat docs/BADGES.md >> README.md && cat docs/TOC.md >> README.md && package-json-to-readme --no-footer ./package.json >> README.md && cat docs/USAGE.md >> README.md && echo '\n\n' >> README.md && cat docs/CHANGELOG.md >> README.md && doctoc README.md --github --title '# TOC' --maxlevel 2",
+        "wiki": "jsdoc2md ./jyt lib/*.js index.js > docs/API.md && doctoc docs/API.md --github --title '### TOC' --maxlevel 2 && cat docs/API.md > '../jy-transform.wiki/API-v1.0.md' && cat docs/CONTRIBUTING.md >> ../jy-transform.wiki/Contributing.md",
         "test": "istanbul cover _mocha --report lcovonly -- -R $npm_package_config_test_mocha_unit_reporter ./test/test*.js"
     },
     "engines": {

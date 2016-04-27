@@ -38,29 +38,36 @@ Reading from:
 - _*.js_ file
 - _*.json_ file
 
-Additionally, on API level:
+Additionally, on API level to:
 
-- `stream.Readable` (requires `options.origin` property set, reads as UTF-8)
+- a `stream.Readable` 
+ - Serialized JSON and YAML
+ - Requires `options.origin` property set
+ - Reads as UTF-8
+- a `buffer.Buffer` 
+ - Serialized JSON and YAML
+ - Requires `options.origin` property set
+ - Reads as UTF-8
 - any JS `object` (actually, this means the reading phase is skipped, because object is in-memory already)
 
 ### Transformation
 
 The transformation can take place into several directions:
 
-- YAML => JS
-- YAML => JSON
-- JS   => YAML
-- JSON => YAML 
-- JS   => JSON 
-- JSON => JS 
-- YAML => YAML     
-- JSON => JSON
-- JS   => JS       
+- YAML ⇒ JS
+- YAML ⇒ JSON
+- JS   ⇒ YAML
+- JSON ⇒ YAML 
+- JS   ⇒ JSON 
+- JSON ⇒ JS 
+- YAML ⇒ YAML     
+- JSON ⇒ JSON
+- JS   ⇒ JS       
 
 while:
 
 - [YAML](http://http://yaml.org/) = _*.yaml_, _*.yml_
-- [JS](https://developer.mozilla.org/en-US/docs/Web/JavaScript) = _*.js_   (JS object)  
+- [JS](https://developer.mozilla.org/en-US/docs/Web/JavaScript) = _*.js_ (JS object)  
 - [JSON](http://json.org) = _*.json_ (JS object serialized as JSON)
 
 ### Middleware
@@ -76,9 +83,16 @@ Writing to:
 - _*.js_ file
 - _*.json_ file
 
-Additionally, on API level:
+Additionally, on API level to:
 
-- `stream.Writable`  (requires `options.target` property set, writes UTF-8)
+- a `stream.Writable` 
+ - Serialized JSON and YAML
+ - Requires `options.target` property set
+ - Writes UTF-8
+- a `buffer.Buffer` 
+  - Serialized JSON and YAML
+  - Requires `options.target` property set
+  - Writes UTF-8
 - any JS `object`
 
 ## Limitations
@@ -114,58 +128,50 @@ Additionally, on API level:
 
 The CLI provides the `jyt` command (actually, this requires the use of options). 
 After the global installation you can access the `Transformer` command options 
-with the usual help command as follows:
-
-```
-$ jyt --help
-```
-
-### CLI Options
-
-The `--help` option prints an overview about all available CLI properties:
+with the usual command option `--help` option which prints an overview about all 
+available CLI properties:
 
 ```
 $ jyt --help
 Usage:
-  jyt [OPTIONS]
+  jyt [INPUT-FILE] [OUTPUT-FILE] [OPTIONS]
 
 Options: 
-  -o, --origin [STRING]  The conversion origin: [ js | json | yaml ]. (Default is : if not given, the type is tried to be inferred from the extension of source path, else it is yaml)
-  -t, --target [STRING]  The conversion target: [ js | json | yaml ]. (Default is : if not given, the type is tried to be inferred from the extension of destination path, else it is js)
-  -s, --src PATH         The absolute/relative input file path.
-  -d, --dest [PATH]      The absolute/relative output file path. When this 
-                         options is ommited then the output file is stored 
-                         relative to the input file (same base name but with 
-                         another extension if type differs). If input and 
-                         output type are the same then the file overwriting is 
-                         handled depending on the '--force' value!  (Default is storing relative to input file)
-  -i, --indent [NUMBER]  The indention for pretty-print: 1 - 8.  (Default is 4)
-  -f, --force            Force overwriting of existing output files on write 
-                         phase. When files are not overwritten (which is 
-                         default), then the next transformation with same 
-                         output file name gets a consecutive number on the base 
-                         file name, e.g. in case of foo.yaml it would be 
-                         foo(1).yaml.
-  -m, --imports STRING   Define a 'module.exports[.identifier] = ' 
-                         identifier (to read from JS source file only, must 
-                         be a valid JS identifier!).                          
-  -x, --exports STRING   Define a 'module.exports[.identifier] = ' 
-                         identifier, for usage in JS destination file only, 
-                         must be a valid JS identifier! 
+  -o, --origin [STRING]  The origin type of INPUT-FILE: [ js | json | yaml ]. (Default is if not given, the type is tried to be inferred from the extension of source path, else it is 'yaml')
+  -t, --target [STRING]  The target type of OUTPUT-FILE: [ js | json | yaml ]. (Default is if not given, the type is tried to be inferred from the extension of destination path, else it is 'js')
+  -i, --indent [NUMBER]  The indention for pretty-print: 1 - 8. (Default is 4)
+  -f, --force            Force overwriting of existing output files on write phase. When files are not overwritten (which is default), 
+                         then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in 
+                         case of foo.yaml it would be foo(1).yaml. 
+  -m, --imports STRING   Define a 'module.exports[.identifier] = ' identifier (to read from JS _source_ file only, must be a valid JS 
+                         identifier!). 
+  -x, --exports STRING   Define a 'module.exports[.identifier] = ' identifier (for usage in JS destination file only, must be a valid JS 
+                         identifier!). 
   -k, --no-color         Omit color from output
       --debug            Show debug information
   -v, --version          Display the current version
   -h, --help             Display help and usage details
 ```
 
-These are more formally defined in the following table: 
+### CLI Args
+
+The ARGS are more formally defined in the following table: 
+
+| Arg | Type | Description | Default | Required |
+| --- | --- | --- | --- | --- |
+| `INPUT-FILE` | URI | The source file path for transformation. | - | yes |
+| `OUTPUT-FILE` | URI | The destination file path to transform to. | When this options is omitted then the output file is stored relative to the input file (same base name but with another extension if type differs). If input and output type are the same then the file overwriting is handled depending on the `--force` value! | no |
+
+**NOTE:** the input file has to be specified and should _first_ argument (in fact, it can be anywhere but it must be before an out file argument)!
+
+### CLI Options
+
+The OPTIONS are more formally defined in the following table: 
 
 | Option (short) | Option (long) | Type | Description | Default | Required |
 | --- | --- | --- | --- | --- | --- |
-| `-o` | `--origin` | [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation origin type. | if not given, the type is tried to be inferred from the extension of source path, else it is _yaml_ | no |
-| `-t` | `--target` | [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation target type. | if not given, the type is tried to be inferred from the extension of destination path, else it is _js_ | no |
-| `-s` | `--src` | URI | The source file path for transformation. | - | yes |
-| `-d` | `--dest` | URI | The destination file path to transform to. | When this options is ommited then the output file is stored relative to the input file (same base name but with another extension if type differs). If input and output type are the same then the file overwriting is handled depending on the `--force` value! | no |
+| `-o` | `--origin` | string of: [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation origin type. | if not given, the type is tried to be inferred from the extension of source path, else it is _yaml_ | no |
+| `-t` | `--target` | string of: [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation target type. | if not given, the type is tried to be inferred from the extension of destination path, else it is _js_ | no |
 | `-i` | `--indent` | integer<br> - [ 1 - 8 ]<br> | The code indention used in destination files. | 4 | no |
 | `-f` | `--force` | n/a | Force overwriting of existing output files on write phase. When files are not overwritten (which is default), then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of foo.yaml it would be foo(1).yaml.  | _false_ | no |
 | `-m` | `--imports` | string | Define a 'module.exports[.identifier] = ' identifier (to read from JS _source_ file only, must be a valid JS identifier!) | _undefined_ | no |
@@ -174,7 +180,6 @@ These are more formally defined in the following table:
 |  n/a | `--debug` | n/a | Show debug information. | _false_ | no |
 | `-v` | `--version` | n/a | Display the current version. | n/a | no |
 | `-h` | `--help` | n/a | Display help and usage details. | n/a | no |
-
 
 
 **NOTE:** an invalid indention setting (1 > `-i`, `--indent` > 8) does not raise an error but a default of 4 SPACEs is applied instead.
@@ -187,7 +192,7 @@ have a YAML file located in _foo.yaml_ holding this data:
 ```yaml
 foo: bar
 ```
-#### Example: YAML => JSON
+#### Example: YAML ⇒ JSON
 
 then we can transform it to a JSON file _foo.json_
 
@@ -200,7 +205,7 @@ then we can transform it to a JSON file _foo.json_
 using this command:
 
 ```
-$ jyt -s foo.yaml -t json -i 2
+$ jyt foo.yaml -t json -i 2
 ```
 
 In this example we have overwritten the standard target type (which is `js`) 
@@ -213,16 +218,16 @@ default `js` would have been applied! If the source would have been a `js`
 type like
 
 ```
-$ jyt -s foo.js -t json -i 2
+$ jyt foo.js -t json -i 2
 ```
 
 then the `js` value for `origin` is automatically inferred from file extension. 
 Accordingly, this is also true for the `target` option.
 
-#### Example: JSON => JS
+#### Example: JSON ⇒ JS
 
 ```
-$ jyt -s foo.json -i 2
+$ jyt foo.json -i 2
 ```
 ```javascript
 module.exports = {
@@ -230,10 +235,10 @@ module.exports = {
 }
 ```
 
-#### Example: JS => YAML
+#### Example: JS ⇒ YAML
 
 ```
-$ jyt -s foo.js -t yaml
+$ jyt foo.js -t yaml
 ```
 ```yaml
 foo: bar
@@ -241,22 +246,22 @@ foo: bar
 
 #### Example: Transformation with Different Destination
 
-Simply provide the `-d` with a different file name:
+Simply specify the _output_ file with a different file name:
 
 ```
-$ jyt -s foo.json -d results/foobar.yaml
+$ jyt foo.json results/foobar.yaml
 ```
 
 #### Example: Transformation with Unsupported Source File Extension
 
 As said, normally we infer from file extension to the type but assume the source 
-file has a file name which does not imply the type (here JS 
+file has a file name which does not imply the type (here a JSON 
 type in a TEXT file), then you can simply provide the `-o` option with the 
 correct `origin` type (of course, the `-t` option works analogous):
 
 
 ```
-$ jyt -s foo.txt -o js -d foobar.yaml
+$ jyt foo.txt foobar.yaml -o json
 ```
 
 #### Example: Read from File with Exports Identifier
@@ -279,7 +284,7 @@ module.exports.bar = {
 but you want to convert `bar` object, then call:
 
 ```
-$ jyt -s foo.js -m bar -d bar.yaml
+$ jyt foo.js bar.yaml -m bar
 ```
 
 to get the YAML result:
@@ -327,7 +332,7 @@ foo: bar
 using this command:
 
 ```
-$ jyt -s foo.yaml -d foobar.js -x foobar
+$ jyt foo.yaml foobar.js -x foobar
 ```
 
 This generates the following output in JS file using `foobar` as identifier:
@@ -355,12 +360,12 @@ But let's say we want to overwrite the original source now because you want
 to change the indention from 2 to 4 SPACEs, then we can do this as follows:
 
 ```
-$ jyt -s foo.js -f
+$ jyt foo.js -f
 ``` 
 
 Of course, leaving out the `-f` switch creates a new file relatively to 
 the `origin`, named as _foo(1).js_ (note the consecutive number). Naturally, 
-another run of the command would result int a file called _foo(2).js_ 
+another run of the command would result in a file called _foo(2).js_ 
 and so forth.
 
 ## Origin and Target Type Inference
@@ -382,16 +387,13 @@ specify the origin or target type!
 
 Since the usage on CLI is a 2-step process:
 
-1. Read from source file to JS object => 
-2. Write out (maybe to other type)
+1. Read from source file to JS object ⇒ 2. Write out (maybe to other type)
 
 the direct API calls additionally provide the usage of a _middleware_ function 
 where you can alter the input JS object before it is written and therefore, which turns 
 this into a 3-step process:
  
-1. Read from source => 
-2. Alter the JS object => 
-3. Write out (maybe to other type)
+1. Read from source ⇒ 2. Alter the JS object ⇒ 3. Write out (maybe to other type)
 
 For more details about this and all the functions provided by this module please refer to the 
 [API Reference](https://github.com/deadratfink/jy-transform/wiki/API-v1.0).
@@ -440,7 +442,7 @@ The `middleware` is optional but if provided it must be of type `Function` and
 a [Promise](http://bluebirdjs.com/docs/api-reference.html). One of the easiest 
 ones is the identity function 
 
-_f(data) -> data_ 
+_f(data) → data_ 
 
 which could be expressed as 
 [Promise](http://bluebirdjs.com/docs/api-reference.html) function as follows:
@@ -484,7 +486,7 @@ will result in such JSON file:
 
 ```javascript
 {
-	"foo": "new bar"
+    "foo": "new bar"
 }
 ```
 
@@ -511,6 +513,11 @@ function key2(data) {
     objectPath.set(data, 'key2', 'value2');
     return Promise.resolve(data);
 }
+
+function key3(data) {
+    objectPath.set(data, 'key3', 'value3');
+    return Promise.resolve(data);
+}
 ```
 
 These can be collected by different aggregation or composition functions of the underlying
@@ -520,7 +527,7 @@ function. This one can collect all three functions above and ensure their proper
  
 ```javascript
 var middleware = function (data) {
-    return Promise.all([key1(data), key2(data)])
+    return Promise.all([key1(data), key2(data), key3(data)])
         .then(function(result) {
             return Promise.resolve(result[result.length - 1]);
         });
@@ -528,7 +535,9 @@ var middleware = function (data) {
 
 var transformer = new Transformer(logger);
 var logger = ...;
-var options = {...};
+var options = {
+   src: {}
+};
 
 return transformer.transform(options, middleware)
     .then(function (msg){
@@ -541,13 +550,15 @@ return transformer.transform(options, middleware)
 
 Then the result in the `middleware` function can be retrieved from the returned 
 array, i.e. in case of [`Promise.all([...])`](http://bluebirdjs.com/docs/api/promise.all.html) 
-you have to pick the _last_ element which contains the "final product". 
-From our example above it would be
+you have to pick the _last_ element which contains the "final product".
+ 
+From our example above it would be result in this object
 
 ```javascript
 {
     key1: 'value1',
-    key2: 'value2'
+    key2: 'value2',
+    key3: 'value3'
 }
 ```
 
@@ -577,7 +588,7 @@ var transformer = new Transformer(logger);
 var writer = new Writer(logger);
 ```
 
-At least, the passed logger object _has to_ support the following functions:
+At least, the passed logger object _has_ to support the following functions:
 
 ```javascript
 function info(msg)
@@ -591,7 +602,11 @@ For more details on how to use the API, please refer to the
 [API Reference](https://github.com/deadratfink/jy-transform/wiki/API-v1.0) 
 wiki which describes the full API and provides more examples.
 
-# Changelog
+# Contributing
 
-The complete changelog is listed in the wiki [Changelog](https://github.com/deadratfink/jy-transform/wiki/Changelog) section.
+Pull requests and stars are always welcome. Anybody is invited to take part 
+into this project. For bugs and feature requests, please create an 
+[issue](https://github.com/deadratfink/jy-transform/issues).
+See the wiki [Contributing](https://github.com/deadratfink/jy-transform/wiki/Changelog) 
+section for more details about conventions.
 

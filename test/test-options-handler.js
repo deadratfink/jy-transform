@@ -464,7 +464,7 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
     describe('Testing OptionsHandler.ensureSrc(...)', function () {
 
         it('should reject when options is missing', function (done) {
-            assertOptionsError(null, optionsHandler.ensureSrc, done);
+            assertOptionsError(null, optionsHandler.ensureSrc, done, TypeError); // TODO heck if this really TypeError!?!
         });
 
         it('should reject when options.src is not given', function (done) {
