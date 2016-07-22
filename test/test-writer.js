@@ -2,11 +2,12 @@
 
 var assert = require('assert');
 var Promise = require('bluebird');
-var YAMLException = require('js-yaml/lib/js-yaml/exception.js');
+var YAMLException = require('js-yaml/lib/js-yaml/exception');
 var fs = require('fs');
 var os = require('os');
 var stream = require('stream');
-var Writer = require('../index.js').Writer;
+var Writer = require('../index').Writer;
+var Constants = require('../index').constants;
 var logger;
 var writer;
 
@@ -77,10 +78,22 @@ describe('Executing \'jy-transform\' project Writer test suite.', function () {
         }
     }
 
+    function assertDestBuffer(src, buffer, done) {
+        //var bufferToString = buffer.toString();
+        //logger.info('bufferToString::: ' + bufferToString);
+        var bufferResult = buffer.toJSON();
+        for (var property in bufferResult) {
+            if (bufferResult.hasOwnProperty(property)) {
+                assert(src.hasOwnProperty(property), 'src should have same property \'' + property +  '\' as buffer result object');
+                assert.equal(src[property], bufferResult[property], 'property \'' + property +  '\' should  have equal value in src (\'' + src[property] + '\') and buffer result object (\'' + bufferResult[property] + '\')');
+            }
+        }
+        done();
+    }
+
     var json = {
         test: 'value'
     };
-
 
     var errorThrowingStream = new stream.Writable();
     errorThrowingStream._write = function (chunk, encoding, done) {
@@ -388,6 +401,27 @@ describe('Executing \'jy-transform\' project Writer test suite.', function () {
                 .then(function (msg) {
                     assert.notEqual(msg, null, 'msg should not be null, was: ' + msg);
                     assertDestFile(file, done);
+                })
+                .catch(function (err) {
+                    logger.error(err.stack);
+                    done(err);
+                });
+        });
+
+        it('should write JSON to Buffer', function (done) {
+
+            var json = {
+                foo: 'bar'
+            };
+            var buffer = new Buffer(JSON.stringify(json, null, 4).length);
+            var options = {
+                dest: buffer
+            };
+
+            writer.writeJson(json, options)
+                .then(function (msg) {
+                    assert.notEqual(msg, null, 'msg should not be null, was: ' + msg);
+                    assertDestBuffer(json, buffer, done);
                 })
                 .catch(function (err) {
                     logger.error(err.stack);

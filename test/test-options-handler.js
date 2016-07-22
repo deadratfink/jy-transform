@@ -1,11 +1,11 @@
 'use strict';
 
-var Constants = require('../lib/constants.js');
+var Constants = require('../lib/constants');
 var assert = require('assert');
-var YAMLException = require('js-yaml/lib/js-yaml/exception.js');
+//var YAMLException = require('js-yaml/lib/js-yaml/exception');
 var fs = require('fs');
 var path = require('path');
-var OptionsHandler = require('../lib/options-handler.js');
+var OptionsHandler = require('../lib/options-handler');
 var optionsHandler;
 var logger;
 
@@ -103,7 +103,7 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
             assertOptionsError(null, optionsHandler.completeOptions, done);
         });
 
-        it('should resolve options.src/orign and origin.dest/target with default values (' + Constants.DEFAULT_ORIGIN + '/' + Constants.DEFAULT_TARGET + ')', function (done) {
+        it('should resolve options.src/origin and options.dest/target with default values (' + Constants.DEFAULT_ORIGIN + '/' + Constants.DEFAULT_TARGET + ')', function (done) {
             var PATH_WITH_INVALID_EXT = 'PATH_WITH_INVALID.EXT';
             var options = {
                 src: PATH_WITH_INVALID_EXT,
@@ -511,6 +511,50 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
                 src: fs.createReadStream('./test/data/readable-test-dummy.txt')
             };
             assertOptionsError(options, optionsHandler.ensureSrc, done);
+        });
+
+        it('should resolve original options.src Readable', function (done) {
+            var readable = fs.createReadStream('./test/data/readable-test-dummy.txt');
+            var options = {
+                src: readable,
+                origin: Constants.JSON
+            };
+            optionsHandler.ensureSrc(options)
+                .then(function (resultOptions) {
+                    assert.notEqual(resultOptions.src, null, 'options should contain src but is missing');
+                    assert.equal(resultOptions.src, readable, 'result options.src should have type Readable');
+                    done();
+                })
+                .catch(function (err) {
+                    logger.error('UNEXPECTED ERROR: ' + err.stack);
+                    done(err);
+                });
+        });
+
+        it('should reject when Buffer is given but not origin', function (done) {
+            var buffer = new Buffer('{"msg": "I\'m a string!"}', Constants.UTF8);
+            var options = {
+                src: buffer
+            };
+            assertOptionsError(options, optionsHandler.ensureSrc, done);
+        });
+
+        it('should resolve original options.src Buffer', function (done) {
+            var buffer = new Buffer('{"msg": "I\'m a string!"}', Constants.UTF8);
+            var options = {
+                src: buffer,
+                origin: Constants.JSON
+            };
+            optionsHandler.ensureSrc(options)
+                .then(function (resultOptions) {
+                    assert.notEqual(resultOptions.src, null, 'options should contain src but is missing');
+                    assert.equal(resultOptions.src, buffer, 'result options.src should have type Buffer');
+                    done();
+                })
+                .catch(function (err) {
+                    logger.error('UNEXPECTED ERROR: ' + err.stack);
+                    done(err);
+                });
         });
 
         it('should resolve original options.src object', function (done) {

@@ -38,17 +38,17 @@ Reading from:
 - _*.js_ file
 - _*.json_ file
 
-Additionally, on API level to:
+Additionally, on API level to a:
 
-- a `stream.Readable` 
+- `stream.Readable` 
  - Serialized JSON and YAML
  - Requires `options.origin` property set
  - Reads as UTF-8
-- a `buffer.Buffer` 
- - Serialized JSON and YAML
+- `buffer.Buffer` 
+ - Serialized JSON and YAML only (no JS)
  - Requires `options.origin` property set
  - Reads as UTF-8
-- any JS `object` (actually, this means the reading phase is skipped, because object is in-memory already)
+- JS `object` (actually, this means the reading phase is skipped, because object is in-memory already)
 
 ### Transformation
 
@@ -83,17 +83,17 @@ Writing to:
 - _*.js_ file
 - _*.json_ file
 
-Additionally, on API level to:
+Additionally, on API level to a:
 
-- a `stream.Writable` 
- - Serialized JSON and YAML
+- `stream.Writable` 
+ - Serialized JS, JSON and YAML
  - Requires `options.target` property set
  - Writes UTF-8
-- a `buffer.Buffer` 
-  - Serialized JSON and YAML
+- `buffer.Buffer` 
+  - Serialized JS, JSON and YAML
   - Requires `options.target` property set
   - Writes UTF-8
-- any JS `object`
+- JS `object`
 
 ## Limitations
 
@@ -172,8 +172,8 @@ The OPTIONS are more formally defined in the following table:
 | --- | --- | --- | --- | --- | --- |
 | `-o` | `--origin` | string of: [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation origin type. | if not given, the type is tried to be inferred from the extension of source path, else it is _yaml_ | no |
 | `-t` | `--target` | string of: [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation target type. | if not given, the type is tried to be inferred from the extension of destination path, else it is _js_ | no |
-| `-i` | `--indent` | integer<br> - [ 1 - 8 ]<br> | The code indention used in destination files. | 4 | no |
-| `-f` | `--force` | n/a | Force overwriting of existing output files on write phase. When files are not overwritten (which is default), then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of foo.yaml it would be foo(1).yaml.  | _false_ | no |
+| `-i` | `--indent` | integer<br>[ 1 - 8 ]<br> | The code indention used in destination files. | 4 | no |
+| `-f` | `--force` | n/a | Force overwriting of existing output files on write phase. When files are not overwritten (which is default), then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of _foo.yaml_ it would be _foo(1).yaml_.  | _false_ | no |
 | `-m` | `--imports` | string | Define a 'module.exports[.identifier] = ' identifier (to read from JS _source_ file only, must be a valid JS identifier!) | _undefined_ | no |
 | `-x` | `--exports` | string | Define a 'module.exports[.identifier] = ' identifier (for usage in JS _destination_ file only, must be a valid JS identifier!) | _undefined_ | no |
 | `-k` | `--no-color` | n/a | Omit color from output. | _color_ | no |
@@ -209,7 +209,7 @@ $ jyt foo.yaml -t json -i 2
 ```
 
 In this example we have overwritten the standard target type (which is `js`) 
-and applying an indent of _2_ instead of the default _4_. As default the output 
+and applying an indent of 2 instead of the default 4. As default the output 
 file _foo.json_ is written relative to the input file (simply omitting the 
 `dest` option here).
 
@@ -396,7 +396,7 @@ this into a 3-step process:
 1. Read from source ⇒ 2. Alter the JS object ⇒ 3. Write out (maybe to other type)
 
 For more details about this and all the functions provided by this module please refer to the 
-[API Reference](https://github.com/deadratfink/jy-transform/wiki/API-v1.0).
+[API Reference](https://github.com/deadratfink/jy-transform/wiki/API-v2).
 
 The `origin` and `target` type inference is also standard for the API level.
 
@@ -415,12 +415,12 @@ The `options` object has to follow this key-values table:
 | --- | --- | --- | --- | --- |
 | origin | <code>string</code> | The origin type. | If not given, the type is tried to be inferred from the extension of source path, else it is _yaml_. | no |
 | target | <code>string</code> | The target type. | If not given, the type is tried to be inferred from the extension of destination path, else it is _js_ | no |
-| src | <code>string &#124; Readable &#124; object</code> | The source information object: `string` is used as file path, `Readable` stream provides a stringified source and `object` is used as direct JS source. | - | yes |
-| dest | <code>string &#124; Writable &#124; object</code> | The destination information object: `string` is used as file path, `Writable` stream writes a stringified source and `object` is used as direct JS object for assignment. | The output file is stored relative to the input file (same base name but with another extension if type differs). If input and output type are the same then the file overwriting is handled depending on the 'force' value! | no |
+| src | <code>string &#124; Readable &#124; object &#124; Buffer</code> | The source information object: `string` is used as file path, `Readable` stream provides a stringified source and `object` is used as direct JS source. | - | yes |
+| dest | <code>string &#124; Writable &#124; object &#124; Buffer</code> | The destination information object: `string` is used as file path, `Writable` stream writes a stringified source and `object` is used as direct JS object for assignment. | The output file is stored relative to the input file (same base name but with another extension if type differs). If input and output type are the same then the file overwriting is handled depending on the 'force' value! | no |
 | indent | <code>number</code> | The indention in files. | 4 | no |
 | force | <code>boolean</code> | Force overwriting of existing output files on write phase. When files are not overwritten, then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of _foo.yaml_ it would be _foo(1).yaml_. | _false_ | no |
-| imports | <code>string</code> | Define a 'module.exports[.identifier] = ' identifier (to read from JS _source_ only, must be a valid JS identifier!) | _undefined_ | no |
-| exports | <code>string</code> | Define a 'module.exports[.identifier] = ' identifier (for usage in JS _destination_ only, must be a valid JS identifier!) | _undefined_ | no |
+| imports | <code>string</code> | Define a `module.exports[.identifier] = ...` identifier (to read from JS _source_ only, must be a valid JS identifier!) | _undefined_ | no |
+| exports | <code>string</code> | Define a `module.exports[.identifier] = ...` identifier (for usage in JS _destination_ only, must be a valid JS identifier!) | _undefined_ | no |
 
 **NOTE:** an invalid indention setting (1 > indent > 8) does not raise an error but a default of 4 SPACEs is applied instead.
 
@@ -588,13 +588,18 @@ var transformer = new Transformer(logger);
 var writer = new Writer(logger);
 ```
 
-At least, the passed logger object _has_ to support the following functions:
+At least, the passed `logger` object _has_ to support the following functions:
 
 ```javascript
 function info(msg)
 function debug(msg)
-function error(msg)
+function trace(msg)
+function error(err|msg)
 ```
+Anyway, there are some fallbacks if a level is not supported:
+
+- DEBUG ⇒ INFO
+- TRACE ⇒ DEBUG
 
 # API Reference
 

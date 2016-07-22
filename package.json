@@ -9,11 +9,6 @@
         "url": "https://github.com/deadratfink"
     },
     "contributors": [
-        {
-            "name": "Jens Krefeldt",
-            "email": "j.krefeldt@gmail.com",
-            "url": "https://github.com/deadratfink"
-        }
     ],
     "license": "SEE LICENSE IN [LICENSE.md](https://github.com/deadratfink/jy-transform/blob/master/LICENSE.md)",
     "repository": {
@@ -36,7 +31,7 @@
     },
     "scripts": {
         "docs": "cat docs/LOGO.md > README.md && cat docs/BADGES.md >> README.md && cat docs/TOC.md >> README.md && package-json-to-readme --no-footer ./package.json >> README.md && cat docs/USAGE.md >> README.md && echo '\n\n' >> README.md && cat docs/CHANGELOG.md >> README.md && doctoc README.md --github --title '# TOC' --maxlevel 2",
-        "wiki": "jsdoc2md ./jyt lib/*.js index.js > docs/API.md && doctoc docs/API.md --github --title '### TOC' --maxlevel 2 && cat docs/API.md > '../jy-transform.wiki/API-v2.md' && cat docs/CONTRIBUTING.md > ../jy-transform.wiki/Contributing.md",
+        "wiki": "jsdoc2md ./jyt lib/*.js index.js > docs/API.md && doctoc docs/API.md --github --title '### TOC' --maxlevel 2 && cat docs/API.md > '../jy-transform.wiki/API-v2.md' && cat docs/CONTRIBUTING.md > ../jy-transform.wiki/Contributing.md && cat docs/CHANGELOG.md > ../jy-transform.wiki/Changelog.md && doctoc ../jy-transform.wiki/Changelog.md --github --title '# TOC' --maxlevel 3",
         "test": "istanbul cover _mocha --report lcovonly -- -R $npm_package_config_test_mocha_unit_reporter ./test/test*.js"
     },
     "engines": {
@@ -56,7 +51,7 @@
         "codecov": "^1.0.1",
         "coveralls": "^2.11.9",
         "doctoc": "^1.0.0",
-        "fs-extra": "^0.26.7",
+        "fs-extra": "^0.30.0",
         "istanbul": "^0.4.2",
         "jsdoc-parse": "^1.2.7",
         "jsdoc-to-markdown": "^1.3.3",

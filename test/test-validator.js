@@ -6,7 +6,7 @@ var fs = require('fs');
 var os = require('os');
 var stringify = require('json-stringify-safe');
 var stream = require('stream');
-var Validator = require('../lib/validator.js');
+var Validator = require('../lib/validator');
 var logger;
 var validator;
 
