@@ -1,7 +1,7 @@
 'use strict';
 
-var Transformer = require('../index.js');
-var Middleware = require('../index.js').middleware;
+var Transformer = require('../index');
+var Middleware = require('../index').middleware;
 var identityMiddleware = Middleware.identityMiddleware;
 var transformer;
 var Promise = require('bluebird');

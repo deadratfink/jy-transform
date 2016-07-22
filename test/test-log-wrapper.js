@@ -1,6 +1,6 @@
 'use strict';
 
-var LogWrapper = require('../lib/log-wrapper.js');
+var LogWrapper = require('../lib/log-wrapper');
 var assert = require('assert');
 
 /**
@@ -10,12 +10,14 @@ describe('Executing \'jy-transform\' project log wrapper test suite.', function 
 
     var infoMsg;
     var debugMsg;
+    var traceMsg;
     var errorMsg;
     var verboseResultArray = [];
     var logWrapper;
 
     var INFO = 'INFO';
     var DEBUG = 'DEBUG';
+    var TRACE = 'TRACE';
     var ERROR = 'ERROR';
 
     /**
@@ -31,6 +33,9 @@ describe('Executing \'jy-transform\' project log wrapper test suite.', function 
         debug: function (msg) {
             debugMsg = msg;
         },
+        trace: function (msg) {
+            traceMsg = msg;
+        },
         error: function (msg) {
             errorMsg = msg;
         }
@@ -40,19 +45,31 @@ describe('Executing \'jy-transform\' project log wrapper test suite.', function 
         info: function (msg) {
             infoMsg = msg;
         },
+        trace: function (msg) {
+            traceMsg = msg;
+        },
+        error: function (msg) {
+            errorMsg = msg;
+        }
+    };
+
+    var mockLoggerWithoutTraceFunction = {
+        info: function (msg) {
+            infoMsg = msg;
+        },
+        debug: function (msg) {
+            debugMsg = msg;
+        },
         error: function (msg) {
             errorMsg = msg;
         }
     };
 
     var mockLoggerWithVerboseFunction = {
-
         info: function (msg) {
             verboseResultArray.push(msg);
         }
     };
-
-
 
     describe('Testing LogWrapper with mockLogger', function () {
 
@@ -62,6 +79,7 @@ describe('Executing \'jy-transform\' project log wrapper test suite.', function 
         beforeEach(function () {
             infoMsg = undefined;
             debugMsg = undefined;
+            traceMsg = undefined;
             errorMsg = undefined;
             logWrapper = new LogWrapper(mockLogger);
         });
@@ -77,6 +95,13 @@ describe('Executing \'jy-transform\' project log wrapper test suite.', function 
         it('should log with ' + expected, function (done) {
             logWrapper.debug(expected);
             assert.equal(debugMsg, expected, 'logger message should contain value ' + expected);
+            done();
+        });
+
+        expected = TRACE;
+        it('should log with ' + expected, function (done) {
+            logWrapper.trace(expected);
+            assert.equal(traceMsg, expected, 'logger message should contain value ' + expected);
             done();
         });
 
@@ -122,6 +147,7 @@ describe('Executing \'jy-transform\' project log wrapper test suite.', function 
         beforeEach(function () {
             infoMsg = undefined;
             debugMsg = undefined;
+            traceMsg = undefined;
             errorMsg = undefined;
             logWrapper = new LogWrapper(mockLoggerWithoutDebugFunction);
         });
@@ -137,6 +163,41 @@ describe('Executing \'jy-transform\' project log wrapper test suite.', function 
         it('should log with ' + expected, function (done) {
             logWrapper.debug(expected);
             assert.equal(infoMsg, expected, 'logger message should contain value ' + expected);
+            done();
+        });
+
+        expected = ERROR;
+        it('should log with ' + expected, function (done) {
+            logWrapper.error(expected);
+            assert.equal(errorMsg, expected, 'logger message should contain value ' + expected);
+            done();
+        });
+
+    });
+
+    describe('Testing LogWrapper with mockLoggerWithoutTraceFunction', function () {
+
+        /**
+         * Resets the mock logger message targets.
+         */
+        beforeEach(function () {
+            infoMsg = undefined;
+            debugMsg = undefined;
+            errorMsg = undefined;
+            logWrapper = new LogWrapper(mockLoggerWithoutTraceFunction);
+        });
+
+        var expected = INFO;
+        it('should log with ' + expected, function (done) {
+            logWrapper.info(expected);
+            assert.equal(infoMsg, expected, 'logger message should contain value ' + expected);
+            done();
+        });
+
+        expected = TRACE;
+        it('should log with ' + expected, function (done) {
+            logWrapper.trace(expected);
+            assert.equal(debugMsg, expected, 'logger message should contain value ' + expected);
             done();
         });
 

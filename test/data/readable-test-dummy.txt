@@ -1,1 +1,3 @@
-DO NOT DELETE THIS FILE, IT IS NEEDED FOR test-option-handler.js#ensureSrc() TEST!
+{
+	"important": "DO NOT DELETE THIS FILE, IT IS NEEDED FOR test-option-handler.js#ensureSrc() TEST!"
+}

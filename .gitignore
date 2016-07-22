@@ -2,6 +2,7 @@
 /docs/API.md
 .idea
 *.iml
+/VERSION.txt
 node_modules
 /.project
 /.settings/*

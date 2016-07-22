@@ -2,9 +2,12 @@
 
 ### v2.0.0
 
-- [[#32](https://github.com/deadratfink/jy-transform/issues/32)] Introduce input and output on CLI as ARGS instead of OPTIONS (non-backwards compatible change for CLI usage!)
- - E.g. type `$ jyt foo.js bar.yaml` instead of `$ jyt -s foo.js -d bar.yaml`
-- [[#31](https://github.com/deadratfink/jy-transform/issues/31)] Fix: given `Object` source results in 'yaml' for origin (API)
+
+- [[#33](https://github.com/deadratfink/jy-transform/issues/33)] Enhance `LogWrapper` with `TRACE` level (API)
+- [[#32](https://github.com/deadratfink/jy-transform/issues/32)] Introduce input and output on CLI as ARGS instead of OPTIONS (non-backwards compatible change for CLI usage, _no_ impact on API level!)
+ - e.g. on CLI type in `$ jyt foo.js bar.yaml` instead of `$ jyt -s foo.js -d bar.yaml`
+- [[#31](https://github.com/deadratfink/jy-transform/issues/31)] Bugfix: given `Object` source results in 'yaml' for origin (API)
+- [Cleanup] Update dependencies
 
 ### v1.0.2
 
