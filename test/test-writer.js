@@ -2,11 +2,11 @@
 
 var assert = require('assert');
 var Promise = require('bluebird');
-var YAMLException = require('js-yaml/lib/js-yaml/exception.js');
+var YAMLException = require('js-yaml/lib/js-yaml/exception');
 var fs = require('fs');
 var os = require('os');
 var stream = require('stream');
-var Writer = require('../index.js').Writer;
+var Writer = require('../index').Writer;
 var logger;
 var writer;
 
@@ -80,7 +80,6 @@ describe('Executing \'jy-transform\' project Writer test suite.', function () {
     var json = {
         test: 'value'
     };
-
 
     var errorThrowingStream = new stream.Writable();
     errorThrowingStream._write = function (chunk, encoding, done) {

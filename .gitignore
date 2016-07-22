@@ -1,9 +1,11 @@
+/bin
 /docs/API.md
 .idea
 *.iml
+/VERSION.txt
 node_modules
-!/bin
 /.project
 /.settings/*
 npm-debug.log
 coverage
+nohup.out

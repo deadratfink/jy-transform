@@ -1,11 +1,8 @@
 # Contributing
 
-Pull requests and stars are always welcome. Anybody is invited to take part 
-into this project. For bugs and feature requests, please create an 
-[issue](https://github.com/deadratfink/jy-transform/issues).
 When contributing as coder, please take care of the following conventions:
 
-- Enter yourself in the `constributors` section of _package.json_.
+- Enter yourself in the `contributors` section of _package.json_.
 - We strictly follow [Semantic Versioning 2](http://semver.org) rules.
 - The `development` branch is the leading branch and is protected. Create bugfix and feature 
   branches (or fork into you own namespace) and create pull 
@@ -24,12 +21,13 @@ When contributing as coder, please take care of the following conventions:
 - Doc everything with [JSDocs](http://usejsdoc.org/) and document concepts in 
   [README.md](https://github.com/deadratfink/jy-transform/blob/development/README.md)
   or [Wiki](https://github.com/deadratfink/jy-transform/wiki).
-- Use single parenthesis (`'...'`) in _*.js_ files instead of double parenthesis (`"..."`).
+- Use _single_ parenthesis (`'...'`) in _*.js_ files instead of _double_ parenthesis (`"..."`).
 - Avoid the of use parenthesis for keys in JSON objects.
 - Use the strict mode (`'use strict';`) in _*.js_ files.
 - File names should be lower-case with hyphens as divider, e.g. _options-handler.js_.
 - Markdown documentation files should be upper-case with _.md_ as extension, placed 
   in _./docs_, e.g. _USAGE.md_. The _README.md_ is build up by these files concatenated 
   by `npm run docs` command. Any new files have to be added to `scripts.docs` section of 
-  _package.json_. Don't forget to regenerate _README.md_ before committing.
+  _package.json_. Don't forget to regenerate _README.md_ (`$ npm run docs`) and wiki 
+  (`$ npm run wiki`) before committing.
 

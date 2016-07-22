@@ -1,10 +1,10 @@
 'use strict';
 
 var assert = require('assert');
-var YAMLException = require('js-yaml/lib/js-yaml/exception.js');
+var YAMLException = require('js-yaml/lib/js-yaml/exception');
 var fs = require('fs');
-var Reader = require('../index.js').Reader;
-var Constants = require('../index.js').constants;
+var Reader = require('../index').Reader;
+var Constants = require('../index').constants;
 var logger;
 var reader;
 
@@ -506,6 +506,5 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
                     done();
                 });
         });
-
     });
 });

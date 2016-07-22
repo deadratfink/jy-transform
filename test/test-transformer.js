@@ -1,8 +1,8 @@
 'use strict';
 
-var Transformer = require('../index.js');
+var Transformer = require('../index');
 var transformer;
-var Constants = require('../lib/constants.js');
+var Constants = require('../lib/constants');
 var logger;
 var jsYaml = require('js-yaml');
 var assert = require('assert');

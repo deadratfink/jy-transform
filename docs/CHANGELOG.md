@@ -1,11 +1,22 @@
+# Changelog
+
+### v2.0.0
+
+
+- [[#33](https://github.com/deadratfink/jy-transform/issues/33)] Enhance `LogWrapper` with `TRACE` level (API)
+- [[#32](https://github.com/deadratfink/jy-transform/issues/32)] Introduce input and output on CLI as ARGS instead of OPTIONS (non-backwards compatible change for CLI usage, _no_ impact on API level!)
+ - e.g. on CLI type in `$ jyt foo.js bar.yaml` instead of `$ jyt -s foo.js -d bar.yaml`
+- [[#31](https://github.com/deadratfink/jy-transform/issues/31)] Bugfix: given `Object` source results in 'yaml' for origin (API)
+- [Cleanup] Update dependencies
+
 ### v1.0.2
 
-- [[#30](https://github.com/deadratfink/jy-transform/issues/30)] Fix README and externalize API Reference to wiki
+- [[#30](https://github.com/deadratfink/jy-transform/issues/30)] Fix README and externalize API reference to wiki
 - [[#29](https://github.com/deadratfink/jy-transform/issues/29)] Fix Promise warning on write process
 
 ### v1.0.1
 
-Initial release. This covers the basic implementation and tests. The following features and fixes and part of this release:
+Initial public release. This covers the basic implementation and tests. The following features and fixes and part of this release:
 
 - [[#27](https://github.com/deadratfink/jy-transform/issues/27)] Export variable for JS input
 - [[#22](https://github.com/deadratfink/jy-transform/issues/22)] Integrate Coveralls
