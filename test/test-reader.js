@@ -13,8 +13,6 @@ var reader;
  */
 describe('Executing \'jy-transform\' project Reader test suite.', function () {
 
-    var invalidOrigin = 'INVALID_ORIGIN';
-
     /**
      * Init the test logger and Reader.
      */
@@ -136,25 +134,6 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
             var options = {
                 src: './test/data/test-imports.js',
                 imports: exportsNotExists
-            };
-
-            reader.readJs(options)
-                .then(function (msg) {
-                    done(new Error('Error expected'));
-                })
-                .catch(function (err) {
-                    logger.info('EXPECTED ERROR: ' + err.stack);
-                    assert.notEqual(err, null, 'err should not be null');
-                    assert(err instanceof Error, 'expected Error should equal Error, was: ' + (typeof err));
-                    done();
-                });
-        });
-
-        it('should reject reading JS from stream with Error on invalid value for options.origin: ' + invalidOrigin, function (done) {
-
-            var options = {
-                src: fs.createReadStream('./test/data/test-imports.js'),
-                origin: invalidOrigin
             };
 
             reader.readJs(options)
@@ -527,25 +506,5 @@ describe('Executing \'jy-transform\' project Reader test suite.', function () {
                     done();
                 });
         });
-
-        it('should reject reading YAML from stream with Error on invalid value for options.origin: ' + invalidOrigin, function (done) {
-
-            var options = {
-                src: fs.createReadStream('./test/data/test-data.yaml'),
-                origin: invalidOrigin
-            };
-
-            reader.readYaml(options)
-                .then(function (msg) {
-                    done(new Error('Error expected'));
-                })
-                .catch(function (err) {
-                    logger.info('EXPECTED ERROR: ' + err.stack);
-                    assert.notEqual(err, null, 'err should not be null');
-                    assert(err instanceof Error, 'expected Error should equal Error, was: ' + (typeof err));
-                    done();
-                });
-        });
-
     });
 });
