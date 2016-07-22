@@ -7,7 +7,7 @@
 - [[#32](https://github.com/deadratfink/jy-transform/issues/32)] Introduce input and output on CLI as ARGS instead of OPTIONS (non-backwards compatible change for CLI usage, _no_ impact on API level!)
  - E.g. type `$ jyt foo.js bar.yaml` instead of `$ jyt -s foo.js -d bar.yaml`
 - [[#31](https://github.com/deadratfink/jy-transform/issues/31)] Fix: given `Object` source results in 'yaml' for origin (API)
-- [[#26](https://github.com/deadratfink/jy-transform/issues/26)] API level `dest`: support for writing serialized JSON and YAML to _single_ (i.e. non-streamed) `Buffer` 
+- [[#26](https://github.com/deadratfink/jy-transform/issues/26)] API level `dest`: support for writing serialized JSON and YAML to _single_ (i.e. non-streamed) `Buffer`
  - Requires `options.target` property set
  - Writes UTF-8 to Buffer
 - [[#25](https://github.com/deadratfink/jy-transform/issues/25)] API level `src`: support for reading serialized JSON and YAML from _single_ (i.e. non-streamed) `Buffer`

@@ -79,13 +79,12 @@ describe('Executing \'jy-transform\' project Writer test suite.', function () {
     }
 
     function assertDestBuffer(src, buffer, done) {
-        //var bufferToString = buffer.toString();
-        //logger.info('bufferToString::: ' + bufferToString);
-        var bufferResult = buffer.toJSON();
-        for (var property in bufferResult) {
-            if (bufferResult.hasOwnProperty(property)) {
+        var bufferToString = buffer.toString();
+        var bufferToStringToJSON = JSON.parse(bufferToString);
+        for (var property in bufferToStringToJSON) {
+            if (bufferToStringToJSON.hasOwnProperty(property)) {
                 assert(src.hasOwnProperty(property), 'src should have same property \'' + property +  '\' as buffer result object');
-                assert.equal(src[property], bufferResult[property], 'property \'' + property +  '\' should  have equal value in src (\'' + src[property] + '\') and buffer result object (\'' + bufferResult[property] + '\')');
+                assert.equal(src[property], bufferToStringToJSON[property], 'property \'' + property +  '\' should  have equal value in src (\'' + src[property] + '\') and buffer result object (\'' + bufferToStringToJSON[property] + '\')');
             }
         }
         done();
