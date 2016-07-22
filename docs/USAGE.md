@@ -154,7 +154,7 @@ The ARGS are more formally defined in the following table:
 | `INPUT-FILE` | URI | The source file path for transformation. | - | yes |
 | `OUTPUT-FILE` | URI | The destination file path to transform to. | When this options is omitted then the output file is stored relative to the input file (same base name but with another extension if type differs). If input and output type are the same then the file overwriting is handled depending on the `--force` value! | no |
 
-**NOTE:** the input file has to be specified and should _first_ argument (in fact, it can be anywhere but it must be before an out file argument)!
+**NOTE:** the input file has to be specified and should be _first_ argument (in fact, it can be anywhere but it must be before an out file argument)!
 
 ### CLI Options
 
