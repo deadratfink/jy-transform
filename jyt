@@ -18,7 +18,7 @@ var transformer = new Transformer(cli);
  * @type {string}
  * @private
  */
-var usage = path.basename(__filename) + ' [INPUT-FILE] [OUTPUT-FILE] [OPTIONS]';
+var usage = path.basename(__filename) + ' INPUT-FILE [OUTPUT-FILE] [OPTIONS]';
 
 /**
  * The path to package.json.

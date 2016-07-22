@@ -531,32 +531,6 @@ describe('Executing \'jy-transform\' project OptionsHandler test suite.', functi
                 });
         });
 
-        it('should reject when Buffer is given but not origin', function (done) {
-            var buffer = new Buffer('{"msg": "I\'m a string!"}', Constants.UTF8);
-            var options = {
-                src: buffer
-            };
-            assertOptionsError(options, optionsHandler.ensureSrc, done);
-        });
-
-        it('should resolve original options.src Buffer', function (done) {
-            var buffer = new Buffer('{"msg": "I\'m a string!"}', Constants.UTF8);
-            var options = {
-                src: buffer,
-                origin: Constants.JSON
-            };
-            optionsHandler.ensureSrc(options)
-                .then(function (resultOptions) {
-                    assert.notEqual(resultOptions.src, null, 'options should contain src but is missing');
-                    assert.equal(resultOptions.src, buffer, 'result options.src should have type Buffer');
-                    done();
-                })
-                .catch(function (err) {
-                    logger.error('UNEXPECTED ERROR: ' + err.stack);
-                    done(err);
-                });
-        });
-
         it('should resolve original options.src object', function (done) {
             var srcObj = {};
             var options = {
