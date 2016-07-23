@@ -4,6 +4,7 @@
 *.iml
 /VERSION.txt
 node_modules
+test/tmp
 /.project
 /.settings/*
 npm-debug.log
