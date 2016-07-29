@@ -265,9 +265,9 @@ Additionally, on API level to a:
   
   to JSON would simply result in
   
-  ```javascript
+  ```json
   {
-      fooKey: 'foo'
+      "fooKey": "foo"
   }
   ```
   
