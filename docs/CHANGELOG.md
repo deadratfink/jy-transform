@@ -1,7 +1,10 @@
-# Changelog
+### v2.0.1 (not released yet!)
+
+- [[#39](https://github.com/deadratfink/jy-transform/issues/39)] 
+ - Update dependencies to latest
+ - Add travis build for Node.js v7.x 
 
 ### v2.0.0
-
 
 - [[#33](https://github.com/deadratfink/jy-transform/issues/33)] Enhance `LogWrapper` with `TRACE` level (API)
 - [[#32](https://github.com/deadratfink/jy-transform/issues/32)] Introduce input and output on CLI as ARGS instead of OPTIONS (non-backwards compatible change for CLI usage, _no_ impact on API level!)
