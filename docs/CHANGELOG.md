@@ -2,7 +2,9 @@
 
 - [[#39](https://github.com/deadratfink/jy-transform/issues/39)] Maintenance release
  - Update dependencies to latest
- - Add travis build for Node.js v7.x 
+ - Add travis build for Node.js v7.x and v6.x
+ - Docs improved/corrected
+ - Add target pretest in `scripts` section to `rm` _./test/tmp_ folder
 
 #### v2.0.0
 
