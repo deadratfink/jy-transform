@@ -10,3 +10,4 @@ test/tmp
 npm-debug.log
 coverage
 nohup.out
+/jy-transform.wiki/

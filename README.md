@@ -147,8 +147,8 @@ npm test
 - [doctoc](https://github.com/thlorenz/doctoc): Generates TOC for markdown files of local git repo.
 - [fs-extra](https://github.com/jprichardson/node-fs-extra): fs-extra contains methods that aren&#39;t included in the vanilla Node.js fs package. Such as mkdir -p, cp -r, and rm -rf.
 - [istanbul](https://github.com/gotwarlost/istanbul): Yet another JS code coverage tool that computes statement, line, function and branch coverage with module loader hooks to transparently add coverage when running tests. Supports all JS coverage use cases including unit tests, server side functional tests 
-- [jsdoc-parse](https://github.com/jsdoc2md/jsdoc-parse): Jsdoc-annotated source code in, JSON format documentation out.
-- [jsdoc-to-markdown](https://github.com/jsdoc2md/jsdoc-to-markdown): jsdoc-annotated source in, markdown API docs out.
+- [jsdoc-parse](https://github.com/jsdoc2md/jsdoc-parse): Transforms jsdoc data into something more suitable for use as template input
+- [jsdoc-to-markdown](https://github.com/jsdoc2md/jsdoc-to-markdown): Generates markdown API documentation from jsdoc annotated source code
 - [mocha](https://github.com/mochajs/mocha): simple, flexible, fun test framework
 - [mocha-lcov-reporter](https://github.com/StevenLooman/mocha-lcov-reporter): LCOV reporter for Mocha
 - [object-path](https://github.com/mariocasciaro/object-path): Access deep object properties using a path
@@ -768,12 +768,15 @@ See the wiki [Contributing](https://github.com/deadratfink/jy-transform/wiki/Cha
 section for more details about conventions.
 
 
-
-
 # Changelog
 
-### v2.0.0
+### v2.0.1
 
+- [[#39](https://github.com/deadratfink/jy-transform/issues/39)] Maintenance release
+ - Update dependencies to latest
+ - Add travis build for Node.js v7.x 
+
+### v2.0.0
 
 - [[#33](https://github.com/deadratfink/jy-transform/issues/33)] Enhance `LogWrapper` with `TRACE` level (API)
 - [[#32](https://github.com/deadratfink/jy-transform/issues/32)] Introduce input and output on CLI as ARGS instead of OPTIONS (non-backwards compatible change for CLI usage, _no_ impact on API level!)

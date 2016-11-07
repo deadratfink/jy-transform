@@ -1,10 +1,10 @@
-### v2.0.1 (not released yet!)
+#### v2.0.1
 
-- [[#39](https://github.com/deadratfink/jy-transform/issues/39)] 
+- [[#39](https://github.com/deadratfink/jy-transform/issues/39)] Maintenance release
  - Update dependencies to latest
  - Add travis build for Node.js v7.x 
 
-### v2.0.0
+#### v2.0.0
 
 - [[#33](https://github.com/deadratfink/jy-transform/issues/33)] Enhance `LogWrapper` with `TRACE` level (API)
 - [[#32](https://github.com/deadratfink/jy-transform/issues/32)] Introduce input and output on CLI as ARGS instead of OPTIONS (non-backwards compatible change for CLI usage, _no_ impact on API level!)
@@ -12,12 +12,12 @@
 - [[#31](https://github.com/deadratfink/jy-transform/issues/31)] Bugfix: given `Object` source results in 'yaml' for origin (API)
 - [Cleanup] Update dependencies
 
-### v1.0.2
+#### v1.0.2
 
 - [[#30](https://github.com/deadratfink/jy-transform/issues/30)] Fix README and externalize API reference to wiki
 - [[#29](https://github.com/deadratfink/jy-transform/issues/29)] Fix Promise warning on write process
 
-### v1.0.1
+#### v1.0.1
 
 Initial public release. This covers the basic implementation and tests. The following features and fixes and part of this release:
 
