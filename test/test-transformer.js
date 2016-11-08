@@ -61,12 +61,12 @@ describe('Executing \'jy-transform\' project\'s Transformer test suite.', functi
      */
     function assertTransformSuccess(options, middleware, done) {
         return transformer.transform(options, middleware)
-            .then(function (msg){
+            .then(function (msg) {
                 logger.info(msg);
                 var stats = fs.statSync(options.dest);
                 assert(stats.isFile());
                 var json = require(path.resolve(options.dest));
-                assert.equal(json.total, EXPECTED_VALUE, 'property \'total\' should have new value \'' + EXPECTED_VALUE +'\'.');
+                assert.equal(json.total, EXPECTED_VALUE, 'property \'total\' should have new value \'' + EXPECTED_VALUE + '\'.');
                 done();
             })
             .catch(function (err) {
@@ -84,7 +84,7 @@ describe('Executing \'jy-transform\' project\'s Transformer test suite.', functi
      */
     function assertYamlTransformSuccess(options, middleware, done) {
         return transformer.transform(options, middleware)
-            .then(function (msg){
+            .then(function (msg) {
                 logger.info(msg);
                 var stats = fs.statSync(options.dest);
                 assert(stats.isFile());
@@ -92,7 +92,7 @@ describe('Executing \'jy-transform\' project\'s Transformer test suite.', functi
                     .then(function (yaml) {
                         try {
                             var json = jsYaml.safeLoad(yaml);
-                            assert.equal(json.total, EXPECTED_VALUE, 'property \'total\' should have new value \'' + EXPECTED_VALUE +'\'.');
+                            assert.equal(json.total, EXPECTED_VALUE, 'property \'total\' should have new value \'' + EXPECTED_VALUE + '\'.');
                             done();
                         } catch (err) { // probably a YAMLException
                             logger.error(err.stack);
@@ -117,13 +117,13 @@ describe('Executing \'jy-transform\' project\'s Transformer test suite.', functi
                 src: path.resolve('./test/tmp/test-data.yaml')
             };
 
-            return transformer.transform(options, middleware)
-                .then(function (msg){
+            transformer.transform(options, middleware)
+                .then(function (msg) {
                     logger.info(msg);
                     var stats = fs.statSync(DEST);
                     assert(stats.isFile());
                     var json = require('./tmp/test-data.js');
-                    assert.equal(json.total, EXPECTED_VALUE, 'property \'total\' should have new value \'' + EXPECTED_VALUE +'\'.');
+                    assert.equal(json.total, EXPECTED_VALUE, 'property \'total\' should have new value \'' + EXPECTED_VALUE + '\'.');
                     done();
                 })
                 .catch(function (err) {
@@ -136,7 +136,7 @@ describe('Executing \'jy-transform\' project\'s Transformer test suite.', functi
 
     describe('Testing Transformer transforming from YAML to JS', function () {
 
-        var SRC  = './test/data/test-file.yaml';
+        var SRC = './test/data/test-file.yaml';
         var DEST = TEST_TMP_DIR + '/test-data-transform-yaml-js.js';
 
         it('should store ' + SRC + ' file to ' + DEST, function (done) {
@@ -153,7 +153,7 @@ describe('Executing \'jy-transform\' project\'s Transformer test suite.', functi
 
     describe('Testing Transformer transforming from YAML to JSON', function () {
 
-        var SRC  = './test/data/test-file.yaml';
+        var SRC = './test/data/test-file.yaml';
         var DEST = TEST_TMP_DIR + '/test-data-transform-yaml-json.json';
 
         it('should store ' + SRC + ' file to ' + DEST, function (done) {
@@ -170,7 +170,7 @@ describe('Executing \'jy-transform\' project\'s Transformer test suite.', functi
 
     describe('Testing Transformer transforming from JSON to JS', function () {
 
-        var SRC  = './test/data/test-file.json';
+        var SRC = './test/data/test-file.json';
         var DEST = TEST_TMP_DIR + '/test-data-transform-json-js.js';
 
         it('should store ' + SRC + ' file to ' + DEST, function (done) {
@@ -187,7 +187,7 @@ describe('Executing \'jy-transform\' project\'s Transformer test suite.', functi
 
     describe('Testing Transformer transforming from JS to JSON', function () {
 
-        var SRC  = './test/data/test-file.js';
+        var SRC = './test/data/test-file.js';
         var DEST = TEST_TMP_DIR + '/test-data-transform-js-json.json';
 
         it('should store ' + SRC + ' file to ' + DEST, function (done) {
@@ -204,7 +204,7 @@ describe('Executing \'jy-transform\' project\'s Transformer test suite.', functi
 
     describe('Testing Transformer transforming from JS to YAML', function () {
 
-        var SRC  = './test/data/test-file.js';
+        var SRC = './test/data/test-file.js';
         var DEST = TEST_TMP_DIR + '/test-data-transform-js-yaml.yaml';
 
         it('should store ' + SRC + ' file to ' + DEST, function (done) {
@@ -214,22 +214,22 @@ describe('Executing \'jy-transform\' project\'s Transformer test suite.', functi
                 dest: path.resolve(DEST)
             };
 
-            return transformer.transform(options, middleware)
-                .then(function (msg){
+            transformer.transform(options, middleware)
+                .then(function (msg) {
                     logger.info(msg);
                     var stats = fs.statSync(options.dest);
                     assert(stats.isFile());
 
-                    return fsPromised.readFileAsync(options.dest, Constants.UTF8)
+                    fsPromised.readFileAsync(options.dest, Constants.UTF8)
                         .then(function (yaml) {
                             logger.debug('YAML loaded from file ' + options.dest);
                             try {
                                 var resultJson = jsYaml.safeLoad(yaml);
-                                assert.equal(resultJson.total, EXPECTED_VALUE, 'property \'total\' should have new value \'' + EXPECTED_VALUE +'\'.');
+                                assert.equal(resultJson.total, EXPECTED_VALUE, 'property \'total\' should have new value \'' + EXPECTED_VALUE + '\'.');
                                 done();
                             } catch (err) { // probably a YAMLException
                                 logger.error('Unexpected error: ' + err.stack);
-                                return done(err);
+                                done(err);
                             }
                         });
                 })
@@ -242,7 +242,7 @@ describe('Executing \'jy-transform\' project\'s Transformer test suite.', functi
 
     describe('Testing Transformer transforming from YAML to YAML', function () {
 
-        var SRC  = './test/data/test-file.yaml';
+        var SRC = './test/data/test-file.yaml';
         var DEST = TEST_TMP_DIR + '/test-data-transform-yaml-yaml.yaml';
 
         it('should store ' + SRC + ' file to ' + DEST, function (done) {
@@ -252,22 +252,22 @@ describe('Executing \'jy-transform\' project\'s Transformer test suite.', functi
                 dest: path.resolve(DEST)
             };
 
-            return transformer.transform(options, middleware)
-                .then(function (msg){
+            transformer.transform(options, middleware)
+                .then(function (msg) {
                     logger.info(msg);
                     var stats = fs.statSync(options.dest);
                     assert(stats.isFile());
 
-                    return fsPromised.readFileAsync(options.dest, Constants.UTF8)
+                    fsPromised.readFileAsync(options.dest, Constants.UTF8)
                         .then(function (yaml) {
                             logger.debug('YAML loaded from file ' + options.dest);
                             try {
                                 var resultJson = jsYaml.safeLoad(yaml);
-                                assert.equal(resultJson.total, EXPECTED_VALUE, 'property \'total\' should have new value \'' + EXPECTED_VALUE +'\'.');
+                                assert.equal(resultJson.total, EXPECTED_VALUE, 'property \'total\' should have new value \'' + EXPECTED_VALUE + '\'.');
                                 done();
                             } catch (err) { // probably a YAMLException
                                 logger.error('Unexpected error: ' + err.stack);
-                                return done(err);
+                                done(err);
                             }
                         });
                 })
@@ -280,7 +280,7 @@ describe('Executing \'jy-transform\' project\'s Transformer test suite.', functi
 
     describe('Testing Transformer transforming from JSON to JSON', function () {
 
-        var SRC  = './test/data/test-file.json';
+        var SRC = './test/data/test-file.json';
         var DEST = TEST_TMP_DIR + '/test-data-transform-json-json.json';
 
         it('should store ' + SRC + ' file to ' + DEST, function (done) {
@@ -297,7 +297,7 @@ describe('Executing \'jy-transform\' project\'s Transformer test suite.', functi
 
     describe('Testing Transformer transforming from JSON to YAML', function () {
 
-        var SRC  = './test/data/test-file.json';
+        var SRC = './test/data/test-file.json';
         var DEST = TEST_TMP_DIR + '/test-data-transform-json-yaml.yaml';
 
         it('should store ' + SRC + ' file to ' + DEST, function (done) {
@@ -314,7 +314,7 @@ describe('Executing \'jy-transform\' project\'s Transformer test suite.', functi
 
     describe('Testing Transformer transforming from JS to JS', function () {
 
-        var SRC  = './test/data/test-file.js';
+        var SRC = './test/data/test-file.js';
         var DEST = TEST_TMP_DIR + '/test-data-transform-js-js.js';
 
         it('should store ' + SRC + ' file to ' + DEST, function (done) {

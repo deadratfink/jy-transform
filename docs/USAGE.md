@@ -91,23 +91,31 @@ Additionally, on API level to a:
 
 - Since this module is build to transform from and to different type formats, any
   `Function`s residing in JS type objects are _not_ supported, e.g. transforming
+  
   ```javascript
   module.exports = {
       fooKey: 'foo',
-      fooFunction: foo() {...}
+      fooFunction: function foo() {
+          //...
+      }
   }
   ```
+  
   to JSON would simply result in
-  ```javascript
+  
+  ```json
   {
-      fooKey: 'foo'
+      "fooKey": "foo"
   }
   ```
+  
   while transforming to YAML type would even result in an `Error`, e.g. printed
   on CLI usage like this:
+  
   ```
   ERROR: YAMLException: unacceptable kind of an object to dump [object Function]
   ```
+  
 - Multidocument handling would be a cool feature which refers in general to YAML
   and JS only, but at the moment we require that each document to transform is a
   _single_ one per source (or in case of JS could be identified)! This feature is
@@ -118,9 +126,9 @@ Additionally, on API level to a:
 
 ## CLI Usage
 
-The CLI provides the `jyt` command (actually, this requires the use of options).
-After the global installation you can access the `Transformer` command options
-with the usual command option `--help` option which prints an overview about all
+The CLI provides the `jyt` command (actually, this might require the use of options).
+After the global installation you can access the `Transformer`'s command options
+with the usual `--help` option which prints an overview about all
 available CLI properties:
 
 ```
@@ -154,7 +162,7 @@ The ARGS are more formally defined in the following table:
 | `INPUT-FILE` | URI | The source file path for transformation. | - | yes |
 | `OUTPUT-FILE` | URI | The destination file path to transform to. | When this options is omitted then the output file is stored relative to the input file (same base name but with another extension if type differs). If input and output type are the same then the file overwriting is handled depending on the `--force` value! | no |
 
-**NOTE:** the input file has to be specified and should _first_ argument (in fact, it can be anywhere but it must be before an out file argument)!
+**NOTE:** the input file has to be specified and should be _first_ argument (in fact, it can be anywhere but it must be before an out file argument)!
 
 ### CLI Options
 
@@ -178,34 +186,34 @@ The OPTIONS are more formally defined in the following table:
 
 ### Examples
 
-Now we know which properties we can apply on CLI, so let's assume we
-have a YAML file located in _foo.yaml_ holding this data:
+Now we know which properties can be applied on CLI, so let's assume we
+have a YAML content located in _foo.yaml_ holding this data:
 
 ```yaml
 foo: bar
 ```
 #### Example: YAML ⇒ JSON
 
-then we can transform it to a JSON file _foo.json_
+Then we can transform it to a JSON content as _foo.json_ file:
 
-```javascript
+```json
 {
   "foo": "bar"
 }
 ```
 
-using this command:
+simply by using this command:
 
 ```
 $ jyt foo.yaml -t json -i 2
 ```
 
 In this example we have overwritten the standard target type (which is `js`)
-and applying an indent of 2 instead of the default 4. As default the output
-file _foo.json_ is written relative to the input file (simply omitting the
+and applying an indent of 2 SPACEs instead of the default (4). As default the output
+file _foo.json_ is written relative to the input file (by omitting the
 `dest` option here).
 
-**NOTE:** here you _have_ to provide the target with `-t json` or else the
+**NOTE:** here you _have_ to provide the target with option `-t json` or else the
 default `js` would have been applied! If the source would have been a `js`
 type like
 
@@ -217,10 +225,11 @@ then the `js` value for `origin` is automatically inferred from file extension.
 Accordingly, this is also true for the `target` option.
 
 #### Example: JSON ⇒ JS
-
+The command
 ```
 $ jyt foo.json -i 2
 ```
+results in _foo.js_:
 ```javascript
 module.exports = {
   foo: "bar"
@@ -228,10 +237,11 @@ module.exports = {
 ```
 
 #### Example: JS ⇒ YAML
-
+The command
 ```
 $ jyt foo.js -t yaml
 ```
+results in _foo.yaml_:
 ```yaml
 foo: bar
 ```
@@ -239,19 +249,16 @@ foo: bar
 #### Example: Transformation with Different Destination
 
 Simply specify the _output_ file with a different file name:
-
 ```
 $ jyt foo.json results/foobar.yaml
 ```
 
 #### Example: Transformation with Unsupported Source File Extension
 
-As said, normally we infer from file extension to the type but assume the source
+As said, normally we infer from file extension to the type, but assume the source
 file has a file name which does not imply the type (here a JSON
 type in a TEXT file), then you can simply provide the `-o` option with the
 correct `origin` type (of course, the `-t` option works analogous):
-
-
 ```
 $ jyt foo.txt foobar.yaml -o json
 ```
@@ -272,15 +279,11 @@ module.exports.bar = {
     bar: 'foo'
 };
 ```
-
-but you want to convert `bar` object, then call:
-
+but you want to convert only `bar` object, then call:
 ```
 $ jyt foo.js bar.yaml -m bar
 ```
-
 to get the YAML result:
-
 ```yaml
 bar: foo
 ```
@@ -310,25 +313,20 @@ bar: {
     bar: 'foo'
 }
 ```
-as sub-node of `options.dest`.
+Of course, as sub-node of `options.dest`.
 
 #### Example: Write Exports Identifier for JS File
 
 Assume you want to generate a JS file with an exports string which gets an
-identifier. We reuse the YAML file from above
-
+identifier. We reuse the YAML file from above:
 ```yaml
 foo: bar
 ```
-
 using this command:
-
 ```
 $ jyt foo.yaml foobar.js -x foobar
 ```
-
 This generates the following output in JS file using `foobar` as identifier:
-
 ```javascript
 module.exports.foobar = {
     foo: "bar"
@@ -350,11 +348,9 @@ overwriting your input source or already generated targets.
 
 But let's say we want to overwrite the original source now because you want
 to change the indention from 2 to 4 SPACEs, then we can do this as follows:
-
 ```
 $ jyt foo.js -f
 ```
-
 Of course, leaving out the `-f` switch creates a new file relatively to
 the `origin`, named as _foo(1).js_ (note the consecutive number). Naturally,
 another run of the command would result in a file called _foo(2).js_
@@ -379,13 +375,13 @@ specify the origin or target type!
 
 Since the usage on CLI is a 2-step process:
 
-1. Read from source file to JS object ⇒ 2. Write out (maybe to other type)
+ 1. Read from source file to JS object ⇒ 2. Write out (maybe to other type)
 
 the direct API calls additionally provide the usage of a _middleware_ function
 where you can alter the input JS object before it is written and therefore, which turns
 this into a 3-step process:
 
-1. Read from source ⇒ 2. Alter the JS object ⇒ 3. Write out (maybe to other type)
+ 1. Read from source ⇒ 2. Alter the JS object ⇒ 3. Write out (maybe to other type)
 
 For more details about this and all the functions provided by this module please refer to the
 [API Reference](https://github.com/deadratfink/jy-transform/wiki/API-v2).
@@ -398,7 +394,9 @@ The `Transformer` exposes the following function which takes besides an (optiona
 `middleware` function the necessary `options` for the transformation:
 
 ```javascript
-function transform(options, middleware)
+function transform(options, middleware) {
+    //...
+}
 ```
 
 The `options` object has to follow this key-values table:
@@ -476,7 +474,7 @@ transformer.transform(options, middleware)
 
 will result in such JSON file:
 
-```javascript
+```json
 {
     "foo": "new bar"
 }
@@ -489,7 +487,7 @@ several functions to be applied in the whole transformation process by gathering
 them in one function.
 
 Let's assume we have some Promise functions to apply. For simplicity reasons we
-simulate these for the moment by two functions, each adding a key-value to the
+simulate these for the moment by some functions, each adding a key-value to the
 given (initially empty) JS object.
 
 **NOTE:** each of them has to resolve with the `data` object!
@@ -525,8 +523,8 @@ var middleware = function (data) {
         });
 };
 
+var logger = new Logger();
 var transformer = new Transformer(logger);
-var logger = ...;
 var options = {
    src: {}
 };
