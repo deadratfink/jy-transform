@@ -3,27 +3,23 @@
 When contributing as coder, please take care of the following conventions:
 
 - Enter yourself in the `contributors` section of _package.json_.
-- We strictly follow [Semantic Versioning 2](http://semver.org) rules.
-- The `development` branch is the leading branch and is protected. Create bugfix and feature 
+- Strictly follow [Semantic Versioning 2](http://semver.org) rules.
+- The `master` branch is the leading branch, is protected and is the stable branch after a release. 
+  Create `bugfix`, `feature` and `refactor`
   branches (or fork into you own namespace) and create pull 
-  requests to `development` when finished. Any of these should be prefixed with 
-  `bugfix/#...` or `feature/#...` (followed by issue number and a short, "underscored" 
+  requests to `master` when finished. Any of these should be prefixed with 
+  `bugfix/#...`, `feature/#...` or `refactor/#...` (followed by issue number and a short, "underscored" 
   proper meaning), e.g. 
   - `bugfix/#8_fix_js_reading_with_require`
   - `feature/#14_multidocument_support`
 - Remember that name could need to be enclosed in quotes, e.g. 
   ```$ git checkout -b 'feature/#19_...'```
   when using git shell command.
-- The `master` branch is protected and is the stable branch after a release. 
-  It will never be pushed directly (only on release build).
-- Indention for any file is 4 SPACEs.
 - Keep code coverage high (> 95%).
-- Doc everything with [JSDocs](http://usejsdoc.org/) and document concepts in 
+- Doc everything with [JSDoc](http://usejsdoc.org/) and document concepts in 
   [README.md](https://github.com/deadratfink/jy-transform/blob/development/README.md)
   or [Wiki](https://github.com/deadratfink/jy-transform/wiki).
-- Use _single_ parenthesis (`'...'`) in _*.js_ files instead of _double_ parenthesis (`"..."`).
-- Avoid the of use parenthesis for keys in JSON objects.
-- Use the strict mode (`'use strict';`) in _*.js_ files.
+- Coding style is defined by _.eslintrc.js_.
 - File names should be lower-case with hyphens as divider, e.g. _options-handler.js_.
 - Markdown documentation files should be upper-case with _.md_ as extension, placed 
   in _./docs_, e.g. _USAGE.md_. The _README.md_ is build up by these files concatenated 

@@ -1,27 +1,45 @@
-'use strict';
+import winston from 'winston';
+import fsExtra from 'fs-extra';
+// import promisify from 'promisify-es6';
+// // import toYAML from 'combarnea-winston-console-formatter';
+//
+// const ensureDir = promisify(fsExtra.ensureDir);
+// const emptyDir = promisify(fsExtra.emptyDir);
 
-var assert = require('assert');
-var winston = require('winston');
-var fs = require('fs-extra');
+// ////////////////////////////////////////////////////////////////////////////
+// PRIVATES
+// ////////////////////////////////////////////////////////////////////////////
+
 /**
- * An indent of 8 SPACEs.
+ * An indent of 0 SPACEs.
  *
  * @type {string}
+ * @constant
+ * @private
  */
-var INDENT = '        ';
-var TEST_TMP_DIR = './test/tmp';
+const INDENT = '';
+
+/**
+ * A temporary test directory.
+ *
+ * @type {string}
+ * @constant
+ * @private
+ */
+const TEST_TMP_DIR = './test/tmp';
 
 /**
  * This function formats the log string by given options to log.
  *
  * @param {{timestamp: function, level: string, [message: string], [meta: object]}} options - The formatter options.
- * @returns {string} - The log string.
+ * @returns {string} The log string.
  * @private
  */
-var formatter = function(options) {
-    // Return string will be passed to logger.
-    return options.timestamp() +' '+ options.level.toUpperCase() +' '+ (undefined !== options.message ? options.message : '') +
-        (options.meta && Object.keys(options.meta).length ? '\n\t'+ JSON.stringify(options.meta) : '' );
+const formatter = (options) => {
+  // Return string will be passed to logger.
+  return (options.timestamp() !== '' ? '[' + options.timestamp() + '] ' : '') + '[' + options.level.toUpperCase() + '] '
+    + (undefined !== options.message ? options.message : '')
+    + (options.meta && Object.keys(options.meta).length ? '\n\t' + JSON.stringify(options.meta) : '');
 };
 
 /**
@@ -30,24 +48,21 @@ var formatter = function(options) {
  * @type {{filename: string, timestamp: winstonFileOptions.timestamp, formatter: formatter, level: string}}
  * @private
  */
-var winstonFileOptions = {
-    filename: TEST_TMP_DIR + '/test.log',
-    /**
-     * Formats the timestamp as {@link Date} ISO string prefixed by an indent.
-     *
-     * @see #INDENT
-     * @returns {string} - The {@link Date} ISO string.
-     */
-    timestamp: function() {
-        return new Date().toISOString();
-    },
-    json: false,
-    formatter: formatter,
-    level: 'debug'
+const winstonFileOptions = {
+  filename: TEST_TMP_DIR + '/test.log',
+  /**
+   * Formats the timestamp as {@link Date} ISO string prefixed by an indent.
+   *
+   * @see #INDENT
+   * @returns {string} - The {@link Date} ISO string.
+   */
+  timestamp: () => {
+    return new Date().toISOString();
+  },
+  json: false,
+  formatter,
+  level: 'info'
 };
-
-fs.ensureDirSync(TEST_TMP_DIR);
-fs.emptyDirSync(TEST_TMP_DIR);
 
 /**
  * Options for winston console logging.
@@ -55,33 +70,56 @@ fs.emptyDirSync(TEST_TMP_DIR);
  * @type {{timestamp: winstonConsoleOptions.timestamp, formatter: formatter, level: string}}
  * @private
  */
-var winstonConsoleOptions = {
-    /**
-     * Overwrites the timestamp by indent.
-     *
-     * @see #INDENT
-     * @returns {string} - The indent only.
-     */
-    timestamp: function() {
-        return INDENT;
-    },
-    formatter: formatter,
-    level: 'info'
+const winstonConsoleOptions = {
+  /**
+   * Overwrites the timestamp by indent.
+   *
+   * @see #INDENT
+   * @returns {string} - The indent only.
+   */
+  timestamp: () => {
+    return INDENT;
+  },
+  formatter,
+  level: 'info'
 };
+
+// ////////////////////////////////////////////////////////////////////////////
+// PREPARE TMP FOLDER
+// ////////////////////////////////////////////////////////////////////////////
+
+// (async () => {
+//   await ensureDir(TEST_TMP_DIR);
+//   await emptyDir(TEST_TMP_DIR);
+// })();
+// fsExtra.ensureDirSync(TEST_TMP_DIR);
+// fsExtra.emptyDirSync(TEST_TMP_DIR);
+
+// ////////////////////////////////////////////////////////////////////////////
+// PROTECTED EXPORTS
+// ////////////////////////////////////////////////////////////////////////////
 
 /**
  * The winston logger.
  *
- * @public
+ * @protected
  */
-var logger = new (winston.Logger)({
-    transports: [
-        new (winston.transports.File)(winstonFileOptions),
-        new (winston.transports.Console)(winstonConsoleOptions)
-    ],
-    exitOnError: false
+export const logger = new (winston.Logger)({
+  transports: [
+    new (winston.transports.File)(winstonFileOptions),
+    new (winston.transports.Console)(winstonConsoleOptions)
+  ],
+  exitOnError: false
 });
+
+// logger.add(winston.transports.Console, toYAML.config({
+//   // colors, // colorizer colors array
+//   noMeta: false, // boolean - not to print metadata, if true metadata will not be printed
+//   noStack: false // boolean - not to print stack trace, if true stack trace will not be printed
+// }));
 
 logger.info('Test-logger initialized, writing to ', winstonFileOptions.filename);
 
-module.exports = logger;
+export default {
+  logger,
+};

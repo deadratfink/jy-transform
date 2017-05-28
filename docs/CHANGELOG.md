@@ -1,3 +1,11 @@
+#### v3.0.0
+
+- Removal of _development_ branch
+- Switch to babel
+- Use native promises instead of bluebird
+- Use named import only for all classes (i.e. also for `Transformer`)
+- Tests written in Jest (got rid  of _assert_, _mocha_ and _istanbul_)
+
 #### v2.0.1
 
 - [[#39](https://github.com/deadratfink/jy-transform/issues/39)] Maintenance release

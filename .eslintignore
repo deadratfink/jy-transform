@@ -1,1 +1,10 @@
-**/*{.,-}min.js
+coverage/**
+node_modules/**
+api-docs
+coverage/
+readme/
+.idea
+lib/
+index.js
+test/data
+test/tmp
