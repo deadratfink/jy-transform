@@ -2,7 +2,7 @@ module.exports = {
   // this is a workaround that jest does not create a jest_0/ folder in the project root dir!
   cacheDirectory: '/tmp/jest-cache',
   collectCoverageFrom: [
-    'lib/**/*.js',
+    //'lib/**/*.js',
     'src/**/*.js',
     'index.js'
   ],
@@ -17,16 +17,23 @@ module.exports = {
     }
   },
   mapCoverage: true,
-  // testMatch: [
-  //   // '**/test/**/*.js!**/test/functional/util/**',
-  //   '**/test/unit/*.js',
-  //   // '**/test/test-log-wrapper.js',
-  //   // '**/test/test-middleware.js',
-  //   // '**/test/test-index.js',
-  //   //'/*.js!**/test/functional/util/**',
-  //   // '!**/test/*.js',
-  // ],
-  testRegex: '\\/test\\/unit\\/.*|\/\\.js?$/',
+  testMatch: [
+    '**/test/unit/validation/test-joi-extensions-file-helper.js',
+    '**/test/unit/validation/test-joi-extensions-identifier-helper.js',
+    //'**/test/unit/test-transformer.js',
+    // '**/test/unit/test-index.js',
+    '**/test/unit/test-reader.js',
+    // '**/test/unit/test-writer.js',
+    '**/test/unit/validation/test-options-schema.js',
+    //'**/test/unit/**/*.js',
+
+    // '**/test/test-log-wrapper.js',
+    // '**/test/test-middleware.js',
+    // '**/test/test-index.js',
+    //'/*.js!**/test/functional/util/**',
+    // '!**/test/*.js',
+  ],
+  // testRegex: '\\/test\\/unit\\/.*|\/\\.js?$/',
   testEnvironment: 'node',
   testPathIgnorePatterns: [
     // '<rootDir>/test/data/.*',

@@ -1,28 +1,8 @@
-'use strict';
-
-// ////////////////////////////////////////////////////////////////////////////
-// CONSTRUCTOR
-// ////////////////////////////////////////////////////////////////////////////
-
 /**
- * Constructs the constants.
- *
- * @returns {Constants} - The instance.
- * @constructor
- * @class Class which defines all constants usable in or with this module.
+ * @module jy-transform:constants
+ * @description Useful constants used for the module and its usage.
+ * @public
  */
-function Constants() {
-  return this;
-}
-
-Constants.prototype = {};
-Constants.prototype.constructor = Constants;
-var constants = new Constants();
-module.exports = constants;
-
-// ////////////////////////////////////////////////////////////////////////////
-// CONSTANTS
-// ////////////////////////////////////////////////////////////////////////////
 
 /**
  * The 'utf8' constant.
@@ -31,7 +11,7 @@ module.exports = constants;
  * @constant
  * @public
  */
-Constants.prototype.UTF8 = 'utf8';
+export const UTF8 = 'utf8';
 
 /**
  * The 'yaml' type constant.
@@ -40,139 +20,139 @@ Constants.prototype.UTF8 = 'utf8';
  * @constant
  * @public
  */
-Constants.prototype.YAML = 'yaml';
+export const TYPE_YAML = 'yaml';
 
 /**
  * The 'json' type constant.
- *
  * @type {string}
  * @constant
  * @public
  */
-Constants.prototype.JSON = 'json';
+export const TYPE_JSON = 'json';
 
 /**
  * The 'js' type constant.
- *
  * @type {string}
  * @constant
  * @public
  */
-Constants.prototype.JS = 'js';
+export const TYPE_JS = 'js';
 
 /**
  * The type constants assembled in an array: `[ 'yaml', 'json', 'js' ]`.
- *
  * @type {string[]}
  * @constant
  * @public
  */
-Constants.prototype.TYPES = [ constants.YAML, constants.JSON, constants.JS ];
+export const TYPES = [TYPE_YAML, TYPE_JSON, TYPE_JS];
+
+/**
+ * A map for extensions to type.
+ *
+ * @type {{yml: string, yaml: string, js: string, json: string}}
+ * @public
+ */
+export const TYPE_MAP = {
+  yml: TYPE_YAML,
+  yaml: TYPE_YAML,
+  js: TYPE_JS,
+  json: TYPE_JSON
+};
 
 /**
  * The default file indention (4 SPACEs).
- *
  * @type {number}
  * @constant
  * @public
  */
-Constants.prototype.DEFAULT_INDENT = 4;
+export const DEFAULT_INDENT = 2;
 
 /**
  * The minimum file indention (0 SPACE).
- *
  * @type {number}
  * @constant
  * @public
  */
-Constants.prototype.MIN_INDENT = 0;
+export const MIN_INDENT = 0;
 
 /**
  * The maximum file indention (8 SPACEs).
- *
  * @type {number}
  * @constant
  * @public
  */
-Constants.prototype.MAX_INDENT = 8;
+export const MAX_INDENT = 8;
 
 /**
  * The default `origin` value: 'yaml'.
- *
  * @type {string}
  * @constant
  * @public
  */
-Constants.prototype.DEFAULT_ORIGIN = constants.YAML;
+export const DEFAULT_ORIGIN = TYPE_YAML;
 
 /**
  * The default `origin` value: 'js'.
- *
  * @type {string}
  * @constant
  * @public
  */
-Constants.prototype.DEFAULT_TARGET = constants.JS;
+export const DEFAULT_TARGET = TYPE_JS;
 
 /**
  * Whether to overwrite existing file or object on output.
- *
  * @type {boolean}
  * @constant
  * @public
  */
-Constants.prototype.DEFAULT_FORCE_FILE_OVERWRITE = false;
+export const DEFAULT_FORCE_FILE_OVERWRITE = false;
 
 /**
  * The `origin` description value.
- *
  * @type {string}
  * @constant
  * @public
  */
-Constants.prototype.ORIGIN_DESCRIPTION = 'if not given, the type is tried to be inferred from the extension of source path, else it is \'' + constants.DEFAULT_ORIGIN + '\'';
+export const ORIGIN_DESCRIPTION = 'if not given, the type is tried to be inferred from the extension of source path, ' +
+  'else it is \'' + DEFAULT_ORIGIN + '\'';
 
 /**
  * The `target` description value.
- *
  * @type {string}
  * @constant
  * @public
  */
-Constants.prototype.TARGET_DESCRIPTION = 'if not given, the type is tried to be inferred from the extension of destination path, else it is \'' + constants.DEFAULT_TARGET + '\'';
+export const TARGET_DESCRIPTION = 'if not given, the type is tried to be inferred from the extension of destination' +
+  ' path, else it is \'' + DEFAULT_TARGET + '\'';
 
 /**
  * The `dest` description value.
- *
  * @type {string}
  * @constant
  * @public
  */
-Constants.prototype.DEST_DESCRIPTION = 'storing relative to input file';
+export const DEST_DESCRIPTION = 'storing relative to input file';
 
 /**
  * The `src` exports identifier value to read.
- *
  * @type {string}
  * @public
  * @constant
  * @example
  * module.exports.foo = {...}; // here 'foo' is the identifier for an object to read from the source!
  */
-Constants.prototype.DEFAULT_JS_IMPORTS_IDENTIFIER = undefined;
+export const DEFAULT_JS_IMPORTS_IDENTIFIER = undefined;
 
 /**
  * The `dest` exports identifier value to write.
- *
  * @type {string}
  * @public
  * @constant
  */
-Constants.prototype.DEFAULT_JS_EXPORTS_IDENTIFIER = undefined;
+export const DEFAULT_JS_EXPORTS_IDENTIFIER = undefined;
 
 /**
  * The default options.
- *
  * @constant
  * @namespace
  * @property {string} origin=yaml                   - The default origin type.
@@ -186,112 +166,102 @@ Constants.prototype.DEFAULT_JS_EXPORTS_IDENTIFIER = undefined;
  * @see {@link TARGET_DESCRIPTION}
  * @see {@link DEST_DESCRIPTION}
  */
-Constants.prototype.DEFAULT_OPTIONS = {
-  origin:  constants.ORIGIN_DESCRIPTION,
-  target:  constants.TARGET_DESCRIPTION,
-  dest:    constants.DEST_DESCRIPTION,
-  indent:  constants.DEFAULT_INDENT,
-  force:   constants.DEFAULT_FORCE_FILE_OVERWRITE,
-  imports: constants.DEFAULT_JS_IMPORTS_IDENTIFIER,
-  exports: constants.DEFAULT_JS_EXPORTS_IDENTIFIER
+export const DEFAULT_OPTIONS = {
+  origin: ORIGIN_DESCRIPTION,
+  target: TARGET_DESCRIPTION,
+  dest: DEST_DESCRIPTION,
+  indent: DEFAULT_INDENT,
+  force: DEFAULT_FORCE_FILE_OVERWRITE,
+  imports: DEFAULT_JS_IMPORTS_IDENTIFIER,
+  exports: DEFAULT_JS_EXPORTS_IDENTIFIER,
 };
 
 /**
  * The transformation direction YAML ⇒ JS.
- *
  * @type {string}
  * @constant
  * @public
  */
-Constants.prototype.YAML_TO_JS = 'yaml2js';
+export const YAML_TO_JS = 'yaml2js';
 
 /**
  * The transformation direction YAML ⇒ JSON.
- *
  * @type {string}
  * @constant
  * @public
  */
-Constants.prototype.YAML_TO_JSON = 'yaml2json';
+export const YAML_TO_JSON = 'yaml2json';
 
 /**
  * The transformation direction JS ⇒ YAML.
- *
  * @type {string}
  * @constant
  * @public
  */
-Constants.prototype.JS_TO_YAML = 'js2yaml';
+export const JS_TO_YAML = 'js2yaml';
 
 /**
  * The transformation direction JSON ⇒ YAML.
- *
  * @type {string}
  * @constant
  * @public
  */
-Constants.prototype.JSON_TO_YAML = 'json2yaml';
+export const JSON_TO_YAML = 'json2yaml';
 
 /**
  * The transformation direction JSON ⇒ JS.
- *
  * @type {string}
  * @constant
  * @public
  */
-Constants.prototype.JSON_TO_JS = 'json2js';
+export const JSON_TO_JS = 'json2js';
 
 /**
  * The transformation direction JS ⇒ JSON.
- *
  * @type {string}
  * @constant
  * @public
  */
-Constants.prototype.JS_TO_JSON = 'js2json';
+export const JS_TO_JSON = 'js2json';
 
 /**
  * The transformation direction YAML ⇒ YAML.
- *
  * @type {string}
  * @constant
  * @public
  */
-Constants.prototype.YAML_TO_YAML = 'yaml2yaml';
+export const YAML_TO_YAML = 'yaml2yaml';
 
 /**
  * The transformation direction JSON ⇒ JSON.
- *
  * @type {string}
  * @constant
  * @public
  */
-Constants.prototype.JSON_TO_JSON = 'json2json';
+export const JSON_TO_JSON = 'json2json';
 
 /**
  * The transformation direction JS ⇒ JS.
- *
  * @type {string}
  * @constant
  * @public
  */
-Constants.prototype.JS_TO_JS = 'js2js';
+export const JS_TO_JS = 'js2js';
 
 /**
  * The transformation directions.
- *
  * @type {string[]}
  * @constant
  * @public
  */
-Constants.prototype.TRANSFORMATIONS = [
-  constants.YAML_TO_JS,
-  constants.YAML_TO_JSON,
-  constants.JS_TO_YAML,
-  constants.JSON_TO_YAML,
-  constants.JSON_TO_JS,
-  constants.JS_TO_JSON,
-  constants.YAML_TO_YAML,
-  constants.JSON_TO_JSON,
-  constants.JS_TO_JS
+export const TRANSFORMATIONS = [
+  YAML_TO_JS,
+  YAML_TO_JSON,
+  JS_TO_YAML,
+  JSON_TO_YAML,
+  JSON_TO_JS,
+  JS_TO_JSON,
+  YAML_TO_YAML,
+  JSON_TO_JSON,
+  JS_TO_JS
 ];

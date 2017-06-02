@@ -1,10 +1,33 @@
 #### v3.0.0
 
-- Removal of _development_ branch
-- Switch to babel
-- Use native promises instead of bluebird
-- Use named import only for all classes (i.e. also for `Transformer`)
-- Tests written in Jest (got rid  of _assert_, _mocha_ and _istanbul_)
+- **CLI & API Changes (Backwards Imcompatible!):**
+  - Removed support for Node.js < v4.0
+  - Default `options.indent` is 2 (instead of 4) now which seems to be more common in the JS/Node.js community
+  
+- **API Changes only (Backwards Imcompatible!):**
+  - Prototype removal from `Transformer`, `Reader` and `Writer`, turning it to simple exports of functions
+  - Easier usage by using named imports only for all classes (i.e. also for `Transformer`)
+  - The formerly exported `middleware` is not public anymore
+  - The `options.imports/exports` are not allowed to be empty strings anymore (just leave it out)
+  - The exported constants `YAML`, `JS` and `JSON` (usable for `options.origin/target`) are renamed respectively to `TYPE_YAML`, `TYPE_JS` and `TYPE_JSON`
+  - `options.dest` is required for `Transfomer` and `Writer` on API usage
+  - Removal of `LogWrapper` prevents from injecting a logger into `Transformer`, `Reader` and `Writer`
+  - Instead of a message success string the `Transformer.transform` and all `Writer.writeXXX` functions return now
+    the `dest` result object passed in with `options.dest` because during 
+    the validation process the framework will decouple `dest` from the reference of the `options` by creating a 
+    new options object (in case of `Stream.Writable` and it is the same object as passed in as options.dest but it 
+    matters in case of `Object` where the altered object is returned)
+  
+- Internal Changes & Improvements:
+  - Removal of _development_ branch
+  - Usage of [babel](https://babeljs.io/) and therefore most modern language features
+  - Code base could be shrinked and readabilty improved
+  - Usage of _native promises_ instead of [bluebird](http://bluebirdjs.com/docs/getting-started.html)
+  - Tests re-written in [Jest](https://facebook.github.io/jest) (could get rid  of [assert](https://github.com/defunctzombie/commonjs-assert),
+    [mocha](https://mochajs.org/) and [istanbul](https://github.com/gotwarlost/istanbul))
+  - Add travis build for Node.js v8.x
+  - Remove travis build for Node.js < v4.x
+  - Removal of `OptionsHandler` and `Validator` (replaced validation stuff by [joi](https://github.com/hapijs/joi/tree/v10.5.0))
 
 #### v2.0.1
 

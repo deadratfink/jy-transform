@@ -16,10 +16,10 @@ When contributing as coder, please take care of the following conventions:
   ```$ git checkout -b 'feature/#19_...'```
   when using git shell command.
 - Keep code coverage high (> 95%).
-- Doc everything with [JSDoc](http://usejsdoc.org/) and document concepts in 
+- Document everything with [JSDoc](http://usejsdoc.org/) and describe concepts in 
   [README.md](https://github.com/deadratfink/jy-transform/blob/development/README.md)
   or [Wiki](https://github.com/deadratfink/jy-transform/wiki).
-- Coding style is defined by _.eslintrc.js_.
+- Coding style is defined by _.eslintrc.js_ and _.editorconfig_.
 - File names should be lower-case with hyphens as divider, e.g. _options-handler.js_.
 - Markdown documentation files should be upper-case with _.md_ as extension, placed 
   in _./docs_, e.g. _USAGE.md_. The _README.md_ is build up by these files concatenated 

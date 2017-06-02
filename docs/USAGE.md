@@ -172,7 +172,7 @@ The OPTIONS are more formally defined in the following table:
 | --- | --- | --- | --- | --- | --- |
 | `-o` | `--origin` | string of: [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation origin type. | if not given, the type is tried to be inferred from the extension of source path, else it is _yaml_ | no |
 | `-t` | `--target` | string of: [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation target type. | if not given, the type is tried to be inferred from the extension of destination path, else it is _js_ | no |
-| `-i` | `--indent` | integer<br>[ 1 - 8 ]<br> | The code indention used in destination files. | 4 | no |
+| `-i` | `--indent` | integer<br>[ 1 - 8 ]<br> | The code indention used in destination files. | 2 | no |
 | `-f` | `--force` | n/a | Force overwriting of existing output files on write phase. When files are not overwritten (which is default), then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of _foo.yaml_ it would be _foo(1).yaml_.  | _false_ | no |
 | `-m` | `--imports` | string | Define a 'module.exports[.identifier] = ' identifier (to read from JS _source_ file only, must be a valid JS identifier!) | _undefined_ | no |
 | `-x` | `--exports` | string | Define a 'module.exports[.identifier] = ' identifier (for usage in JS _destination_ file only, must be a valid JS identifier!) | _undefined_ | no |
@@ -205,11 +205,11 @@ Then we can transform it to a JSON content as _foo.json_ file:
 simply by using this command:
 
 ```
-$ jyt foo.yaml -t json -i 2
+$ jyt foo.yaml -t json -i 4
 ```
 
 In this example we have overwritten the standard target type (which is `js`)
-and applying an indent of 2 SPACEs instead of the default (4). As default the output
+and applying an indent of 4 SPACEs instead of the default (2). As default the output
 file _foo.json_ is written relative to the input file (by omitting the
 `dest` option here).
 
@@ -218,7 +218,7 @@ default `js` would have been applied! If the source would have been a `js`
 type like
 
 ```
-$ jyt foo.js -t json -i 2
+$ jyt foo.js -t json -i 4
 ```
 
 then the `js` value for `origin` is automatically inferred from file extension.
@@ -227,12 +227,12 @@ Accordingly, this is also true for the `target` option.
 #### Example: JSON ⇒ JS
 The command
 ```
-$ jyt foo.json -i 2
+$ jyt foo.json -i 4
 ```
 results in _foo.js_:
 ```javascript
 module.exports = {
-  foo: "bar"
+    foo: "bar"
 }
 ```
 
@@ -272,11 +272,11 @@ In this this example we have a _foo.js_ file exporting _two_ objects:
 
 ```javascript
 module.exports.foo = {
-    foo: 'bar'
+  foo: 'bar'
 };
 
 module.exports.bar = {
-    bar: 'foo'
+  bar: 'foo'
 };
 ```
 but you want to convert only `bar` object, then call:
@@ -292,14 +292,14 @@ bar: foo
 
 ```javascript
 var fooBar = {
-    foo: 'bar',
-    bar: 'foo'
+  foo: 'bar',
+  bar: 'foo'
 };
 
 var options = {
-    src: fooBar,
-    dest: {},
-    exports: 'bar'
+  src: fooBar,
+  dest: {},
+  exports: 'bar'
 };
 
 //...transform
@@ -309,8 +309,8 @@ The transformation will result in this in-memory object:
 
 ```javascript
 bar: {
-    foo: 'bar',
-    bar: 'foo'
+  foo: 'bar',
+  bar: 'foo'
 }
 ```
 Of course, as sub-node of `options.dest`.
@@ -329,7 +329,7 @@ $ jyt foo.yaml foobar.js -x foobar
 This generates the following output in JS file using `foobar` as identifier:
 ```javascript
 module.exports.foobar = {
-    foo: "bar"
+  foo: "bar"
 }
 ```
 
@@ -375,16 +375,19 @@ specify the origin or target type!
 
 Since the usage on CLI is a 2-step process:
 
- 1. Read from source file to JS object ⇒ 2. Write out (maybe to other type)
+ 1. Read from source file to JS object ⇒ 
+ 2. Write out (maybe to other type)
 
 the direct API calls additionally provide the usage of a _middleware_ function
 where you can alter the input JS object before it is written and therefore, which turns
 this into a 3-step process:
 
- 1. Read from source ⇒ 2. Alter the JS object ⇒ 3. Write out (maybe to other type)
+ 1. Read from source ⇒ 
+ 2. Alter the JS object ⇒ 
+ 3. Write out (maybe to other type)
 
 For more details about this and all the functions provided by this module please refer to the
-[API Reference](https://github.com/deadratfink/jy-transform/wiki/API-v2).
+[API Reference](https://github.com/deadratfink/jy-transform/wiki/API-v3).
 
 The `origin` and `target` type inference is also standard for the API level.
 
@@ -394,52 +397,52 @@ The `Transformer` exposes the following function which takes besides an (optiona
 `middleware` function the necessary `options` for the transformation:
 
 ```javascript
-function transform(options, middleware) {
-    //...
-}
+async function transform(options, middleware)
 ```
+
+#### Transformer Options
 
 The `options` object has to follow this key-values table:
 
 | Option | Type | Description | Default | Required |
 | --- | --- | --- | --- | --- |
-| origin | <code>string</code> | The origin type. | If not given, the type is tried to be inferred from the extension of source path, else it is _yaml_. | no |
-| target | <code>string</code> | The target type. | If not given, the type is tried to be inferred from the extension of destination path, else it is _js_ | no |
-| src | <code>string &#124; Readable &#124; object</code> | The source information object: `string` is used as file path, `Readable` stream provides a stringified source and `object` is used as direct JS source. | - | yes |
-| dest | <code>string &#124; Writable &#124; object</code> | The destination information object: `string` is used as file path, `Writable` stream writes a stringified source and `object` is used as direct JS object for assignment. | The output file is stored relative to the input file (same base name but with another extension if type differs). If input and output type are the same then the file overwriting is handled depending on the 'force' value! | no |
-| indent | <code>number</code> | The indention in files. | 4 | no |
-| force | <code>boolean</code> | Force overwriting of existing output files on write phase. When files are not overwritten, then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of _foo.yaml_ it would be _foo(1).yaml_. | _false_ | no |
-| imports | <code>string</code> | Define a `module.exports[.identifier] = ...` identifier (to read from JS _source_ only, must be a valid JS identifier!) | _undefined_ | no |
-| exports | <code>string</code> | Define a `module.exports[.identifier] = ...` identifier (for usage in JS _destination_ only, must be a valid JS identifier!) | _undefined_ | no |
+| `origin` | <code>_String_</code> | The origin type. | If not given, the type is tried to be inferred from the extension of source path, else it is _yaml_. | no |
+| `target` | <code>_String_</code> | The target type. | If not given, the type is tried to be inferred from the extension of destination path, else it is _js_. | no |
+| `src` | <code>[ _String_ &#124; _Stream.Readable_ &#124; _Object_ ]</code> | The source information object: `String` is used as file path, `Stream.Readable` provides a stringified source and `object` is used as direct JS source. | - | yes |
+| `dest` | <code>[ _String_ &#124; _Stream.Writable_ &#124; _Object_ ]</code> | The destination information object: `String` is used as file path, `Stream.Writable` writes a stringified source and `object` is used for direct JS object assignment of the (stringified or JS object) source. If a string is set as file path then the output and if input and output file path are the same, then the file overwriting is handled depending on the `force` value! | - | yes |
+| `indent` | <code>_Number_</code> | The indention in files. | 2 | no |
+| `force` | <code>_Boolean_</code> | Force overwriting of existing output files on write phase. When files are not overwritten, then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of _foo.yaml_ it would be _foo(1).yaml_. | _false_ | no |
+| `imports` | <code>_String_</code> | Define a `module.exports[.identifier] = ...` identifier (to read from JS _source_ only, must be a valid JS identifier!) | _undefined_ | no |
+| `exports` | <code>_String_</code> | Define a `module.exports[.identifier] = ...` identifier (for usage in JS _destination_ only, must be a valid JS identifier!) | _undefined_ | no |
 
-**NOTE:** an invalid indention setting (1 > indent > 8) does not raise an error but a default of 4 SPACEs is applied instead.
+**NOTE:** an invalid indention setting (1 > indent > 8) does not raise an error but a default of 2 SPACEs is applied instead.
 
 #### Example
 
 ```javascript
 var options = {
-    origin: 'json',
-    target: 'yaml',
-    src: 'foo.json',
-    dest: './foo/bar.yaml',
-    indent: 2
+  origin: 'json',
+  target: 'yaml',
+  src: 'foo.json',
+  dest: './foo/bar.yaml',
+  indent: 4
 }
 ```
 
 ### Using Middleware
 
 The `middleware` is optional but if provided it must be of type `Function` and
-a [Promise](http://bluebirdjs.com/docs/api-reference.html). One of the easiest
-ones is the identity function
+a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
+One of the easiest ones is the identity function
 
 _f(data) → data_
 
-which could be expressed as
-[Promise](http://bluebirdjs.com/docs/api-reference.html) function as follows:
+which could be expressed as [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+function as follows:
 
 ```javascript
-var identity = function (data) {
-    return Promise.resolve(data);
+const identity = async (data) => {
+    return data;
 }
 ```
 
@@ -455,28 +458,29 @@ object as input:
 foo: old bar
 ```
 
-Applying this [Promise](http://bluebirdjs.com/docs/api-reference.html) as middleware
+Applying this [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+as middleware
 
 ```javascript
-var middleware = function (data) {
-    data.foo = 'new bar';
-    return Promise.resolve(data);
-}
+const middleware = async (data) => {
+  data.foo = 'new bar';
+  return data;
+};
 
-transformer.transform(options, middleware)
-    .then(function (msg){
-        logger.info(msg);
-    })
-    .catch(function (err) {
-        logger.error(err.stack);
-    });
+transform(options, middleware)
+  .then(function (msg){
+      logger.info(msg);
+  })
+  .catch(function (err) {
+      logger.error(err.stack);
+  });
 ```
 
 will result in such JSON file:
 
 ```json
 {
-    "foo": "new bar"
+  "foo": "new bar"
 }
 ```
 
@@ -492,35 +496,31 @@ given (initially empty) JS object.
 
 **NOTE:** each of them has to resolve with the `data` object!
 
-
 ```javascript
-function key1(data) {
-    objectPath.set(data, 'key1', 'value1');
-    return Promise.resolve(data);
-}
+const key1 = async (data) => {
+  objectPath.set(data, 'key1', 'value1');
+  return data;
+};
 
-function key2(data) {
-    objectPath.set(data, 'key2', 'value2');
-    return Promise.resolve(data);
-}
+const key2 = async (data) => {
+  objectPath.set(data, 'key2', 'value2');
+  return data;
+};
 
-function key3(data) {
+const key3 = async (data) => {
     objectPath.set(data, 'key3', 'value3');
-    return Promise.resolve(data);
-}
+    return data;
+};
 ```
 
 These can be collected by different aggregation or composition functions of the underlying
-Promise framework, e.g. using the  [`Promise.all([...])`](http://bluebirdjs.com/docs/api/promise.all.html)
+Promise framework, e.g. using the [`Promise.all([...])`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all)
 function. This one can collect all three functions above and ensure their proper subsequent execution:
 
-
 ```javascript
-var middleware = function (data) {
-    return Promise.all([key1(data), key2(data), key3(data)])
-        .then(function(result) {
-            return Promise.resolve(result[result.length - 1]);
-        });
+const middleware = (data) => {
+  return Promise.all([key1(data), key2(data), key3(data)])
+    .then(result => result[result.length - 1]);
 };
 
 var logger = new Logger();
@@ -529,13 +529,9 @@ var options = {
    src: {}
 };
 
-return transformer.transform(options, middleware)
-    .then(function (msg){
-        logger.info(msg);
-    })
-    .catch(function (err) {
-        logger.error(err.stack);
-    });
+return transform(options, middleware)
+  .then(msg => logger.info(msg))
+  .catch(err => logger.error(err.stack));
 ```
 
 Then the result in the `middleware` function can be retrieved from the returned
@@ -546,9 +542,9 @@ From our example above it would be result in this object
 
 ```javascript
 {
-    key1: 'value1',
-    key2: 'value2',
-    key3: 'value3'
+  key1: 'value1',
+  key2: 'value2',
+  key3: 'value3'
 }
 ```
 
@@ -594,7 +590,7 @@ Anyway, there are some fallbacks if a level is not supported:
 # API Reference
 
 For more details on how to use the API, please refer to the
-[API Reference](https://github.com/deadratfink/jy-transform/wiki/API-v2)
+[API Reference](https://github.com/deadratfink/jy-transform/wiki/API-v3)
 wiki which describes the full API and provides more examples.
 
 # Contributing

@@ -1,16 +1,15 @@
 import objectPath from 'object-path';
 import { logger } from '../logger';
-import { Transformer, Middleware } from '../../index';
+import { transform } from '../../src/transformer';
+import { ensureMiddleware, identityMiddleware } from '../../src/middleware';
 import { TEST_SUITE_DESCRIPTION_UNIT } from '../helper-constants';
 
 /**
- * @classdesc This unit test suite checks the validity and correctness of {@link Middleware} class.
+ * @module jy-transform:unit-test:test-middleware
+ * @description This unit test suite checks the validity and correctness of {@link middleware} module.
  */
 
 describe(TEST_SUITE_DESCRIPTION_UNIT + ' - middleware - ', () => {
-  const identityMiddleware = Middleware.identityMiddleware;
-  let transformer;
-
   /**
    * Middleware function for altering JSON.
    *
@@ -57,13 +56,6 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - middleware - ', () => {
     return func(json).then(jsonResult => expect(jsonResult).toBe(json));
   };
 
-  /**
-   * Init the test logger.
-   */
-  beforeAll(() => {
-    transformer = new Transformer(logger);
-  });
-
   describe('Testing Transformer middleware', () => {
     it('should alter json', () => {
       expect.assertions(4);
@@ -71,7 +63,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - middleware - ', () => {
         src: {},
         dest: {}
       };
-      return transformer.transform(options, middleware)
+      return transform(options, middleware)
         .then((msg) => {
           logger.info(msg);
           logger.info('options.dest: ' + JSON.stringify(options.dest, null, 4));
@@ -97,26 +89,26 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - middleware - ', () => {
   describe('Testing middleware.ensureMiddleware()', () => {
     it('should provide passed function', () => {
       expect.assertions(2);
-      const func = Middleware.ensureMiddleware(identityMiddleware);
+      const func = ensureMiddleware(identityMiddleware);
       expect(func).toBeInstanceOf(Function);
       expect(func).toBe(identityMiddleware);
     });
 
     it('should throw TypeError if middleware passed is not a function type', () => {
       expect.assertions(1);
-      expect(() => Middleware.ensureMiddleware('not a function')).toThrow(TypeError);
+      expect(() => ensureMiddleware('not a function')).toThrow(TypeError);
     });
 
     it('should provide identity Promise if middleware passed is null', async () => {
       expect.assertions(2);
-      const func = Middleware.ensureMiddleware();
+      const func = ensureMiddleware();
       expect(func).toBeInstanceOf(Function);
       await assertIdentityPromise(func);
     });
 
     it('should provide identity Promise if middleware passed is undefined', async () => {
       expect.assertions(2);
-      const func = Middleware.ensureMiddleware(undefined);
+      const func = ensureMiddleware(undefined);
       expect(func).toBeInstanceOf(Function);
       await assertIdentityPromise(func);
     });

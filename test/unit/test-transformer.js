@@ -4,13 +4,20 @@ import fsExtra from 'fs-extra';
 import fs from 'fs';
 import path from 'path';
 import { logger } from '../logger';
-import { Transformer, Constants } from '../../index';
+import { transform } from '../../src/transformer';
+import {
+  UTF8,
+  TYPE_YAML,
+  TYPE_JS,
+  TYPE_JSON,
+} from '../../src/constants';
 import { TEST_SUITE_DESCRIPTION_UNIT } from '../helper-constants';
 
 const fsPromised = promisify(fs);
 
 /**
- * @classdesc This unit test suite checks the correct transformation behaviour of {@link Transformer} class.
+ * @module jy-transform:unit-test:test-transformer
+ * @description This unit test suite checks the correct transformation behaviour of {@link Transformer} class.
  */
 
 describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
@@ -26,16 +33,9 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
    */
   const TRANSFORMER_TEST_BASE_DIR = './test/tmp/transformer';
 
-  /**
-   * The testee.
-   * @type {Transformer}
-   */
-  let transformer;
-
   beforeAll(() => {
     fsExtra.ensureDirSync(TRANSFORMER_TEST_BASE_DIR);
     fsExtra.emptyDirSync(TRANSFORMER_TEST_BASE_DIR);
-    transformer = new Transformer(logger);
   });
 
   /**
@@ -68,7 +68,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
    * @param {Function} middleware - The transformation middleware.
    */
   function assertTransformSuccess(options, middleware) {
-    return transformer.transform(options, middleware)
+    return transform(options, middleware)
       .then((msg) => {
         logger.info(msg);
         const stats = fsExtra.statSync(options.dest);
@@ -87,12 +87,12 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
    * @param {Function} done       - Test finished callback.
    */
   function assertYamlTransformSuccess(options, middleware, done) {
-    return transformer.transform(options, middleware)
+    return transform(options, middleware)
       .then((msg) => {
         logger.info(msg);
         const stats = fsExtra.statSync(options.dest);
         expect(stats.isFile()).toBeTruthy();
-        return fsExtra.readFileAsync(options.dest, Constants.UTF8)
+        return fsPromised.readFile(options.dest, UTF8)
           .then((yaml) => {
             try {
               const json = jsYaml.safeLoad(yaml);
@@ -115,10 +115,12 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
 
     it('should store ' + DEST + ' file relative to ' + TRANSFORMER_TEST_BASE_DIR + '/test-data.yaml', async () => {
       expect.assertions(2);
-      const msg = await transformer.transform({ src: path.resolve(TRANSFORMER_TEST_BASE_DIR + '/test-data.yaml') },
-        middlewareFunc);
+      const msg = await transform({
+        src: path.resolve(TRANSFORMER_TEST_BASE_DIR + '/test-data.yaml'),
+        dest: path.resolve(TRANSFORMER_TEST_BASE_DIR + '/test-data.js'),
+      }, middlewareFunc);
       logger.info(msg);
-      const stats = fsExtra.statSync(DEST);
+      const stats = fs.statSync(DEST);
       expect(stats.isFile()).toBeTruthy();
       // eslint-disable-next-line import/no-unresolved, global-require, import/no-dynamic-require
       const json = require('../tmp/transformer/test-data.js');
@@ -194,13 +196,13 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
         dest: path.resolve(DEST),
       };
 
-      transformer.transform(options, middlewareFunc)
+      transform(options, middlewareFunc)
         .then((msg) => {
           logger.info(msg);
           const stats = fsExtra.statSync(options.dest);
           expect(stats.isFile()).toBeTruthy();
 
-          fsPromised.readFile(options.dest, Constants.UTF8)
+          fsPromised.readFile(options.dest, UTF8)
             .then((yaml) => {
               logger.debug('YAML loaded from file ' + options.dest);
               try {
@@ -231,13 +233,13 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
         dest: path.resolve(DEST),
       };
 
-      transformer.transform(options, middlewareFunc)
+      transform(options, middlewareFunc)
         .then((msg) => {
           logger.info(msg);
           const stats = fsExtra.statSync(options.dest);
           expect(stats.isFile()).toBeTruthy();
 
-          fsPromised.readFile(options.dest, Constants.UTF8)
+          fsPromised.readFile(options.dest, UTF8)
             .then((yaml) => {
               logger.debug('YAML loaded from file ' + options.dest);
               try {
