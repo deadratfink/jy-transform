@@ -263,5 +263,16 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - reader - ', () => {
     it('should fail YAML read by missing options.src', () => {
       return expectReaderError({}, readYaml, { name: 'ValidationError', isJoi: true });
     });
+
+    it('should fail read YAML from configured directory source', async () =>
+      await expectReaderError({ src: './test/data' }, readYaml, { name: 'ValidationError', isJoi: true })
+    );
+
+    it('should fail read YAML from file', async () =>
+      await expectReaderError({ src: './test/data/non-existing.yml' }, readYaml, {
+        name: 'ValidationError',
+        isJoi: true
+      })
+    );
   });
 });

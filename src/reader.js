@@ -229,10 +229,6 @@ export async function readYaml(options) {
             logger.error('Unexpected error: ' + err.stack);
             reject(err);
           }
-        })
-        .catch((err) => {
-          self.logger.error('Unexpected error: ' + err.stack);
-          reject(err);
         });
     } else if (isStream.readable(assertedOptions.src)) {
       readFromStream(assertedOptions.src, resolve, reject, TYPE_YAML);
@@ -255,17 +251,10 @@ export async function readYaml(options) {
 //    // load source from YAML source
 //    return fsPromisified.readFile(src, 'utf8')
 //        .then(function(yaml) {
-//            logger.debug('YAML documents loaded from ' + src); // TOD: can this be shortened? -> return Promise.resolve(jsYaml.safeLoadAll(yaml));
-//            return Promise.resolve().then(function () {
-//                var jsDocs = [];
-//                return jsYaml.safeLoadAll(yaml, function (doc) { // TOD this will not work in Promise environment!!!
-//                    self.logger.trace(doc);
-//                    jsDocs.push(doc);
-//                });
-//            });
-//        });
-// };
-// }
+//            logger.debug('YAML documents loaded from ' + src); // TOD: can this be shortened? -> return
+// Promise.resolve(jsYaml.safeLoadAll(yaml)); return Promise.resolve().then(function () { var jsDocs = []; return
+// jsYaml.safeLoadAll(yaml, function (doc) { // TOD this will not work in Promise environment!!!
+// self.logger.trace(doc); jsDocs.push(doc); }); }); }); }; }
 
 export default {
   readJs,

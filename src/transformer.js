@@ -3,17 +3,14 @@ import { TRANSFORMATIONS } from './constants';
 import { ensureMiddleware } from './middleware';
 import { readJs, readYaml } from './reader';
 import Joi from './validation/joi-extensions';
-//import { LogWrapper } from './log-wrapper';
 import { transformerOptionsSchema } from './validation/options-schema';
 import { writeJs, writeJson, writeYaml } from './writer';
 
 /**
- * This method validates the transformation process described by the given
- * options and provides the validate and enriched options and according name
- * to resolve a proper function.
+ * This method creates the transformation described by the given options resolving a name to get the proper function.
  *
  * @param {Options} options - The configuration for a transformation.
- * @returns {Promise} - A Promise containing the passed `options` object and a 'transformation' string in an array.
+ * @returns {Promise.<string>} The transformation name.
  * @example
  * var OptionsHandler = require('./options-handler.js');
  * var logger = ...;
@@ -26,12 +23,8 @@ import { writeJs, writeJson, writeYaml } from './writer';
  * @see {@link transformations}
  * @public
  */
-async function createAndValidateTransformation(options) {
+async function createTransformation(options) {
   const transformation = options.origin + '2' + options.target;
-  if (TRANSFORMATIONS.indexOf(transformation) < 0) {
-    throw new Error('Unsupported target type transformation \'' + options.origin + ' -> '
-      + options.target + '\' configured in options.');
-  }
   console.log('Transformation: ' + transformation)
   return transformation;
 }
@@ -380,7 +373,7 @@ const transformations = {
 export async function transform(options, middleware) {
   logger.debug('transform');
   const ensuredOptions = await Joi.validate(options, transformerOptionsSchema);
-  const transformation = await createAndValidateTransformation(ensuredOptions);
+  const transformation = await createTransformation(ensuredOptions);
   logger.debug('Calling transformation: ' + transformation);
   return await transformations[transformation](ensuredOptions, middleware);
 }

@@ -4,6 +4,8 @@ module.exports = {
   collectCoverageFrom: [
     //'lib/**/*.js',
     'src/**/*.js',
+    '!src/jyt.js', // TODO: maybe later!
+    '!src/debug-log.js', // TODO: maybe later!
     'index.js'
   ],
   coverageDirectory: './coverage/',
