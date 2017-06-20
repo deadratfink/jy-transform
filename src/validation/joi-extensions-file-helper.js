@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { debug, error } from '../debug-log';
+import { debug } from '../debug-log';
 
 /**
  * @module validation:joi-extensions-file-helper
@@ -17,7 +17,7 @@ import { debug, error } from '../debug-log';
  */
 export function isExistingFile(pathStr) {
   debug('>>>>>>>>>>>>>DEBUG ===================================')
-  error('>>>>>>>>>>>>>ERROR ===================================' + new Error('JYT Error'))
+  //error('>>>>>>>>>>>>>ERROR ===================================' + new Error('JYT Error'))
   const filePath = path.resolve(pathStr);
   try {
     const stats = fs.statSync(filePath);

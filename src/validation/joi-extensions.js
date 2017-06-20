@@ -21,8 +21,8 @@ export const EXTENSIONS = {
   base: JoiBase.string(),
   name: 'string',
   language: {
-    existingFile: 'needs to be an absolute or relative path to an existing file [given "value": {{v}}, {{err}}]',
-    validEs6Identifier: 'needs to be a valid ECMAScript 6 identifier [given "value": {{v}}, {{err}}]'
+    existingFile: 'needs to be an absolute or relative path to an existing file (given file path: {{v}})',
+    validEs6Identifier: 'needs to be a valid ECMAScript 6 identifier (given identifier: {{v}})'
   },
   rules: [
     {

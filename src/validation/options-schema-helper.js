@@ -49,13 +49,13 @@ const getTypeFromFilePath = (pathStr, origin, defaultValue) => {
  * @protected
  */
 export const inferOriginDefaultFromStreamReadableFilePath = (context) => {
-  let destType;
+  let type;
   if (isStream.readable(context.dest)) {
-    destType = getTypeFromFilePath(context.src.path, true, DEFAULT_ORIGIN);
+    type = getTypeFromFilePath(context.src.path, true, DEFAULT_ORIGIN);
   } else {
-    destType = DEFAULT_TARGET;
+    type = DEFAULT_ORIGIN;
   }
-  return destType;
+  return type;
 };
 
 /**
@@ -75,13 +75,13 @@ export const inferOriginDefaultFromFilePath = (context) => {
  * @protected
  */
 export const inferTargetDefaultFromStreamWritableFilePath = (context) => {
-  let destType;
+  let type;
   if (isStream.writable(context.dest)) {
-    destType = getTypeFromFilePath(context.dest.path, false, DEFAULT_TARGET);
+    type = getTypeFromFilePath(context.dest.path, false, DEFAULT_TARGET);
   } else {
-    destType = DEFAULT_TARGET;
+    type = DEFAULT_TARGET;
   }
-  return destType;
+  return type;
 };
 
 /**

@@ -126,15 +126,15 @@ Additionally, on API level to a:
 
 ## CLI Usage
 
-The CLI provides the `jyt` command (actually, this might require the use of options).
+The CLI provides the `jyt.js` command (actually, this might require the use of options).
 After the global installation you can access the `Transformer`'s command options
 with the usual `--help` option which prints an overview about all
 available CLI properties:
 
 ```
-$ jyt --help
+$ jyt.js --help
 Usage:
-  jyt INPUT-FILE [OUTPUT-FILE] [OPTIONS]
+  jyt.js INPUT-FILE [OUTPUT-FILE] [OPTIONS]
 
 Options:
   -o, --origin [STRING]  The origin type of INPUT-FILE: [ js | json | yaml ]. (Default is if not given, the type is tried to be inferred from the extension of source path, else it is 'yaml')
@@ -205,7 +205,7 @@ Then we can transform it to a JSON content as _foo.json_ file:
 simply by using this command:
 
 ```
-$ jyt foo.yaml -t json -i 4
+$ jyt.js foo.yaml -t json -i 4
 ```
 
 In this example we have overwritten the standard target type (which is `js`)
@@ -218,7 +218,7 @@ default `js` would have been applied! If the source would have been a `js`
 type like
 
 ```
-$ jyt foo.js -t json -i 4
+$ jyt.js foo.js -t json -i 4
 ```
 
 then the `js` value for `origin` is automatically inferred from file extension.
@@ -227,7 +227,7 @@ Accordingly, this is also true for the `target` option.
 #### Example: JSON ⇒ JS
 The command
 ```
-$ jyt foo.json -i 4
+$ jyt.js foo.json -i 4
 ```
 results in _foo.js_:
 ```javascript
@@ -239,7 +239,7 @@ module.exports = {
 #### Example: JS ⇒ YAML
 The command
 ```
-$ jyt foo.js -t yaml
+$ jyt.js foo.js -t yaml
 ```
 results in _foo.yaml_:
 ```yaml
@@ -250,7 +250,7 @@ foo: bar
 
 Simply specify the _output_ file with a different file name:
 ```
-$ jyt foo.json results/foobar.yaml
+$ jyt.js foo.json results/foobar.yaml
 ```
 
 #### Example: Transformation with Unsupported Source File Extension
@@ -260,7 +260,7 @@ file has a file name which does not imply the type (here a JSON
 type in a TEXT file), then you can simply provide the `-o` option with the
 correct `origin` type (of course, the `-t` option works analogous):
 ```
-$ jyt foo.txt foobar.yaml -o json
+$ jyt.js foo.txt foobar.yaml -o json
 ```
 
 #### Example: Read from File with Exports Identifier
@@ -281,7 +281,7 @@ module.exports.bar = {
 ```
 but you want to convert only `bar` object, then call:
 ```
-$ jyt foo.js bar.yaml -m bar
+$ jyt.js foo.js bar.yaml -m bar
 ```
 to get the YAML result:
 ```yaml
@@ -324,7 +324,7 @@ foo: bar
 ```
 using this command:
 ```
-$ jyt foo.yaml foobar.js -x foobar
+$ jyt.js foo.yaml foobar.js -x foobar
 ```
 This generates the following output in JS file using `foobar` as identifier:
 ```javascript
@@ -349,7 +349,7 @@ overwriting your input source or already generated targets.
 But let's say we want to overwrite the original source now because you want
 to change the indention from 2 to 4 SPACEs, then we can do this as follows:
 ```
-$ jyt foo.js -f
+$ jyt.js foo.js -f
 ```
 Of course, leaving out the `-f` switch creates a new file relatively to
 the `origin`, named as _foo(1).js_ (note the consecutive number). Naturally,

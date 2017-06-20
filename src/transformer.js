@@ -1,11 +1,11 @@
 import logger from 'cli';
+import { TRANSFORMATIONS } from './constants';
+import { ensureMiddleware } from './middleware';
 import { readJs, readYaml } from './reader';
-import { writeJs, writeJson, writeYaml } from './writer';
+import Joi from './validation/joi-extensions';
 //import { LogWrapper } from './log-wrapper';
 import { transformerOptionsSchema } from './validation/options-schema';
-import Joi from './validation/joi-extensions';
-import { ensureMiddleware } from './middleware';
-import { TRANSFORMATIONS } from './constants';
+import { writeJs, writeJson, writeYaml } from './writer';
 
 /**
  * This method validates the transformation process described by the given
@@ -32,6 +32,7 @@ async function createAndValidateTransformation(options) {
     throw new Error('Unsupported target type transformation \'' + options.origin + ' -> '
       + options.target + '\' configured in options.');
   }
+  console.log('Transformation: ' + transformation)
   return transformation;
 }
 
@@ -47,16 +48,17 @@ async function createAndValidateTransformation(options) {
  * @param {Function} write        - The writer functions.
  * @example
  * var options = {...};
- * var middleware = function (obj) {
+ * var middleware = async (obj) => {
  *     ...
  * };
- * itmo(options, readYaml, middleware, writeJson);
+ * const result = await itmo(options, readYaml, middleware, writeJson);
  * @private
  */
-function itmo(options, read, middleware, write) {
-  return read(options)
-    .then(ensureMiddleware(middleware))
-    .then(json => write(json, options));
+async function itmo(options, read, middleware, write) {
+  const ensuredMiddleware = ensureMiddleware(middleware);
+  let json = await read(options);
+  json = await ensuredMiddleware(json);
+  return await write(json, options);
 }
 
 // ////////////////////////////////////////////////////////////////////////////
@@ -70,9 +72,8 @@ function itmo(options, read, middleware, write) {
  * @param {Function} [middleware] - This middleware Promise can be used to intercept
  *        the JS object for manipulation. The function signature is `function(object)`.
  *        **NOTE:** the Promise has to return the processed JS object!
- * @returns {Promise}  - Containing the transformation result as message (e.g. to be logged by caller).
- * @throws {TypeError} - Will throw this error when the passed `middleware`
- *         is not type of `Function`.
+ * @returns {Promise.<string>} Containing the transformation result as message (e.g. to be logged by caller).
+ * @throws {TypeError} Will throw this error when the passed `middleware` is not type of `Function`.
  * @throws {Error} Will throw plain error when writing to JS destination failed due to any reason.
  * @example
  * import { transformer } from 'jy-transform';
@@ -336,7 +337,7 @@ const transformations = {
 //  */
 // export class Transformer {
 
-    // const logger = new LogWrapper(logger);
+// const logger = new LogWrapper(logger);
 // const writer = new Writer(logger);
 // const reader = new Reader(logger);
 

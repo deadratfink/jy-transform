@@ -7,7 +7,7 @@ module.exports = {
     'index.js'
   ],
   coverageDirectory: './coverage/',
-  coverageReporters:  ['html', 'lcov', 'lcovonly', 'text'],
+  coverageReporters: ['html', 'lcov', 'lcovonly', 'text'],
   coverageThreshold: {
     global: {
       branches: 100,
@@ -18,17 +18,17 @@ module.exports = {
   },
   mapCoverage: true,
   testMatch: [
-    '**/test/unit/validation/test-joi-extensions-file-helper.js',
-    '**/test/unit/validation/test-joi-extensions-identifier-helper.js',
+    // '**/test/unit/validation/test-joi-extensions-file-helper.js',
+    // '**/test/unit/validation/test-joi-extensions-identifier-helper.js',
     //'**/test/unit/test-transformer.js',
     // '**/test/unit/test-index.js',
-    '**/test/unit/test-reader.js',
-    // '**/test/unit/test-writer.js',
-    '**/test/unit/validation/test-options-schema.js',
-    //'**/test/unit/**/*.js',
+    //'**/test/unit/test-reader.js',
+    //'**/test/unit/test-writer.js',
+    // '**/test/unit/validation/test-options-schema.js',
+    '**/test/unit/**/*.js',
 
     // '**/test/test-log-wrapper.js',
-    // '**/test/test-middleware.js',
+    // '**/test/unit/test-middleware.js',
     // '**/test/test-index.js',
     //'/*.js!**/test/functional/util/**',
     // '!**/test/*.js',

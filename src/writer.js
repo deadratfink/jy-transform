@@ -1,21 +1,16 @@
-import serializeJs from 'serialize-js';
-import jsYaml from 'js-yaml';
-import promisify from 'promisify-es6';
-import mkdirp from 'mkdirp-then';
-import jsonStringifySafe from 'json-stringify-safe';
-import path from 'path';
-import fs from 'fs';
-import os from 'os';
-import isStream from 'is-stream';
 import logger from 'cli';
-import { transformerOptionsSchema } from './validation/options-schema';
+import fs from 'fs';
+import isStream from 'is-stream';
+import jsYaml from 'js-yaml';
+import jsonStringifySafe from 'json-stringify-safe';
+import mkdirp from 'mkdirp-then';
+import os from 'os';
+import path from 'path';
+import promisify from 'promisify-es6';
+import serializeJs from 'serialize-js';
+import { TYPE_JS, TYPE_JSON, TYPE_YAML, UTF8 } from './constants';
 import Joi from './validation/joi-extensions';
-import {
-  UTF8,
-  TYPE_YAML,
-  TYPE_JS,
-  TYPE_JSON,
-} from './constants';
+import { transformerOptionsSchema } from './validation/options-schema';
 
 const fsPromisified = promisify(fs);
 
@@ -50,7 +45,8 @@ function createExportsString(exportsTo) {
  * @param {string} [exportsTo] - Name for export (*IMPORTANT:* must be a valid ES6 identifier).
  * @returns {Promise}          - Promise resolve with the serialized JS object.
  * @private
- * @todo [[#35](https://github.com/deadratfink/jy-transform/issues/35)] Add `'use strict';` in JS output file (-> `'\'use strict\';' + os.EOL + os.EOL + ...`)?
+ * @todo [[#35](https://github.com/deadratfink/jy-transform/issues/35)] Add `'use strict';` in JS output file (->
+ *   `'\'use strict\';' + os.EOL + os.EOL + ...`)?
  */
 function serializeJsToString(object, indent, exportsTo) {
   return createExportsString(exportsTo)
@@ -164,7 +160,7 @@ function writeToFile(object, dest, target, resolve, reject, forceOverwrite) {
  */
 function writeToStream(object, dest, target, resolve, reject) {
   dest
-    .on('error', err => reject(err))
+    .on('error', reject)
     .on('finish', () => resolve('Writing ' + target + ' to stream successful.'));
 
   // write stringified data
@@ -405,6 +401,7 @@ export async function writeJson(object, options) {
    *     });
  */
 export async function writeJs(object, options) {
+  //logger.debug('OPTIONS BEFORE ASSERTING IN writeJs:::' + JSON.stringify(options));
   const assertedOptions = await Joi.validate(options, transformerOptionsSchema);
   return new Promise((resolve, reject) => {
     if (typeof assertedOptions.dest === 'string') { // file
@@ -412,27 +409,26 @@ export async function writeJs(object, options) {
         .then((data) => {
           writeToFile(data, assertedOptions.dest, TYPE_JS, resolve, reject, assertedOptions.force);
         })
-        .catch(err => reject(err));
+        .catch(reject);
     } else if (isStream.writable(assertedOptions.dest)) { // stream
       serializeJsToString(object, assertedOptions.indent, assertedOptions.exports)
         .then((data) => {
           writeToStream(data, assertedOptions.dest, TYPE_JS, resolve, reject);
         })
-        .catch(err => reject(err));
+        .catch(reject);
     } else { // object
       let msg;
       if (assertedOptions.exports) {
-        options.dest[assertedOptions.exports] = object;
+        assertedOptions.dest[assertedOptions.exports] = object;
         msg = 'Writing JS to options.dest.' + assertedOptions.exports + ' successful.';
       } else {
-        options.dest = object;
+        Object.assign(assertedOptions.dest, object);
         msg = 'Writing JS to options.dest successful.';
       }
       resolve(msg);
     }
   });
 }
-// }
 
 export default {
   writeJs,

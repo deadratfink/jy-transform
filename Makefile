@@ -30,7 +30,7 @@ publish: test readme ## Publishes module to NPM registry.
 	npm publish
 
 eslint: ## Runs ESLint.
-	@echo "Running ESLint...\n"
+	@printf "Running ESLint...\n"
 	npm run eslint
 
 help: ## Prints the help about targets.

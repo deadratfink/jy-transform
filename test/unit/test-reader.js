@@ -11,7 +11,7 @@ import {
 
 /**
  * @module jy-transform:unit-test:test-reader
- * @description This unit test suite checks the validity and correctness of {@link Reader} class.
+ * @description This unit test suite checks the validity and correctness of _./src/reader.js_ module.
  */
 
 describe(TEST_SUITE_DESCRIPTION_UNIT + ' - reader - ', () => {

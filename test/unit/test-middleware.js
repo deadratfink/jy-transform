@@ -1,8 +1,8 @@
 import objectPath from 'object-path';
-import { logger } from '../logger';
-import { transform } from '../../src/transformer';
 import { ensureMiddleware, identityMiddleware } from '../../src/middleware';
+import { transform } from '../../src/transformer';
 import { TEST_SUITE_DESCRIPTION_UNIT } from '../helper-constants';
+import { logger } from '../logger';
 
 /**
  * @module jy-transform:unit-test:test-middleware
