@@ -1,7 +1,6 @@
 /**
  * @module jy-transform:middleware
- * @description The module exporting the {@link external:joi.Extension}s for option validations.
- * @see {@link https://github.com/hapijs/joi/blob/v10.2.2/API.md#extendextension Joi.extend(extension) method}.
+ * @description The middleware ensuring functions module.
  * @public
  */
 

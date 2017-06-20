@@ -8,11 +8,12 @@ import {
 } from '../constants';
 
 /**
- * @module validation:options-schema-helper
- * @description The module options schema used in {@link module:options-validator}.
+ * @module jy-transform:validation:options-schema-helper
+ * @description Provides some helper functions used in {@link module:validation:options-schema} to resolve default
+ * values for origin and target depending on the `options.src` or `options.dest` value.
  * @type {Object}
  * @protected
- * @see {@link module:validation:options-validator}
+ * @see {@link module:validation:options-schema}
  */
 
 /**
@@ -43,9 +44,10 @@ const getTypeFromFilePath = (pathStr, origin, defaultValue) => {
 };
 
 /**
+ * TODO describe me.
  *
- * @param context
- * @returns {string}
+ * @param {Object} context - TODO describe me.
+ * @returns {string} The origin type.
  * @protected
  */
 export const inferOriginDefaultFromStreamReadableFilePath = (context) => {
@@ -59,9 +61,10 @@ export const inferOriginDefaultFromStreamReadableFilePath = (context) => {
 };
 
 /**
+ * TODO describe me.
  *
- * @param context
- * @returns {string}
+ * @param {Object} context - TODO describe me.
+ * @returns {string} The origin type.
  * @protected
  */
 export const inferOriginDefaultFromFilePath = (context) => {
@@ -69,9 +72,10 @@ export const inferOriginDefaultFromFilePath = (context) => {
 };
 
 /**
+ * TODO describe me.
  *
- * @param context
- * @returns {string}
+ * @param {Object} context - TODO describe me.
+ * @returns {string} The target type.
  * @protected
  */
 export const inferTargetDefaultFromStreamWritableFilePath = (context) => {
@@ -85,9 +89,10 @@ export const inferTargetDefaultFromStreamWritableFilePath = (context) => {
 };
 
 /**
+ * TODO describe me.
  *
- * @param context
- * @returns {string}
+ * @param {Object} context - TODO describe me.
+ * @returns {string} The target type.
  * @protected
  */
 export const inferTargetDefaultFromFilePath = (context) => {

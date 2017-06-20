@@ -17,7 +17,7 @@ import {
 } from '../constants';
 
 /**
- * @module validation:options-schema
+ * @module jy-transform:validation:options-schema
  * @description The module options schema used in {@link module:options-validator}.
  * @type {Object}
  * @protected

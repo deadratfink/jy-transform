@@ -3,7 +3,7 @@ import path from 'path';
 import { debug } from '../debug-log';
 
 /**
- * @module validation:joi-extensions-file-helper
+ * @module jy-transform:validation:joi-extensions-file-helper
  * @description An (extended) Joi validation schema helper functions for the module options on FS validation.
  * @protected
  */
@@ -16,7 +16,7 @@ import { debug } from '../debug-log';
  * @protected
  */
 export function isExistingFile(pathStr) {
-  debug('>>>>>>>>>>>>>DEBUG ===================================')
+  //debug('>>>>>>>>>>>>>DEBUG ===================================')
   //error('>>>>>>>>>>>>>ERROR ===================================' + new Error('JYT Error'))
   const filePath = path.resolve(pathStr);
   try {

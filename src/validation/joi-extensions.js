@@ -4,7 +4,7 @@ import { isExistingFile } from './joi-extensions-file-helper';
 import { isValidEs6Identifier } from './joi-extensions-identifier-helper';
 
 /**
- * @module validation:joi-extension
+ * @module jy-transform:validation:joi-extension
  * @description The module exporting the {@link external:joi.Extension}s for option validations.
  * @see {@link https://github.com/hapijs/joi/blob/v10.2.2/API.md#extendextension Joi.extend(extension) method}.
  * @public

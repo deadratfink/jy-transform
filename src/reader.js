@@ -15,6 +15,16 @@ import {
   TYPE_JSON,
 } from './constants';
 
+/**
+ * @module jy-transform:reader
+ * @description This module provides the _read_ functionality for YAML, JS or JSON sources.
+ * @public
+ */
+
+/**
+ * Promisified `fs` module.
+ * @private
+ */
 const fsPromisified = promisify(fs);
 
 /**

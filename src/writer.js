@@ -8,10 +8,25 @@ import os from 'os';
 import path from 'path';
 import promisify from 'promisify-es6';
 import serializeJs from 'serialize-js';
-import { TYPE_JS, TYPE_JSON, TYPE_YAML, UTF8 } from './constants';
+import {
+  TYPE_JS,
+  TYPE_JSON,
+  TYPE_YAML,
+  UTF8
+} from './constants';
 import Joi from './validation/joi-extensions';
 import { transformerOptionsSchema } from './validation/options-schema';
 
+/**
+ * @module jy-transform:writer
+ * @description This module provides the _write_ functionality for YAML, JS or JSON targets.
+ * @public
+ */
+
+/**
+ * Promisified `fs` module.
+ * @private
+ */
 const fsPromisified = promisify(fs);
 
 // ////////////////////////////////////////////////////////////////////////////
@@ -96,9 +111,9 @@ function getConsecutiveDestName(dest) {
  * @param {Function} resolve         - The Promise `resolve` callback.
  * @param {Function} reject          - The Promise `reject` callback.
  * @param {boolean} [forceOverwrite] - Forces overwriting the destination file if `true`.
- * @see {@link Constants#TYPE_YAML}
- * @see {@link Constants#TYPE_JSON}
- * @see {@link Constants#TYPE_JS}
+ * @see {@link TYPE_YAML}
+ * @see {@link TYPE_JSON}
+ * @see {@link TYPE_JS}
  * @returns {Promise.<string>} Containing the write success message to handle by caller (e.g. for logging).
  * @throws {Error} If serialized JSON file could not be written due to any reason.
  * @private
