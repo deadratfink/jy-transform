@@ -3,6 +3,12 @@ import cli from 'cli';
 import { DEFAULT_INDENT, DEFAULT_OPTIONS, TYPE_JS, TYPE_JSON, TYPE_YAML } from './constants';
 import { transform } from './transformer';
 
+/**
+ * @module jy-transform:jyt
+ * @description The command line interface.
+ * @private
+ */
+
 // ////////////////////////////////////////////////////////////////////////////
 // CLI INIT
 // ////////////////////////////////////////////////////////////////////////////
@@ -28,8 +34,8 @@ const packagePath = path.join(__dirname, '../package.json');
  * ```
  * long_tag: [short_tag, description, value_type, default_value];
  * ```
- * @type {{origin: *[], target: *[], src: string[], dest: *[], indent: *[], force: string[], imports: string,
- * exports: string}}
+ * @type {{origin: Array, target: Array, src: Array, dest: Array, indent: Array, force: Array, imports: Array, exports:
+ *   Array}}
  * @private
  */
 const options = {

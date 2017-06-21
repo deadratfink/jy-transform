@@ -4,6 +4,7 @@ import { TEST_SUITE_DESCRIPTION_UNIT } from '../../helper-constants';
 /**
  * @module jy-transform:unit-test:test-joi-extensions-identifier-helper
  * @description This unit test suite checks validity and correctness of ES6 identifiers.
+ * @private
  */
 
 describe(TEST_SUITE_DESCRIPTION_UNIT + ' - joi-extensions-identifier-helper - ', () => {

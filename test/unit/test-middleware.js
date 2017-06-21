@@ -7,6 +7,7 @@ import { logger } from '../logger';
 /**
  * @module jy-transform:unit-test:test-middleware
  * @description This unit test suite checks the validity and correctness of {@link middleware} module.
+ * @private
  */
 
 describe(TEST_SUITE_DESCRIPTION_UNIT + ' - middleware - ', () => {

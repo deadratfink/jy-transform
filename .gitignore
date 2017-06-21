@@ -1,5 +1,4 @@
-/bin
-/docs/API.md
+/readme/API.md
 .idea
 *.iml
 /VERSION.txt

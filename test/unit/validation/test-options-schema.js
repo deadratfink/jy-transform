@@ -21,6 +21,7 @@ import Joi from '../../../src/validation/joi-extensions';
 /**
  * @module jy-transform:unit-test:test-options-schema
  * @description This unit test suite checks the validity and correctness of options schema.
+ * @private
  */
 
 describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
@@ -175,7 +176,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
         const validatedOptions = await Joi.validate(options, transformerOptionsSchema);
         expect(validatedOptions.origin).toBe(TYPE_JS);
         expect(validatedOptions.target).toBe(TYPE_YAML);
-    });
+      });
 
     it('should resolve default ' + DEFAULT_TARGET + ' output when options.dest is Stream.Writable (without path) ' +
       'and options.target is not set)', async () => {

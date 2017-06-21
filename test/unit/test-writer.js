@@ -18,6 +18,7 @@ const fsPromised = promisify(fs);
 /**
  * @module jy-transform:unit-test:test-writer
  * @description This unit test suite checks the validity and correctness of _./src/js_ module.
+ * @private
  */
 
 describe(TEST_SUITE_DESCRIPTION_UNIT + ' - writer - ', () => {

@@ -12,8 +12,8 @@ import {
  * @description Provides some helper functions used in {@link module:validation:options-schema} to resolve default
  * values for origin and target depending on the `options.src` or `options.dest` value.
  * @type {Object}
- * @protected
  * @see {@link module:validation:options-schema}
+ * @private
  */
 
 /**

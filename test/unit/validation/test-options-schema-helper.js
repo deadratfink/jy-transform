@@ -24,6 +24,7 @@ import Joi from '../../../src/validation/joi-extensions';
 /**
  * @module jy-transform:unit-test:test-options-schema-helper
  * @description This unit test suite checks the validity and correctness of options schema helper methods.
+ * @private
  */
 
 describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema-helper - ', () => {

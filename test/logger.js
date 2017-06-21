@@ -6,6 +6,13 @@ import fsExtra from 'fs-extra';
 // const ensureDir = promisify(fsExtra.ensureDir);
 // const emptyDir = promisify(fsExtra.emptyDir);
 
+/**
+ * @module jy-transform:unit:logger
+ * @description The test suite logger.
+ * @type {Object}
+ * @private
+ */
+
 // ////////////////////////////////////////////////////////////////////////////
 // PRIVATES
 // ////////////////////////////////////////////////////////////////////////////
@@ -31,7 +38,7 @@ const TEST_TMP_DIR = './test/tmp';
 /**
  * This function formats the log string by given options to log.
  *
- * @param {{timestamp: function, level: string, [message: string], [meta: object]}} options - The formatter options.
+ * @param {Object} options - The formatter options.
  * @returns {string} The log string.
  * @private
  */

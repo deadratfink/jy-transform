@@ -18,6 +18,7 @@ const fsPromised = promisify(fs);
 /**
  * @module jy-transform:unit-test:test-transformer
  * @description This unit test suite checks the correct transformation behaviour of {@link Transformer} class.
+ * @private
  */
 
 describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {

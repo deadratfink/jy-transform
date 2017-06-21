@@ -3,10 +3,10 @@ import chalk from 'chalk';
 import Package from '../package.json';
 
 /**
- * @module helper-constants
+ * @module jy-transform:unit:helper-constants
  * @description The test suite constants definitions.
- * @public
  * @type {Object}
+ * @private
  */
 
 /**

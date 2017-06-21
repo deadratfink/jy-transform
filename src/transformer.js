@@ -7,6 +7,12 @@ import { transformerOptionsSchema } from './validation/options-schema';
 import { writeJs, writeJson, writeYaml } from './writer';
 
 /**
+ * @module jy-transform:transformer
+ * @description This module provides the _transform_ functionality for YAML, JS or JSON source to destination mapping.
+ * @public
+ */
+
+/**
  * This method creates the transformation described by the given options resolving a name to get the proper function.
  *
  * @param {Options} options - The configuration for a transformation.

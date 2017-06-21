@@ -1,7 +1,7 @@
 /**
  * @module jy-transform:validation:joi-extensions-identifier-helper
  * @description An (extended) Joi validation schema helper function for the module options to validate ES6 identifiers.
- * @protected
+ * @private
  */
 
 /**

@@ -4,6 +4,7 @@ import { isExistingFile } from '../../../src/validation/joi-extensions-file-help
 /**
  * @module jy-transform:test-unit:test-joi-extension-file-helper
  * @description This unit test module tests validation FS helper method.
+ * @private
  */
 
 describe(TEST_SUITE_DESCRIPTION_UNIT + ' - joi-extensions-file-helper - ', () => {

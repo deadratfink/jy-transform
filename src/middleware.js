@@ -1,7 +1,7 @@
 /**
  * @module jy-transform:middleware
  * @description The middleware ensuring functions module.
- * @public
+ * @private
  */
 
 /**

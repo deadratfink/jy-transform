@@ -21,7 +21,8 @@
   "private": false,
   "scripts": {
     "build": "babel src -d lib",
-    "readme": "cat docs/LOGO.md > README.md && cat docs/BADGES.md >> README.md && cat docs/TOC.md >> README.md && package-json-to-readme --no-footer ./package.json >> README.md && cat docs/USAGE.md >> README.md && echo '\n# Changelog\n' >> README.md && cat docs/CHANGELOG.md >> README.md && doctoc README.md --github --title '# TOC' --maxlevel 2",
+    "doc": "cat docs/LOGO.md > README.md && cat docs/BADGES.md >> README.md && cat docs/TOC.md >> README.md && package-json-to-readme --no-footer ./package.json >> README.md && cat docs/USAGE.md >> README.md && echo '\n# Changelog\n' >> README.md && cat docs/CHANGELOG.md >> README.md && doctoc README.md --github --title '# TOC' --maxlevel 2",
+    "readme": "bin/create-readme.sh -a true -c true -m true",
     "wiki": "jsdoc2md ./jyt lib/*.js index.js > docs/API.md && doctoc docs/API.md --github --title '### TOC' --maxlevel 2 && cat docs/API.md > '../jy-transform.wiki/API-v2.md' && cat docs/CONTRIBUTING.md > ../jy-transform.wiki/Contributing.md && cat docs/CHANGELOG.md > ../jy-transform.wiki/Changelog.md && doctoc ../jy-transform.wiki/Changelog.md --github --title '### TOC' --maxlevel 3",
     "pretest": "mkdir -pv test/tmp",
     "test": "JYT_DEBUG=true JYT_ERROR=true jest --expand --no-cache --coverage --runInBand --config=./.jestrc.js",
@@ -66,6 +67,7 @@
     "fs-extra": "^1.0.0",
     "istanbul": "^0.4.5",
     "jest": "~20.0.4",
+    "jsdoc-babel": "^0.3.0",
     "jsdoc-parse": "^2.0.5",
     "jsdoc-to-markdown": "^2.0.1",
     "mocha": "^3.1.2",

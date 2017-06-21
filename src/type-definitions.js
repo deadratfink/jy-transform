@@ -1,6 +1,7 @@
 /**
  * @module jy-transform:type-definitions
  * @description The type definitions for this module.
+ * @private
  */
 
 // /////////////////////////////////////////////////////////////////////////////

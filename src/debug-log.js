@@ -5,7 +5,7 @@
  * @description The debug logger. Can be enabled via environment variables (set to `true`):
  * - `JYT_DEBUG`: (only DEBUG logging via `console.log`)
  * - `JYT_DEBUG`: (only ERROR logging via `console.error`)
- * @public
+ * @private
  */
 
 /**

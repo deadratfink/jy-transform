@@ -20,8 +20,8 @@ import {
  * @module jy-transform:validation:options-schema
  * @description The module options schema used in {@link module:options-validator}.
  * @type {Object}
- * @protected
  * @see {@link module:options-validator}
+ * @private
  */
 
 // /////////////////////////////////////////////////////////////////////////////

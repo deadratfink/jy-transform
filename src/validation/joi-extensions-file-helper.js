@@ -5,7 +5,7 @@ import { debug } from '../debug-log';
 /**
  * @module jy-transform:validation:joi-extensions-file-helper
  * @description An (extended) Joi validation schema helper functions for the module options on FS validation.
- * @protected
+ * @private
  */
 
 /**
