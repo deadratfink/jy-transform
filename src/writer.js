@@ -15,7 +15,7 @@ import {
   UTF8
 } from './constants';
 import Joi from './validation/joi-extensions';
-import { transformerOptionsSchema } from './validation/options-schema';
+import { writerOptionsSchema } from './validation/options-schema';
 
 /**
  * @module jy-transform:writer
@@ -233,23 +233,25 @@ function writeToStream(object, dest, target, resolve, reject) {
  *   });
  */
 async function writeYaml(object, options) {
-  const assertedOptions = await Joi.validate(options, transformerOptionsSchema);
   return new Promise((resolve, reject) => {
     let yaml;
     try {
-      yaml = jsYaml.safeDump(object, { indent: assertedOptions.indent, noRefs: true });
+      yaml = jsYaml.safeDump(object, { indent: options.indent, noRefs: true });
     } catch (err) {
-      err.message = 'Could not write YAML file \'' + assertedOptions.dest + '\', cause: ' + err.message;
+      err.message = 'Could not write YAML to \'' + options.dest + '\', cause: ' + err.message;
       reject(err);
       return;
     }
 
-    if (typeof assertedOptions.dest === 'string') { // file
-      writeToFile(yaml, assertedOptions.dest, TYPE_YAML, resolve, reject, assertedOptions.force);
-    } else if (isStream.writable(assertedOptions.dest)) { // stream
-      writeToStream(yaml, assertedOptions.dest, TYPE_YAML, resolve, reject);
+    if (typeof options.dest === 'string') { // file
+      writeToFile(yaml, options.dest, TYPE_YAML, resolve, reject, options.force);
+    } else if (isStream.writable(options.dest)) { // stream
+      writeToStream(yaml, options.dest, TYPE_YAML, resolve, reject);
     } else { // object
+      console.log('YAAAMLLLLLL: ' + yaml)
+      console.log('options.dest1: ' + JSON.stringify(options.dest))
       options.dest = yaml;
+      //options.dest.text = yaml;
       resolve('Writing YAML to options.dest successful.');
     }
   });
@@ -318,16 +320,15 @@ async function writeYaml(object, options) {
    *     });
  */
 async function writeJson(object, options) {
-  const assertedOptions = await Joi.validate(options, transformerOptionsSchema);
   return new Promise((resolve, reject) => {
-    if (typeof assertedOptions.dest === 'string') { // file
-      writeToFile(serializeJsToJsonString(object, assertedOptions.indent), assertedOptions.dest, TYPE_JSON,
-        resolve, reject, assertedOptions.force);
-    } else if (isStream.writable(assertedOptions.dest)) { // stream
-      writeToStream(serializeJsToJsonString(object, assertedOptions.indent), assertedOptions.dest,
+    if (typeof options.dest === 'string') { // file
+      writeToFile(serializeJsToJsonString(object, options.indent), options.dest, TYPE_JSON,
+        resolve, reject, options.force);
+    } else if (isStream.writable(options.dest)) { // stream
+      writeToStream(serializeJsToJsonString(object, options.indent), options.dest,
         TYPE_JSON, resolve, reject);
     } else { // object
-      options.dest = serializeJsToJsonString(object, assertedOptions.indent);
+      options.dest = serializeJsToJsonString(object, options.indent);
       resolve('Writing JSON to options.dest successful.');
     }
   });
@@ -398,27 +399,26 @@ async function writeJson(object, options) {
  */
 async function writeJs(object, options) {
   //logger.debug('OPTIONS BEFORE ASSERTING IN writeJs:::' + JSON.stringify(options));
-  const assertedOptions = await Joi.validate(options, transformerOptionsSchema);
   return new Promise((resolve, reject) => {
-    if (typeof assertedOptions.dest === 'string') { // file
-      serializeJsToString(object, assertedOptions.indent, assertedOptions.exports)
+    if (typeof options.dest === 'string') { // file
+      serializeJsToString(object, options.indent, options.exports)
         .then((data) => {
-          writeToFile(data, assertedOptions.dest, TYPE_JS, resolve, reject, assertedOptions.force);
+          writeToFile(data, options.dest, TYPE_JS, resolve, reject, options.force);
         })
         .catch(reject);
-    } else if (isStream.writable(assertedOptions.dest)) { // stream
-      serializeJsToString(object, assertedOptions.indent, assertedOptions.exports)
+    } else if (isStream.writable(options.dest)) { // stream
+      serializeJsToString(object, options.indent, options.exports)
         .then((data) => {
-          writeToStream(data, assertedOptions.dest, TYPE_JS, resolve, reject);
+          writeToStream(data, options.dest, TYPE_JS, resolve, reject);
         })
         .catch(reject);
     } else { // object
       let msg;
-      if (assertedOptions.exports) {
-        assertedOptions.dest[assertedOptions.exports] = object;
-        msg = 'Writing JS to options.dest.' + assertedOptions.exports + ' successful.';
+      if (options.exports) {
+        options.dest[options.exports] = object;
+        msg = 'Writing JS to options.dest.' + options.exports + ' successful.';
       } else {
-        Object.assign(assertedOptions.dest, object);
+        Object.assign(options.dest, object);
         msg = 'Writing JS to options.dest successful.';
       }
       resolve(msg);
@@ -429,18 +429,27 @@ async function writeJs(object, options) {
 /**
  * TODO: doc me.
  *
+ * @param {Object} options  - The source object to write.
  * @param {Options} options - The write options.
  * @returns {Promise.<string>} Resolves with write success message.
  * @public
  */
-export async function write(options) {
-  switch (options.target) {
+export async function write(object, options) {
+  const assertedOptions = await Joi.validate(options, writerOptionsSchema);
+  console.log('options after validation 1: ' + JSON.stringify(options))
+  // HINT: we have to use the original options object because the caller must not loose the reference to options.dest,
+  // so we copy everything here except the assertedOptions.dest (joi does not return the original reference)!
+  Object.assign(options, { target: assertedOptions.target }, { exports: assertedOptions.exports },
+    { indent: assertedOptions.indent }, { force: assertedOptions.force });
+  console.log('options after validation 2: ' + JSON.stringify(options))
+  assertedOptions.dest = options.dest;
+  switch (assertedOptions.target) {
     case TYPE_JS:
-      return await writeJs(options);
+      return await writeJs(object, options);
     case TYPE_JSON:
-      return await writeJson(options);
+      return await writeJson(object, options);
     case TYPE_YAML:
-      return await writeYaml(options);
+      return await writeYaml(object, options);
     default: // TODO better handling
       throw new Error('should not happen!');
   }

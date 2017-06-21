@@ -85,7 +85,7 @@ function readFromStream(readable, resolve, reject, origin) {
  *
  * @param {Options} options - Contains the JS/JSON source reference to read from.
  * @returns {Promise.<Object>} Contains the read JS object.
- * @public
+ * @private
  * @example
  * var Reader = require('jy-transform').Reader;
  * var logger = ...;
@@ -137,7 +137,7 @@ function readFromStream(readable, resolve, reject, origin) {
    *         logger.error(err.stack);
    *     });
  */
-export async function readJs(options) {
+async function readJs(options) {
   logger.debug('OPTIONS BEFORE ASSERTING IN readJs:::' + JSON.stringify(options));
   const assertedOptions = await Joi.validate(options, readerOptionsSchema);
   return new Promise((resolve, reject) => {
@@ -173,10 +173,10 @@ export async function readJs(options) {
         reject(new Error('an identifier string \'' + options.imports + '\' was specified for JS object ' +
           'but could not find this object, pls ensure that object source contains it.'));
       } else {
-        resolve(obj);
+        resolve(Object.assign({}, obj)); // clone, do not alter original object!
       }
     } else {
-      resolve(assertedOptions.src);
+      resolve(Object.assign({}, assertedOptions.src));  // clone, do not alter original object!
     }
   });
 }
@@ -188,7 +188,7 @@ export async function readJs(options) {
  *
  * @param {Options} options - Contains the YAML source reference to read from.
  * @returns {Promise.<Object>} Contains the read JS object.
- * @public
+ * @private
  * @example
  * var Reader = require('jy-transform').Reader;
  * var logger = ...;
@@ -223,10 +223,9 @@ export async function readJs(options) {
    *         logger.error(err.stack);
    *     });
  */
-export async function readYaml(options) {
+async function readYaml(options) {
   logger.debug('OPTIONS BEFORE ASSERTING IN readYaml::: ' + JSON.stringify(options));
   const assertedOptions = await Joi.validate(options, readerOptionsSchema);
-  const self = this;
   return new Promise((resolve, reject) => {
     if (typeof assertedOptions.src === 'string') {
       // load source from YAML file
@@ -243,7 +242,7 @@ export async function readYaml(options) {
     } else if (isStream.readable(assertedOptions.src)) {
       readFromStream(assertedOptions.src, resolve, reject, TYPE_YAML);
     } else {
-      resolve(assertedOptions.src);
+      resolve(assertedOptions.src); // TODO does that make sense?
     }
   });
 }
@@ -266,7 +265,26 @@ export async function readYaml(options) {
 // jsYaml.safeLoadAll(yaml, function (doc) { // TOD this will not work in Promise environment!!!
 // self.logger.trace(doc); jsDocs.push(doc); }); }); }); }; }
 
+/**
+ * TODO: doc me.
+ *
+ * @param {Options} options - The read options.
+ * @returns {Promise.<string>} Resolves with read success message.
+ * @public
+ */
+export async function read(options) {
+  const assertedOptions = await Joi.validate(options, readerOptionsSchema);
+  switch (assertedOptions.origin) {
+    case TYPE_JS:
+    case TYPE_JSON:
+      return await readJs(assertedOptions);
+    case TYPE_YAML:
+      return await readYaml(assertedOptions);
+    default: // TODO better handling
+      throw new Error('should not happen!');
+  }
+}
+
 export default {
-  readJs,
-  readYaml,
+  read,
 };

@@ -31,32 +31,26 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - index - ', () => {
     );
 
     describe('Exported Reader', () =>
-      it('should be an existing Reader object', () => {
-        expect.assertions(7);
+      it('should be an existing Reader object with read function', () => {
+        expect.assertions(5);
         expect(index.Reader).toBeDefined();
         expect(index.Reader).toBeInstanceOf(Object);
-        expect(Object.keys(index.Reader)).toHaveLength(2);
-        const { readJs, readYaml } = index.Reader;
-        expect(readJs).toBeDefined();
-        expect(readJs).toBeInstanceOf(Function);
-        expect(readYaml).toBeDefined();
-        expect(readYaml).toBeInstanceOf(Function);
+        expect(Object.keys(index.Reader)).toHaveLength(1);
+        const { read } = index.Reader;
+        expect(read).toBeDefined();
+        expect(read).toBeInstanceOf(Function);
       })
     );
 
     describe('Exported Writer', () =>
-      it('should be an existing Writer object', () => {
-        expect.assertions(9);
+      it('should be an existing Writer object with write function', () => {
+        expect.assertions(5);
         expect(index.Writer).toBeDefined();
         expect(index.Writer).toBeInstanceOf(Object);
-        expect(Object.keys(index.Writer)).toHaveLength(3);
-        const { writeJs, writeJson, writeYaml } = index.Writer;
-        expect(writeJs).toBeDefined();
-        expect(writeJs).toBeInstanceOf(Function);
-        expect(writeJson).toBeDefined();
-        expect(writeJson).toBeInstanceOf(Function);
-        expect(writeYaml).toBeDefined();
-        expect(writeYaml).toBeInstanceOf(Function);
+        expect(Object.keys(index.Writer)).toHaveLength(1);
+        const { write } = index.Writer;
+        expect(write).toBeDefined();
+        expect(write).toBeInstanceOf(Function);
       })
     );
 

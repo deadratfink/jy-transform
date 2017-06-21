@@ -39,14 +39,6 @@ export const TYPE_JSON = 'json';
 export const TYPE_JS = 'js';
 
 /**
- * The type constants assembled in an array: `[ 'yaml', 'json', 'js' ]`.
- * @type {string[]}
- * @constant
- * @public
- */
-export const TYPES = [TYPE_YAML, TYPE_JSON, TYPE_JS];
-
-/**
  * A map for extensions to type.
  *
  * @type {{yml: string, yaml: string, js: string, json: string}}
@@ -175,93 +167,3 @@ export const DEFAULT_OPTIONS = {
   imports: DEFAULT_JS_IMPORTS_IDENTIFIER,
   exports: DEFAULT_JS_EXPORTS_IDENTIFIER,
 };
-
-/**
- * The transformation direction YAML ⇒ JS.
- * @type {string}
- * @constant
- * @public
- */
-export const YAML_TO_JS = 'yaml2js';
-
-/**
- * The transformation direction YAML ⇒ JSON.
- * @type {string}
- * @constant
- * @public
- */
-export const YAML_TO_JSON = 'yaml2json';
-
-/**
- * The transformation direction JS ⇒ YAML.
- * @type {string}
- * @constant
- * @public
- */
-export const JS_TO_YAML = 'js2yaml';
-
-/**
- * The transformation direction JSON ⇒ YAML.
- * @type {string}
- * @constant
- * @public
- */
-export const JSON_TO_YAML = 'json2yaml';
-
-/**
- * The transformation direction JSON ⇒ JS.
- * @type {string}
- * @constant
- * @public
- */
-export const JSON_TO_JS = 'json2js';
-
-/**
- * The transformation direction JS ⇒ JSON.
- * @type {string}
- * @constant
- * @public
- */
-export const JS_TO_JSON = 'js2json';
-
-/**
- * The transformation direction YAML ⇒ YAML.
- * @type {string}
- * @constant
- * @public
- */
-export const YAML_TO_YAML = 'yaml2yaml';
-
-/**
- * The transformation direction JSON ⇒ JSON.
- * @type {string}
- * @constant
- * @public
- */
-export const JSON_TO_JSON = 'json2json';
-
-/**
- * The transformation direction JS ⇒ JS.
- * @type {string}
- * @constant
- * @public
- */
-export const JS_TO_JS = 'js2js';
-
-/**
- * The transformation directions.
- * @type {string[]}
- * @constant
- * @public
- */
-export const TRANSFORMATIONS = [
-  YAML_TO_JS,
-  YAML_TO_JSON,
-  JS_TO_YAML,
-  JSON_TO_YAML,
-  JSON_TO_JS,
-  JS_TO_JSON,
-  YAML_TO_YAML,
-  JSON_TO_JSON,
-  JS_TO_JS
-];

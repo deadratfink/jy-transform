@@ -25,9 +25,9 @@ module.exports = {
     //'**/test/unit/test-transformer.js',
     // '**/test/unit/test-index.js',
     //'**/test/unit/test-reader.js',
-    '**/test/unit/test-writer.js',
+    //'**/test/unit/test-writer.js',
     // '**/test/unit/validation/test-options-schema.js',
-    //'**/test/unit/**/*.js',
+    '**/test/unit/**/*.js',
 
     // '**/test/test-log-wrapper.js',
     // '**/test/unit/test-middleware.js',

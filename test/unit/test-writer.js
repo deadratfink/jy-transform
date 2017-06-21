@@ -96,9 +96,9 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - writer - ', () => {
    * @param {Object} [match={name:'Error'}] - The propertie(s) error should contain.
    * @private
    */
-  const expectWriteError = (options, match = { name: 'Error' }) => {
+  const expectWriteError = (object, options, match = { name: 'Error' }) => {
     expect.assertions(1);
-    return expect(write(options)).rejects.toMatchObject(match);
+    return expect(write(object, options)).rejects.toMatchObject(match);
   };
 
   /**
@@ -108,16 +108,16 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - writer - ', () => {
    * @param {Error} [match=Error'] - The error type to match.
    * @private
    */
-  const expectWriteErrorByType = (options, match = Error) => {
+  const expectWriteErrorByType = (object, options, match = Error) => {
     expect.assertions(1);
-    return expect(write(options)).rejects.toBeInstanceOf(match);
+    return expect(write(object, options)).rejects.toBeInstanceOf(match);
   };
 
   describe('Testing writeJs(...)', () => {
     it('should write JS to file', async () => {
       expect.assertions(2);
       const file = WRITER_TEST_BASE_DIR + '/test-data-by-js-to-file.js';
-      const msg = await write({ src: JSON_CONTENT, dest: file });
+      const msg = await write(JSON_CONTENT, { dest: file });
       expect(msg).toBeDefined();
       await expectDestFileExists(file);
     });
@@ -125,7 +125,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - writer - ', () => {
     it('should write JS to stream', async () => {
       expect.assertions(2);
       const file = WRITER_TEST_BASE_DIR + '/test-data-by-js-stream.js';
-      const msg = write({ src: JSON_CONTENT, dest: fs.createWriteStream(file) });
+      const msg = await write(JSON_CONTENT, { dest: fs.createWriteStream(file) });
       expect(msg).toBeDefined();
       await expectDestFileExists(file);
     });
@@ -134,12 +134,11 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - writer - ', () => {
       expect.assertions(4);
       const file = WRITER_TEST_BASE_DIR + '/test-data-by-js-stream-with-exports-identifier.js';
       const options = {
-        src: JSON_CONTENT,
         target: TYPE_JS,
         dest: fs.createWriteStream(file),
         exports: 'test',
       };
-      const msg = write(options);
+      const msg = await write(JSON_CONTENT, options);
       expect(msg).toBeDefined();
       await expectDestFileExists(file);
       // eslint-disable-next-line import/no-unresolved, global-require
@@ -148,33 +147,30 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - writer - ', () => {
       expect(json.test).toBe('value');
     });
 
-    it('should write JS to file and fail by invalid exports identifier (\'#3/-\')', () => {
+    it('should fail writing JS to file by invalid exports identifier (\'#3/-\')', () => {
       const options = {
-        src: JSON_CONTENT,
         dest: WRITER_TEST_BASE_DIR + '/test-data-by-js-stream-with-invalid-exports-identifier.js',
         exports: '#3/-',
       };
-      return expectWriteError(options, { name: 'ValidationError', isJoi: true });
+      return expectWriteError(JSON_CONTENT, options, { name: 'ValidationError', isJoi: true });
     });
 
     it('should write JS to stream and fail by invalid exports identifier (\'#3/-\')', () => {
       const file = WRITER_TEST_BASE_DIR + '/test-data-by-js-stream-with-invalid-exports-identifier.js';
       const options = {
-        src: JSON_CONTENT,
         dest: fs.createWriteStream(file),
         exports: '#3/-',
       };
-      return expectWriteError(options, { name: 'ValidationError', isJoi: true });
+      return expectWriteError(JSON_CONTENT, options, { name: 'ValidationError', isJoi: true });
     });
 
     it('should write JS to stream and fail by invalid exports identifier (\'if\')', () => {
       const file = WRITER_TEST_BASE_DIR + '/test-data-by-js-stream-with-invalid-exports-identifier.js';
       const options = {
-        src: JSON_CONTENT,
         dest: fs.createWriteStream(file),
         exports: 'if',
       };
-      return expectWriteError(options, { name: 'ValidationError', isJoi: true });
+      return expectWriteError(JSON_CONTENT, options, { name: 'ValidationError', isJoi: true });
     });
 
     it('should write JS to stream and fail by provoked error', () => {
@@ -186,7 +182,6 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - writer - ', () => {
         done();
       };
       return expectWriteErrorByType(JSON_CONTENT, {
-        src: JSON_CONTENT,
         target: TYPE_JS,
         dest: errorThrowingStream,
       }, Error);
@@ -194,8 +189,8 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - writer - ', () => {
 
     it('should write JS to JS object', async () => {
       expect.assertions(4);
-      const options = { src: JSON_CONTENT, dest: {} };
-      const msg = await write(options);
+      const options = { dest: {} };
+      const msg = await write(JSON_CONTENT, options);
       expect(msg).toBeDefined();
       expect(options.dest).toBeDefined();
       expect(Object.prototype.hasOwnProperty.call(options.dest, 'test')).toBeTruthy();
@@ -204,22 +199,20 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - writer - ', () => {
 
     it('should reject to write JS to JS object with options.exports == \'\'', async () => {
       const options = {
-        src: JSON_CONTENT,
         dest: {},
         exports: '',
       };
-      return expectWriteError(options, { name: 'ValidationError', isJoi: true });
+      return expectWriteError(JSON_CONTENT, options, { name: 'ValidationError', isJoi: true });
     });
 
     const exports = 'foo';
     it('should write JS to JS object with options.exports == \'' + exports + '\'', async () => {
       expect.assertions(5);
       const options = {
-        src: JSON_CONTENT,
         dest: {},
         exports,
       };
-      const msg = await write(options);
+      const msg = await write(JSON_CONTENT, options);
       expect(msg).toBeDefined();
       expect(options.dest).toBeDefined();
       expect(Object.prototype.hasOwnProperty.call(options.dest, exports)).toBeTruthy();
@@ -230,20 +223,18 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - writer - ', () => {
     const invalidIdentifier = '#3/-';
     it('should reject write JS with Error on invalid identifier for options.exports: ' + invalidIdentifier, () => {
       const options = {
-        src: JSON_CONTENT,
         dest: {},
         exports: invalidIdentifier,
       };
-      return expectWriteError(options, { name: 'ValidationError', isJoi: true });
+      return expectWriteError(JSON_CONTENT, options, { name: 'ValidationError', isJoi: true });
     });
 
     it('should reject write JS with Error on missing destination', () => {
-      return expectWriteError({ src: JSON_CONTENT }, { name: 'ValidationError', isJoi: true });
+      return expectWriteError(JSON_CONTENT, {}, { name: 'ValidationError', isJoi: true });
     });
 
     it('should reject write JS to file by invalid file path', (done) => {
       const options = {
-        src: JSON_CONTENT,
         dest: WRITER_TEST_BASE_DIR +
         '/<>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_' +
         'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_' +
@@ -276,10 +267,9 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - writer - ', () => {
     it('should write JSON to file', async () => {
       expect.assertions(2);
       const options = {
-        src: JSON_CONTENT,
         dest: WRITER_TEST_BASE_DIR + '/test-data-by-json-to-file.json'
       };
-      const msg = await write(options);
+      const msg = await write(JSON_CONTENT, options);
       expect(msg).toBeDefined();
       await expectDestFileExists(options.dest);
     });
@@ -287,8 +277,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - writer - ', () => {
     it('should write JSON to stream', async () => {
       expect.assertions(2);
       const file = WRITER_TEST_BASE_DIR + '/test-data-by-json-stream.json';
-      const msg = await write({
-        src: JSON_CONTENT,
+      const msg = await write(JSON_CONTENT, {
         target: TYPE_JSON,
         dest: fs.createWriteStream(file),
       });
@@ -299,19 +288,14 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - writer - ', () => {
     it('should write JS to JS object', async () => {
       expect.assertions(4);
       const options = {
-        src: JSON_CONTENT,
         dest: {},
       };
-      const msg = await write(options);
+      const msg = await write(JSON_CONTENT, options);
       expect(msg).toBeDefined();
       expect(options.dest).toBeDefined();
-      const result = JSON.parse(options.dest);
-      expect(Object.prototype.hasOwnProperty.call(result, 'test')).toBeDefined();
-      expect(result.test).toBe('value');
-    });
-
-    it('should reject with Error on missing destination', () => {
-      return expectWriteError({ src: JSON_CONTENT }, { name: 'ValidationError', isJoi: true });
+      //const result = JSON.parse(options.dest); // TODO is this correct?
+      expect(Object.prototype.hasOwnProperty.call(options.dest, 'test')).toBeDefined();
+      expect(options.dest.test).toBe('value');
     });
   });
 
@@ -319,8 +303,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - writer - ', () => {
     it('should write YAML to file', async () => {
       expect.assertions(2);
       const file = WRITER_TEST_BASE_DIR + '/test-data-by-js-to-file.yaml';
-      const msg = await write({
-        src: JSON_CONTENT,
+      const msg = await write(JSON_CONTENT, {
         dest: file
       });
       expect(msg).toBeDefined();
@@ -330,8 +313,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - writer - ', () => {
     it('should write YAML to stream', async () => {
       expect.assertions(2);
       const file = WRITER_TEST_BASE_DIR + '/test-data-by-js-stream.yaml';
-      const msg = await write({
-        src: JSON_CONTENT,
+      const msg = await write(JSON_CONTENT, {
         target: TYPE_YAML,
         dest: fs.createWriteStream(file),
       });
@@ -342,11 +324,12 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - writer - ', () => {
     it('should write stringified YAML to JS object', async () => {
       expect.assertions(3);
       const options = {
-        src: JSON_CONTENT,
         target: TYPE_YAML,
-        dest: {}
+        dest: { XXXX: 'YYXXXX' },
       };
-      const msg = await write(options);
+      const msg = await write(JSON_CONTENT, options);
+
+      console.log('options.dest 2: ' + JSON.stringify(options.dest))
       expect(msg).toBeDefined();
       expect(options.dest).toBeDefined();
       const key = Object.keys(JSON_CONTENT)[0];
@@ -357,20 +340,18 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - writer - ', () => {
       const invalidYamlJson = () => {
       };
       return expectWriteError(invalidYamlJson, {
-        src: invalidYamlJson,
         dest: WRITER_TEST_BASE_DIR + '/test-data-by-js-to-file-invalid.yaml'
       }, { name: 'YAMLException' });
     });
 
     it('should reject with Error on missing destination', () => {
-      return expectWriteError({ src: JSON_CONTENT }, { name: 'ValidationError', isJoi: true });
+      return expectWriteError(JSON_CONTENT, {}, { name: 'ValidationError', isJoi: true });
     });
   });
 
   describe('Testing force overwrite file', () => {
     it('should reject when options.dest is a directory', () => {
-      return expectWriteErrorByType({
-        src: JSON_CONTENT,
+      return expectWriteErrorByType(JSON_CONTENT, {
         dest: './test/data',
         target: TYPE_YAML
       }, Error);
@@ -381,26 +362,24 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - writer - ', () => {
       expect.assertions(13);
       const dest = WRITER_TEST_BASE_DIR + '/test-data-file-overwriting.yaml';
       let options = {
-        src: JSON_CONTENT,
         indent: 4,
         dest,
       };
 
       const asyncFunctions = [
         async () => {
-          const msg = await write(options);
+          const msg = await write(JSON_CONTENT, options);
           expect(msg).toBeDefined();
           await expectDestFileExists(dest);
           return 'overwrite test #1 should initially write YAML to file \'' + dest + '\'';
         },
         async () => {
           options = {
-            src: JSON_CONTENT,
             indent: 4,
             dest,
             force: true
           };
-          const msg = await write(options);
+          const msg = await write(JSON_CONTENT, options);
           expect(msg).toBeDefined();
           await expectDestFileExists(dest);
           await expectDestFileDoesNotExist(WRITER_TEST_BASE_DIR + '/test-data-file-overwriting(1).yaml');
@@ -408,12 +387,11 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - writer - ', () => {
         },
         async () => {
           options = {
-            src: JSON_CONTENT,
             indent: 4,
             dest,
             force: false,
           };
-          const msg = await write(options);
+          const msg = await write(JSON_CONTENT, options);
           expect(msg).toBeDefined();
           await expectDestFileExists(WRITER_TEST_BASE_DIR + '/test-data-file-overwriting(1).yaml');
           return 'overwrite test #3 shouldn\'t overwrite existing YAML file \'' + dest +
@@ -421,12 +399,11 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - writer - ', () => {
         },
         async () => {
           options = {
-            src: JSON_CONTENT,
             indent: 4,
             dest,
             force: true
           };
-          const msg = await write(options);
+          const msg = await write(JSON_CONTENT, options);
           expect(msg).toBeDefined();
           await expectDestFileDoesNotExist(WRITER_TEST_BASE_DIR + '/test-data-file-overwriting(2).yaml');
           //logger.info('testing overwrite #' + (index++) + '/' + asyncFunctions.length + ': ' + msg);
@@ -434,11 +411,10 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - writer - ', () => {
         },
         async () => {
           options = {
-            src: JSON_CONTENT,
             indent: 4,
             dest,
           };
-          const msg = await write(options);
+          const msg = await write(JSON_CONTENT, options);
           expect(msg).toBeDefined();
           await expectDestFileExists(WRITER_TEST_BASE_DIR + '/test-data-file-overwriting(2).yaml');
           //logger.info('testing overwrite #' + (index++) + '/' + asyncFunctions.length + ': ' + msg);
