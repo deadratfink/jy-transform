@@ -19,7 +19,8 @@ import { transformerOptionsSchema } from './validation/options-schema';
 
 /**
  * @module jy-transform:writer
- * @description This module provides the _write_ functionality for YAML, JS or JSON targets.
+ * @description This module provides the _write_ functionality to write JS objects from memory to a JSON/JS/YAML
+ * destination (file, object or {@link stream.Readable}).
  * @public
  */
 
@@ -166,9 +167,9 @@ function writeToFile(object, dest, target, resolve, reject, forceOverwrite) {
  * @param {string} target    - The target type, one of [ 'yaml' | 'json' | 'js' ].
  * @param {Function} resolve - The Promise `resolve` callback.
  * @param {Function} reject  - The Promise `reject` callback.
- * @see {@link Constants#TYPE_YAML}
- * @see {@link Constants#TYPE_JSON}
- * @see {@link Constants#TYPE_JS}
+ * @see {@link TYPE_YAML}
+ * @see {@link TYPE_JSON}
+ * @see {@link TYPE_JS}
  * @returns {Promise.<string>} Containing the write success message to handle by caller (e.g. for logging).
  * @throws {Error} If serialized JS object could not be written due to any reason.
  * @private
@@ -184,36 +185,16 @@ function writeToStream(object, dest, target, resolve, reject) {
 }
 
 /**
- * @class This class provides utility methods usable to write JS objects
- *        from memory to a JSON/JS/YAML destination
- *        (file, object or {@link stream.Readable}).
- * @example
- * const { Writer } from 'jy-transform');
- * const logger = ...;
- * const writer = new Writer(logger);
- */
-// export class Writer {
-//   /**
-//    * Constructs the `Writer` with an (optional) logger.
-//    *
-//    * @param {(logger|cli|console)} [logger=console] - Logger instance.
-//    * @public
-//    */
-//   constructor(logger) {
-//     this.logger = new LogWrapper(logger);
-//   }
-
-/**
  * Writes a JS object to a YAML destination.
  *
  * @param {Object} object   - The JS object to write into YAML destination.
  * @param {Options} options - The write destination and indention.
- * @see {@link Constants#MIN_INDENT}
- * @see {@link Constants#DEFAULT_INDENT}
- * @see {@link Constants#MAX_INDENT}
+ * @see {@link MIN_INDENT}
+ * @see {@link DEFAULT_INDENT}
+ * @see {@link MAX_INDENT}
  * @returns {Promise.<string>} Containing the write success message to handle by caller (e.g. for logging).
  * @throws {Error} If YAML destination could not be written due to any reason.
- * @public
+ * @private
  * @example
  * var Writer = require('jy-transform').Writer;
  * var logger = ...;
@@ -251,7 +232,7 @@ function writeToStream(object, dest, target, resolve, reject) {
  *     logger.error(err.stack);
  *   });
  */
-export async function writeYaml(object, options) {
+async function writeYaml(object, options) {
   const assertedOptions = await Joi.validate(options, transformerOptionsSchema);
   return new Promise((resolve, reject) => {
     let yaml;
@@ -279,11 +260,11 @@ export async function writeYaml(object, options) {
  *
  * @param {Object} object   - The JS object to write into JSON destination.
  * @param {Options} options - The write destination and indention.
- * @see {@link Constants#MIN_INDENT}
- * @see {@link Constants#DEFAULT_INDENT}
- * @see {@link Constants#MAX_INDENT}
+ * @see {@link MIN_INDENT}
+ * @see {@link DEFAULT_INDENT}
+ * @see {@link MAX_INDENT}
  * @returns {Promise.<string>} Containing the write success message to handle by caller (e.g. for logging).
- * @public
+ * @private
  * @example
  * var Writer = require('jy-transform').Writer;
  * var logger = ...;
@@ -336,7 +317,7 @@ export async function writeYaml(object, options) {
    *         logger.error(err.stack);
    *     });
  */
-export async function writeJson(object, options) {
+async function writeJson(object, options) {
   const assertedOptions = await Joi.validate(options, transformerOptionsSchema);
   return new Promise((resolve, reject) => {
     if (typeof assertedOptions.dest === 'string') { // file
@@ -357,11 +338,11 @@ export async function writeJson(object, options) {
  *
  * @param {Object} object - The JSON to write into JS destination.
  * @param {Options} options - The write destination and indention.
- * @see {@link Constants#MIN_INDENT}
- * @see {@link Constants#DEFAULT_INDENT}
- * @see {@link Constants#MAX_INDENT}
- * @returns {Promise} - Containing the write success message to handle by caller (e.g. for logging).
- * @public
+ * @see {@link MIN_INDENT}
+ * @see {@link DEFAULT_INDENT}
+ * @see {@link MAX_INDENT}
+ * @returns {Promise.<string>} - Containing the write success message to handle by caller (e.g. for logging).
+ * @private
  * @example
  * var Writer = require('jy-transform').Writer;
  * var logger = ...;
@@ -415,7 +396,7 @@ export async function writeJson(object, options) {
    *         logger.error(err.stack);
    *     });
  */
-export async function writeJs(object, options) {
+async function writeJs(object, options) {
   //logger.debug('OPTIONS BEFORE ASSERTING IN writeJs:::' + JSON.stringify(options));
   const assertedOptions = await Joi.validate(options, transformerOptionsSchema);
   return new Promise((resolve, reject) => {
@@ -445,8 +426,26 @@ export async function writeJs(object, options) {
   });
 }
 
+/**
+ * TODO: doc me.
+ *
+ * @param {Options} options - The write options.
+ * @returns {Promise.<string>} Resolves with write success message.
+ * @public
+ */
+export async function write(options) {
+  switch (options.target) {
+    case TYPE_JS:
+      return await writeJs(options);
+    case TYPE_JSON:
+      return await writeJson(options);
+    case TYPE_YAML:
+      return await writeYaml(options);
+    default: // TODO better handling
+      throw new Error('should not happen!');
+  }
+}
+
 export default {
-  writeJs,
-  writeJson,
-  writeYaml,
+  write,
 };
