@@ -10,12 +10,18 @@
 
 /**
  * DEBUG function.
+ *
  * @protected
  */
 export const debug = process.env.JYT_DEBUG === 'true' ?
   console.log.bind(null, '[DEBUG][jyt.js]:') :
   (() => null);
 
+/**
+ * DEBUG function.
+ *
+ * @protected
+ */
 export const error = process.env.JYT_ERROR === 'true' ?
   console.error.bind(null, '[ERROR][jyt.js]:') :
   (() => null);

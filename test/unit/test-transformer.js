@@ -5,12 +5,7 @@ import fs from 'fs';
 import path from 'path';
 import { logger } from '../logger';
 import { transform } from '../../src/transformer';
-import {
-  UTF8,
-  TYPE_YAML,
-  TYPE_JS,
-  TYPE_JSON,
-} from '../../src/constants';
+import { UTF8 } from '../../src/constants';
 import { TEST_SUITE_DESCRIPTION_UNIT } from '../helper-constants';
 
 const fsPromised = promisify(fs);
@@ -110,6 +105,38 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
         done(err);
       });
   }
+
+  describe('Testing transform with middleware', () => {
+    it('should throw TypeError if middleware passed is not a function type', async () => {
+      expect.assertions(1);
+      await expect(transform({ src: {}, dest: {} }, 'not a function')).rejects.toBeInstanceOf(TypeError);
+    });
+
+    it('should not fail if middleware passed is returning a Promise', () => {
+      expect.assertions(1);
+      const returningPromise = async (object) => {
+        return object;
+      };
+      return expect(transform({ src: {}, dest: {} }, returningPromise))
+        .resolves.toBe('Writing JS to options.dest successful.');
+    });
+
+    it('should not fail if middleware passed is not returning a Promise', () => {
+      expect.assertions(1);
+      const notReturningPromise = (object) => {
+        return object;
+      };
+      return expect(transform({ src: {}, dest: {} }, notReturningPromise))
+        .resolves.toBe('Writing JS to options.dest successful.');
+    });
+  });
+
+  describe('Testing transform without middleware', () => {
+    it('should not fail', () => {
+      expect.assertions(1);
+      return expect(transform({ src: {}, dest: {} })).resolves.toBe('Writing JS to options.dest successful.');
+    });
+  });
 
   describe('Testing Transformer transforming from YAML to JS to relative path', () => {
     const DEST = TRANSFORMER_TEST_BASE_DIR + '/test-data.js';

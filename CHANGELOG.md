@@ -1,31 +1,34 @@
+## Changelog
+
 #### v3.0.0
 
 - **CLI & API Changes (Backwards Incompatible!):**
   - Removed support for Node.js < v4.0
   - Default `options.indent` is 2 (instead of 4) now which seems to be more common in the JS/Node.js community
   
-- **API Changes only (Backwards Incompatible!):**
-  - Prototype removal from `Transformer`, `Reader` and `Writer`, turning it to simple exports of functions
-  - Easier usage by using named imports only for all classes (i.e. also for `Transformer`)
-  - The formerly exported `middleware` is not public anymore
-  - Eased interfaces:
-    - The formerly exported `Reader.readJs(...)|readYaml(...)` functions are not public anymore and replaced by a more simple to use `read(options)` function
-    - The formerly exported `Writer.writeJs(...)|writeJson(...)|readYaml(...)` functions are not public anymore and replaced by a more simple to use `write(options)` function
-  - The `options.imports/exports` are not allowed to be empty strings anymore (just leave it out)
+- **API Changes Only (Backwards Incompatible!):**
   - The exported constants `YAML`, `JS` and `JSON` (usable for `options.origin/target`) are renamed respectively to `TYPE_YAML`, `TYPE_JS` and `TYPE_JSON`
-  - `options.dest` is required for `Transfomer` and `Writer` on API usage now
+  - Eased interface:
+    - Prototype approach removed from `Transformer`, `Reader` and `Writer`, turning it to internal modules with exports of _named_ functions to provide a simplified interface
+      - The formerly exported `Reader.readJs(...)/readYaml(...)` functions are not public anymore and replaced by a general `read(options)` function
+      - The formerly exported `Writer.writeJs(...)/writeJson(...)/writeYaml(...)` functions are not public anymore and replaced by a general `write(object, options)` function
+    - The formerly exported `middleware` is not publicly available anymore    
+    - Reduced and named export of constants: `TYPE_YAML`, `TYPE_JS` and `TYPE_JSON` only
+  - The `options.imports/exports` are not allowed to be empty strings anymore (semantically senseless, just leave it out)
+  - The configuration property `options.dest` is required for `Transformer` and `Writer` when using the API
   - Removal of `LogWrapper` (no more logger injection possible/needed)
   
 - Internal Changes & Improvements:
+  - Documentation restructured
   - Removal of _development_ branch
   - Usage of [babel](https://babeljs.io/) and therefore most modern language features
-  - Code base could be shrinked and readabilty improved
+  - Code base could be shrinked and readabilty was improved
   - Usage of _native promises_ instead of [bluebird](http://bluebirdjs.com/docs/getting-started.html)
   - Tests re-written in [Jest](https://facebook.github.io/jest) (could get rid  of [assert](https://github.com/defunctzombie/commonjs-assert),
     [mocha](https://mochajs.org/) and [istanbul](https://github.com/gotwarlost/istanbul))
   - Add travis build for Node.js v8.x
   - Remove travis build for Node.js < v4.x
-  - Removal of `OptionsHandler` and `Validator` (replaced validation stuff by [joi](https://github.com/hapijs/joi/tree/v10.5.0))
+  - Removal of `OptionsHandler` and `Validator` (replaced the validation by using [joi](https://github.com/hapijs/joi/tree/v10.5.0) now)
 
 #### v2.0.1
 

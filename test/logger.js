@@ -1,5 +1,5 @@
 import winston from 'winston';
-import fsExtra from 'fs-extra';
+// import fsExtra from 'fs-extra'; // TODO clean up this file!
 // import promisify from 'promisify-es6';
 // // import toYAML from 'combarnea-winston-console-formatter';
 //

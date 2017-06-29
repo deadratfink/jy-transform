@@ -4,7 +4,6 @@ api="true"
 package="true"
 changelog="true"
 license="true"
-env="false"
 makefile="true"
 
 while [[ $# -gt 1 ]]; do
@@ -48,6 +47,7 @@ if [ "$package" == "true" ]; then
   touch PACKAGE.md
   node node_modules/.bin/package-json-to-readme --no-footer package.json > PACKAGE.md
   cat readme/LOGO.md >> README.md
+  cat readme/BADGES.md >> README.md
   printf "\n\n" >> README.md
   head -12 PACKAGE.md > README.md
   printf "\n\n" >> README.md
@@ -59,8 +59,6 @@ fi
 ###############################################################################
 # README.md
 ###############################################################################
-
-cat readme/BADGES.md >> README.md
 
 printf "<!-- START doctoc -->\n<!-- END doctoc -->\n\n" >> README.md
 cat readme/DOCUMENTATION.md >> README.md
@@ -83,7 +81,9 @@ fi
 if [ "$api" == "true" ]; then
   printf "Create documentation (API-PUBLIC.md)\n"
   touch API-PUBLIC.md
+  printf "<!-- START doctoc -->\n<!-- END doctoc -->\n\n" >> API-PUBLIC.md
   node node_modules/.bin/jsdoc2md --no-cache --configure .jsdoc.json . > API-PUBLIC.md
+  node node_modules/.bin/doctoc  API-PUBLIC.md --github --title "## TOC" --maxlevel 2
 
   printf -- "- [Public Api Reference](./API-PUBLIC.md)" >> README.md
   printf "\n\n" >> README.md
@@ -96,7 +96,9 @@ fi
 if [ "$api" == "true" ]; then
   printf "Create documentation (API-PRIVATE.md)\n"
   touch API-PRIVATE.md
+  printf "<!-- START doctoc -->\n<!-- END doctoc -->\n\n" >> API-PRIVATE.md
   node node_modules/.bin/jsdoc2md --no-cache --private --configure .jsdoc.json . > API-PRIVATE.md
+  node node_modules/.bin/doctoc  API-PRIVATE.md --github --title "## TOC" --maxlevel 2
 
   printf -- "- [Private Api Reference](./API-PRIVATE.md)" >> README.md
   printf "\n\n" >> README.md
@@ -131,25 +133,11 @@ if [[ -f "$MAKE_FILE" ]] && [[ "$makefile" == "true" ]]; then
 fi
 
 ###############################################################################
-# ENV.md
-###############################################################################
-
-if [ "$env" == "true" ]; then
-  printf "Create documentation (ENV.md)\n"
-
-  touch ENV.md
-  babel-node node_modules/.bin/cfg-combined markdown > ENV.md
-
-  printf -- "- [Environment Reference](./ENV.md)" >> README.md
-  printf "\n\n" >> README.md
-fi
-
-###############################################################################
 # Finalize README.md
 ###############################################################################
 
 if [ "$changelog" == "true" ]; then
-  cat readme/CHANGELOG.md >> README.md
+  cat CHANGELOG.md >> README.md
   printf "\n\n" >> README.md
 fi
 
@@ -162,4 +150,4 @@ fi
 # Create the TOC in README.md
 ###############################################################################
 
-node node_modules/.bin/doctoc README.md --github --title "## TOC" --maxlevel 2
+node node_modules/.bin/doctoc README.md --github --title "## TOC" --maxlevel 3

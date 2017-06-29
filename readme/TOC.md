@@ -1,3 +1,0 @@
-<!-- START doctoc -->
-<!-- END doctoc -->
-

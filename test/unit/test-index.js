@@ -1,4 +1,4 @@
-import index from '../../index';
+import index, { transform, read, write, TYPE_YAML, TYPE_JS, TYPE_JSON } from '../../index';
 import { TEST_SUITE_DESCRIPTION_UNIT } from '../helper-constants';
 
 /**
@@ -14,68 +14,43 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - index - ', () => {
         expect.assertions(3);
         expect(index).toBeDefined();
         expect(index).toBeInstanceOf(Object);
-        expect(Object.keys(index)).toHaveLength(4);
+        expect(Object.keys(index)).toHaveLength(6);
       })
     );
 
-    describe('Exported Transformer', () =>
-      it('should be an existing Transformer object', () => {
-        expect.assertions(5);
-        expect(index.Transformer).toBeDefined();
-        expect(index.Transformer).toBeInstanceOf(Object);
-        expect(Object.keys(index.Transformer)).toHaveLength(1);
-        const { transform } = index.Transformer;
+    describe('Exported transform', () =>
+      it('should be an existing function', () => {
+        expect.assertions(2);
         expect(transform).toBeDefined();
         expect(transform).toBeInstanceOf(Function);
       })
     );
 
-    describe('Exported Reader', () =>
-      it('should be an existing Reader object with read function', () => {
-        expect.assertions(5);
-        expect(index.Reader).toBeDefined();
-        expect(index.Reader).toBeInstanceOf(Object);
-        expect(Object.keys(index.Reader)).toHaveLength(1);
-        const { read } = index.Reader;
+    describe('Exported read', () =>
+      it('should be an existing function', () => {
+        expect.assertions(2);
         expect(read).toBeDefined();
         expect(read).toBeInstanceOf(Function);
       })
     );
 
-    describe('Exported Writer', () =>
-      it('should be an existing Writer object with write function', () => {
-        expect.assertions(5);
-        expect(index.Writer).toBeDefined();
-        expect(index.Writer).toBeInstanceOf(Object);
-        expect(Object.keys(index.Writer)).toHaveLength(1);
-        const { write } = index.Writer;
+    describe('Exported write', () =>
+      it('should be an existing function', () => {
+        expect.assertions(2);
         expect(write).toBeDefined();
         expect(write).toBeInstanceOf(Function);
       })
     );
 
-    describe('Exported Constants', () =>
-      it('should be an existing Constants instance', () => {
-        expect.assertions(4);
-        expect(index.Constants).toBeDefined();
-        expect(typeof index.Constants === 'object').toBeTruthy();
-        const { DEFAULT_FORCE_FILE_OVERWRITE } = index.Constants;
-        expect(DEFAULT_FORCE_FILE_OVERWRITE).toBeDefined();
-        expect(DEFAULT_FORCE_FILE_OVERWRITE).toBeFalsy();
-        // TODO
-        // {DEFAULT_FORCE_FILE_OVERWRITE: false, DEFAULT_INDENT: 2, DEFAULT_JS_EXPORTS_IDENTIFIER: undefined,
-        // DEFAULT_JS_IMPORTS_IDENTIFIER: undefined, DEFAULT_OPTIONS: {dest: storing relative to input file, exports:
-        // undefined, force: false, imports: undefined, indent: 2, origin: if not given, the type is tried to be
-        // inferred from the extension of source path, else it is 'yaml', target: if not given, the type is tried to be
-        // inferred from the extension of destination path, else it is 'js'}, DEFAULT_ORIGIN: yaml, DEFAULT_TARGET: js,
-        // DEST_DESCRIPTION: storing relative to input file, JS: js, JSON: json, JSON_TO_JS: json2js, JSON_TO_JSON:
-        // json2json, JSON_TO_YAML: json2yaml, JS_TO_JS: js2js, JS_TO_JSON: js2json, JS_TO_YAML: js2yaml, MAX_INDENT:
-        // 8, MIN_INDENT: 0, ORIGIN_DESCRIPTION: if not given, the type is tried to be inferred from the extension of
-        // source path, else it is 'yaml', TARGET_DESCRIPTION: if not given, the type is tried to be inferred from the
-        // extension of destination path, else it is 'js', TRANSFORMATIONS: [yaml2js, yaml2json, js2yaml, json2yaml,
-        // json2js, js2json, yaml2yaml, json2json, js2js], TYPES: [yaml, json, js], UTF8: utf8, YAML: yaml, YAML_TO_JS:
-        // yaml2js, YAML_TO_JSON: yaml2json, YAML_TO_YAML: yaml2yaml}
-
+    describe('Exported constants', () =>
+      it('should be existing string values', () => {
+        expect.assertions(6);
+        expect(TYPE_YAML).toBeDefined();
+        expect(TYPE_YAML).toBe('yaml');
+        expect(TYPE_JS).toBeDefined();
+        expect(TYPE_JS).toBe('js');
+        expect(TYPE_JSON).toBeDefined();
+        expect(TYPE_JSON).toBe('json');
       })
     );
   });

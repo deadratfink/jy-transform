@@ -20,12 +20,11 @@ import {
  * Infer from path extension to a type using default value as fallback.
  *
  * @param {string} pathStr      - The file path with or without extension.
- * @param {boolean} origin      - If the type is origin (true) or target (false).
  * @param {string} defaultValue - The default value to use if type cannot be inferred from path.
  * @returns {string} A type value.
  * @private
  */
-const getTypeFromFilePath = (pathStr, origin, defaultValue) => {
+const getTypeFromFilePath = (pathStr, defaultValue) => {
   let type;
   try {
     let ext = path.extname(pathStr);
@@ -47,13 +46,15 @@ const getTypeFromFilePath = (pathStr, origin, defaultValue) => {
  * TODO describe me.
  *
  * @param {Object} context - TODO describe me.
- * @returns {string} The origin type.
+ * @returns {string} The target type.
  * @protected
  */
-export const inferOriginDefaultFromStreamReadableFilePath = (context) => {
+export const inferOriginDefault = (context) => {
   let type;
-  if (isStream.readable(context.dest)) {
-    type = getTypeFromFilePath(context.src.path, true, DEFAULT_ORIGIN);
+  if (isStream.readable(context.src)) {
+    type = getTypeFromFilePath(context.src.path, DEFAULT_ORIGIN);
+  } else if (typeof context.src === 'string') {
+    type = getTypeFromFilePath(context.src, DEFAULT_ORIGIN);
   } else {
     type = DEFAULT_ORIGIN;
   }
@@ -64,50 +65,22 @@ export const inferOriginDefaultFromStreamReadableFilePath = (context) => {
  * TODO describe me.
  *
  * @param {Object} context - TODO describe me.
- * @returns {string} The origin type.
- * @protected
- */
-export const inferOriginDefaultFromFilePath = (context) => {
-  return getTypeFromFilePath(context.src, true, DEFAULT_ORIGIN);
-};
-
-/**
- * TODO describe me.
- *
- * @param {Object} context - TODO describe me.
  * @returns {string} The target type.
  * @protected
  */
-export const inferTargetDefaultFromStreamWritableFilePath = (context) => {
+export const inferTargetDefault = (context) => {
   let type;
   if (isStream.writable(context.dest)) {
-    type = getTypeFromFilePath(context.dest.path, false, DEFAULT_TARGET);
+    type = getTypeFromFilePath(context.dest.path, DEFAULT_TARGET);
+  } else if (typeof context.dest === 'string') {
+    type = getTypeFromFilePath(context.dest, DEFAULT_TARGET);
   } else {
     type = DEFAULT_TARGET;
   }
   return type;
 };
 
-/**
- * TODO describe me.
- *
- * @param {Object} context - TODO describe me.
- * @returns {string} The target type.
- * @protected
- */
-export const inferTargetDefaultFromFilePath = (context) => {
-  let destType;
-  if (typeof context.dest === 'string') {
-    destType = getTypeFromFilePath(context.dest, false, DEFAULT_TARGET);
-  } else {
-    destType = DEFAULT_TARGET;
-  }
-  return destType;
-};
-
 export default {
-  inferOriginDefaultFromStreamReadableFilePath,
-  inferTargetDefaultFromStreamWritableFilePath,
-  inferOriginDefaultFromFilePath,
-  inferTargetDefaultFromFilePath,
+  inferOriginDefault,
+  inferTargetDefault,
 };

@@ -4,7 +4,7 @@ module.exports = {
   collectCoverageFrom: [
     //'lib/**/*.js',
     'src/**/*.js',
-    '!src/jyt.js', // TODO: maybe later!
+    '!src/cli.js', // TODO: maybe later!
     '!src/debug-log.js', // TODO: maybe later!
     'index.js'
   ],
@@ -25,15 +25,16 @@ module.exports = {
     //'**/test/unit/test-transformer.js',
     // '**/test/unit/test-index.js',
     //'**/test/unit/test-reader.js',
-    //'**/test/unit/test-writer.js',
-    // '**/test/unit/validation/test-options-schema.js',
+    // '**/test/unit/test-writer.js',
+     //'**/test/unit/validation/test-options-schema.js',
     '**/test/unit/**/*.js',
+//'**/test/unit/validation/test-options-schema-helper.js',
 
     // '**/test/test-log-wrapper.js',
     // '**/test/unit/test-middleware.js',
     // '**/test/test-index.js',
     //'/*.js!**/test/functional/util/**',
-    // '!**/test/*.js',
+    //'!**/test/*.js',
   ],
   // testRegex: '\\/test\\/unit\\/.*|\/\\.js?$/',
   testEnvironment: 'node',

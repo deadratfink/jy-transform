@@ -35,7 +35,7 @@ const fsPromisified = promisify(fs);
  * @returns {Function}               - The function which reads and buffers.
  * @private
  */
-function createReadableFunction(readable, bufs) {
+function createOnReadableEventFunction(readable, bufs) {
   return () => {
     let chunk;
     while (null !== (chunk = readable.read())) {
@@ -55,12 +55,12 @@ function createReadableFunction(readable, bufs) {
  * @private
  */
 function readFromStream(readable, resolve, reject, origin) {
-  const bufs = [];
+  const buffers = [];
   readable
-    .on('readable', createReadableFunction(readable, bufs))
-    .on('error', err => reject(err))
+    .on('readable', createOnReadableEventFunction(readable, buffers)) // TODO better: .on('data', (data) => buffers.push(data)) ??
+    .on('error', reject)
     .on('end', () => {
-      const buffer = Buffer.concat(bufs);
+      const buffer = Buffer.concat(buffers);
       try {
         logger.debug(origin + ' reading from Readable');
         if (origin === TYPE_JSON || origin === TYPE_JS) {
@@ -86,97 +86,46 @@ function readFromStream(readable, resolve, reject, origin) {
  * @param {Options} options - Contains the JS/JSON source reference to read from.
  * @returns {Promise.<Object>} Contains the read JS object.
  * @private
- * @example
- * var Reader = require('jy-transform').Reader;
- * var logger = ...;
- * var reader = new Reader(logger);
- *
- * // --- from file path
- *
- * var options = {
-   *    src: 'foo.js'
-   * };
- *
- * reader.readJs(options)
- *     .then(function (obj){
-   *         logger.info(JSON.stringify(obj));
-   *     })
- *     .catch(function (err) {
-   *         logger.error(err.stack);
-   *     });
- *
- *
- * // --- from Readable
- *
- * options = {
-   *     src: fs.createReadStream('foo.js')
-   * };
- *
- * reader.readJs(options)
- *     .then(function (obj){
-     *         logger.info(JSON.stringify(obj));
-     *     })
- *     .catch(function (err) {
-   *         logger.error(err.stack);
-   *     });
- *
- *
- * // --- from object
- *
- * options = {
-   *     src: {
-   *         foo: 'bar'
-   *     }
-   * };
- *
- * reader.readJs(options)
- *     .then(function (obj){
-   *         logger.info(JSON.stringify(obj));
-   *     })
- *     .catch(function (err) {
-   *         logger.error(err.stack);
-   *     });
  */
 async function readJs(options) {
   logger.debug('OPTIONS BEFORE ASSERTING IN readJs:::' + JSON.stringify(options));
-  const assertedOptions = await Joi.validate(options, readerOptionsSchema);
   return new Promise((resolve, reject) => {
-    if (typeof assertedOptions.src === 'string') {
+    if (typeof options.src === 'string') { // path to JSON or JS file
       try {
-        const resolvedPath = path.resolve('', assertedOptions.src);
+        const resolvedPath = path.resolve('', options.src);
 
-        if ((path.extname(assertedOptions.src) === '.js' || options.origin === TYPE_JS) && options.imports) {
+        if (options.imports) {
           // eslint-disable-next-line import/no-dynamic-require, global-require
-          const json = require(resolvedPath)[options.imports];
-          logger.debug('LOADED JSON object (' + options.imports + '):: ' + stringify(json, null, 4));
-          if (!json) {
+          const object = require(resolvedPath)[options.imports];
+          logger.debug('LOADED JSON object (' + options.imports + '):: ' + stringify(object, null, 4));
+          if (!object) {
             reject(new Error('an identifier string \'' + options.imports + '\' was specified for JS object' +
-              ' but could not find this object, pls ensure that file ' + assertedOptions.src +
+              ' but could not find this object, pls ensure that file ' + options.src +
               ' contains it.'));
           } else {
-            resolve(json);
+            resolve(object);
           }
         } else {
           // eslint-disable-next-line import/no-dynamic-require, global-require
-          resolve(require(resolvedPath));
+          resolve(require(resolvedPath)); // reads both: JS and JSON!
         }
       } catch (err) { // probably a SyntaxError
         logger.error('Unexpected error: ' + err.stack);
         reject(err);
       }
-    } else if (isStream.readable(assertedOptions.src)) {
-      readFromStream(assertedOptions.src, resolve, reject, TYPE_JSON);
-    } else if (options.imports) {
-      const obj = assertedOptions.src[options.imports];
-      logger.debug('LOADED JSON object (' + options.imports + '):: ' + stringify(obj, null, 4));
-      if (!obj) {
+    } else if (isStream.readable(options.src)) {
+      readFromStream(options.src, resolve, reject, TYPE_JSON); // reads both: JS or JSON!
+    } else if (options.imports) { // options.src is JS object here!
+      const subObject = options.src[options.imports];
+      logger.debug('LOADED JSON object (' + options.imports + '):: ' + stringify(subObject, null, 4));
+      if (!subObject) {
         reject(new Error('an identifier string \'' + options.imports + '\' was specified for JS object ' +
           'but could not find this object, pls ensure that object source contains it.'));
       } else {
-        resolve(Object.assign({}, obj)); // clone, do not alter original object!
+        resolve(Object.assign({}, subObject)); // clone, do not alter original object!
       }
-    } else {
-      resolve(Object.assign({}, assertedOptions.src));  // clone, do not alter original object!
+    } else { // // options.src is JS object here!
+      resolve(Object.assign({}, options.src));  // clone, do not alter original object!
     }
   });
 }
@@ -189,49 +138,15 @@ async function readJs(options) {
  * @param {Options} options - Contains the YAML source reference to read from.
  * @returns {Promise.<Object>} Contains the read JS object.
  * @private
- * @example
- * var Reader = require('jy-transform').Reader;
- * var logger = ...;
- * var reader = new Reader(logger);
- *
- * // --- from file path
- *
- * options = {
-   *     src: 'foo.yml'
-   * };
- *
- * reader.readYaml(options)
- *     .then(function (obj){
-   *         logger.info(JSON.stringify(obj));
-   *     })
- *     .catch(function (err) {
-   *         logger.error(err.stack);
-   *     });
- *
- *
- * // --- from Readable
- *
- * options = {
-   *     src: fs.createReadStream('foo.yml')
-   * };
- *
- * reader.readJs(options)
- *     .then(function (obj){
-   *         logger.info(JSON.stringify(obj));
-   *     })
- *     .catch(function (err) {
-   *         logger.error(err.stack);
-   *     });
  */
 async function readYaml(options) {
   logger.debug('OPTIONS BEFORE ASSERTING IN readYaml::: ' + JSON.stringify(options));
-  const assertedOptions = await Joi.validate(options, readerOptionsSchema);
   return new Promise((resolve, reject) => {
-    if (typeof assertedOptions.src === 'string') {
+    if (typeof options.src === 'string') {
       // load source from YAML file
-      fsPromisified.readFile(assertedOptions.src, UTF8)
+      fsPromisified.readFile(options.src, UTF8)
         .then((yaml) => {
-          logger.debug('YAML loaded from file ' + assertedOptions.src);
+          logger.debug('YAML loaded from file ' + options.src);
           try {
             resolve(jsYaml.safeLoad(yaml));
           } catch (err) { // probably a YAMLException
@@ -239,10 +154,8 @@ async function readYaml(options) {
             reject(err);
           }
         });
-    } else if (isStream.readable(assertedOptions.src)) {
-      readFromStream(assertedOptions.src, resolve, reject, TYPE_YAML);
-    } else {
-      resolve(assertedOptions.src); // TODO does that make sense?
+    } else { // as validation has passed already, this can only be stream here
+      readFromStream(options.src, resolve, reject, TYPE_YAML);
     }
   });
 }
@@ -266,11 +179,35 @@ async function readYaml(options) {
 // self.logger.trace(doc); jsDocs.push(doc); }); }); }); }; }
 
 /**
- * TODO: doc me.
+ * Reads a particular content type from a source provided in the passed `options`.
  *
- * @param {Options} options - The read options.
- * @returns {Promise.<string>} Resolves with read success message.
+ * @param {module:type-definitions~ReaderOptions} options - The read options.
+ * @returns {Promise.<string>} Resolves with JS object result.
  * @public
+ * @example
+ * import { read } from 'jy-transform';
+ *
+ * // --- from file path
+ *
+ * options = {
+ *   src: 'foo.yml'
+ * };
+ *
+ * read(options)
+ *   .then(obj => console.log(JSON.stringify(obj)))
+ *   .catch(console.error);
+ *
+ *
+ * // --- from Readable
+ *
+ * options = {
+ *   src: fs.createReadStream('foo.yml')
+ * };
+ *
+ * read(options)
+ *   .then(function (obj){
+ *   .then(obj => console.log(JSON.stringify(obj)))
+ *   .catch(console.error);
  */
 export async function read(options) {
   const assertedOptions = await Joi.validate(options, readerOptionsSchema);
@@ -278,10 +215,8 @@ export async function read(options) {
     case TYPE_JS:
     case TYPE_JSON:
       return await readJs(assertedOptions);
-    case TYPE_YAML:
+    default:
       return await readYaml(assertedOptions);
-    default: // TODO better handling
-      throw new Error('should not happen!');
   }
 }
 

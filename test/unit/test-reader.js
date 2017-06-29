@@ -1,7 +1,6 @@
 import YAMLException from 'js-yaml/lib/js-yaml/exception';
 import fs from 'fs';
 import { read } from '../../src/reader';
-import { logger } from '../logger';
 import { TEST_SUITE_DESCRIPTION_UNIT } from '../helper-constants';
 import {
   TYPE_JS,
@@ -55,12 +54,12 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - reader - ', () => {
     expect(json[key]).toBe(expectedValue);
   };
 
-  describe('Testing Reader.readJs(...)', () => {
+  describe('The reading from JS', () => {
     const exports = 'fooBar';
     const exportsNotExists = 'notFooBar';
     const invalidIdentifier = '#3/-';
 
-    it('should reject on reading JS with options.imports == \'\'', () => {
+    it('should reject with options.imports == \'\'', () => {
       const options = {
         src: './test/data/test-data.js',
         imports: '',
@@ -68,11 +67,26 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - reader - ', () => {
       return expectReaderError(options, { name: 'ValidationError', isJoi: true });
     });
 
-    it('should read JS from file', async () =>
+    it('should read JS successfully', async () =>
+      await expectReaderSuccess({ src: { myproperty: 'value' } }, 'myproperty', 'value')
+    );
+
+    it('should read JS from file successfully', async () =>
       await expectReaderSuccess({ src: './test/data/test-data.js' }, 'myproperty', 'old value')
     );
 
-    it('should read JS from file with options.imports == \'' + exports + '\'', async () => {
+    it('should read JS from JS object successfully and both object references are different', async () => {
+      expect.assertions(3);
+      const options = {
+        src: {},
+      };
+      const object = await read(options);
+      expect(object).toBeDefined();
+      expect(object).toMatchObject({});
+      expect(object === options.src).toBe(false);
+    });
+
+    it('should read JS from file with options.imports == \'' + exports + '\' successfully', async () => {
       expect.assertions(5);
       const options = {
         src: './test/data/test-imports.js',
@@ -87,7 +101,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - reader - ', () => {
     });
 
     it('should read JS from file with options.imports == \'' + exports
-      + '\' and given origin for unsupported file extension', async () => {
+      + '\' and given origin for unsupported file extension successfully', async () => {
       expect.assertions(5);
       const options = {
         src: './test/data/test-imports.txt',
@@ -102,7 +116,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - reader - ', () => {
       expect(json.foo).toBe('bar');
     });
 
-    it('should reject read JS from file with Error on invalid identifier for options.imports: '
+    it('should reject reading JS from file with Error on invalid identifier for options.imports: '
       + invalidIdentifier, () => {
       const options = {
         src: './test/data/test-imports.js',
@@ -111,7 +125,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - reader - ', () => {
       return expectReaderError(options, { name: 'ValidationError', isJoi: true });
     });
 
-    it('should reject read JS from file with Error on non-existent identifier for options.imports: '
+    it('should reject reading JS from file with Error on non-existent identifier for options.imports: '
       + exportsNotExists, () => {
       const options = {
         src: './test/data/test-imports.js',
@@ -120,11 +134,11 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - reader - ', () => {
       return expectReaderErrorByType(options, Error);
     });
 
-    it('should read JSON from file', async () =>
+    it('should read JSON from file successfully', async () =>
       await expectReaderSuccess({ src: './test/data/test-data.json' }, 'myproperty', 'old value')
     );
 
-    it('should read JS from object', async () => {
+    it('should read JS from object successfully', async () => {
       const options = {
         src: {
           foo: 'bar',
@@ -133,7 +147,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - reader - ', () => {
       await expectReaderSuccess(options, 'foo', 'bar');
     });
 
-    it('should read JS from Object with options.imports == \'' + exports + '\'', async () => {
+    it('should read JS from Object with options.imports == \'' + exports + '\' successfully', async () => {
       expect.assertions(6);
       const options = {
         src: {
@@ -153,7 +167,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - reader - ', () => {
       expect(json.foo).toBe('bar');
     });
 
-    it('should reject read JS from Object with Error on invalid identifier for options.imports: '
+    it('should reject reading JS from Object with Error on invalid identifier for options.imports: '
       + invalidIdentifier, () => {
       const options = {
         src: {
@@ -167,7 +181,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - reader - ', () => {
       return expectReaderError(options, { name: 'ValidationError', isJoi: true });
     });
 
-    it('should reject read (deep) JS from file with Error on non-existent identifier for options.imports: '
+    it('should reject reading JS (deeply) from file with Error on non-existent identifier for options.imports: '
       + exportsNotExists, () => {
       const options = {
         src: {
@@ -181,7 +195,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - reader - ', () => {
       return expectReaderErrorByType(options, Error);
     });
 
-    it('should read JSON from stream', async () =>
+    it('should read JSON from stream successfully', async () =>
       await expectReaderSuccess({
         origin: TYPE_JSON,
         src: fs.createReadStream('./test/data/test-data.json')
@@ -226,16 +240,16 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - reader - ', () => {
     });
   });
 
-  describe('Testing Reader.readYaml(...)', () => {
-    it('should read YAML from file', async () =>
+  describe('Testing reading from YAML', () => {
+    it('should read YAML from file successfully', async () =>
       await expectReaderSuccess({ src: './test/data/test-data.yaml' }, 'myproperty', 'old value')
     );
 
-    it('should read JS from object', async () =>
+    it('should read JS from object successfully', async () => // TODO
       await expectReaderSuccess({ src: { test: 'value' } }, 'test', 'value')
     );
 
-    it('should read YAML from stream', async () =>
+    it('should read YAML from stream successfully', async () =>
       await expectReaderSuccess({
         origin: TYPE_YAML,
         src: fs.createReadStream('./test/data/test-data.yaml'),
@@ -253,19 +267,23 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - reader - ', () => {
       }, YAMLException);
     });
 
-    it('should fail YAML read by missing input options', () => {
+    it('should fail reading YAML by providing empty JS object as options.src', () => {
+      return expectReaderError({ src: {}, origin: TYPE_YAML }, { name: 'ValidationError', isJoi: true });
+    });
+
+    it('should fail YAML reading by missing input options', () => {
       return expectReaderError(null, { name: 'ValidationError', isJoi: true });
     });
 
-    it('should fail YAML read by missing options.src', () => {
+    it('should fail reading YAML by missing options.src', () => {
       return expectReaderError({}, { name: 'ValidationError', isJoi: true });
     });
 
-    it('should fail read YAML from configured directory source', async () =>
+    it('should fail reading YAML from configured directory source', async () =>
       await expectReaderError({ src: './test/data' }, { name: 'ValidationError', isJoi: true })
     );
 
-    it('should fail read YAML from file', async () =>
+    it('should fail reading YAML from non-existing file', async () =>
       await expectReaderError({ src: './test/data/non-existing.yml' }, {
         name: 'ValidationError',
         isJoi: true

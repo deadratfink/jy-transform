@@ -1,3 +1,19 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+## TOC
+
+- [Modules](#modules)
+- [Members](#members)
+- [jy-transform:constants](#jy-transformconstants)
+- [jy-transform:reader](#jy-transformreader)
+- [jy-transform:transformer](#jy-transformtransformer)
+- [jy-transform:type-definitions](#jy-transformtype-definitions)
+- [jy-transform:writer](#jy-transformwriter)
+- [read ⇒ <code>Promise.&lt;string&gt;</code>](#read-%E2%87%92-codepromiseltstringgtcode)
+- [write ⇒ <code>Promise.&lt;string&gt;</code>](#write-%E2%87%92-codepromiseltstringgtcode)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Modules
 
 <dl>
@@ -10,30 +26,23 @@
 <dt><a href="#module_jy-transform_transformer">jy-transform:transformer</a></dt>
 <dd><p>This module provides the <em>transform</em> functionality for YAML, JS or JSON source to destination mapping.</p>
 </dd>
+<dt><a href="#module_jy-transform_type-definitions">jy-transform:type-definitions</a></dt>
+<dd><p>The type definitions for this module.</p>
+</dd>
 <dt><a href="#module_jy-transform_writer">jy-transform:writer</a></dt>
-<dd><p>This module provides the <em>write</em> functionality for YAML, JS or JSON targets.</p>
+<dd><p>This module provides the <em>write</em> functionality to write JS objects from memory to a JSON/JS/YAML
+destination (file, object or <a href="stream.Readable">stream.Readable</a>).</p>
 </dd>
 </dl>
 
 ## Members
 
 <dl>
-<dt><a href="#readJs">readJs</a> ⇒ <code>Promise.&lt;Object&gt;</code></dt>
-<dd><p>Reads the data from a given JS or JSON source.</p>
+<dt><a href="#read">read</a> ⇒ <code>Promise.&lt;string&gt;</code></dt>
+<dd><p>TODO: doc me.</p>
 </dd>
-<dt><a href="#readYaml">readYaml</a> ⇒ <code>Promise.&lt;Object&gt;</code></dt>
-<dd><p>Loads a single YAML source containing document and returns a JS object.
-<em>NOTE:</em> this function does not understand multi-document sources, it throws
-exception on those.</p>
-</dd>
-<dt><a href="#writeYaml">writeYaml</a> ⇒ <code>Promise.&lt;string&gt;</code></dt>
-<dd><p>Writes a JS object to a YAML destination.</p>
-</dd>
-<dt><a href="#writeJson">writeJson</a> ⇒ <code>Promise.&lt;string&gt;</code></dt>
-<dd><p>Writes a JS object to a JSON destination.</p>
-</dd>
-<dt><a href="#writeJs">writeJs</a> ⇒ <code>Promise</code></dt>
-<dd><p>Writes a JS object to a JS destination. The object is prefixed by <code>module.exports[.${options.exports}] =</code>.</p>
+<dt><a href="#write">write</a> ⇒ <code>Promise.&lt;string&gt;</code></dt>
+<dd><p>TODO: doc me.</p>
 </dd>
 </dl>
 
@@ -50,7 +59,6 @@ Useful constants used for the module and its usage.
     * [~TYPE_YAML](#module_jy-transform_constants..TYPE_YAML) : <code>string</code>
     * [~TYPE_JSON](#module_jy-transform_constants..TYPE_JSON) : <code>string</code>
     * [~TYPE_JS](#module_jy-transform_constants..TYPE_JS) : <code>string</code>
-    * [~TYPES](#module_jy-transform_constants..TYPES) : <code>Array.&lt;string&gt;</code>
     * [~TYPE_MAP](#module_jy-transform_constants..TYPE_MAP) : <code>Object</code>
     * [~DEFAULT_INDENT](#module_jy-transform_constants..DEFAULT_INDENT) : <code>number</code>
     * [~MIN_INDENT](#module_jy-transform_constants..MIN_INDENT) : <code>number</code>
@@ -63,16 +71,6 @@ Useful constants used for the module and its usage.
     * [~DEST_DESCRIPTION](#module_jy-transform_constants..DEST_DESCRIPTION) : <code>string</code>
     * [~DEFAULT_JS_IMPORTS_IDENTIFIER](#module_jy-transform_constants..DEFAULT_JS_IMPORTS_IDENTIFIER) : <code>string</code>
     * [~DEFAULT_JS_EXPORTS_IDENTIFIER](#module_jy-transform_constants..DEFAULT_JS_EXPORTS_IDENTIFIER) : <code>string</code>
-    * [~YAML_TO_JS](#module_jy-transform_constants..YAML_TO_JS) : <code>string</code>
-    * [~YAML_TO_JSON](#module_jy-transform_constants..YAML_TO_JSON) : <code>string</code>
-    * [~JS_TO_YAML](#module_jy-transform_constants..JS_TO_YAML) : <code>string</code>
-    * [~JSON_TO_YAML](#module_jy-transform_constants..JSON_TO_YAML) : <code>string</code>
-    * [~JSON_TO_JS](#module_jy-transform_constants..JSON_TO_JS) : <code>string</code>
-    * [~JS_TO_JSON](#module_jy-transform_constants..JS_TO_JSON) : <code>string</code>
-    * [~YAML_TO_YAML](#module_jy-transform_constants..YAML_TO_YAML) : <code>string</code>
-    * [~JSON_TO_JSON](#module_jy-transform_constants..JSON_TO_JSON) : <code>string</code>
-    * [~JS_TO_JS](#module_jy-transform_constants..JS_TO_JS) : <code>string</code>
-    * [~TRANSFORMATIONS](#module_jy-transform_constants..TRANSFORMATIONS) : <code>Array.&lt;string&gt;</code>
 
 <a name="module_jy-transform_constants..DEFAULT_OPTIONS"></a>
 
@@ -123,13 +121,6 @@ The 'json' type constant.
 
 ### jy-transform:constants~TYPE_JS : <code>string</code>
 The 'js' type constant.
-
-**Kind**: inner constant of <code>[jy-transform:constants](#module_jy-transform_constants)</code>  
-**Access:** public  
-<a name="module_jy-transform_constants..TYPES"></a>
-
-### jy-transform:constants~TYPES : <code>Array.&lt;string&gt;</code>
-The type constants assembled in an array: `[ 'yaml', 'json', 'js' ]`.
 
 **Kind**: inner constant of <code>[jy-transform:constants](#module_jy-transform_constants)</code>  
 **Access:** public  
@@ -221,76 +212,6 @@ The `dest` exports identifier value to write.
 
 **Kind**: inner constant of <code>[jy-transform:constants](#module_jy-transform_constants)</code>  
 **Access:** public  
-<a name="module_jy-transform_constants..YAML_TO_JS"></a>
-
-### jy-transform:constants~YAML_TO_JS : <code>string</code>
-The transformation direction YAML ⇒ JS.
-
-**Kind**: inner constant of <code>[jy-transform:constants](#module_jy-transform_constants)</code>  
-**Access:** public  
-<a name="module_jy-transform_constants..YAML_TO_JSON"></a>
-
-### jy-transform:constants~YAML_TO_JSON : <code>string</code>
-The transformation direction YAML ⇒ JSON.
-
-**Kind**: inner constant of <code>[jy-transform:constants](#module_jy-transform_constants)</code>  
-**Access:** public  
-<a name="module_jy-transform_constants..JS_TO_YAML"></a>
-
-### jy-transform:constants~JS_TO_YAML : <code>string</code>
-The transformation direction JS ⇒ YAML.
-
-**Kind**: inner constant of <code>[jy-transform:constants](#module_jy-transform_constants)</code>  
-**Access:** public  
-<a name="module_jy-transform_constants..JSON_TO_YAML"></a>
-
-### jy-transform:constants~JSON_TO_YAML : <code>string</code>
-The transformation direction JSON ⇒ YAML.
-
-**Kind**: inner constant of <code>[jy-transform:constants](#module_jy-transform_constants)</code>  
-**Access:** public  
-<a name="module_jy-transform_constants..JSON_TO_JS"></a>
-
-### jy-transform:constants~JSON_TO_JS : <code>string</code>
-The transformation direction JSON ⇒ JS.
-
-**Kind**: inner constant of <code>[jy-transform:constants](#module_jy-transform_constants)</code>  
-**Access:** public  
-<a name="module_jy-transform_constants..JS_TO_JSON"></a>
-
-### jy-transform:constants~JS_TO_JSON : <code>string</code>
-The transformation direction JS ⇒ JSON.
-
-**Kind**: inner constant of <code>[jy-transform:constants](#module_jy-transform_constants)</code>  
-**Access:** public  
-<a name="module_jy-transform_constants..YAML_TO_YAML"></a>
-
-### jy-transform:constants~YAML_TO_YAML : <code>string</code>
-The transformation direction YAML ⇒ YAML.
-
-**Kind**: inner constant of <code>[jy-transform:constants](#module_jy-transform_constants)</code>  
-**Access:** public  
-<a name="module_jy-transform_constants..JSON_TO_JSON"></a>
-
-### jy-transform:constants~JSON_TO_JSON : <code>string</code>
-The transformation direction JSON ⇒ JSON.
-
-**Kind**: inner constant of <code>[jy-transform:constants](#module_jy-transform_constants)</code>  
-**Access:** public  
-<a name="module_jy-transform_constants..JS_TO_JS"></a>
-
-### jy-transform:constants~JS_TO_JS : <code>string</code>
-The transformation direction JS ⇒ JS.
-
-**Kind**: inner constant of <code>[jy-transform:constants](#module_jy-transform_constants)</code>  
-**Access:** public  
-<a name="module_jy-transform_constants..TRANSFORMATIONS"></a>
-
-### jy-transform:constants~TRANSFORMATIONS : <code>Array.&lt;string&gt;</code>
-The transformation directions.
-
-**Kind**: inner constant of <code>[jy-transform:constants](#module_jy-transform_constants)</code>  
-**Access:** public  
 <a name="module_jy-transform_reader"></a>
 
 ## jy-transform:reader
@@ -303,41 +224,14 @@ This module provides the _read_ functionality for YAML, JS or JSON sources.
 This module provides the _transform_ functionality for YAML, JS or JSON source to destination mapping.
 
 **Access:** public  
-
-* [jy-transform:transformer](#module_jy-transform_transformer)
-    * [~createTransformation](#module_jy-transform_transformer..createTransformation) ⇒ <code>Promise.&lt;string&gt;</code>
-    * [~transform](#module_jy-transform_transformer..transform) ⇒ <code>Promise.&lt;String&gt;</code>
-
-<a name="module_jy-transform_transformer..createTransformation"></a>
-
-### jy-transform:transformer~createTransformation ⇒ <code>Promise.&lt;string&gt;</code>
-This method creates the transformation described by the given options resolving a name to get the proper function.
-
-**Kind**: inner property of <code>[jy-transform:transformer](#module_jy-transform_transformer)</code>  
-**Returns**: <code>Promise.&lt;string&gt;</code> - The transformation name.  
-**Access:** public  
-**See**: [transformations](transformations)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| options | <code>Options</code> | The configuration for a transformation. |
-
-**Example**  
-```js
-var OptionsHandler = require('./options-handler.js');
-var logger = ...;
-var optionsHandler = new OptionsHandler(logger);
-
-optionsHandler.validateTransformation(options)
-    .spread(function (validatedOptions, transformation) {
-        ...
-    )):
-```
 <a name="module_jy-transform_transformer..transform"></a>
 
 ### jy-transform:transformer~transform ⇒ <code>Promise.&lt;String&gt;</code>
 The entry method for all transformation accepting a configuration object and
-an (optional) middleware function.
+an (optional) middleware function. It executes the transformation logic:
+1. Input (read)
+2. Transform [ + Middleware]
+3. Output (write).
 
 **Kind**: inner property of <code>[jy-transform:transformer](#module_jy-transform_transformer)</code>  
 **Returns**: <code>Promise.&lt;String&gt;</code> - Containing the transformation result as message (e.g. to be logged by caller).  
@@ -350,353 +244,143 @@ an (optional) middleware function.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| options | <code>Options</code> | The configuration for a transformation. |
-| [middleware] | <code>function</code> | This middleware Promise can be used to intercept        the JSON object for altering the passed JSON, the function signature is:        ```        function(json)        ```        <p>        **NOTE:** the Promise has to return the processed JSON! |
+| options | <code>module:type-definitions~TransformerOptions</code> | The configuration for a transformation. |
+| [middleware] | <code>function</code> | This middleware Promise can be used to intercept        the JSON object for altering the passed JSON, the function signature is:        ```        function(object)        ```        <p>        **NOTE:** the Promise has to return the processed JSON. |
 
 **Example**  
 ```js
 import { transform } from 'jy-transform';
 const options = {...};
-const middleware = async (json) {
-    json.myproperty = 'new value';
-    return json;
+const middleware = async (object) {
+  object.myproperty = 'new value';
+  return object;
 };
 
+// ---- Promise style:
+
 transform(options, middleware)
-    .then(function (msg){
-        logger.info(msg);
-    })
-    .catch(function (err) {
-        logger.error(err.stack);
-    });
+  .then(console.log)
+  .catch(console.error);
+
+// ---- async/await style:
+try {
+  const msg = await transform(options, middleware);
+  console.log(msg);
+} catch (err) {
+  console.error(err.stack);
+};
 ```
+<a name="module_jy-transform_type-definitions"></a>
+
+## jy-transform:type-definitions
+The type definitions for this module.
+
+**Access:** public  
+
+* [jy-transform:type-definitions](#module_jy-transform_type-definitions)
+    * [~ReaderOptions](#module_jy-transform_type-definitions..ReaderOptions) : <code>object</code>
+    * [~WriterOptions](#module_jy-transform_type-definitions..WriterOptions) : <code>object</code>
+    * [~TransformerOptions](#module_jy-transform_type-definitions..TransformerOptions) : <code>object</code>
+    * [~TEESTTransformerOptions](#module_jy-transform_type-definitions..TEESTTransformerOptions) : <code>object</code>
+    * [~TEESTT2ransformerOptions](#module_jy-transform_type-definitions..TEESTT2ransformerOptions) : <code>WriterOptions</code> &#124; <code>ReaderOptions</code>
+
+<a name="module_jy-transform_type-definitions..ReaderOptions"></a>
+
+### jy-transform:type-definitions~ReaderOptions : <code>object</code>
+The configuration properties provided to the reader function.
+
+**Kind**: inner typedef of <code>[jy-transform:type-definitions](#module_jy-transform_type-definitions)</code>  
+**Access:** public  
+**Properties**
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| src | <code>string</code> &#124; <code>Stream.Readable</code> &#124; <code>object</code> |  | The source (if `string` type is treated as a file path). |
+| origin | <code>string</code> | <code>&quot;yaml&quot;</code> | The origin type. |
+| imports | <code>string</code> |  | The exports name for reading from JS source files or objects only. |
+
+<a name="module_jy-transform_type-definitions..WriterOptions"></a>
+
+### jy-transform:type-definitions~WriterOptions : <code>object</code>
+The writer configuration properties provided to the writer function.
+
+**Kind**: inner typedef of <code>[jy-transform:type-definitions](#module_jy-transform_type-definitions)</code>  
+**Access:** public  
+**Properties**
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| dest | <code>string</code> &#124; <code>Stream.Writable</code> &#124; <code>object</code> |  | The destination (if `string` type is treated as a file path). |
+| target | <code>string</code> | <code>&quot;js&quot;</code> | The target type. |
+| indent | <code>number</code> | <code>2</code> | The indention in files. |
+| exports | <code>string</code> |  | The exports name for usage in JS destination files only. |
+| force | <code>string</code> | <code>false</code> | Force overwriting of existing output files on write phase. |
+
+<a name="module_jy-transform_type-definitions..TransformerOptions"></a>
+
+### jy-transform:type-definitions~TransformerOptions : <code>object</code>
+The configuration properties provided to the transformer function.
+
+**Kind**: inner typedef of <code>[jy-transform:type-definitions](#module_jy-transform_type-definitions)</code>  
+**Access:** public  
+**Properties**
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| src | <code>string</code> &#124; <code>Stream.Readable</code> &#124; <code>object</code> |  | The source (if `string` type is treated as a file path). |
+| origin | <code>string</code> | <code>&quot;yaml&quot;</code> | The origin type. |
+| imports | <code>string</code> |  | The exports name for reading from JS source files                                                      or objects only. |
+| dest | <code>string</code> &#124; <code>Stream.Writable</code> &#124; <code>object</code> |  | The destination (if `string` type is treated as a file path). |
+| target | <code>string</code> | <code>&quot;js&quot;</code> | The target type. |
+| exports | <code>string</code> |  | The exports name for usage in JS destination files only. |
+| indent | <code>number</code> | <code>2</code> | The indention in files. |
+| force | <code>string</code> | <code>false</code> | Force overwriting of existing output files on write phase. |
+
+<a name="module_jy-transform_type-definitions..TEESTTransformerOptions"></a>
+
+### jy-transform:type-definitions~TEESTTransformerOptions : <code>object</code>
+The configuration properties provided to the transformer function.
+
+**Kind**: inner typedef of <code>[jy-transform:type-definitions](#module_jy-transform_type-definitions)</code>  
+**Access:** public  
+<a name="module_jy-transform_type-definitions..TEESTT2ransformerOptions"></a>
+
+### jy-transform:type-definitions~TEESTT2ransformerOptions : <code>WriterOptions</code> &#124; <code>ReaderOptions</code>
+The configuration properties provided to the transformer function.
+
+**Kind**: inner typedef of <code>[jy-transform:type-definitions](#module_jy-transform_type-definitions)</code>  
+**Access:** public  
 <a name="module_jy-transform_writer"></a>
 
 ## jy-transform:writer
-This module provides the _write_ functionality for YAML, JS or JSON targets.
+This module provides the _write_ functionality to write JS objects from memory to a JSON/JS/YAML
+destination (file, object or [stream.Readable](stream.Readable)).
 
 **Access:** public  
-<a name="readJs"></a>
+<a name="read"></a>
 
-## readJs ⇒ <code>Promise.&lt;Object&gt;</code>
-Reads the data from a given JS or JSON source.
+## read ⇒ <code>Promise.&lt;string&gt;</code>
+TODO: doc me.
 
 **Kind**: global variable  
-**Returns**: <code>Promise.&lt;Object&gt;</code> - Contains the read JS object.  
+**Returns**: <code>Promise.&lt;string&gt;</code> - Resolves with read success message.  
 **Access:** public  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| options | <code>Options</code> | Contains the JS/JSON source reference to read from. |
+| options | <code>module:type-definitions~ReaderOptions</code> | The read options. |
 
-**Example**  
-```js
-var Reader = require('jy-transform').Reader;
-var logger = ...;
-var reader = new Reader(logger);
+<a name="write"></a>
 
-// --- from file path
-
-var options = {
-   src: 'foo.js'
-};
-
-reader.readJs(options)
-    .then(function (obj){
-        logger.info(JSON.stringify(obj));
-    })
-    .catch(function (err) {
-        logger.error(err.stack);
-    });
-
-
-// --- from Readable
-
-options = {
-    src: fs.createReadStream('foo.js')
-};
-
-reader.readJs(options)
-    .then(function (obj){
-        logger.info(JSON.stringify(obj));
-    })
-    .catch(function (err) {
-        logger.error(err.stack);
-    });
-
-
-// --- from object
-
-options = {
-    src: {
-        foo: 'bar'
-    }
-};
-
-reader.readJs(options)
-    .then(function (obj){
-        logger.info(JSON.stringify(obj));
-    })
-    .catch(function (err) {
-        logger.error(err.stack);
-    });
-```
-<a name="readYaml"></a>
-
-## readYaml ⇒ <code>Promise.&lt;Object&gt;</code>
-Loads a single YAML source containing document and returns a JS object.
-*NOTE:* this function does not understand multi-document sources, it throws
-exception on those.
+## write ⇒ <code>Promise.&lt;string&gt;</code>
+TODO: doc me.
 
 **Kind**: global variable  
-**Returns**: <code>Promise.&lt;Object&gt;</code> - Contains the read JS object.  
+**Returns**: <code>Promise.&lt;string&gt;</code> - Resolves with write success message.  
 **Access:** public  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| options | <code>Options</code> | Contains the YAML source reference to read from. |
+| options | <code>Object</code> | The source object to write. |
+| options | <code>module:type-definitions~WriterOptions</code> | The write options. |
 
-**Example**  
-```js
-var Reader = require('jy-transform').Reader;
-var logger = ...;
-var reader = new Reader(logger);
-
-// --- from file path
-
-options = {
-    src: 'foo.yml'
-};
-
-reader.readYaml(options)
-    .then(function (obj){
-        logger.info(JSON.stringify(obj));
-    })
-    .catch(function (err) {
-        logger.error(err.stack);
-    });
-
-
-// --- from Readable
-
-options = {
-    src: fs.createReadStream('foo.yml')
-};
-
-reader.readJs(options)
-    .then(function (obj){
-        logger.info(JSON.stringify(obj));
-    })
-    .catch(function (err) {
-        logger.error(err.stack);
-    });
-```
-<a name="writeYaml"></a>
-
-## writeYaml ⇒ <code>Promise.&lt;string&gt;</code>
-Writes a JS object to a YAML destination.
-
-**Kind**: global variable  
-**Returns**: <code>Promise.&lt;string&gt;</code> - Containing the write success message to handle by caller (e.g. for logging).  
-**Throws**:
-
-- <code>Error</code> If YAML destination could not be written due to any reason.
-
-**Access:** public  
-**See**
-
-- [Constants#MIN_INDENT](Constants#MIN_INDENT)
-- [Constants#DEFAULT_INDENT](Constants#DEFAULT_INDENT)
-- [Constants#MAX_INDENT](Constants#MAX_INDENT)
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| object | <code>Object</code> | The JS object to write into YAML destination. |
-| options | <code>Options</code> | The write destination and indention. |
-
-**Example**  
-```js
-var Writer = require('jy-transform').Writer;
-var logger = ...;
-var writer = new Writer(logger);
-
-// ---- write obj to file
-
-var obj = {...},
-var options = {
-  dest: 'result.yml',
-  indent: 2
-}
-
-writer.writeYaml(obj, options)
-    .then(function (msg){
-        logger.info(msg);
-    })
-    .catch(function (err) {
-        logger.error(err.stack);
-    });
-
-
-// ---- write obj to Writable
-
-options = {
-  dest: fs.createWriteStream('result.yml'),
-  indent: 4
-}
-
-writer.writeYaml(obj, options)
-  .then(function (msg){
-    logger.info(msg);
-  })
-  .catch(function (err) {
-    logger.error(err.stack);
-  });
-```
-<a name="writeJson"></a>
-
-## writeJson ⇒ <code>Promise.&lt;string&gt;</code>
-Writes a JS object to a JSON destination.
-
-**Kind**: global variable  
-**Returns**: <code>Promise.&lt;string&gt;</code> - Containing the write success message to handle by caller (e.g. for logging).  
-**Access:** public  
-**See**
-
-- [Constants#MIN_INDENT](Constants#MIN_INDENT)
-- [Constants#DEFAULT_INDENT](Constants#DEFAULT_INDENT)
-- [Constants#MAX_INDENT](Constants#MAX_INDENT)
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| object | <code>Object</code> | The JS object to write into JSON destination. |
-| options | <code>Options</code> | The write destination and indention. |
-
-**Example**  
-```js
-var Writer = require('jy-transform').Writer;
-var logger = ...;
-var writer = new Writer(logger);
-
-// ---- write obj to file
-
-var obj = {...};
-var options = {
-    dest: 'result.json',
-    indent: 2
-}
-
-writer.writeJson(obj, options)
-    .then(function (msg){
-        logger.info(msg);
-    })
-    .catch(function (err) {
-        logger.error(err.stack);
-    });
-
-
-// ---- write obj to Writable
-
-options = {
-    dest: fs.createWriteStream('result.json'),
-    indent: 4
-}
-
-writer.writeJson(obj, options)
-    .then(function (msg){
-        logger.info(msg);
-    })
-    .catch(function (err) {
-        logger.error(err.stack);
-    });
-
-// ---- write obj to object
-
-options = {
-    dest: {},
-    indent: 4
-}
-
-writer.writeJson(obj, options)
-    .then(function (msg){
-        logger.info(msg);
-    })
-    .catch(function (err) {
-        logger.error(err.stack);
-    });
-```
-<a name="writeJs"></a>
-
-## writeJs ⇒ <code>Promise</code>
-Writes a JS object to a JS destination. The object is prefixed by `module.exports[.${options.exports}] = `.
-
-**Kind**: global variable  
-**Returns**: <code>Promise</code> - - Containing the write success message to handle by caller (e.g. for logging).  
-**Access:** public  
-**See**
-
-- [Constants#MIN_INDENT](Constants#MIN_INDENT)
-- [Constants#DEFAULT_INDENT](Constants#DEFAULT_INDENT)
-- [Constants#MAX_INDENT](Constants#MAX_INDENT)
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| object | <code>Object</code> | The JSON to write into JS destination. |
-| options | <code>Options</code> | The write destination and indention. |
-
-**Example**  
-```js
-var Writer = require('jy-transform').Writer;
-var logger = ...;
-var writer = new Writer(logger);
-
-// ---- write obj to file
-
-var obj = {...};
-var options = {
-    dest: 'result.js',
-    indent: 2
-}
-
-writer.writeJs(obj, options)
-    .then(function (msg){
-        logger.info(msg);
-    })
-    .catch(function (err) {
-        logger.error(err.stack);
-    });
-
-
-// ---- write obj to Writable
-
-options = {
-    dest: fs.createWriteStream('result.json'),
-    indent: 4
-}
-
-writer.writeJs(obj, options)
-    .then(function (msg){
-        logger.info(msg);
-    })
-    .catch(function (err) {
-        logger.error(err.stack);
-    });
-
-
-// ---- write obj to object
-
-options = {
-    dest: {},
-    indent: 2
-}
-
-writer.writeJs(obj, options)
-    .then(function (msg){
-        logger.info(msg);
-    })
-    .catch(function (err) {
-        logger.error(err.stack);
-    });
-```

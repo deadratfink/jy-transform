@@ -1,10 +1,8 @@
 import { Stream } from 'stream';
 import Joi from './joi-extensions';
 import {
-  inferOriginDefaultFromStreamReadableFilePath,
-  inferTargetDefaultFromStreamWritableFilePath,
-  inferOriginDefaultFromFilePath,
-  inferTargetDefaultFromFilePath,
+  inferOriginDefault,
+  inferTargetDefault,
 } from './options-schema-helper';
 import {
   TYPE_YAML,
@@ -52,7 +50,7 @@ export const readerOptionsSchema = Joi.object().keys({
       then: Joi
         .string()
         .valid(TYPE_YAML, TYPE_JSON, TYPE_JS)
-        .default(inferOriginDefaultFromStreamReadableFilePath,
+        .default(inferOriginDefault,
           'tried origin default inferred from src type if not set (Stream.Readable)'),
       otherwise: Joi
         .when('src', {
@@ -60,10 +58,10 @@ export const readerOptionsSchema = Joi.object().keys({
           then: Joi
             .string()
             .valid(TYPE_YAML, TYPE_JSON, TYPE_JS)
-            .default(inferOriginDefaultFromFilePath, 'origin resolving from src type if latter not set (String)'),
+            .default(inferOriginDefault, 'origin resolving from src type if latter not set (String)'),
           otherwise: Joi // else could only be JS Object
             .string()
-            .valid(TYPE_YAML, TYPE_JSON, TYPE_JS)
+            .valid(TYPE_JS)
             .default(TYPE_JS)
         }),
     })
@@ -98,7 +96,7 @@ export const writerOptionsSchema = Joi.object().keys({
       then: Joi
         .string()
         .valid(TYPE_YAML, TYPE_JSON, TYPE_JS)
-        .default(inferTargetDefaultFromStreamWritableFilePath,
+        .default(inferTargetDefault,
           'tried target default inferred from dest type if not set (Stream.Writable)'),
       otherwise: Joi
         .when('dest', {
@@ -106,7 +104,7 @@ export const writerOptionsSchema = Joi.object().keys({
           then: Joi
             .string()
             .valid(TYPE_YAML, TYPE_JSON, TYPE_JS)
-            .default(inferTargetDefaultFromFilePath, 'try target resolving from dest type if latter not set (String)'),
+            .default(inferTargetDefault, 'try target resolving from dest type if latter not set (String)'),
           otherwise: Joi // check
             .string()
             .valid(TYPE_YAML, TYPE_JSON, TYPE_JS)
@@ -132,16 +130,7 @@ export const writerOptionsSchema = Joi.object().keys({
 }).unknown()
   .required();
 
-/**
- * The prepared {@link external:joi.JoiSchema} for validating the {@link Transformer} options.
- * @type {JoiSchema}
- * @constant
- * @private
- */
-export const transformerOptionsSchema = readerOptionsSchema.concat(writerOptionsSchema).required();
-
 export default {
   readerOptionsSchema,
   writerOptionsSchema,
-  transformerOptionsSchema,
 };

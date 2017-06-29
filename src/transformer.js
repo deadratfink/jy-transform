@@ -1,5 +1,4 @@
 import logger from 'cli';
-import { ensureMiddleware } from './middleware';
 import { read } from './reader';
 import { write } from './writer';
 
@@ -8,6 +7,16 @@ import { write } from './writer';
  * @description This module provides the _transform_ functionality for YAML, JS or JSON source to destination mapping.
  * @public
  */
+
+const callMiddlewareIfExists = async (object, middleware) => {
+  if (middleware !== undefined && typeof middleware !== 'function') {
+    throw new TypeError('The provided middleware is not a Function type');
+  }
+  if (!middleware) {
+    return object;
+  }
+  return middleware(object);
+};
 
 // ////////////////////////////////////////////////////////////////////////////
 // PUBLIC API
@@ -20,35 +29,31 @@ import { write } from './writer';
  * 2. Transform [ + Middleware]
  * 3. Output (write).
  *
- * @param {Options} options - The configuration for a transformation.
- * @param {Function} [middleware] - This middleware Promise can be used to intercept
+ * @param {module:type-definitions~TransformerOptions} options - The configuration for a transformation.
+ * @param {Function} [middleware]                              - This middleware Promise can be used to intercept
  *        the JSON object for altering the passed JSON, the function signature is:
  *        ```
- *        function(json)
+ *        function(object)
  *        ```
  *        <p>
  *        **NOTE:** the Promise has to return the processed JSON.
  * @returns {Promise.<String>} Containing the transformation result as message (e.g. to be logged by caller).
  * @throws {TypeError} Will throw this error when the passed `middleware` is not type of `Function`.
- * @throws {Error} Will throw plain error when writing to file failed due to any reason.
+ * @throws {Error} Will throw plain error when writing to _destination object_ failed due to any reason.
  * @public
  * @example
  * import { transform } from 'jy-transform';
  * const options = {...};
- * const middleware = async (json) {
- *   json.myproperty = 'new value';
- *   return json;
+ * const middleware = async (object) {
+ *   object.myproperty = 'new value';
+ *   return object;
  * };
  *
  * // ---- Promise style:
  *
  * transform(options, middleware)
- *   .then(function (msg){
- *     console.log(msg);
- *   })
- *   .catch(function (err) {
- *     console.error(err.stack);
- *   });
+ *   .then(console.log)
+ *   .catch(console.error);
  *
  * // ---- async/await style:
  * try {
@@ -61,8 +66,7 @@ import { write } from './writer';
 export async function transform(options, middleware) {
   logger.debug('transform');
   let object = await read(options);
-  const ensuredMiddleware = ensureMiddleware(middleware);
-  object = await ensuredMiddleware(object);
+  object = await callMiddlewareIfExists(object, middleware);
   return await write(object, options);
 }
 

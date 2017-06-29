@@ -1,4 +1,4 @@
 #!./node_modules/.bin/babel-node
 
 // eslint-disable-next-line no-unused-vars
-import jyt from './src/jyt';
+import jyt from './src/cli';

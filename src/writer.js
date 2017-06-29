@@ -153,7 +153,7 @@ function writeToFile(object, dest, target, resolve, reject, forceOverwrite) {
         mkdirAndWrite();
       }
     })
-    .catch((err) => {
+    .catch(() => {
       // ignore error (because file could possibly not exist at this point of time)
       mkdirAndWrite();
     });
@@ -248,11 +248,8 @@ async function writeYaml(object, options) {
     } else if (isStream.writable(options.dest)) { // stream
       writeToStream(yaml, options.dest, TYPE_YAML, resolve, reject);
     } else { // object
-      console.log('YAAAMLLLLLL: ' + yaml)
-      console.log('options.dest1: ' + JSON.stringify(options.dest))
       options.dest = yaml;
-      //options.dest.text = yaml;
-      resolve('Writing YAML to options.dest successful.');
+      resolve('Writing serialized YAML to options.dest successful.');
     }
   });
 }
@@ -344,61 +341,8 @@ async function writeJson(object, options) {
  * @see {@link MAX_INDENT}
  * @returns {Promise.<string>} - Containing the write success message to handle by caller (e.g. for logging).
  * @private
- * @example
- * var Writer = require('jy-transform').Writer;
- * var logger = ...;
- * var writer = new Writer(logger);
- *
- * // ---- write obj to file
- *
- * var obj = {...};
- * var options = {
-   *     dest: 'result.js',
-   *     indent: 2
-   * }
- *
- * writer.writeJs(obj, options)
- *     .then(function (msg){
-   *         logger.info(msg);
-   *     })
- *     .catch(function (err) {
-   *         logger.error(err.stack);
-   *     });
- *
- *
- * // ---- write obj to Writable
- *
- * options = {
-   *     dest: fs.createWriteStream('result.json'),
-   *     indent: 4
-   * }
- *
- * writer.writeJs(obj, options)
- *     .then(function (msg){
-   *         logger.info(msg);
-   *     })
- *     .catch(function (err) {
-   *         logger.error(err.stack);
-   *     });
- *
- *
- * // ---- write obj to object
- *
- * options = {
-   *     dest: {},
-   *     indent: 2
-   * }
- *
- * writer.writeJs(obj, options)
- *     .then(function (msg){
-   *         logger.info(msg);
-   *     })
- *     .catch(function (err) {
-   *         logger.error(err.stack);
-   *     });
  */
 async function writeJs(object, options) {
-  //logger.debug('OPTIONS BEFORE ASSERTING IN writeJs:::' + JSON.stringify(options));
   return new Promise((resolve, reject) => {
     if (typeof options.dest === 'string') { // file
       serializeJsToString(object, options.indent, options.exports)
@@ -429,29 +373,65 @@ async function writeJs(object, options) {
 /**
  * TODO: doc me.
  *
- * @param {Object} options  - The source object to write.
- * @param {Options} options - The write options.
+ * @param {Object} object                                 - The JS source object to write.
+ * @param {module:type-definitions~WriterOptions} options - The write options.
  * @returns {Promise.<string>} Resolves with write success message.
  * @public
+ * @example
+ * import { write } from 'jy-transform';
+ *
+ *
+ * // ---- write obj to file ---
+ *
+ * var obj = {...};
+ * var options = {
+   *     dest: 'result.js',
+   *     indent: 4
+   * }
+ *
+ * write(obj, options)
+ *   .then(console.log)
+ *   .catch(console.error);
+ *
+ *
+ * // ---- write obj to Writable ---
+ *
+ * options = {
+ *   dest: fs.createWriteStream('result.json'),
+ *   indent: 4
+ * }
+ *
+ * write(obj, options)
+ *   .then(console.log)
+ *   .catch(console.error);
+ *
+ *
+ * // ---- write obj to object ---
+ *
+ * options = {
+ *   dest: {},
+ *   indent: 4
+ * }
+ *
+ * write(obj, options)
+ *   .then(console.log)
+ *   .catch(console.error);
  */
 export async function write(object, options) {
-  const assertedOptions = await Joi.validate(options, writerOptionsSchema);
-  console.log('options after validation 1: ' + JSON.stringify(options))
+  const validatedOptions = await Joi.validate(options, writerOptionsSchema);
+
   // HINT: we have to use the original options object because the caller must not loose the reference to options.dest,
   // so we copy everything here except the assertedOptions.dest (joi does not return the original reference)!
-  Object.assign(options, { target: assertedOptions.target }, { exports: assertedOptions.exports },
-    { indent: assertedOptions.indent }, { force: assertedOptions.force });
-  console.log('options after validation 2: ' + JSON.stringify(options))
-  assertedOptions.dest = options.dest;
-  switch (assertedOptions.target) {
-    case TYPE_JS:
-      return await writeJs(object, options);
+  Object.assign(options, { target: validatedOptions.target }, { exports: validatedOptions.exports },
+    { indent: validatedOptions.indent }, { force: validatedOptions.force });
+  validatedOptions.dest = options.dest;
+  switch (validatedOptions.target) {
     case TYPE_JSON:
       return await writeJson(object, options);
     case TYPE_YAML:
       return await writeYaml(object, options);
-    default: // TODO better handling
-      throw new Error('should not happen!');
+    default:
+      return await writeJs(object, options);
   }
 }
 
