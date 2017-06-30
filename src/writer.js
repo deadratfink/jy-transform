@@ -41,16 +41,14 @@ const fsPromisified = promisify(fs);
  * @returns {Promise.<string>} Resolves with the exports string.
  * @private
  */
-function createExportsString(exportsTo) {
-  return new Promise((resolve) => {
-    let exports = 'module.exports';
-    if (exportsTo) {
-      exports += '.' + exportsTo + ' = ';
-    } else {
-      exports += ' = ';
-    }
-    resolve(exports);
-  });
+async function createExportsString(exportsTo) {
+  let exports = 'module.exports';
+  if (exportsTo) {
+    exports += '.' + exportsTo + ' = ';
+  } else {
+    exports += ' = ';
+  }
+  return exports;
 }
 
 /**
@@ -59,25 +57,25 @@ function createExportsString(exportsTo) {
  * @param {Object} object      - The JS Object to serialize.
  * @param {number} indent      - The indention.
  * @param {string} [exportsTo] - Name for export (*IMPORTANT:* must be a valid ES6 identifier).
- * @returns {Promise}          - Promise resolve with the serialized JS object.
+ * @returns {Promise.<string>} - Promise resolve with the serialized JS content.
  * @private
  * @todo [[#35](https://github.com/deadratfink/jy-transform/issues/35)] Add `'use strict';` in JS output file (->
  *   `'\'use strict\';' + os.EOL + os.EOL + ...`)?
  */
-function serializeJsToString(object, indent, exportsTo) {
-  return createExportsString(exportsTo)
-    .then(exportsStr => exportsStr + serializeJs.serialize(object, { indent }) + ';' + os.EOL);
+async function serializeJsToString(object, indent, exportsTo) {
+  const exportsStr = await createExportsString(exportsTo);
+  return exportsStr + serializeJs.serialize(object, { indent }) + ';' + os.EOL;
 }
 
 /**
  * Serialize a JS object to JSON string.
  *
- * @param {Object} object - Object to serialize.
- * @param {number} indent - Indention.
- * @returns {string}  The serialized JSON.
+ * @param {Object} object - The object to serialize.
+ * @param {number} indent - The code indention.
+ * @returns {string} The serialized JSON.
  * @private
  */
-function serializeJsToJsonString(object, indent) {
+async function serializeJsToJsonString(object, indent) {
   return jsonStringifySafe(object, null, indent) + os.EOL;
 }
 
@@ -104,13 +102,34 @@ function getConsecutiveDestName(dest) {
 }
 
 /**
+ * Ensures that all dirs exists for file type `dest` and writes the JS object to file.
+ *
+ * @param {string} object            - The object to write into file.
+ * @param {string} dest              - The file destination path.
+ * @param {string} target            - The target type, one of [ 'yaml' | 'json' | 'js' ].
+ * @param {boolean} [forceOverwrite] - Forces overwriting the destination file if `true`.
+ * @private
+ */
+async function mkdirAndWrite(object, dest, target, forceOverwrite) {
+  const destDir = path.dirname(dest);
+  logger.debug('Destination dir: ' + destDir);
+  await mkdirp(destDir);
+  logger.debug('Destination dir ' + destDir + ' successfully written');
+  let finalDestination = dest;
+  if (forceOverwrite === undefined || forceOverwrite === false) {
+    finalDestination = getConsecutiveDestName(dest);
+    logger.debug('Setting was: do not overwrite, using destination ' + finalDestination + '.');
+  }
+  await fsPromisified.writeFile(finalDestination, object, UTF8);
+  return 'Writing \'' + target + '\' file \'' + finalDestination + '\' successful.';
+}
+
+/**
  * Writes a serialized object to file.
  *
  * @param {string} object            - The object to write into file.
  * @param {string} dest              - The file destination path.
  * @param {string} target            - The target type, one of [ 'yaml' | 'json' | 'js' ].
- * @param {Function} resolve         - The Promise `resolve` callback.
- * @param {Function} reject          - The Promise `reject` callback.
  * @param {boolean} [forceOverwrite] - Forces overwriting the destination file if `true`.
  * @see {@link TYPE_YAML}
  * @see {@link TYPE_JSON}
@@ -119,54 +138,30 @@ function getConsecutiveDestName(dest) {
  * @throws {Error} If serialized JSON file could not be written due to any reason.
  * @private
  */
-function writeToFile(object, dest, target, resolve, reject, forceOverwrite) {
-  /**
-   * Ensures that all dirs exists for `dest` and writes the file.
-   *
-   * @private
-   */
-  function mkdirAndWrite() {
-    const destDir = path.dirname(dest);
-    logger.debug('Destination dir: ' + destDir);
-    mkdirp(destDir)
-      .then(() => {
-        logger.debug('Destination dir ' + destDir + ' successfully written');
-        if (forceOverwrite === undefined || forceOverwrite === false) { // TODO shorten
-          dest = getConsecutiveDestName(dest);
-          logger.debug('Setting was: do not overwrite, using destination ' + dest + '.');
+function writeToFile(object, dest, target, forceOverwrite) {
+  return new Promise((resolve, reject) => {
+    return fsPromisified.stat(dest)
+      .then((stats) => {
+        if (stats.isDirectory()) {
+          reject(new Error('Destination file is a directory, pls specify a valid file resource!'));
+          return;
         }
-        return fsPromisified.writeFile(dest, object, UTF8);
-      })
-      .then(() => resolve('Writing \'' + target + '\' file \'' + dest + '\' successful.'))
-      .catch((err) => {
-        err.message = 'Could not write \'' + target + '\' file \'' + dest + '\', cause: ' + err.message;
-        reject(err);
-      });
-  }
-
-  return fsPromisified.stat(dest)
-    .then((stats) => {
-      if (stats.isDirectory()) { // TODO remove when checked by Schema? Hmm, it could not exist at this point of time...!
-        reject(new Error('Destination file is a directory, pls specify a valid file resource!'));
-      } else {
         // file exists
-        mkdirAndWrite();
-      }
-    })
-    .catch(() => {
-      // ignore error (because file could possibly not exist at this point of time)
-      mkdirAndWrite();
-    });
+        resolve(mkdirAndWrite(object, dest, target, forceOverwrite));
+      })
+      .catch(() => {
+        // ignore error (because file could possibly not exist at this point of time)
+        resolve(mkdirAndWrite(object, dest, target, forceOverwrite));
+      });
+  });
 }
 
 /**
  * Writes a string serialized data object to a stream.
  *
- * @param {string} object    - The data to write into stream.
- * @param {string} dest      - The stream destination.
- * @param {string} target    - The target type, one of [ 'yaml' | 'json' | 'js' ].
- * @param {Function} resolve - The Promise `resolve` callback.
- * @param {Function} reject  - The Promise `reject` callback.
+ * @param {string} object - The data to write into stream.
+ * @param {string} dest   - The stream destination.
+ * @param {string} target - The target type, one of [ 'yaml' | 'json' | 'js' ].
  * @see {@link TYPE_YAML}
  * @see {@link TYPE_JSON}
  * @see {@link TYPE_JS}
@@ -174,168 +169,77 @@ function writeToFile(object, dest, target, resolve, reject, forceOverwrite) {
  * @throws {Error} If serialized JS object could not be written due to any reason.
  * @private
  */
-function writeToStream(object, dest, target, resolve, reject) {
-  dest
-    .on('error', reject)
-    .on('finish', () => resolve('Writing ' + target + ' to stream successful.'));
+function writeToStream(object, dest, target) {
+  return new Promise((resolve, reject) => {
+    dest
+      .on('error', reject)
+      .on('finish', () => resolve('Writing ' + target + ' to stream successful.'));
 
-  // write stringified data
-  dest.write(object);
-  dest.end();
+    // write stringified data
+    dest.write(object);
+    dest.end();
+  });
 }
 
 /**
  * Writes a JS object to a YAML destination.
  *
- * @param {Object} object   - The JS object to write into YAML destination.
- * @param {Options} options - The write destination and indention.
+ * @param {Object} object                                 - The JS object to write into YAML destination.
+ * @param {module:jy-transform:type-definitions~WriterOptions} options - The write destination and indention.
  * @see {@link MIN_INDENT}
  * @see {@link DEFAULT_INDENT}
  * @see {@link MAX_INDENT}
  * @returns {Promise.<string>} Containing the write success message to handle by caller (e.g. for logging).
  * @throws {Error} If YAML destination could not be written due to any reason.
  * @private
- * @example
- * var Writer = require('jy-transform').Writer;
- * var logger = ...;
- * var writer = new Writer(logger);
- *
- * // ---- write obj to file
- *
- * var obj = {...},
- * var options = {
- *   dest: 'result.yml',
- *   indent: 2
- * }
- *
- * writer.writeYaml(obj, options)
- *     .then(function (msg){
- *         logger.info(msg);
- *     })
- *     .catch(function (err) {
- *         logger.error(err.stack);
- *     });
- *
- *
- * // ---- write obj to Writable
- *
- * options = {
- *   dest: fs.createWriteStream('result.yml'),
- *   indent: 4
- * }
- *
- * writer.writeYaml(obj, options)
- *   .then(function (msg){
- *     logger.info(msg);
- *   })
- *   .catch(function (err) {
- *     logger.error(err.stack);
- *   });
  */
 async function writeYaml(object, options) {
-  return new Promise((resolve, reject) => {
-    let yaml;
-    try {
-      yaml = jsYaml.safeDump(object, { indent: options.indent, noRefs: true });
-    } catch (err) {
-      err.message = 'Could not write YAML to \'' + options.dest + '\', cause: ' + err.message;
-      reject(err);
-      return;
-    }
+  let yaml;
+  try {
+    yaml = jsYaml.safeDump(object, { indent: options.indent, noRefs: true });
+  } catch (err) {
+    err.message = 'Could not write YAML to \'' + options.dest + '\', cause: ' + err.message;
+    throw err;
+  }
 
-    if (typeof options.dest === 'string') { // file
-      writeToFile(yaml, options.dest, TYPE_YAML, resolve, reject, options.force);
-    } else if (isStream.writable(options.dest)) { // stream
-      writeToStream(yaml, options.dest, TYPE_YAML, resolve, reject);
-    } else { // object
-      options.dest = yaml;
-      resolve('Writing serialized YAML to options.dest successful.');
-    }
-  });
+  if (typeof options.dest === 'string') { // file
+    return await writeToFile(yaml, options.dest, TYPE_YAML, options.force);
+  } else if (isStream.writable(options.dest)) { // stream
+    return await writeToStream(yaml, options.dest, TYPE_YAML);
+  }
+  // object
+  options.dest = yaml;
+  return 'Writing serialized YAML to options.dest successful.';
 }
 
 /**
  * Writes a JS object to a JSON destination.
  *
- * @param {Object} object   - The JS object to write into JSON destination.
- * @param {Options} options - The write destination and indention.
+ * @param {Object} object                                              - The JS object to write into JSON destination.
+ * @param {module:jy-transform:type-definitions~WriterOptions} options - The write destination and indention.
  * @see {@link MIN_INDENT}
  * @see {@link DEFAULT_INDENT}
  * @see {@link MAX_INDENT}
  * @returns {Promise.<string>} Containing the write success message to handle by caller (e.g. for logging).
  * @private
- * @example
- * var Writer = require('jy-transform').Writer;
- * var logger = ...;
- * var writer = new Writer(logger);
- *
- * // ---- write obj to file
- *
- * var obj = {...};
- * var options = {
-   *     dest: 'result.json',
-   *     indent: 2
-   * }
- *
- * writer.writeJson(obj, options)
- *     .then(function (msg){
-   *         logger.info(msg);
-   *     })
- *     .catch(function (err) {
-   *         logger.error(err.stack);
-   *     });
- *
- *
- * // ---- write obj to Writable
- *
- * options = {
-   *     dest: fs.createWriteStream('result.json'),
-   *     indent: 4
-   * }
- *
- * writer.writeJson(obj, options)
- *     .then(function (msg){
-   *         logger.info(msg);
-   *     })
- *     .catch(function (err) {
-   *         logger.error(err.stack);
-   *     });
- *
- * // ---- write obj to object
- *
- * options = {
-   *     dest: {},
-   *     indent: 4
-   * }
- *
- * writer.writeJson(obj, options)
- *     .then(function (msg){
-   *         logger.info(msg);
-   *     })
- *     .catch(function (err) {
-   *         logger.error(err.stack);
-   *     });
  */
 async function writeJson(object, options) {
-  return new Promise((resolve, reject) => {
-    if (typeof options.dest === 'string') { // file
-      writeToFile(serializeJsToJsonString(object, options.indent), options.dest, TYPE_JSON,
-        resolve, reject, options.force);
-    } else if (isStream.writable(options.dest)) { // stream
-      writeToStream(serializeJsToJsonString(object, options.indent), options.dest,
-        TYPE_JSON, resolve, reject);
-    } else { // object
-      options.dest = serializeJsToJsonString(object, options.indent);
-      resolve('Writing JSON to options.dest successful.');
-    }
-  });
+  const jsonString = await serializeJsToJsonString(object, options.indent);
+  if (typeof options.dest === 'string') { // file
+    return await writeToFile(jsonString, options.dest, TYPE_JSON, options.force);
+  } else if (isStream.writable(options.dest)) { // stream
+    return await writeToStream(jsonString, options.dest, TYPE_JSON);
+  }
+  // object
+  options.dest = jsonString;
+  return 'Writing JSON to options.dest successful.';
 }
 
 /**
  * Writes a JS object to a JS destination. The object is prefixed by `module.exports[.${options.exports}] = `.
  *
- * @param {Object} object - The JSON to write into JS destination.
- * @param {Options} options - The write destination and indention.
+ * @param {Object} object                                              - The JSON to write into JS destination.
+ * @param {module:jy-transform:type-definitions~WriterOptions} options - The write destination and indention.
  * @see {@link MIN_INDENT}
  * @see {@link DEFAULT_INDENT}
  * @see {@link MAX_INDENT}
@@ -343,38 +247,29 @@ async function writeJson(object, options) {
  * @private
  */
 async function writeJs(object, options) {
-  return new Promise((resolve, reject) => {
-    if (typeof options.dest === 'string') { // file
-      serializeJsToString(object, options.indent, options.exports)
-        .then((data) => {
-          writeToFile(data, options.dest, TYPE_JS, resolve, reject, options.force);
-        })
-        .catch(reject);
-    } else if (isStream.writable(options.dest)) { // stream
-      serializeJsToString(object, options.indent, options.exports)
-        .then((data) => {
-          writeToStream(data, options.dest, TYPE_JS, resolve, reject);
-        })
-        .catch(reject);
-    } else { // object
-      let msg;
-      if (options.exports) {
-        options.dest[options.exports] = object;
-        msg = 'Writing JS to options.dest.' + options.exports + ' successful.';
-      } else {
-        Object.assign(options.dest, object);
-        msg = 'Writing JS to options.dest successful.';
-      }
-      resolve(msg);
-    }
-  });
+  const data = await serializeJsToString(object, options.indent, options.exports);
+  if (typeof options.dest === 'string') { // file
+    return await writeToFile(data, options.dest, TYPE_JS, options.force);
+  } else if (isStream.writable(options.dest)) { // stream
+    return await writeToStream(data, options.dest, TYPE_JS);
+  }
+  // object
+  let msg;
+  if (options.exports) {
+    options.dest[options.exports] = object;
+    msg = 'Writing JS to options.dest.' + options.exports + ' successful.';
+  } else {
+    Object.assign(options.dest, object);
+    msg = 'Writing JS to options.dest successful.';
+  }
+  return msg;
 }
 
 /**
- * TODO: doc me.
+ * Writes the passe JS object to a particular destination described by the passed `options`.
  *
- * @param {Object} object                                 - The JS source object to write.
- * @param {module:type-definitions~WriterOptions} options - The write options.
+ * @param {Object} object                                              - The JS source object to write.
+ * @param {module:jy-transform:type-definitions~WriterOptions} options - The write options.
  * @returns {Promise.<string>} Resolves with write success message.
  * @public
  * @example
@@ -383,11 +278,11 @@ async function writeJs(object, options) {
  *
  * // ---- write obj to file ---
  *
- * var obj = {...};
- * var options = {
-   *     dest: 'result.js',
-   *     indent: 4
-   * }
+ * const obj = {...};
+ * const options = {
+ *   dest: 'result.js',
+ *   indent: 4
+ * }
  *
  * write(obj, options)
  *   .then(console.log)

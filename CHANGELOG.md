@@ -2,6 +2,9 @@
 
 #### v3.0.0
 
+- New Features:
+  - The _middleware_ function must not need a Promise anymore, but is still recommended.
+
 - **CLI & API Changes (Backwards Incompatible!):**
   - Removed support for Node.js < v4.0
   - Default `options.indent` is 2 (instead of 4) now which seems to be more common in the JS/Node.js community
@@ -23,7 +26,7 @@
   - Removal of _development_ branch
   - Usage of [babel](https://babeljs.io/) and therefore most modern language features
   - Code base could be shrinked and readabilty was improved
-  - Usage of _native promises_ instead of [bluebird](http://bluebirdjs.com/docs/getting-started.html)
+  - Usage of _native_ Promises instead of [bluebird](http://bluebirdjs.com/docs/getting-started.html)
   - Tests re-written in [Jest](https://facebook.github.io/jest) (could get rid  of [assert](https://github.com/defunctzombie/commonjs-assert),
     [mocha](https://mochajs.org/) and [istanbul](https://github.com/gotwarlost/istanbul))
   - Add travis build for Node.js v8.x

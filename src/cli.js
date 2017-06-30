@@ -81,7 +81,7 @@ function error(err) {
  *
  * @param {Array} args     - The first mandatory argument is the input file (`args[0]`), the second (optional)
  *                           argument is the output file (`args[1]`).
- * @param {module:type-definitions~Options} cliOptions - The options provided via CLI.
+ * @param {module:jy-transform:type-definitions~Options} cliOptions - The options provided via CLI.
  * @private
  */
 function main(args, cliOptions) {

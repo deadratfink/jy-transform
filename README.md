@@ -36,7 +36,8 @@ npm install jy-transform --global
 ```javascript
 import { transform, read, write } from 'jy-transform';
 
-// --- transform
+
+// --- transform from source to destination ---
 
 const transformOptions = {
   src: 'foo/bar.yaml',
@@ -49,6 +50,7 @@ const transformFunc = async (object) => {
   return object;
 };
 
+// of course, inside an async
 try {
   const msg = await transform(transformOptions, transformFunc);
   console.log(msg);
@@ -56,18 +58,20 @@ try {
   console.error(err.stack);
 }
 
-// --- read
+
+// --- read into JS object from particular source (file, stream or JS object) ---
 
 let object;
 
 try {
-  object = await read({ src: 'foo/bar.yaml' });
+  object = await read({ src: 'foo/bar.yaml' }); // here: read from file
   console.log(JSON.stringify(object));
 } catch (err) {
   console.error(err.stack);
 }
 
-// --- write
+
+// --- write a JS object to particular destination ---
 
 try {
   const msg = await write(object, { dest: 'foo/bar.yaml' });
@@ -87,7 +91,8 @@ types into each other format.
 
 ## Usage
 
-The module can be used on CLI or as API (the latter is fully [Promise](http://bluebirdjs.com/docs/api-reference.html)
+The module can be used on CLI or as API (the latter is fully
+[Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise))
 based).
 
 ### Usage Types
@@ -111,23 +116,26 @@ these consists of different phases:
 
 #### Reading
 
-Reading from:
+From:
 
 - _*.yaml_ file
 - _*.js_ file
 - _*.json_ file
 
-Additionally, on API level to a:
+Additionally, on API level from a:
 
 - `stream.Readable`
- - Serialized JSON and YAML
- - Requires `options.origin` property set
+ - Contain serialized JS, JSON or YAML
+ - If not file stream it requires `options.origin` property set
  - Reads as UTF-8
-- JS `object` (actually, this means the reading phase is skipped, because object is in-memory already)
+- JS `object`
+ - Actually, this means the reading phase is "skipped", because object is in-memory already
+ - Of course, this case _cannot_ not be applied to serialized JSON or YAML content
 
-#### Transformation
+#### Transformation [+ Middleware] 
 
-The transformation can take place into several directions:
+The _transformation_ is usually a format change, but can also be refer to content changes on the
+intermediate JS object (the latter via _middleware_). All possible directions are:
 
 - YAML ⇒ JS
 - YAML ⇒ JSON
@@ -145,14 +153,12 @@ while:
 - [JS](https://developer.mozilla.org/en-US/docs/Web/JavaScript) = _*.js_ (JS object)
 - [JSON](http://json.org) = _*.json_ (JS object serialized as JSON)
 
-#### Middleware
-
-Apply actions on the intermediate JS object via injected [Promise](http://bluebirdjs.com/docs/api-reference.html)
-functions. This is an optional part for [transformation](#transformation) phase.
+As mentioned above a _middleware_ can apply particular actions on the intermediate JS object via injected functions.
+This is an optional part for [transformation](#transformation) phase.
 
 #### Writing
 
-Writing to:
+To:
 
 - _*.yaml_ file
 - _*.js_ file
@@ -164,7 +170,9 @@ Additionally, on API level to a:
  - Serialized JS, JSON and YAML
  - Requires `options.target` property set
  - Writes UTF-8
-- JS `object`
+- JS `object
+ - JS as simple reference
+ - YAML and JSON as serialized string
 
 ### Limitations
 

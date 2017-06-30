@@ -22,10 +22,6 @@ import {
  * @private
  */
 
-// /////////////////////////////////////////////////////////////////////////////
-// SCHEMAS
-// /////////////////////////////////////////////////////////////////////////////
-
 /**
  * The prepared {@link external:joi.JoiSchema} for validating the {@link Reader} options.
  * @type {JoiSchema}
@@ -82,7 +78,7 @@ export const readerOptionsSchema = Joi.object().keys({
 export const writerOptionsSchema = Joi.object().keys({
   dest: Joi
     .alternatives().try(
-      Joi.string() // TODO must be existing file (relative or not? -> check)
+      Joi.string()
         .min(1)
         .label('dest - OUTPUT-FILE'),
       Joi.object().type(Stream.Writable),

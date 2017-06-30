@@ -29,14 +29,14 @@ const callMiddlewareIfExists = async (object, middleware) => {
  * 2. Transform [ + Middleware]
  * 3. Output (write).
  *
- * @param {module:type-definitions~TransformerOptions} options - The configuration for a transformation.
- * @param {Function} [middleware]                              - This middleware Promise can be used to intercept
- *        the JSON object for altering the passed JSON, the function signature is:
+ * @param {module:jy-transform:type-definitions~TransformerOptions} options - The configuration for a transformation.
+ * @param {Function} [middleware]                                           - This middleware Promise can be used to
+ *        intercept the JSON object for altering the passed JSON, the function signature is:
  *        ```
- *        function(object)
+ *        async function(object)
  *        ```
  *        <p>
- *        **NOTE:** the Promise has to return the processed JSON.
+ *        **NOTE:** the Promise has to return the processed JS object.
  * @returns {Promise.<String>} Containing the transformation result as message (e.g. to be logged by caller).
  * @throws {TypeError} Will throw this error when the passed `middleware` is not type of `Function`.
  * @throws {Error} Will throw plain error when writing to _destination object_ failed due to any reason.
@@ -44,6 +44,7 @@ const callMiddlewareIfExists = async (object, middleware) => {
  * @example
  * import { transform } from 'jy-transform';
  * const options = {...};
+ *
  * const middleware = async (object) {
  *   object.myproperty = 'new value';
  *   return object;
@@ -55,7 +56,9 @@ const callMiddlewareIfExists = async (object, middleware) => {
  *   .then(console.log)
  *   .catch(console.error);
  *
+ *
  * // ---- async/await style:
+ *
  * try {
  *   const msg = await transform(options, middleware);
  *   console.log(msg);

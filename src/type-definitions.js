@@ -86,16 +86,3 @@
  * @property {string} [force=false]                   - Force overwriting of existing output files on write phase.
  * @public
  */
-
-/**
- * The configuration properties provided to the transformer function.
- * @typedef {object} TEESTTransformerOptions
- * @type {module:type-definitions~WriterOptions}
- * @type {module:type-definitions~ReaderOptions}
- * @public
- */
-/**
- * The configuration properties provided to the transformer function.
- * @typedef {(WriterOptions|ReaderOptions)} TEESTT2ransformerOptions
- * @public
- */

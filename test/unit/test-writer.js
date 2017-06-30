@@ -143,9 +143,9 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - writer - ', () => {
       expect(msg).toBeDefined();
       await expectDestFileExists(file);
       // eslint-disable-next-line import/no-unresolved, global-require
-      const json = require('../tmp/writer/test-data-by-js-stream-with-exports-identifier.js').test;
-      expect(json.test).toBeDefined();
-      expect(json.test).toBe('value');
+      const object = require('../tmp/writer/test-data-by-js-stream-with-exports-identifier.js').test;
+      expect(object.test).toBeDefined();
+      expect(object.test).toBe('value');
     });
 
     it('should fail writing JS to file by invalid exports identifier (\'#3/-\')', () => {
