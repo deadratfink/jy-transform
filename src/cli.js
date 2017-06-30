@@ -103,8 +103,8 @@ function main(args, cliOptions) {
   // transform with options
 
   return transform(cliOptions)
-    .then(msg => cli.info(msg))
-    .catch(err => error(err));
+    .then(cli.info)
+    .catch(error);
 }
 
 /*

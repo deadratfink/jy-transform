@@ -25,7 +25,7 @@
     "readme": "bin/create-readme.sh -a true -c false -m true -l false",
     "wiki": "jsdoc2md ./jyt lib/*.js index.js > docs/API.md && doctoc docs/API.md --github --title '### TOC' --maxlevel 2 && cat docs/API.md > '../jy-transform.wiki/API-v2.md' && cat docs/CONTRIBUTING.md > ../jy-transform.wiki/Contributing.md && cat docs/CHANGELOG.md > ../jy-transform.wiki/Changelog.md && doctoc ../jy-transform.wiki/Changelog.md --github --title '### TOC' --maxlevel 3",
     "pretest": "mkdir -pv test/tmp",
-    "test": "JYT_DEBUG=true JYT_ERROR=true jest --expand --no-cache --coverage --runInBand --config=./.jestrc.js",
+    "test": "JYT_DEBUG=true JYT_ERROR=true jest --expand --no-cache --coverage --config=./.jestrc.js",
     "eslint": "eslint ."
   },
   "engines": {
