@@ -671,7 +671,7 @@ values for origin and target depending on the `options.src` or `options.dest` va
 <a name="module_jy-transform_validation_options-schema-helper..inferOriginDefault"></a>
 
 ### jy-transform:validation:options-schema-helper~inferOriginDefault ⇒ <code>string</code>
-TODO describe me.
+Infers the _origin_ type value from current validation context.
 
 **Kind**: inner constant of <code>[jy-transform:validation:options-schema-helper](#module_jy-transform_validation_options-schema-helper)</code>  
 **Returns**: <code>string</code> - The target type.  
@@ -679,12 +679,12 @@ TODO describe me.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| context | <code>Object</code> | TODO describe me. |
+| context | <code>Object</code> | The validation context. |
 
 <a name="module_jy-transform_validation_options-schema-helper..inferTargetDefault"></a>
 
 ### jy-transform:validation:options-schema-helper~inferTargetDefault ⇒ <code>string</code>
-TODO describe me.
+Infers the _target_ type value from current validation context.
 
 **Kind**: inner constant of <code>[jy-transform:validation:options-schema-helper](#module_jy-transform_validation_options-schema-helper)</code>  
 **Returns**: <code>string</code> - The target type.  
@@ -692,7 +692,7 @@ TODO describe me.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| context | <code>Object</code> | TODO describe me. |
+| context | <code>Object</code> | The validation context. |
 
 <a name="module_jy-transform_validation_options-schema-helper..getTypeFromFilePath"></a>
 

@@ -594,17 +594,17 @@ given (initially empty) JS object.
 
 ```javascript
 const key1 = async (data) => {
-  objectPath.set(data, 'key1', 'value1');
+  odata.key1 = 'value1';
   return data;
 };
 
 const key2 = async (data) => {
-  objectPath.set(data, 'key2', 'value2');
+  data.key2 = 'value2';
   return data;
 };
 
 const key3 = async (data) => {
-  objectPath.set(data, 'key3', 'value3');
+  data.key3 = 'value3';
   return data;
 };
 ```

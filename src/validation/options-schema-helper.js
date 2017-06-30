@@ -26,26 +26,23 @@ import {
  */
 const getTypeFromFilePath = (pathStr, defaultValue) => {
   let type;
-  try {
+  if (typeof pathStr === 'string') { // this is needed since node.js versions < v6 do not support throwing a TypeError!
     let ext = path.extname(pathStr);
     if (ext.charAt(0) === '.') {
       ext = ext.substr(1);
     }
     type = TYPE_MAP[ext];
-    if (!type) {
-      type = defaultValue;
-    }
-  } catch (err) {
-    logger.error(err.stack);
+  }
+  if (!type) {
     type = defaultValue;
   }
   return type;
 };
 
 /**
- * TODO describe me.
+ * Infers the _origin_ type value from current validation context.
  *
- * @param {Object} context - TODO describe me.
+ * @param {Object} context - The validation context.
  * @returns {string} The target type.
  * @protected
  */
@@ -62,9 +59,9 @@ export const inferOriginDefault = (context) => {
 };
 
 /**
- * TODO describe me.
+ * Infers the _target_ type value from current validation context.
  *
- * @param {Object} context - TODO describe me.
+ * @param {Object} context - The validation context.
  * @returns {string} The target type.
  * @protected
  */
