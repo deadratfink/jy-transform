@@ -2,7 +2,7 @@ module.exports = {
   // this is a workaround that jest does not create a jest_0/ folder in the project root dir!
   cacheDirectory: '/tmp/jest-cache',
   collectCoverageFrom: [
-    //'lib/**/*.js',
+    '!lib/**/*.js',
     'src/**/*.js',
     '!src/cli.js', // TODO: maybe later!
     '!src/debug-log.js', // TODO: maybe later!
@@ -20,12 +20,13 @@ module.exports = {
   },
   mapCoverage: true,
   testMatch: [
+   // '!**/test/unit/test-cli.js',
     // '**/test/unit/validation/test-joi-extensions-file-helper.js',
     // '**/test/unit/validation/test-joi-extensions-identifier-helper.js',
-    //'**/test/unit/test-transformer.js',
+    // '**/test/unit/test-transformer.js',
     // '**/test/unit/test-index.js',
     //'**/test/unit/test-reader.js',
-    // '**/test/unit/test-writer.js',
+     '**/test/unit/test-writer.js',
      //'**/test/unit/validation/test-options-schema.js',
     '**/test/unit/**/*.js',
 //'**/test/unit/validation/test-options-schema-helper.js',

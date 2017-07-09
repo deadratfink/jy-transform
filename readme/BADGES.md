@@ -25,7 +25,7 @@
 [is-issue-image]: http://issuestats.com/github/deadratfink/jy-transform/badge/issue?style=flat-square
 [is-url]: http://issuestats.com/github/deadratfink/jy-transform
 
-[waffle-image]: https://badge.waffle.io/deadratfink/jy-transform.png?label=ready&title=Ready&style=flat-square
+[waffle-image]: https://img.shields.io/waffle/label/deadratfink/jy-transform.svg?label=ready&title=Waffle%20Ready&style=flat-square
 [waffle-url]: https://waffle.io/deadratfink/jy-transform
 
 [cocl-image]: https://img.shields.io/codeclimate/github/deadratfink/jy-transform.svg?style=flat-square

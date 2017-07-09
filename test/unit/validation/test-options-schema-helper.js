@@ -18,7 +18,6 @@ import {
  * @private
  */
 
-// TODO write all tests
 describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema-helper - ', () => {
   describe('Function inferOriginDefault', () => {
     it('should infer the correct origin from relative path string with existing file having a known file type', () =>
@@ -77,7 +76,8 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema-helper - ', () => {
       })).toBe(TYPE_YAML)
     );
 
-    it('should infer the default target from relative path string with existing file having an unknown file type', () =>
+    it('should infer the default target from relative path string with existing file having an' +
+      'unknown stream file type', () =>
       expect(inferTargetDefault({
         dest: fs.createWriteStream('test/data/writable-test-dummy.txt'),
       })).toBe(DEFAULT_TARGET)

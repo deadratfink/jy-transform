@@ -12,7 +12,7 @@ const fsPromised = promisify(fs);
 
 /**
  * @module jy-transform:unit-test:test-transformer
- * @description This unit test suite checks the correct transformation behaviour of {@link Transformer} class.
+ * @description This unit test suite checks the correct transformation behaviour of the Transformer module.
  * @private
  */
 
@@ -52,9 +52,9 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
    *
    * @param {Object} json - To transform.
    */
-  const middlewareFunc = (json) => {
+  const middlewareFunc = async (json) => {
     json.foo = EXPECTED_VALUE;
-    return Promise.resolve(json);
+    return json;
   };
 
   /**
@@ -80,30 +80,17 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
    *
    * @param {Object} options      - The transformation options.
    * @param {Function} middleware - The transformation middleware.
-   * @param {Function} done       - Test finished callback.
    */
-  function assertYamlTransformSuccess(options, middleware, done) {
-    return transform(options, middleware)
-      .then((msg) => {
-        logger.info(msg);
-        const stats = fsExtra.statSync(options.dest);
-        expect(stats.isFile()).toBeTruthy();
-        return fsPromised.readFile(options.dest, UTF8)
-          .then((yaml) => {
-            try {
-              const json = jsYaml.safeLoad(yaml);
-              expect(json.foo).toBe(EXPECTED_VALUE);
-              return done();
-            } catch (err) { // probably a YAMLException
-              logger.error(err.stack);
-              return done(err);
-            }
-          });
-      })
-      .catch((err) => {
-        logger.error(err.stack);
-        done(err);
-      });
+  async function assertYamlTransformSuccess(options, middleware) {
+    expect.assertions(3);
+    const msg = await transform(options, middleware);
+    logger.info(msg);
+    expect(msg).toEqual(expect.any(String));
+    const stats = fsExtra.statSync(options.dest);
+    expect(stats.isFile()).toBeTruthy();
+    const yaml = await fsPromised.readFile(options.dest, UTF8);
+    const object = jsYaml.safeLoad(yaml);
+    expect(object.foo).toBe(EXPECTED_VALUE);
   }
 
   describe('Testing transform with middleware', () => {
@@ -305,13 +292,13 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
     const SRC = './test/data/test-file.json';
     const DEST = TRANSFORMER_TEST_BASE_DIR + '/test-data-transform-json-yaml.yaml';
 
-    it('should store ' + SRC + ' file to ' + DEST, (done) => {
+    it('should store ' + SRC + ' file to ' + DEST, async () => {
       expect.assertions(2);
       const options = {
         src: path.resolve(SRC),
         dest: path.resolve(DEST),
       };
-      assertYamlTransformSuccess(options, middlewareFunc, done);
+      await assertYamlTransformSuccess(options, middlewareFunc);
     });
   });
 

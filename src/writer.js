@@ -21,7 +21,7 @@ import { writerOptionsSchema } from './validation/options-schema';
  * @module jy-transform:writer
  * @description This module provides the _write_ functionality to write JS objects from memory to a JSON/JS/YAML
  * destination (file, object or {@link stream.Readable}).
- * @public
+ * @private
  */
 
 /**
@@ -112,13 +112,13 @@ function getConsecutiveDestName(dest) {
  */
 async function mkdirAndWrite(object, dest, target, forceOverwrite) {
   const destDir = path.dirname(dest);
-  logger.debug('Destination dir: ' + destDir);
+  // logger.debug('Destination dir: ' + destDir); TODO remove
   await mkdirp(destDir);
-  logger.debug('Destination dir ' + destDir + ' successfully written');
+  // logger.debug('Destination dir ' + destDir + ' successfully written'); TODO remove
   let finalDestination = dest;
   if (forceOverwrite === undefined || forceOverwrite === false) {
     finalDestination = getConsecutiveDestName(dest);
-    logger.debug('Setting was: do not overwrite, using destination ' + finalDestination + '.');
+    // logger.debug('Setting was: do not overwrite, using destination ' + finalDestination + '.'); TODO remove
   }
   await fsPromisified.writeFile(finalDestination, object, UTF8);
   return 'Writing \'' + target + '\' file \'' + finalDestination + '\' successful.';
@@ -140,7 +140,7 @@ async function mkdirAndWrite(object, dest, target, forceOverwrite) {
  */
 function writeToFile(object, dest, target, forceOverwrite) {
   return new Promise((resolve, reject) => {
-    return fsPromisified.stat(dest)
+    fsPromisified.stat(dest)
       .then((stats) => {
         if (stats.isDirectory()) {
           reject(new Error('Destination file is a directory, pls specify a valid file resource!'));
@@ -184,8 +184,8 @@ function writeToStream(object, dest, target) {
 /**
  * Writes a JS object to a YAML destination.
  *
- * @param {Object} object                                 - The JS object to write into YAML destination.
- * @param {module:jy-transform:type-definitions~WriterOptions} options - The write destination and indention.
+ * @param {Object} object         - The JS object to write into YAML destination.
+ * @param {WriterOptions} options - The write destination and indention.
  * @see {@link MIN_INDENT}
  * @see {@link DEFAULT_INDENT}
  * @see {@link MAX_INDENT}
@@ -203,9 +203,9 @@ async function writeYaml(object, options) {
   }
 
   if (typeof options.dest === 'string') { // file
-    return await writeToFile(yaml, options.dest, TYPE_YAML, options.force);
+    return writeToFile(yaml, options.dest, TYPE_YAML, options.force);
   } else if (isStream.writable(options.dest)) { // stream
-    return await writeToStream(yaml, options.dest, TYPE_YAML);
+    return writeToStream(yaml, options.dest, TYPE_YAML);
   }
   // object
   options.dest = yaml;
@@ -215,8 +215,8 @@ async function writeYaml(object, options) {
 /**
  * Writes a JS object to a JSON destination.
  *
- * @param {Object} object                                              - The JS object to write into JSON destination.
- * @param {module:jy-transform:type-definitions~WriterOptions} options - The write destination and indention.
+ * @param {Object} object         - The JS object to write into JSON destination.
+ * @param {WriterOptions} options - The write destination and indention.
  * @see {@link MIN_INDENT}
  * @see {@link DEFAULT_INDENT}
  * @see {@link MAX_INDENT}
@@ -226,9 +226,9 @@ async function writeYaml(object, options) {
 async function writeJson(object, options) {
   const jsonString = await serializeJsToJsonString(object, options.indent);
   if (typeof options.dest === 'string') { // file
-    return await writeToFile(jsonString, options.dest, TYPE_JSON, options.force);
+    return writeToFile(jsonString, options.dest, TYPE_JSON, options.force);
   } else if (isStream.writable(options.dest)) { // stream
-    return await writeToStream(jsonString, options.dest, TYPE_JSON);
+    return writeToStream(jsonString, options.dest, TYPE_JSON);
   }
   // object
   options.dest = jsonString;
@@ -238,8 +238,8 @@ async function writeJson(object, options) {
 /**
  * Writes a JS object to a JS destination. The object is prefixed by `module.exports[.${options.exports}] = `.
  *
- * @param {Object} object                                              - The JSON to write into JS destination.
- * @param {module:jy-transform:type-definitions~WriterOptions} options - The write destination and indention.
+ * @param {Object} object         - The JSON to write into JS destination.
+ * @param {WriterOptions} options - The write destination and indention.
  * @see {@link MIN_INDENT}
  * @see {@link DEFAULT_INDENT}
  * @see {@link MAX_INDENT}
@@ -249,9 +249,9 @@ async function writeJson(object, options) {
 async function writeJs(object, options) {
   const data = await serializeJsToString(object, options.indent, options.exports);
   if (typeof options.dest === 'string') { // file
-    return await writeToFile(data, options.dest, TYPE_JS, options.force);
+    return writeToFile(data, options.dest, TYPE_JS, options.force);
   } else if (isStream.writable(options.dest)) { // stream
-    return await writeToStream(data, options.dest, TYPE_JS);
+    return writeToStream(data, options.dest, TYPE_JS);
   }
   // object
   let msg;
@@ -268,9 +268,12 @@ async function writeJs(object, options) {
 /**
  * Writes the passe JS object to a particular destination described by the passed `options`.
  *
- * @param {Object} object                                              - The JS source object to write.
- * @param {module:jy-transform:type-definitions~WriterOptions} options - The write options.
- * @returns {Promise.<string>} Resolves with write success message.
+ * @param {Object} object         - The JS source object to write.
+ * @param {WriterOptions} options - The write options.
+ * @returns {Promise} The result.
+ * @resolve {string} With the write success message.
+ * @reject {Error} If any write error occurs.
+ * @reject {ValidationError} If any `options` validation occurs.
  * @public
  * @example
  * import { write } from 'jy-transform';
@@ -313,6 +316,7 @@ async function writeJs(object, options) {
  *   .catch(console.error);
  */
 export async function write(object, options) {
+  console.log('OPTIONS ON WRITE ===> ' + JSON.stringify(options, null, 4))
   const validatedOptions = await Joi.validate(options, writerOptionsSchema);
 
   // HINT: we have to use the original options object because the caller must not loose the reference to options.dest,
@@ -322,11 +326,11 @@ export async function write(object, options) {
   validatedOptions.dest = options.dest;
   switch (validatedOptions.target) {
     case TYPE_JSON:
-      return await writeJson(object, options);
+      return writeJson(object, options);
     case TYPE_YAML:
-      return await writeYaml(object, options);
+      return writeYaml(object, options);
     default:
-      return await writeJs(object, options);
+      return writeJs(object, options);
   }
 }
 

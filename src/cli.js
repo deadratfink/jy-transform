@@ -1,6 +1,17 @@
 import path from 'path';
 import cli from 'cli';
-import { DEFAULT_INDENT, DEFAULT_OPTIONS, TYPE_JS, TYPE_JSON, TYPE_YAML } from './constants';
+import Package from '../package.json';
+import {
+  DEFAULT_INDENT,
+  DEFAULT_FORCE_FILE_OVERWRITE,
+  DEFAULT_JS_IMPORTS_IDENTIFIER,
+  DEFAULT_JS_EXPORTS_IDENTIFIER,
+  ORIGIN_DESCRIPTION,
+  TARGET_DESCRIPTION,
+  TYPE_JS,
+  TYPE_JSON,
+  TYPE_YAML
+} from './constants';
 import { transform } from './transformer';
 
 /**
@@ -19,7 +30,7 @@ import { transform } from './transformer';
  * @type {string}
  * @private
  */
-const usage = path.basename(__filename) + ' INPUT-FILE [OUTPUT-FILE] [OPTIONS]';
+const usage = Object.keys(Package.bin)[0] + ' INPUT-FILE [OUTPUT-FILE] [OPTIONS]';
 
 /**
  * The path to package.json.
@@ -39,27 +50,22 @@ const packagePath = path.join(__dirname, '../package.json');
  * @private
  */
 const options = {
-  origin: [
-    'o', 'The origin type of INPUT-FILE: [ ' + TYPE_JS + ' | ' + TYPE_JSON + ' | ' + TYPE_YAML
-    + ' ]', 'string', DEFAULT_OPTIONS.origin],
-  target: [
-    't', 'The target type of OUTPUT-FILE: [ ' + TYPE_JS + ' | ' + TYPE_JSON + ' | ' + TYPE_YAML
-    + ' ]', 'string', DEFAULT_OPTIONS.target],
+  origin: ['o', 'The origin type of INPUT-FILE: [ ' + TYPE_JS + ' | ' + TYPE_JSON + ' | ' + TYPE_YAML
+    + ' ]', 'string', ORIGIN_DESCRIPTION],
+  target: ['t', 'The target type of OUTPUT-FILE: [ ' + TYPE_JS + ' | ' + TYPE_JSON + ' | ' + TYPE_YAML
+    + ' ]', 'string', TARGET_DESCRIPTION],
   indent: ['i', 'The indention for pretty-print: 1 - 8', 'int', DEFAULT_INDENT],
-  force: [
-    'f', 'Force overwriting of existing output files on write phase: when files are not overwritten (which' +
+  force: ['f', 'Force overwriting of existing output files on write phase: when files are not overwritten (which' +
     ' is default), then the next transformation with same output file name gets a consecutive number on the base' +
-    ' file name, e.g. in case of foo.yaml it would be foo(1).yaml'],
-  imports: [
-    'm', 'Define a \'module.exports[.identifier] = \' identifier (to read from JS _source_ file only, must' +
-    ' be a valid JS identifier!)', 'string', DEFAULT_OPTIONS.imports],
-  exports: [
-    'x', 'Define a \'module.exports[.identifier] = \' identifier (for usage in JS destination file only,' +
-    ' must be a valid JS identifier!)', 'string', DEFAULT_OPTIONS.exports]
+    ' file name, e.g. in case of foo.yaml it would be foo(1).yaml', 'boolean', DEFAULT_FORCE_FILE_OVERWRITE],
+  imports: ['m', 'Define a \'module.exports[.identifier] = \' identifier for object (to read from JS source file ' +
+    'only, must be a valid JS identifier!)', 'string', DEFAULT_JS_IMPORTS_IDENTIFIER],
+  exports: ['x', 'Define a \'module.exports[.identifier] = \' identifier for object (to write in JS destination file ' +
+    'only, must be a valid JS identifier!)', 'string', DEFAULT_JS_EXPORTS_IDENTIFIER]
 };
 
 /**
- * Prints the error to console and exit with 1.
+ * Prints the error to console and exits process with 1.
  *
  * @param {string|Error} err - The error to print.
  * @private
@@ -81,7 +87,7 @@ function error(err) {
  *
  * @param {Array} args     - The first mandatory argument is the input file (`args[0]`), the second (optional)
  *                           argument is the output file (`args[1]`).
- * @param {module:jy-transform:type-definitions~Options} cliOptions - The options provided via CLI.
+ * @param {module:jy-transform:type-definitions~TransformerOptions} cliOptions - The options provided via CLI.
  * @private
  */
 function main(args, cliOptions) {
@@ -99,6 +105,17 @@ function main(args, cliOptions) {
   } else {
     cli.debug('output file not specified, using default');
   }
+
+  // We have to set to undefined if the values are not given on CLI or else Joi will fail
+  // because it will receive the description created in options object above!
+  if (cliOptions.origin === ORIGIN_DESCRIPTION) {
+    cliOptions.origin = undefined;
+  }
+  if (cliOptions.target === TARGET_DESCRIPTION) {
+    cliOptions.target = undefined;
+  }
+
+  cli.debug('Passed options:\n' + JSON.stringify(cliOptions, null, 4));
 
   // transform with options
 

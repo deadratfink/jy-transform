@@ -1,12 +1,11 @@
 /**
  * @module jy-transform:constants
  * @description Useful constants used for the module and its usage.
- * @private
+ * @public
  */
 
 /**
  * The 'utf8' constant.
- *
  * @type {string}
  * @constant
  * @private
@@ -14,8 +13,7 @@
 export const UTF8 = 'utf8';
 
 /**
- * The 'yaml' type constant.
- *
+ * The `'yaml'` type constant.
  * @type {string}
  * @constant
  * @public
@@ -23,7 +21,7 @@ export const UTF8 = 'utf8';
 export const TYPE_YAML = 'yaml';
 
 /**
- * The 'json' type constant.
+ * The `'json'` type constant.
  * @type {string}
  * @constant
  * @public
@@ -31,7 +29,7 @@ export const TYPE_YAML = 'yaml';
 export const TYPE_JSON = 'json';
 
 /**
- * The 'js' type constant.
+ * The `'js'` type constant.
  * @type {string}
  * @constant
  * @public
@@ -44,7 +42,7 @@ export const TYPE_JS = 'js';
  * @type {{yml: string, yaml: string, js: string, json: string}}
  * @private
  */
-export const TYPE_MAP = {
+export const EXT_TO_TYPE_MAP = {
   yml: TYPE_YAML,
   yaml: TYPE_YAML,
   js: TYPE_JS,
@@ -60,12 +58,20 @@ export const TYPE_MAP = {
 export const DEFAULT_INDENT = 2;
 
 /**
- * The minimum file indention (0 SPACE).
+ * The minimum file indention (0 SPACE) fo JS and JSON types.
  * @type {number}
  * @constant
  * @private
  */
 export const MIN_INDENT = 0;
+
+/**
+ * The minimum file indention (0 SPACE) for YAML types.
+ * @type {number}
+ * @constant
+ * @private
+ */
+export const MIN_YAML_INDENT = 2;
 
 /**
  * The maximum file indention (8 SPACEs).
@@ -142,29 +148,3 @@ export const DEFAULT_JS_IMPORTS_IDENTIFIER = undefined;
  * @constant
  */
 export const DEFAULT_JS_EXPORTS_IDENTIFIER = undefined;
-
-/**
- * The default options.
- * @constant
- * @namespace
- * @property {string} origin=yaml                   - The default origin type.
- * @property {string} target=js                     - The default target type.
- * @property {string} dest=relative_to_input_file   - The default dest description.
- * @property {number} indent=4                      - The default indention for files.
- * @property {boolean} force=false                  - Whether to overwrite existing file on output.
- * @property {string} imports=undefined             - The exports name for reading from JS source file or objects only.
- * @property {string} exports=undefined             - The exports name for usage in JS file or object only.
- * @see {@link ORIGIN_DESCRIPTION}
- * @see {@link TARGET_DESCRIPTION}
- * @see {@link DEST_DESCRIPTION}
- * @private
- */
-export const DEFAULT_OPTIONS = {
-  origin: ORIGIN_DESCRIPTION,
-  target: TARGET_DESCRIPTION,
-  dest: DEST_DESCRIPTION,
-  indent: DEFAULT_INDENT,
-  force: DEFAULT_FORCE_FILE_OVERWRITE,
-  imports: DEFAULT_JS_IMPORTS_IDENTIFIER,
-  exports: DEFAULT_JS_EXPORTS_IDENTIFIER,
-};

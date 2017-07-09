@@ -11,6 +11,7 @@ import {
   DEFAULT_FORCE_FILE_OVERWRITE,
   DEFAULT_INDENT,
   MIN_INDENT,
+  MIN_YAML_INDENT,
   MAX_INDENT,
 } from '../constants';
 
@@ -39,7 +40,7 @@ export const readerOptionsSchema = Joi.object().keys({
       Joi.object().type(Object),
     )
     .required()
-    .description('The input source (if string type it is treated as a file path).'),
+    .description('The input source (if string type is treated as a file path).'),
   origin: Joi
     .when('src', {
       is: Joi.object().type(Stream.Readable),
@@ -85,7 +86,7 @@ export const writerOptionsSchema = Joi.object().keys({
       Joi.object().type(Object),
     )
     .required()
-    .description('The output destination (if string type it is treated as a file path).'),
+    .description('The output destination (if string type is treated as a file path).'),
   target: Joi
     .when('dest', {
       is: Joi.object().type(Stream.Writable),
@@ -113,12 +114,22 @@ export const writerOptionsSchema = Joi.object().keys({
     .validEs6Identifier()
     .description('The name of property to export while writing a JS object to a JS output destination.'),
   indent: Joi
-    .number()
-    .integer()
-    .min(MIN_INDENT)
-    .max(MAX_INDENT)
-    .default(DEFAULT_INDENT)
-    .description('The indention for pretty-print.'),
+    .when('target', {
+      is: TYPE_YAML,
+      then: Joi
+        .number()
+        .integer()
+        .min(MIN_YAML_INDENT) // Must be 2 for YAML type!
+        .max(MAX_INDENT)
+        .default(DEFAULT_INDENT),
+      otherwise: Joi
+        .number()
+        .integer()
+        .min(MIN_INDENT)
+        .max(MAX_INDENT)
+        .default(DEFAULT_INDENT),
+    })
+    .description('The indention value for pretty-print of output.'),
   force: Joi
     .boolean()
     .default(DEFAULT_FORCE_FILE_OVERWRITE)

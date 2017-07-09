@@ -1,9 +1,3 @@
-/**
- * @module jy-transform:type-definitions
- * @description The type definitions for this module.
- * @public
- */
-
 // /////////////////////////////////////////////////////////////////////////////
 // EXTERNAL DEFINITIONS
 // /////////////////////////////////////////////////////////////////////////////
@@ -20,7 +14,7 @@
  * @typedef ValidationError
  * @memberof external:joi
  * @see {@link hhttps://github.com/hapijs/joi/blob/v10.2.0/API.md#errors Joi errors}
- * @private
+ * @public
  */
 
 /**
@@ -53,7 +47,7 @@
 // /////////////////////////////////////////////////////////////////////////////
 
 /**
- * The configuration properties provided to the reader function.
+ * The configuration properties provided to the `read` function.
  * @typedef {object} ReaderOptions
  * @property {(string|Stream.Readable|object)} src  - The source (if `string` type is treated as a file path).
  * @property {string} [origin=yaml]                 - The origin type.
@@ -62,18 +56,18 @@
  */
 
 /**
- * The writer configuration properties provided to the writer function.
+ * The writer configuration properties provided to the `write` function.
  * @typedef {object} WriterOptions
- * @property {(string|Stream.Writable|object)} [dest] - The destination (if `string` type is treated as a file path).
- * @property {string} [target=js]                     - The target type.
- * @property {number} [indent=2]                      - The indention in files.
- * @property {string} [exports=undefined]             - The exports name for usage in JS destination files only.
- * @property {string} [force=false]                   - Force overwriting of existing output files on write phase.
+ * @property {(string|Stream.Writable|object)} dest - The destination (if `string` type is treated as a file path).
+ * @property {string} [target=js]                   - The target type.
+ * @property {number} [indent=2]                    - The indention value for pretty-print of output.
+ * @property {string} [exports=undefined]           - The exports name for usage in JS destination files only.
+ * @property {string} [force=false]                 - Force overwriting of existing output files on write phase.
  * @public
  */
 
 /**
- * The configuration properties provided to the transformer function.
+ * The configuration properties provided to the `transform` function.
  * @typedef {object} TransformerOptions
  * @property {(string|Stream.Readable|object)} src    - The source (if `string` type is treated as a file path).
  * @property {string} [origin=yaml]                   - The origin type.
@@ -81,8 +75,8 @@
  *                                                      or objects only.
  * @property {(string|Stream.Writable|object)} [dest] - The destination (if `string` type is treated as a file path).
  * @property {string} [target=js]                     - The target type.
+ * @property {number} [indent=2]                      - The indention value for pretty-print of output.
  * @property {string} [exports=undefined]             - The exports name for usage in JS destination files only.
- * @property {number} [indent=2]                      - The indention in files.
  * @property {string} [force=false]                   - Force overwriting of existing output files on write phase.
  * @public
  */

@@ -1,10 +1,4 @@
 import winston from 'winston';
-// import fsExtra from 'fs-extra'; // TODO clean up this file!
-// import promisify from 'promisify-es6';
-// // import toYAML from 'combarnea-winston-console-formatter';
-//
-// const ensureDir = promisify(fsExtra.ensureDir);
-// const emptyDir = promisify(fsExtra.emptyDir);
 
 /**
  * @module jy-transform:unit:logger
@@ -92,17 +86,6 @@ const winstonConsoleOptions = {
 };
 
 // ////////////////////////////////////////////////////////////////////////////
-// PREPARE TMP FOLDER
-// ////////////////////////////////////////////////////////////////////////////
-
-// (async () => {
-//   await ensureDir(TEST_TMP_DIR);
-//   await emptyDir(TEST_TMP_DIR);
-// })();
-// fsExtra.ensureDirSync(TEST_TMP_DIR);
-// fsExtra.emptyDirSync(TEST_TMP_DIR);
-
-// ////////////////////////////////////////////////////////////////////////////
 // PROTECTED EXPORTS
 // ////////////////////////////////////////////////////////////////////////////
 
@@ -118,12 +101,6 @@ export const logger = new (winston.Logger)({
   ],
   exitOnError: false
 });
-
-// logger.add(winston.transports.Console, toYAML.config({
-//   // colors, // colorizer colors array
-//   noMeta: false, // boolean - not to print metadata, if true metadata will not be printed
-//   noStack: false // boolean - not to print stack trace, if true stack trace will not be printed
-// }));
 
 logger.info('Test-logger initialized, writing to ', winstonFileOptions.filename);
 

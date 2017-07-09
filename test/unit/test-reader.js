@@ -10,7 +10,7 @@ import {
 
 /**
  * @module jy-transform:unit-test:test-reader
- * @description This unit test suite checks the validity and correctness of _./src/reader.js_ module.
+ * @description This unit test suite checks the validity and correctness of the Reader module.
  * @private
  */
 
@@ -67,12 +67,12 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - reader - ', () => {
       return expectReaderError(options, { name: 'ValidationError', isJoi: true });
     });
 
-    it('should read JS successfully', async () =>
-      await expectReaderSuccess({ src: { myproperty: 'value' } }, 'myproperty', 'value')
+    it('should read JS successfully', () =>
+      expectReaderSuccess({ src: { myproperty: 'value' } }, 'myproperty', 'value')
     );
 
-    it('should read JS from file successfully', async () =>
-      await expectReaderSuccess({ src: './test/data/test-data.js' }, 'myproperty', 'old value')
+    it('should read JS from file successfully', () =>
+      expectReaderSuccess({ src: './test/data/test-data.js' }, 'myproperty', 'old value')
     );
 
     it('should read JS from JS object successfully and both object references are different', async () => {
@@ -134,8 +134,8 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - reader - ', () => {
       return expectReaderErrorByType(options, Error);
     });
 
-    it('should read JSON from file successfully', async () =>
-      await expectReaderSuccess({ src: './test/data/test-data.json' }, 'myproperty', 'old value')
+    it('should read JSON from file successfully', () =>
+      expectReaderSuccess({ src: './test/data/test-data.json' }, 'myproperty', 'old value')
     );
 
     it('should read JS from object successfully', async () => {
@@ -195,96 +195,95 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - reader - ', () => {
       return expectReaderErrorByType(options, Error);
     });
 
-    it('should read JSON from stream successfully', async () =>
-      await expectReaderSuccess({
+    it('should read JSON from stream successfully', () =>
+      expectReaderSuccess({
         origin: TYPE_JSON,
         src: fs.createReadStream('./test/data/test-data.json')
       }, 'myproperty', 'old value')
     );
 
-    it('should read corrupted JSON from file path and fail by SyntaxError', () => {
-      return expectReaderErrorByType({
+    it('should read corrupted JSON from file path and fail by SyntaxError', () =>
+      expectReaderErrorByType({
         origin: TYPE_JSON,
         src: './test/data/test-data-corrupted.json'
-      }, SyntaxError);
-    });
+      }, SyntaxError)
+    );
 
-    it('should read invalid JSON from file path and fail by SyntaxError', () => {
-      return expectReaderErrorByType({
+    it('should read invalid JSON from file path and fail by SyntaxError', () =>
+      expectReaderErrorByType({
         origin: TYPE_JSON,
         src: './test/data/test-data-wrong-syntax.json'
-      }, SyntaxError);
-    });
+      }, SyntaxError)
+    );
 
-    it('should read corrupted JSON from stream and fail by SyntaxError', () => {
-      const options = {
+    it('should read corrupted JSON from stream and fail by SyntaxError', () =>
+      expectReaderErrorByType({
         origin: TYPE_JSON,
         src: fs.createReadStream('./test/data/test-data-corrupted.json'),
-      };
-      return expectReaderErrorByType(options, SyntaxError);
-    });
+      }, SyntaxError)
+    );
 
-    it('should read invalid JSON from stream and fail by SyntaxError', () => {
-      return expectReaderErrorByType({
+    it('should read invalid JSON from stream and fail by SyntaxError', () =>
+      expectReaderErrorByType({
         origin: TYPE_JSON,
         src: fs.createReadStream('./test/data/test-data-wrong-syntax.json')
-      }, SyntaxError);
-    });
+      }, SyntaxError)
+    );
 
-    it('should fail JS(ON) read by missing options', () => {
-      return expectReaderError(null, { name: 'ValidationError', isJoi: true });
-    });
+    it('should fail JS(ON) read by missing options', () =>
+      expectReaderError(null, { name: 'ValidationError', isJoi: true })
+    );
 
-    it('should fail JS(ON) read by missing options.src', () => {
-      return expectReaderError({}, { name: 'ValidationError', isJoi: true });
-    });
+    it('should fail JS(ON) read by missing options.src', () =>
+      expectReaderError({}, { name: 'ValidationError', isJoi: true })
+    );
   });
 
   describe('Testing reading from YAML', () => {
-    it('should read YAML from file successfully', async () =>
-      await expectReaderSuccess({ src: './test/data/test-data.yaml' }, 'myproperty', 'old value')
+    it('should read YAML from file successfully', () =>
+      expectReaderSuccess({ src: './test/data/test-data.yaml' }, 'myproperty', 'old value')
     );
 
-    it('should read JS from object successfully', async () => // TODO
-      await expectReaderSuccess({ src: { test: 'value' } }, 'test', 'value')
+    it('should read JS from object successfully', () => // TODO
+      expectReaderSuccess({ src: { test: 'value' } }, 'test', 'value')
     );
 
-    it('should read YAML from stream successfully', async () =>
-      await expectReaderSuccess({
+    it('should read YAML from stream successfully', () =>
+      expectReaderSuccess({
         origin: TYPE_YAML,
         src: fs.createReadStream('./test/data/test-data.yaml'),
       }, 'myproperty', 'old value')
     );
 
-    it('should read invalid YAML from file path and fail by YAMLException', () => {
-      return expectReaderErrorByType({ src: './test/data/test-data-wrong-syntax.yaml' }, YAMLException);
-    });
-
-    it('should read invalid YAML from stream and fail by YAMLException', () => {
-      return expectReaderErrorByType({
-        origin: TYPE_YAML,
-        src: fs.createReadStream('./test/data/test-data-wrong-syntax.yaml'),
-      }, YAMLException);
-    });
-
-    it('should fail reading YAML by providing empty JS object as options.src', () => {
-      return expectReaderError({ src: {}, origin: TYPE_YAML }, { name: 'ValidationError', isJoi: true });
-    });
-
-    it('should fail YAML reading by missing input options', () => {
-      return expectReaderError(null, { name: 'ValidationError', isJoi: true });
-    });
-
-    it('should fail reading YAML by missing options.src', () => {
-      return expectReaderError({}, { name: 'ValidationError', isJoi: true });
-    });
-
-    it('should fail reading YAML from configured directory source', async () =>
-      await expectReaderError({ src: './test/data' }, { name: 'ValidationError', isJoi: true })
+    it('should read invalid YAML from file path and fail by YAMLException', () =>
+      expectReaderErrorByType({ src: './test/data/test-data-wrong-syntax.yaml' }, YAMLException)
     );
 
-    it('should fail reading YAML from non-existing file', async () =>
-      await expectReaderError({ src: './test/data/non-existing.yml' }, {
+    it('should read invalid YAML from stream and fail by YAMLException', () =>
+      expectReaderErrorByType({
+        origin: TYPE_YAML,
+        src: fs.createReadStream('./test/data/test-data-wrong-syntax.yaml'),
+      }, YAMLException)
+    );
+
+    it('should fail reading YAML by providing empty JS object as options.src', () =>
+      expectReaderError({ src: {}, origin: TYPE_YAML }, { name: 'ValidationError', isJoi: true })
+    );
+
+    it('should fail YAML reading by missing input options', () =>
+      expectReaderError(null, { name: 'ValidationError', isJoi: true })
+    );
+
+    it('should fail reading YAML by missing options.src', () =>
+      expectReaderError({}, { name: 'ValidationError', isJoi: true })
+    );
+
+    it('should fail reading YAML from configured directory source', () =>
+      expectReaderError({ src: './test/data' }, { name: 'ValidationError', isJoi: true })
+    );
+
+    it('should fail reading YAML from non-existing file', () =>
+      expectReaderError({ src: './test/data/non-existing.yml' }, {
         name: 'ValidationError',
         isJoi: true
       })

@@ -18,7 +18,7 @@ import {
 /**
  * @module jy-transform:reader
  * @description This module provides the _read_ functionality for YAML, JS or JSON sources.
- * @public
+ * @private
  */
 
 /**
@@ -44,14 +44,14 @@ function readFromStream(readable, origin) {
       .on('end', () => {
         const buffer = Buffer.concat(buffers);
         try {
-          logger.debug(origin + ' reading from Readable');
+          // logger.debug(origin + ' reading from Readable'); TODO remove
           if (origin === TYPE_JSON || origin === TYPE_JS) {
             resolve(JSON.parse(buffer.toString(UTF8)));
           } else { // HINT: commented (see below): if (origin === YAML) {
             resolve(jsYaml.safeLoad(buffer.toString(UTF8)));
           }
         } catch (err) { // probably a SyntaxError for JSON or a YAMLException
-          logger.error('Unexpected error: ' + err.stack);
+          // logger.error('Unexpected error: ' + err.stack); TODO remove
           readable.emit('error', err); // send to .on('error',...
         }
       });
@@ -61,8 +61,7 @@ function readFromStream(readable, origin) {
 /**
  * Reads the data from a given JS or JSON source.
  *
- * @param {module:jy-transform:type-definitions~ReaderOptions} options - Contains the JS/JSON source reference
- *                                                                       to read from.
+ * @param {ReaderOptions} options - Contains the JS/JSON source reference to read from.
  * @returns {Promise.<Object>} Contains the read JS object.
  * @private
  */
@@ -73,8 +72,8 @@ async function readJs(options) {
       if (options.imports) {
         // eslint-disable-next-line import/no-dynamic-require, global-require
         const object = require(resolvedPath)[options.imports];
-        logger.debug('LOADED JSON object (' + options.imports + '):: ' + stringify(object, null, 4));
-        if (!object) {
+        // logger.debug('LOADED JSON object (' + options.imports + '):: ' + stringify(object, null, 4)); TODO remove
+        if (!object) { // TODO check this as part of config validation?
           throw new Error('an identifier string \'' + options.imports + '\' was specified for JS object' +
             ' but could not find this object, pls ensure that file ' + options.src + ' contains it.');
         } else {
@@ -85,22 +84,22 @@ async function readJs(options) {
         return require(resolvedPath); // reads both: JS and JSON!
       }
     } catch (err) { // probably a SyntaxError
-      logger.error('Unexpected error: ' + err.stack);
+      // logger.error('Unexpected error: ' + err.stack); TODO remove
       throw err;
     }
   } else if (isStream.readable(options.src)) {
-    return await readFromStream(options.src, TYPE_JSON); // reads both: JS or JSON!
+    return readFromStream(options.src, TYPE_JSON); // reads both: JS or JSON!
   } else if (options.imports) { // options.src is JS object here!
     const subObject = options.src[options.imports];
-    logger.debug('LOADED JSON object (' + options.imports + '):: ' + stringify(subObject, null, 4));
+    // logger.debug('LOADED JSON object (' + options.imports + '):: ' + stringify(subObject, null, 4)); TODO remove
     if (!subObject) {
       throw new Error('an identifier string \'' + options.imports + '\' was specified for JS object ' +
         'but could not find this object, pls ensure that object source contains it.');
     } else {
       return Object.assign({}, subObject); // clone, do not alter original object!
     }
-  } else { // // options.src is JS object here!
-    return Object.assign({}, options.src);  // clone, do not alter original object!
+  } else { // options.src is JS object here!
+    return Object.assign({}, options.src); // clone, do not alter original object!
   }
 }
 
@@ -109,8 +108,7 @@ async function readJs(options) {
  * *NOTE:* this function does not understand multi-document sources, it throws
  * exception on those.
  *
- * @param {module:jy-transform:type-definitions~ReaderOptions} options - Contains the YAML source reference
- *                                                                       to read from.
+ * @param {ReaderOptions} options - Contains the YAML source reference to read from.
  * @returns {Promise.<Object>} Contains the read JS object.
  * @private
  */
@@ -118,16 +116,16 @@ async function readYaml(options) {
   if (typeof options.src === 'string') {
     // load source from YAML file
     const yaml = await fsPromisified.readFile(options.src, UTF8);
-    logger.debug('YAML loaded from file ' + options.src);
+    // logger.debug('YAML loaded from file ' + options.src); TODO remove
     try {
       return jsYaml.safeLoad(yaml);
     } catch (err) { // probably a YAMLException
-      logger.error('Unexpected error: ' + err.stack);
+      // logger.error('Unexpected error: ' + err.stack); TODO remove
       throw err;
     }
   }
   // as validation has passed already, this can only be stream here
-  return await readFromStream(options.src, TYPE_YAML);
+  return readFromStream(options.src, TYPE_YAML);
 }
 
 // /**
@@ -151,8 +149,11 @@ async function readYaml(options) {
 /**
  * Reads a particular content type from a source provided in the passed `options`.
  *
- * @param {module:jy-transform:type-definitions~ReaderOptions} options - The read options.
- * @returns {Promise.<string>} Resolves with JS object result.
+ * @param {ReaderOptions} options - The read options.
+ * @returns {Promise} The result.
+ * @resolve {string} Resolves with JS object result.
+ * @reject {ValidationError} If any `options` validation occurs.
+ * @reject {Error} If any write error occurs.
  * @public
  * @example
  * import { read } from 'jy-transform';
@@ -184,9 +185,9 @@ export async function read(options) {
   switch (assertedOptions.origin) {
     case TYPE_JS:
     case TYPE_JSON:
-      return await readJs(assertedOptions);
+      return readJs(assertedOptions);
     default:
-      return await readYaml(assertedOptions);
+      return readYaml(assertedOptions);
   }
 }
 

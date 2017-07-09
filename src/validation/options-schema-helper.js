@@ -1,8 +1,7 @@
 import path from 'path';
-import logger from 'cli';
 import isStream from 'is-stream';
 import {
-  TYPE_MAP,
+  EXT_TO_TYPE_MAP,
   DEFAULT_ORIGIN,
   DEFAULT_TARGET,
 } from '../constants';
@@ -31,7 +30,7 @@ const getTypeFromFilePath = (pathStr, defaultValue) => {
     if (ext.charAt(0) === '.') {
       ext = ext.substr(1);
     }
-    type = TYPE_MAP[ext];
+    type = EXT_TO_TYPE_MAP[ext];
   }
   if (!type) {
     type = defaultValue;

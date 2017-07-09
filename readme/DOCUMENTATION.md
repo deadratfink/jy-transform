@@ -1,10 +1,9 @@
 ## API in a Minute
 
+### Read, Transform & Write from Source to Destination
+
 ```javascript
-import { transform, read, write } from 'jy-transform';
-
-
-// --- transform from source to destination ---
+import { transform } from 'jy-transform';
 
 const transformOptions = {
   src: 'foo/bar.yaml',
@@ -24,21 +23,25 @@ try {
 } catch (err) {
   console.error(err.stack);
 }
+```
 
+### Read into JS object from particular Source (File, Stream or JS Object) only
 
-// --- read into JS object from particular source (file, stream or JS object) ---
-
-let object;
+```javascript
+import { read } from 'jy-transform';
 
 try {
-  object = await read({ src: 'foo/bar.yaml' }); // here: read from file
+  const object = await read({ src: 'foo/bar.yaml' }); // here: read from file
   console.log(JSON.stringify(object));
 } catch (err) {
   console.error(err.stack);
 }
+```
 
+### Write JS object to particular Destination only
 
-// --- write a JS object to particular destination ---
+```javascript
+import { write } from 'jy-transform';
 
 try {
   const msg = await write(object, { dest: 'foo/bar.yaml' });
@@ -59,8 +62,7 @@ types into each other format.
 ## Usage
 
 The module can be used on CLI or as API (the latter is fully
-[Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise))
-based).
+[Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) based).
 
 ### Usage Types
 
@@ -77,13 +79,10 @@ So, what are the typical use cases for this module? In terms of _transformation_
 these consists of different phases:
 
 - Reading files (`Reader`)
-- Transforming JSON objects (`Transformer`)
-- Apply dedicated actions on the intermediate JSON objects (`Transformer` + `Middleware`)
+- Transforming JSON objects (`Transformer`) or apply dedicated actions on the intermediate JSON objects (`Transformer` + `Middleware`)
 - Writing files (`Writer`)
 
-#### Reading
-
-From:
+#### Reading From
 
 - _*.yaml_ file
 - _*.js_ file
@@ -123,9 +122,7 @@ while:
 As mentioned above a _middleware_ can apply particular actions on the intermediate JS object via injected functions.
 This is an optional part for [transformation](#transformation) phase.
 
-#### Writing
-
-To:
+#### Writing To
 
 - _*.yaml_ file
 - _*.js_ file
@@ -456,7 +453,7 @@ async function transform(options, middleware)
 
 #### Options
 
-The `options` object has to follow this key-values table:
+The `options` object has to follow this key-values tables:
 
 ##### Reader Options
 
@@ -475,8 +472,6 @@ The `options` object has to follow this key-values table:
 | `force` | <code>_Boolean_</code> | Force overwriting of existing output files on write phase. When files are not overwritten, then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of _foo.yaml_ it would be _foo(1).yaml_. | _false_ | no |
 | `imports` | <code>_String_</code> | Define a `module.exports[.identifier] = ...` identifier (to read from JS _source_ only, must be a valid JS identifier!) | _undefined_ | no |
 | `exports` | <code>_String_</code> | Define a `module.exports[.identifier] = ...` identifier (for usage in JS _destination_ only, must be a valid JS identifier!) | _undefined_ | no |
-
-**NOTE:** an invalid indention setting (1 > indent > 8) does not raise an error but a default of 2 SPACEs is applied instead.
 
 ##### Transformer Options
 
@@ -625,8 +620,7 @@ wiki which describes the full API and provides more examples.
 
 ## Contributing
 
-Pull requests and stars are always welcome. Anybody is invited to take part
-into this project. For bugs and feature requests, please create an
+Pull requests and stars are always welcome. For bugs and feature requests, please create an
 [issue](https://github.com/deadratfink/jy-transform/issues).
 See the wiki [Contributing](https://github.com/deadratfink/jy-transform/wiki/Contributing)
 section for more details about conventions.

@@ -1,7 +1,6 @@
 #!/bin/bash
 
 api="true"
-package="true"
 changelog="true"
 license="true"
 makefile="true"
@@ -12,10 +11,6 @@ while [[ $# -gt 1 ]]; do
   case $key in
     -a|--api)
     api="$2"
-    shift # past argument
-    ;;
-    -p|--package)
-    package="$2"
     shift # past argument
     ;;
     -c|--changelog)
@@ -42,37 +37,31 @@ done
 # PACKAGE.md
 ###############################################################################
 
-if [ "$package" == "true" ]; then
-  printf "Create documentation (PACKAGE.md)\n"
-  touch PACKAGE.md
-  node node_modules/.bin/package-json-to-readme --no-footer package.json > PACKAGE.md
-  cat readme/LOGO.md >> README.md
-  cat readme/BADGES.md >> README.md
-  printf "\n\n" >> README.md
-  head -12 PACKAGE.md > README.md
-  printf "\n\n" >> README.md
-else
-  # to ensure that the README.md is always empty at the beginning
-  printf "" > README.md
-fi
+printf "Create documentation (PACKAGE.md)\n"
+touch PACKAGE.md
+node node_modules/.bin/package-json-to-readme --no-footer package.json > PACKAGE.md
 
 ###############################################################################
 # README.md
 ###############################################################################
 
+touch README.md
+# cat readme/LOGO.md >> README.md
+cat readme/BADGES.md > README.md
+printf "\n\n" >> README.md
+head -10 PACKAGE.md >> README.md
+printf "\n\n" >> README.md
+
 printf "<!-- START doctoc -->\n<!-- END doctoc -->\n\n" >> README.md
 cat readme/DOCUMENTATION.md >> README.md
 printf "\n\n" >> README.md
 
-if [[ "$package" == "true" ]] || [[ "$api" == "true" ]] || [[ "$env" == "true" ]] || ([[ -f "$MAKE_FILE" ]] && [[ "$makefile" == "true" ]]); then
-  printf "## Further information" >> README.md
-  printf "\n\n" >> README.md
-fi
+printf "## Further information" >> README.md
+printf "\n\n" >> README.md
 
-if [ "$package" == "true" ]; then
-  printf -- "- [Module Details](./PACKAGE.md)" >> README.md
-  printf "\n\n" >> README.md
-fi
+printf -- "- [Module Details](./PACKAGE.md)" >> README.md
+printf "\n\n" >> README.md
+
 
 ###############################################################################
 # API-PUBLIC.md
@@ -82,8 +71,8 @@ if [ "$api" == "true" ]; then
   printf "Create documentation (API-PUBLIC.md)\n"
   touch API-PUBLIC.md
   printf "<!-- START doctoc -->\n<!-- END doctoc -->\n\n" >> API-PUBLIC.md
-  node node_modules/.bin/jsdoc2md --no-cache --configure .jsdoc.json . > API-PUBLIC.md
-  node node_modules/.bin/doctoc  API-PUBLIC.md --github --title "## TOC" --maxlevel 2
+  node node_modules/.bin/jsdoc2md package.json index.js --no-cache --configure .jsdoc-public.json . > API-PUBLIC.md
+  node node_modules/.bin/doctoc API-PUBLIC.md --github --title "## TOC" --maxlevel 2
 
   printf -- "- [Public Api Reference](./API-PUBLIC.md)" >> README.md
   printf "\n\n" >> README.md
@@ -98,7 +87,7 @@ if [ "$api" == "true" ]; then
   touch API-PRIVATE.md
   printf "<!-- START doctoc -->\n<!-- END doctoc -->\n\n" >> API-PRIVATE.md
   node node_modules/.bin/jsdoc2md --no-cache --private --configure .jsdoc.json . > API-PRIVATE.md
-  node node_modules/.bin/doctoc  API-PRIVATE.md --github --title "## TOC" --maxlevel 2
+  node node_modules/.bin/doctoc API-PRIVATE.md --github --title "## TOC" --maxlevel 2
 
   printf -- "- [Private Api Reference](./API-PRIVATE.md)" >> README.md
   printf "\n\n" >> README.md

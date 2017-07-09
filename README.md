@@ -1,10 +1,60 @@
+[![License][gh-license-image]][gh-license-url] [![Issue Stats][gh-issues-image]][gh-issues-url] [![Releases][gh-releases-image]][gh-releases-url] [![Tags][gh-tags-image]][gh-tags-url] [![Build Status][ci-image]][ci-url] [![Waffle][waffle-image]][waffle-url] [![Code Climate][cocl-image]][cocl-url]
+[![codecov.io][cc-image-master]][cc-url-master] [![coveralls.io][ca-image-master]][ca-url-master] [![inch-ci.org][inch-image-master]][inch-url-master] [![Dependency Status][dep-image-master]][dep-url-master] [![devDependency Status][devdep-image-master]][devdep-url-master]
+
+[![NPM](https://nodei.co/npm/jy-transform.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/jy-transform/)
+
+[![NPM](https://nodei.co/npm-dl/jy-transform.png?height=3&months=9)](https://nodei.co/npm-dl/jy-transform/)
+
+[gh-license-image]: https://img.shields.io/github/license/deadratfink/jy-transform.svg?style=flat-square
+[gh-license-url]: https://github.com/deadratfink/jy-transform/blob/master/LICENSE.md
+
+[gh-issues-image]: https://img.shields.io/github/issues/deadratfink/jy-transform.svg?style=flat-square
+[gh-issues-url]: https://github.com/deadratfink/jy-transform/issues
+
+[gh-releases-image]: https://img.shields.io/github/release/deadratfink/jy-transform.svg?style=flat-square
+[gh-releases-url]: https://github.com/deadratfink/jy-transform/releases
+
+[gh-tags-image]: https://img.shields.io/github/tag/deadratfink/jy-transform.svg?style=flat-square
+[gh-tags-url]: https://github.com/deadratfink/jy-transform/tags
+
+
+[ci-image]: https://img.shields.io/travis/deadratfink/jy-transform.svg?style=flat-square
+[ci-url]: https://travis-ci.org/deadratfink/jy-transform/branches
+
+[is-pull-image]: http://issuestats.com/github/deadratfink/jy-transform/badge/pr?style=flat-square
+[is-issue-image]: http://issuestats.com/github/deadratfink/jy-transform/badge/issue?style=flat-square
+[is-url]: http://issuestats.com/github/deadratfink/jy-transform
+
+[waffle-image]: https://img.shields.io/waffle/label/deadratfink/jy-transform.svg?label=ready&title=Waffle%20Ready&style=flat-square
+[waffle-url]: https://waffle.io/deadratfink/jy-transform
+
+[cocl-image]: https://img.shields.io/codeclimate/github/deadratfink/jy-transform.svg?style=flat-square
+[cocl-url]: https://codeclimate.com/github/deadratfink/jy-transform
+
+
+[cc-image-master]: https://img.shields.io/codecov/c/github/deadratfink/jy-transform/master.svg?style=flat-square
+[cc-url-master]: https://codecov.io/github/deadratfink/jy-transform?branch=master
+
+[ca-image-master]: https://img.shields.io/coveralls/deadratfink/jy-transform/master.svg?style=flat-square
+[ca-url-master]: https://coveralls.io/github/deadratfink/jy-transform?branch=master
+
+
+[inch-image-master]: https://inch-ci.org/github/deadratfink/jy-transform.svg?branch=master&style=flat-square
+[inch-url-master]: https://inch-ci.org/github/deadratfink/jy-transform?branch=master
+
+[dep-image-master]: https://img.shields.io/david/deadratfink/jy-transform/master.svg?style=flat-square
+[dep-url-master]: https://david-dm.org/deadratfink/jy-transform/master
+
+[devdep-image-master]: https://img.shields.io/david/dev/deadratfink/jy-transform/master.svg?style=flat-square
+[devdep-url-master]: https://david-dm.org/deadratfink/jy-transform/master#info=devDependencies
+
+
+
 # jy-transform 
 
 This project aims to read, write and transform YAML, JS or JSON objects into each other using CLI or API, while the source and destination resources can be files on CLI and additionally, objects or streams on API level.
 
 ## Installation
-
-Download node at [nodejs.org](http://nodejs.org) and install it, if you haven't already.
 
 ```sh
 npm install jy-transform --global
@@ -17,6 +67,9 @@ npm install jy-transform --global
 ## TOC
 
 - [API in a Minute](#api-in-a-minute)
+  - [Read, Transform & Write from Source to Destination](#read-transform--write-from-source-to-destination)
+  - [Read into JS object from particular Source (File, Stream or JS Object) only](#read-into-js-object-from-particular-source-file-stream-or-js-object-only)
+  - [Write JS object to particular Destination only](#write-js-object-to-particular-destination-only)
 - [Why This Module?](#why-this-module)
 - [Usage](#usage)
   - [Usage Types](#usage-types)
@@ -33,11 +86,10 @@ npm install jy-transform --global
 
 ## API in a Minute
 
+### Read, Transform & Write from Source to Destination
+
 ```javascript
-import { transform, read, write } from 'jy-transform';
-
-
-// --- transform from source to destination ---
+import { transform } from 'jy-transform';
 
 const transformOptions = {
   src: 'foo/bar.yaml',
@@ -57,9 +109,12 @@ try {
 } catch (err) {
   console.error(err.stack);
 }
+```
 
+### Read into JS object from particular Source (File, Stream or JS Object) only
 
-// --- read into JS object from particular source (file, stream or JS object) ---
+```javascript
+import { read } from 'jy-transform';
 
 let object;
 
@@ -69,9 +124,12 @@ try {
 } catch (err) {
   console.error(err.stack);
 }
+```
 
+### Write JS object to particular Destination only
 
-// --- write a JS object to particular destination ---
+```javascript
+import { write } from 'jy-transform';
 
 try {
   const msg = await write(object, { dest: 'foo/bar.yaml' });
@@ -110,13 +168,10 @@ So, what are the typical use cases for this module? In terms of _transformation_
 these consists of different phases:
 
 - Reading files (`Reader`)
-- Transforming JSON objects (`Transformer`)
-- Apply dedicated actions on the intermediate JSON objects (`Transformer` + `Middleware`)
+- Transforming JSON objects (`Transformer`) or apply dedicated actions on the intermediate JSON objects (`Transformer` + `Middleware`)
 - Writing files (`Writer`)
 
-#### Reading
-
-From:
+#### Reading From
 
 - _*.yaml_ file
 - _*.js_ file
@@ -156,9 +211,7 @@ while:
 As mentioned above a _middleware_ can apply particular actions on the intermediate JS object via injected functions.
 This is an optional part for [transformation](#transformation) phase.
 
-#### Writing
-
-To:
+#### Writing To
 
 - _*.yaml_ file
 - _*.js_ file
@@ -489,7 +542,7 @@ async function transform(options, middleware)
 
 #### Options
 
-The `options` object has to follow this key-values table:
+The `options` object has to follow this key-values tables:
 
 ##### Reader Options
 
@@ -508,8 +561,6 @@ The `options` object has to follow this key-values table:
 | `force` | <code>_Boolean_</code> | Force overwriting of existing output files on write phase. When files are not overwritten, then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of _foo.yaml_ it would be _foo(1).yaml_. | _false_ | no |
 | `imports` | <code>_String_</code> | Define a `module.exports[.identifier] = ...` identifier (to read from JS _source_ only, must be a valid JS identifier!) | _undefined_ | no |
 | `exports` | <code>_String_</code> | Define a `module.exports[.identifier] = ...` identifier (for usage in JS _destination_ only, must be a valid JS identifier!) | _undefined_ | no |
-
-**NOTE:** an invalid indention setting (1 > indent > 8) does not raise an error but a default of 2 SPACEs is applied instead.
 
 ##### Transformer Options
 
@@ -658,8 +709,7 @@ wiki which describes the full API and provides more examples.
 
 ## Contributing
 
-Pull requests and stars are always welcome. Anybody is invited to take part
-into this project. For bugs and feature requests, please create an
+Pull requests and stars are always welcome. For bugs and feature requests, please create an
 [issue](https://github.com/deadratfink/jy-transform/issues).
 See the wiki [Contributing](https://github.com/deadratfink/jy-transform/wiki/Contributing)
 section for more details about conventions.

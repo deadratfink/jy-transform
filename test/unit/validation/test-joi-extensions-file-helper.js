@@ -10,19 +10,19 @@ import { isExistingFile } from '../../../src/validation/joi-extensions-file-help
 describe(TEST_SUITE_DESCRIPTION_UNIT + ' - joi-extensions-file-helper - ', () => {
   describe('Method isExistingFile(pathStr) ', () => {
     it('should return true on relative path string with existing file', () =>
-      expect(isExistingFile('test/unit/validation/test-joi-extensions-file-helper.js')).toBeTruthy()
+      expect(isExistingFile('test/unit/validation/test-joi-extensions-file-helper.js')).toBe(true)
     );
 
     it('should return true on relative path string with existing file starting with \'./\'', () =>
-      expect(isExistingFile('./test/unit/validation/test-joi-extensions-file-helper.js')).toBeTruthy()
+      expect(isExistingFile('./test/unit/validation/test-joi-extensions-file-helper.js')).toBe(true)
     );
 
     it('should return false on incorrect path string with non-existing file', () =>
-      expect(isExistingFile('/foo/bar/non-exist.html')).toBeFalsy()
+      expect(isExistingFile('/foo/bar/non-exist.html')).toBe(false)
     );
 
     it('should return false on existing directory path string', () =>
-      expect(isExistingFile('./test')).toBeFalsy()
+      expect(isExistingFile('./test')).toBe(false)
     );
   });
 });

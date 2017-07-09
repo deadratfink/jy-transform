@@ -30,8 +30,8 @@ import Joi from '../../../src/validation/joi-extensions';
 /**
  * Expect a `ValidationError` for a given options function.
  *
- * @param {Options} invalidOptions - The options which potentially produce the error.
- * @param {Schema} schema          - The validation schema.
+ * @param {ReaderOptions|WriterOptions} invalidOptions - The options which potentially produce the error.
+ * @param {Schema} schema                              - The validation schema.
  * @private
  */
 function expectOptionsValidationError(invalidOptions, schema) {
@@ -45,8 +45,8 @@ function expectOptionsValidationError(invalidOptions, schema) {
 /**
  * Expect a validation success for a given options.
  *
- * @param {Options} validOptions - The options which should be correct.
- * @param {Schema} schema        - The validation schema.
+ * @param {ReaderOptions|WriterOptions} validOptions - The options which should be correct.
+ * @param {Schema} schema                            - The validation schema.
  * @private
  */
 function expectOptionsValidationSuccess(validOptions, schema) {
@@ -56,12 +56,12 @@ function expectOptionsValidationSuccess(validOptions, schema) {
 
 describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
   describe('Testing readerOptionsSchema validation', () => {
-    it('should reject when options is missing (null)', async () =>
-      await expectOptionsValidationError(null, readerOptionsSchema)
+    it('should reject when options is missing (null)', () =>
+      expectOptionsValidationError(null, readerOptionsSchema)
     );
 
-    it('should reject when options is missing (undefined)', async () =>
-      await expectOptionsValidationError(undefined, readerOptionsSchema)
+    it('should reject when options is missing (undefined)', () =>
+      expectOptionsValidationError(undefined, readerOptionsSchema)
     );
 
     it('should set all defaults', async () => {
@@ -78,7 +78,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
     it('should infer options.origin from file type', async () => {
       expect.assertions(1);
       const options = {
-        src: './test/data/test-data.js',    // non default type
+        src: './test/data/test-data.js', // non default type
       };
       const validatedOptions = await Joi.validate(options, readerOptionsSchema);
       expect(validatedOptions.origin).toBe(TYPE_JS);
@@ -88,7 +88,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
       expect.assertions(1);
       const options = {
         origin: TYPE_JS,
-        src: new Stream.Readable(),   // no inference possible
+        src: new Stream.Readable(), // no inference possible
       };
       const validatedOptions = await Joi.validate(options, readerOptionsSchema);
       expect(validatedOptions.origin).toBe(TYPE_JS);
@@ -106,19 +106,19 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
   });
 
   describe('Testing options.src schema validation', () => {
-    it('should reject when options.src is an existing directory path string', async () =>
-      await expectOptionsValidationError({
+    it('should reject when options.src is an existing directory path string', () =>
+      expectOptionsValidationError({
         src: './test',
         dest: 'some-file',
       }, readerOptionsSchema)
     );
 
-    it('should reject when options.src is undefined', async () =>
-      await expectOptionsValidationError({ dest: 'some-file' }, readerOptionsSchema)
+    it('should reject when options.src is undefined', () =>
+      expectOptionsValidationError({ dest: 'some-file' }, readerOptionsSchema)
     );
 
-    it('should reject when options.src is null', async () =>
-      await expectOptionsValidationError({
+    it('should reject when options.src is null', () =>
+      expectOptionsValidationError({
         src: null,
         dest: 'some-file',
       }, readerOptionsSchema)
@@ -148,40 +148,40 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
         expect(validatedOptions.origin).toBe(DEFAULT_ORIGIN);
       });
 
-      it('should resolve when options.origin has valid target ' + TYPE_JS, async () => {
-        await expectOptionsValidationSuccess({
+      it('should resolve when options.origin has valid target ' + TYPE_JS, () => {
+        expectOptionsValidationSuccess({
           src: './test/data/test-data',
           dest: 'some-file',
           origin: TYPE_JS,
         }, readerOptionsSchema);
       });
 
-      it('should resolve when options.origin has valid target ' + TYPE_JSON, async () => {
-        await expectOptionsValidationSuccess({
+      it('should resolve when options.origin has valid target ' + TYPE_JSON, () => {
+        expectOptionsValidationSuccess({
           src: './test/data/test-data-json',
           dest: 'some-file',
           origin: TYPE_JSON,
         }, readerOptionsSchema);
       });
 
-      it('should resolve when options.origin has valid target ' + TYPE_YAML, async () => {
-        await expectOptionsValidationSuccess({
+      it('should resolve when options.origin has valid target ' + TYPE_YAML, () => {
+        expectOptionsValidationSuccess({
           src: './test/data/test-data-yaml',
           dest: 'some-file',
           origin: TYPE_YAML,
         }, readerOptionsSchema);
       });
 
-      it('should reject when options.origin is null', async () =>
-        await expectOptionsValidationError({
+      it('should reject when options.origin is null', () =>
+        expectOptionsValidationError({
           src: './test/data/test-data-yaml',
           dest: 'some-file',
           origin: null,
         }, readerOptionsSchema)
       );
 
-      it('should reject when options.origin is not allowed value', async () =>
-        await expectOptionsValidationError({
+      it('should reject when options.origin is not allowed value', () =>
+        expectOptionsValidationError({
           src: './test/data/test-data-yaml',
           dest: 'some-file',
           origin: 'not-allowed',
@@ -191,8 +191,8 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
 
     describe('Testing options.imports schema validation', () => {
       const nonStringIdentifier = {};
-      it('should reject non-string identifier \'' + stringify(nonStringIdentifier) + '\'', async () =>
-        await expectOptionsValidationError({
+      it('should reject non-string identifier \'' + stringify(nonStringIdentifier) + '\'', () =>
+        expectOptionsValidationError({
           src: './test/data/test-data.js',
           dest: 'some-file',
           imports: nonStringIdentifier,
@@ -200,8 +200,8 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
       );
 
       const invalidIdentifier = '#3/-';
-      it('should reject invalid identifier \'' + invalidIdentifier + '\'', async () =>
-        await expectOptionsValidationError({
+      it('should reject invalid identifier \'' + invalidIdentifier + '\'', () =>
+        expectOptionsValidationError({
           src: './test/data/test-data.js',
           dest: 'some-file',
           imports: invalidIdentifier,
@@ -209,8 +209,8 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
       );
 
       const validIdentifier = 'bar';
-      it('should accept valid \'' + validIdentifier + '\' identifier', async () =>
-        await expectOptionsValidationSuccess({
+      it('should accept valid \'' + validIdentifier + '\' identifier', () =>
+        expectOptionsValidationSuccess({
           src: './test/data/test-data.js',
           dest: 'some-file',
           imports: validIdentifier,
@@ -220,12 +220,12 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
   });
 
   describe('Testing writerOptionsSchema validation', () => {
-    it('should reject when options is missing (null)', async () =>
-      await expectOptionsValidationError(null, writerOptionsSchema)
+    it('should reject when options is missing (null)', () =>
+      expectOptionsValidationError(null, writerOptionsSchema)
     );
 
-    it('should reject when options is missing (undefined)', async () =>
-      await expectOptionsValidationError(undefined, writerOptionsSchema)
+    it('should reject when options is missing (undefined)', () =>
+      expectOptionsValidationError(undefined, writerOptionsSchema)
     );
 
     it('should set all defaults', async () => {
@@ -243,7 +243,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
     it('should infer options.target from file type', async () => {
       expect.assertions(1);
       const options = {
-        dest: 'some-file.yml',  // non default type
+        dest: 'some-file.yml', // non default type
       };
       const validatedOptions = await Joi.validate(options, writerOptionsSchema);
       expect(validatedOptions.target).toBe(TYPE_YAML);
@@ -253,7 +253,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
       expect.assertions(1);
       const options = {
         target: TYPE_YAML,
-        dest: new Stream.Writable(),  // no inference possible
+        dest: new Stream.Writable(), // no inference possible
       };
       const validatedOptions = await Joi.validate(options, writerOptionsSchema);
       expect(validatedOptions.target).toBe(TYPE_YAML);
@@ -269,12 +269,12 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
     });
 
     describe('Testing options.dest schema validation', () => {
-      it('should reject when options.dest is undefined', async () =>
-        await expectOptionsValidationError({ src: './test/data/test-data.js' }, writerOptionsSchema)
+      it('should reject when options.dest is undefined', () =>
+        expectOptionsValidationError({ src: './test/data/test-data.js' }, writerOptionsSchema)
       );
 
-      it('should reject when options.dest is null', async () =>
-        await expectOptionsValidationError({
+      it('should reject when options.dest is null', () =>
+        expectOptionsValidationError({
           src: './test/data/test-data.js',
           dest: null,
         }, writerOptionsSchema)
@@ -320,40 +320,40 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
         expect(validatedOptions.target).toBe(DEFAULT_TARGET);
       });
 
-      it('should resolve when options.target has valid target ' + TYPE_JS, async () => {
-        await expectOptionsValidationSuccess({
+      it('should resolve when options.target has valid target ' + TYPE_JS, () => {
+        expectOptionsValidationSuccess({
           src: './test/data/test-data.js',
           dest: 'some-file',
           target: TYPE_JS,
         }, writerOptionsSchema);
       });
 
-      it('should resolve when options.target has valid target ' + TYPE_JSON, async () => {
-        await expectOptionsValidationSuccess({
+      it('should resolve when options.target has valid target ' + TYPE_JSON, () => {
+        expectOptionsValidationSuccess({
           src: './test/data/test-data.json',
           dest: 'some-file',
           target: TYPE_JS,
         }, writerOptionsSchema);
       });
 
-      it('should resolve when options.target has valid target ' + TYPE_YAML, async () => {
-        await expectOptionsValidationSuccess({
+      it('should resolve when options.target has valid target ' + TYPE_YAML, () => {
+        expectOptionsValidationSuccess({
           src: './test/data/test-data.yaml',
           dest: 'some-file',
           target: TYPE_YAML,
         }, writerOptionsSchema);
       });
 
-      it('should reject when options.target is null', async () =>
-        await expectOptionsValidationError({
+      it('should reject when options.target is null', () =>
+        expectOptionsValidationError({
           src: './test/data/test-data.js',
           dest: 'some-file',
           target: null,
         }, writerOptionsSchema)
       );
 
-      it('should reject when options.target is not allowed value', async () =>
-        await expectOptionsValidationError({
+      it('should reject when options.target is not allowed value', () =>
+        expectOptionsValidationError({
           src: './test/data/test-data.js',
           dest: 'some-file',
           target: 'not-allowed',
@@ -363,8 +363,8 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
 
     describe('Testing options.exports schema validation', () => {
       const nonStringIdentifier = {};
-      it('should reject non-string identifier \'' + stringify(nonStringIdentifier) + '\'', async () =>
-        await expectOptionsValidationError({
+      it('should reject non-string identifier \'' + stringify(nonStringIdentifier) + '\'', () =>
+        expectOptionsValidationError({
           src: './test/data/test-data.js',
           dest: 'some-file',
           exports: nonStringIdentifier,
@@ -372,8 +372,8 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
       );
 
       const invalidIdentifier = '#3/-';
-      it('should reject invalid identifier \'' + invalidIdentifier + '\'', async () =>
-        await expectOptionsValidationError({
+      it('should reject invalid identifier \'' + invalidIdentifier + '\'', () =>
+        expectOptionsValidationError({
           src: './test/data/test-data.js',
           dest: 'some-file',
           exports: invalidIdentifier,
@@ -381,8 +381,8 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
       );
 
       const validIdentifier = 'bar';
-      it('should accept valid \'' + validIdentifier + '\' identifier', async () =>
-        await expectOptionsValidationSuccess({
+      it('should accept valid \'' + validIdentifier + '\' identifier', () =>
+        expectOptionsValidationSuccess({
           src: './test/data/test-data.js',
           dest: 'some-file',
           exports: validIdentifier,
@@ -392,24 +392,24 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
 
     describe('Testing options.force schema validation', () => {
       const notBoolean = {};
-      it('should reject non-boolean value \'' + stringify(notBoolean) + '\'', async () =>
-        await expectOptionsValidationError({
+      it('should reject non-boolean value \'' + stringify(notBoolean) + '\'', () =>
+        expectOptionsValidationError({
           src: './test/data/test-data.js',
           dest: 'some-file',
           force: notBoolean,
         }, writerOptionsSchema)
       );
 
-      it('should accept valid value \'false\'', async () =>
-        await expectOptionsValidationSuccess({
+      it('should accept valid value \'false\'', () =>
+        expectOptionsValidationSuccess({
           src: './test/data/test-data.js',
           dest: 'some-file',
           force: false,
         }, writerOptionsSchema)
       );
 
-      it('should accept valid value \'true\'', async () =>
-        await expectOptionsValidationSuccess({
+      it('should accept valid value \'true\'', () =>
+        expectOptionsValidationSuccess({
           src: './test/data/test-data.js',
           dest: 'some-file',
           force: true,
@@ -419,40 +419,40 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
 
     describe('Testing options.indent schema validation', () => {
       const notInteger = 0.5;
-      it('should reject non-integer value \'' + stringify(notInteger) + '\'', async () =>
-        await expectOptionsValidationError({
+      it('should reject non-integer value \'' + stringify(notInteger) + '\'', () =>
+        expectOptionsValidationError({
           src: './test/data/test-data.js',
           dest: 'some-file',
           indent: notInteger,
         }, writerOptionsSchema)
       );
 
-      it('should accept valid \'' + MIN_INDENT + '\'', async () =>
-        await expectOptionsValidationSuccess({
+      it('should accept valid \'' + MIN_INDENT + '\'', () =>
+        expectOptionsValidationSuccess({
           src: './test/data/test-data.js',
           dest: 'some-file',
           indent: MIN_INDENT,
         }, writerOptionsSchema)
       );
 
-      it('should accept valid \'' + MAX_INDENT + '\'', async () =>
-        await expectOptionsValidationSuccess({
+      it('should accept valid \'' + MAX_INDENT + '\'', () =>
+        expectOptionsValidationSuccess({
           src: './test/data/test-data.js',
           dest: 'some-file',
           indent: MAX_INDENT,
         }, writerOptionsSchema)
       );
 
-      it('should reject < \'' + MIN_INDENT + '\'', async () =>
-        await expectOptionsValidationError({
+      it('should reject < \'' + MIN_INDENT + '\'', () =>
+        expectOptionsValidationError({
           src: './test/data/test-data.js',
           dest: 'some-file',
           indent: MIN_INDENT - 1,
         }, writerOptionsSchema)
       );
 
-      it('should reject > \'' + MAX_INDENT + '\'', async () =>
-        await expectOptionsValidationError({
+      it('should reject > \'' + MAX_INDENT + '\'', () =>
+        expectOptionsValidationError({
           src: './test/data/test-data.js',
           dest: 'some-file',
           indent: MAX_INDENT + 1,
