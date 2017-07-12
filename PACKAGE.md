@@ -59,4 +59,4 @@ npm test
 
 ## License
 
-SEE LICENSE IN [LICENSE.md](https://github.com/deadratfink/jy-transform/blob/master/LICENSE.md)
+MIT

@@ -9,4 +9,4 @@ Target Call | Description | Dependencies
 `$ make nsp` | Runs an [Node Security Plattform](https://nodesecurity.io/opensource) check. |
 `$ make publish` | Publishes module to NPM registry. | `test readme`
 `$ make readme` | Creates all the documentation parts of the project |
-`$ make test` | Runs the test suite, ESLint and a [Node Security Plattform](https://nodesecurity.io/opensource) check. |
+`$ make test` | Runs the test suite, ESLint and a [Node Security Plattform](https://nodesecurity.io/opensource) check. | `build`

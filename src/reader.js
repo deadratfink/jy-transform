@@ -4,8 +4,6 @@ import { Buffer } from 'buffer';
 import path from 'path';
 import fs from 'fs';
 import isStream from 'is-stream';
-import stringify from 'json-stringify-safe'; // TODO remove
-import logger from 'cli'; // TODO remove
 import { readOptionsSchema } from './validation/options-schema';
 import Joi from './validation/joi-extensions';
 import {
@@ -67,25 +65,19 @@ function readFromStream(readable, origin) {
  */
 async function readJs(options) {
   if (typeof options.src === 'string') { // path to JSON or JS file
-    try {
-      const resolvedPath = path.resolve('', options.src);
-      if (options.imports) {
-        // eslint-disable-next-line import/no-dynamic-require, global-require
-        const object = require(resolvedPath)[options.imports];
-        // logger.debug('LOADED JSON object (' + options.imports + '):: ' + stringify(object, null, 4)); TODO remove
-        if (!object) { // TODO check this as part of config validation?
-          throw new Error('an identifier string \'' + options.imports + '\' was specified for JS object' +
-            ' but could not find this object, pls ensure that file ' + options.src + ' contains it.');
-        } else {
-          return object;
-        }
+    const resolvedPath = path.resolve('', options.src);
+    if (options.imports) {
+      // eslint-disable-next-line import/no-dynamic-require, global-require
+      const object = require(resolvedPath)[options.imports];
+      if (!object) { // TODO check this as part of config validation?
+        throw new Error('an identifier string \'' + options.imports + '\' was specified for JS object ' +
+          'but could not find this object, pls ensure that file ' + options.src + ' contains it.');
       } else {
-        // eslint-disable-next-line import/no-dynamic-require, global-require
-        return require(resolvedPath); // reads both: JS and JSON!
+        return object;
       }
-    } catch (err) { // probably a SyntaxError
-      // logger.error('Unexpected error: ' + err.stack); TODO remove
-      throw err;
+    } else {
+      // eslint-disable-next-line import/no-dynamic-require, global-require
+      return require(resolvedPath); // reads both: JS and JSON!
     }
   } else if (isStream.readable(options.src)) {
     return readFromStream(options.src, TYPE_JSON); // reads both: JS or JSON!

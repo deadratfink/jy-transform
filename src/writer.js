@@ -1,4 +1,3 @@
-import logger from 'cli'; // TODO remove
 import fs from 'fs';
 import isStream from 'is-stream';
 import jsYaml from 'js-yaml';
@@ -315,13 +314,8 @@ async function writeJs(object, options) {
  *   .catch(console.error);
  */
 export async function write(object, options) {
-  // console.log('OPTIONS ON WRITE ===> ' + JSON.stringify(options, null, 4)) // TODO remove
   const validatedOptions = await Joi.validate(options, writeOptionsSchema);
-
-  // HINT: we have to use the original options object because the caller must not loose the reference to options.dest,
-  // so we copy everything here except the assertedOptions.dest (joi does not return the original reference)!
-  Object.assign(options, { target: validatedOptions.target }, { exports: validatedOptions.exports }, // TODO does this work without full copy?
-    { indent: validatedOptions.indent }, { force: validatedOptions.force });
+  // HINT: we have to use the original options object because the caller must not loose the reference to options.dest!
   validatedOptions.dest = options.dest;
   switch (validatedOptions.target) {
     case TYPE_JSON:

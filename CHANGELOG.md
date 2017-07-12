@@ -62,7 +62,7 @@ new interface:
 - [[#53](https://github.com/deadratfink/jy-transform/issues/53)] Update supported node versions:
   - **CLI & API Backwards Incompatible Change!**
   - Add travis build for Node.js v8.x.
-  - Remove travis build for Node.js < v4.x.  
+  - Remove travis build for Node.js < v5.x.  
 - [[#52](https://github.com/deadratfink/jy-transform/issues/52)] Leverage modern ES6 features:
   - Integrated by [babel](https://babeljs.io/).
   - Update of dependencies and amount reduced.

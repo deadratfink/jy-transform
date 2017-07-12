@@ -101,12 +101,13 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
       })).rejects.toMatchObject({ name: 'ValidationError', isJoi: true });
     });
 
-    it('should throw ValidationError if options.dest is not set and cannot be resolved from options.src type', async () => {
-      expect.assertions(1);
-      await expect(transform({
-        src: {}, // we cannot infer destination from this type!
-      })).rejects.toMatchObject({ name: 'ValidationError', isJoi: true });
-    });
+    it('should throw ValidationError if options.dest is not set and cannot be resolved from options.src type',
+      async () => {
+        expect.assertions(1);
+        await expect(transform({
+          src: {}, // we cannot infer destination from this type!
+        })).rejects.toMatchObject({ name: 'ValidationError', isJoi: true });
+      });
 
     it('should not fail if middleware passed is returning a Promise', () => {
       expect.assertions(1);

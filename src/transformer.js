@@ -1,4 +1,3 @@
-import logger from 'cli'; // TODO remove
 import Joi from './validation/joi-extensions';
 import { read } from './reader';
 import { write } from './writer';
@@ -54,11 +53,7 @@ import { transformOptionsSchema } from './validation/options-schema';
  * };
  */
 export async function transform(options) {
-  // logger.debug('transform'); TODO remove
   const validatedOptions = await Joi.validate(options, transformOptionsSchema);
-
-  console.log('Passed transform options:\n' + JSON.stringify(validatedOptions, null, 4)); // TODO remove
-
   let object = await read(validatedOptions);
   object = await validatedOptions.transform(object);
 

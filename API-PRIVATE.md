@@ -598,12 +598,27 @@ values for origin and target depending on the `options.src` or `options.dest` va
 **See**: [module:validation:options-schema](module:validation:options-schema)  
 
 * [jy-transform:validation:options-schema-helper](#module_jy-transform_validation_options-schema-helper) : <code>Object</code> ℗
+    * [~inferDestDefaultFromSrc](#module_jy-transform_validation_options-schema-helper..inferDestDefaultFromSrc) ⇒ <code>string</code> \| <code>undefined</code>
     * [~inferOriginDefault](#module_jy-transform_validation_options-schema-helper..inferOriginDefault) ⇒ <code>string</code>
     * [~inferTargetDefault](#module_jy-transform_validation_options-schema-helper..inferTargetDefault) ⇒ <code>string</code>
-    * [~isFileStream](#module_jy-transform_validation_options-schema-helper..isFileStream) ⇒ <code>boolean</code> ℗
-    * [~adaptTargetPathType](#module_jy-transform_validation_options-schema-helper..adaptTargetPathType) ⇒ <code>string</code> ℗
-    * [~inferDestDefaultFromSrc](#module_jy-transform_validation_options-schema-helper..inferDestDefaultFromSrc) ⇒ <code>string</code> \| <code>undefined</code>
+    * [~isFileStream(object)](#module_jy-transform_validation_options-schema-helper..isFileStream) ⇒ <code>boolean</code> ℗
+    * [~adaptTargetPathType(dest, [target])](#module_jy-transform_validation_options-schema-helper..adaptTargetPathType) ⇒ <code>string</code> ℗
     * [~getTypeFromFilePath(pathStr, defaultValue)](#module_jy-transform_validation_options-schema-helper..getTypeFromFilePath) ⇒ <code>string</code> ℗
+
+<a name="module_jy-transform_validation_options-schema-helper..inferDestDefaultFromSrc"></a>
+
+### jy-transform:validation:options-schema-helper~inferDestDefaultFromSrc ⇒ <code>string</code> \| <code>undefined</code>
+This function is used to infer a _default_ value in case `options.dest` is not defined.
+Checks if `context.src` is either a string or a file stream where can get the file path from.
+If this detection process cannot be fulfilled (i.e. we cannot infer from options.src `Object`
+type or a `Readable` type which is not a _file_ stream) then the function returns `undefined`.
+
+**Kind**: inner constant of [<code>jy-transform:validation:options-schema-helper</code>](#module_jy-transform_validation_options-schema-helper)  
+**Returns**: <code>string</code> \| <code>undefined</code> - The adapted `dest` path if possible, or `undefined`.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| context | <code>Object</code> | The validation context. |
 
 <a name="module_jy-transform_validation_options-schema-helper..inferOriginDefault"></a>
 
@@ -633,10 +648,10 @@ Infers the _target_ type value from current validation context.
 
 <a name="module_jy-transform_validation_options-schema-helper..isFileStream"></a>
 
-### jy-transform:validation:options-schema-helper~isFileStream ⇒ <code>boolean</code> ℗
+### jy-transform:validation:options-schema-helper~isFileStream(object) ⇒ <code>boolean</code> ℗
 Checks if passed `object` is a file stream instance.
 
-**Kind**: inner constant of [<code>jy-transform:validation:options-schema-helper</code>](#module_jy-transform_validation_options-schema-helper)  
+**Kind**: inner method of [<code>jy-transform:validation:options-schema-helper</code>](#module_jy-transform_validation_options-schema-helper)  
 **Returns**: <code>boolean</code> - A `true` if passed `object` is a file stream instance, else `false`.  
 **Access**: private  
 
@@ -646,11 +661,11 @@ Checks if passed `object` is a file stream instance.
 
 <a name="module_jy-transform_validation_options-schema-helper..adaptTargetPathType"></a>
 
-### jy-transform:validation:options-schema-helper~adaptTargetPathType ⇒ <code>string</code> ℗
+### jy-transform:validation:options-schema-helper~adaptTargetPathType(dest, [target]) ⇒ <code>string</code> ℗
 Returns the passes `dest` value or an adapted destination path (the latter if `target` is defined an differs from
 destinations path extension).
 
-**Kind**: inner constant of [<code>jy-transform:validation:options-schema-helper</code>](#module_jy-transform_validation_options-schema-helper)  
+**Kind**: inner method of [<code>jy-transform:validation:options-schema-helper</code>](#module_jy-transform_validation_options-schema-helper)  
 **Returns**: <code>string</code> - The `dest` value or an adapted destination path.  
 **Access**: private  
 
@@ -658,20 +673,6 @@ destinations path extension).
 | --- | --- | --- |
 | dest | <code>string</code> | The destination path. |
 | [target] | <code>string</code> | The target file type of destination. |
-
-<a name="module_jy-transform_validation_options-schema-helper..inferDestDefaultFromSrc"></a>
-
-### jy-transform:validation:options-schema-helper~inferDestDefaultFromSrc ⇒ <code>string</code> \| <code>undefined</code>
-This function is used to infer a _default_ value in case `options.dest` is not defined.
-Checks if `context.src` is either a string or a file stream where can get the file path from.
-If this detection process cannot be fulfilled then the function returns `undefined`.
-
-**Kind**: inner constant of [<code>jy-transform:validation:options-schema-helper</code>](#module_jy-transform_validation_options-schema-helper)  
-**Returns**: <code>string</code> \| <code>undefined</code> - The adapted `dest` path if possible, or `undefined`.  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| context | <code>Object</code> | The validation context. |
 
 <a name="module_jy-transform_validation_options-schema-helper..getTypeFromFilePath"></a>
 
