@@ -31,7 +31,6 @@
 - [readJs ⇒ <code>Promise.&lt;Object&gt;</code> ℗](#readjs-%E2%87%92-codepromiseltobjectgtcode-%E2%84%97)
 - [readYaml ⇒ <code>Promise.&lt;Object&gt;</code> ℗](#readyaml-%E2%87%92-codepromiseltobjectgtcode-%E2%84%97)
 - [read ⇒ <code>Promise</code>](#read-%E2%87%92-codepromisecode)
-- [transform ⇒ <code>Promise</code>](#transform-%E2%87%92-codepromisecode)
 - [createExportsString ⇒ <code>Promise.&lt;string&gt;</code> ℗](#createexportsstring-%E2%87%92-codepromiseltstringgtcode-%E2%84%97)
 - [serializeJsToString ⇒ <code>Promise.&lt;string&gt;</code> ℗](#serializejstostring-%E2%87%92-codepromiseltstringgtcode-%E2%84%97)
 - [serializeJsToJsonString ⇒ <code>string</code> ℗](#serializejstojsonstring-%E2%87%92-codestringcode-%E2%84%97)
@@ -40,9 +39,9 @@
 - [writeJson ⇒ <code>Promise.&lt;string&gt;</code> ℗](#writejson-%E2%87%92-codepromiseltstringgtcode-%E2%84%97)
 - [writeJs ⇒ <code>Promise.&lt;string&gt;</code> ℗](#writejs-%E2%87%92-codepromiseltstringgtcode-%E2%84%97)
 - [write ⇒ <code>Promise</code>](#write-%E2%87%92-codepromisecode)
-- [ReaderOptions : <code>object</code>](#readeroptions--codeobjectcode)
-- [WriterOptions : <code>object</code>](#writeroptions--codeobjectcode)
-- [TransformerOptions : <code>object</code>](#transformeroptions--codeobjectcode)
+- [ReadOptions : <code>object</code>](#readoptions--codeobjectcode)
+- [WriteOptions : <code>object</code>](#writeoptions--codeobjectcode)
+- [TransformOptions : <code>object</code>](#transformoptions--codeobjectcode)
 - [joi ℗](#joi-%E2%84%97)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -138,15 +137,6 @@ exception on those.</p>
 <dt><a href="#read">read</a> ⇒ <code>Promise</code></dt>
 <dd><p>Reads a particular content type from a source provided in the passed <code>options</code>.</p>
 </dd>
-<dt><a href="#transform">transform</a> ⇒ <code>Promise</code></dt>
-<dd><p>The entry method for all transformation accepting a configuration object and
-an (optional) middleware function. It executes the transformation logic.</p>
-<ol>
-<li>Input (read)</li>
-<li>Transform [ + Middleware]</li>
-<li>Output (write).</li>
-</ol>
-</dd>
 <dt><a href="#createExportsString">createExportsString</a> ⇒ <code>Promise.&lt;string&gt;</code> ℗</dt>
 <dd><p>Creates a potential named <code>&#39;module.exports[.exportsTo]&#39;</code> string.</p>
 </dd>
@@ -176,13 +166,13 @@ an (optional) middleware function. It executes the transformation logic.</p>
 ## Typedefs
 
 <dl>
-<dt><a href="#ReaderOptions">ReaderOptions</a> : <code>object</code></dt>
+<dt><a href="#ReadOptions">ReadOptions</a> : <code>object</code></dt>
 <dd><p>The configuration properties provided to the <code>read</code> function.</p>
 </dd>
-<dt><a href="#WriterOptions">WriterOptions</a> : <code>object</code></dt>
-<dd><p>The writer configuration properties provided to the <code>write</code> function.</p>
+<dt><a href="#WriteOptions">WriteOptions</a> : <code>object</code></dt>
+<dd><p>The configuration properties provided to the <code>write</code> function.</p>
 </dd>
-<dt><a href="#TransformerOptions">TransformerOptions</a> : <code>object</code></dt>
+<dt><a href="#TransformOptions">TransformOptions</a> : <code>object</code></dt>
 <dd><p>The configuration properties provided to the <code>transform</code> function.</p>
 </dd>
 </dl>
@@ -205,7 +195,7 @@ The command line interface.
 * [jy-transform:jyt](#module_jy-transform_jyt) ℗
     * [~usage](#module_jy-transform_jyt..usage) : <code>string</code> ℗
     * [~packagePath](#module_jy-transform_jyt..packagePath) : <code>string</code> ℗
-    * [~options](#module_jy-transform_jyt..options) : <code>Object</code> ℗
+    * [~cliOptionsSchema](#module_jy-transform_jyt..cliOptionsSchema) : <code>Object</code> ℗
     * [~error(err)](#module_jy-transform_jyt..error) ℗
     * [~main(args, cliOptions)](#module_jy-transform_jyt..main) ℗
 
@@ -223,9 +213,9 @@ The path to package.json.
 
 **Kind**: inner constant of [<code>jy-transform:jyt</code>](#module_jy-transform_jyt)  
 **Access**: private  
-<a name="module_jy-transform_jyt..options"></a>
+<a name="module_jy-transform_jyt..cliOptionsSchema"></a>
 
-### jy-transform:jyt~options : <code>Object</code> ℗
+### jy-transform:jyt~cliOptionsSchema : <code>Object</code> ℗
 The options description for parsing the command line input, must be an object with opts defined like:
 ```
 long_tag: [short_tag, description, value_type, default_value];
@@ -258,7 +248,7 @@ prints the result to the CLI.
 | Param | Type | Description |
 | --- | --- | --- |
 | args | <code>Array</code> | The first mandatory argument is the input file (`args[0]`), the second (optional)                           argument is the output file (`args[1]`). |
-| cliOptions | <code>module:jy-transform:type-definitions~TransformerOptions</code> | The options provided via CLI. |
+| cliOptions | <code>module:jy-transform:type-definitions~TransformOptions</code> | The options provided via CLI. |
 
 <a name="module_jy-transform_constants"></a>
 
@@ -268,14 +258,14 @@ Useful constants used for the module and its usage.
 **Access**: public  
 
 * [jy-transform:constants](#module_jy-transform_constants)
-    * [~DEFAULT_OPTIONS](#module_jy-transform_constants..DEFAULT_OPTIONS) : <code>object</code> ℗
     * [~UTF8](#module_jy-transform_constants..UTF8) : <code>string</code> ℗
     * [~TYPE_YAML](#module_jy-transform_constants..TYPE_YAML) : <code>string</code>
     * [~TYPE_JSON](#module_jy-transform_constants..TYPE_JSON) : <code>string</code>
     * [~TYPE_JS](#module_jy-transform_constants..TYPE_JS) : <code>string</code>
-    * [~TYPE_MAP](#module_jy-transform_constants..TYPE_MAP) : <code>Object</code> ℗
+    * [~EXT_TO_TYPE_MAP](#module_jy-transform_constants..EXT_TO_TYPE_MAP) : <code>Object</code> ℗
     * [~DEFAULT_INDENT](#module_jy-transform_constants..DEFAULT_INDENT) : <code>number</code> ℗
     * [~MIN_INDENT](#module_jy-transform_constants..MIN_INDENT) : <code>number</code> ℗
+    * [~MIN_YAML_INDENT](#module_jy-transform_constants..MIN_YAML_INDENT) : <code>number</code> ℗
     * [~MAX_INDENT](#module_jy-transform_constants..MAX_INDENT) : <code>number</code> ℗
     * [~DEFAULT_ORIGIN](#module_jy-transform_constants..DEFAULT_ORIGIN) : <code>string</code> ℗
     * [~DEFAULT_TARGET](#module_jy-transform_constants..DEFAULT_TARGET) : <code>string</code> ℗
@@ -285,31 +275,6 @@ Useful constants used for the module and its usage.
     * [~DEST_DESCRIPTION](#module_jy-transform_constants..DEST_DESCRIPTION) : <code>string</code> ℗
     * [~DEFAULT_JS_IMPORTS_IDENTIFIER](#module_jy-transform_constants..DEFAULT_JS_IMPORTS_IDENTIFIER) : <code>string</code> ℗
     * [~DEFAULT_JS_EXPORTS_IDENTIFIER](#module_jy-transform_constants..DEFAULT_JS_EXPORTS_IDENTIFIER) : <code>string</code> ℗
-
-<a name="module_jy-transform_constants..DEFAULT_OPTIONS"></a>
-
-### jy-transform:constants~DEFAULT_OPTIONS : <code>object</code> ℗
-The default options.
-
-**Kind**: inner namespace of [<code>jy-transform:constants</code>](#module_jy-transform_constants)  
-**Access**: private  
-**See**
-
-- [ORIGIN_DESCRIPTION](ORIGIN_DESCRIPTION)
-- [TARGET_DESCRIPTION](TARGET_DESCRIPTION)
-- [DEST_DESCRIPTION](DEST_DESCRIPTION)
-
-**Properties**
-
-| Name | Type | Default | Description |
-| --- | --- | --- | --- |
-| origin | <code>string</code> | <code>&quot;yaml&quot;</code> | The default origin type. |
-| target | <code>string</code> | <code>&quot;js&quot;</code> | The default target type. |
-| dest | <code>string</code> | <code>&quot;relative_to_input_file&quot;</code> | The default dest description. |
-| indent | <code>number</code> | <code>4</code> | The default indention for files. |
-| force | <code>boolean</code> | <code>false</code> | Whether to overwrite existing file on output. |
-| imports | <code>string</code> |  | The exports name for reading from JS source file or objects only. |
-| exports | <code>string</code> |  | The exports name for usage in JS file or object only. |
 
 <a name="module_jy-transform_constants..UTF8"></a>
 
@@ -339,9 +304,9 @@ The `'js'` type constant.
 
 **Kind**: inner constant of [<code>jy-transform:constants</code>](#module_jy-transform_constants)  
 **Access**: public  
-<a name="module_jy-transform_constants..TYPE_MAP"></a>
+<a name="module_jy-transform_constants..EXT_TO_TYPE_MAP"></a>
 
-### jy-transform:constants~TYPE_MAP : <code>Object</code> ℗
+### jy-transform:constants~EXT_TO_TYPE_MAP : <code>Object</code> ℗
 A map for extensions to type.
 
 **Kind**: inner constant of [<code>jy-transform:constants</code>](#module_jy-transform_constants)  
@@ -356,7 +321,14 @@ The default file indention (4 SPACEs).
 <a name="module_jy-transform_constants..MIN_INDENT"></a>
 
 ### jy-transform:constants~MIN_INDENT : <code>number</code> ℗
-The minimum file indention (0 SPACE).
+The minimum file indention (0 SPACE) fo JS and JSON types.
+
+**Kind**: inner constant of [<code>jy-transform:constants</code>](#module_jy-transform_constants)  
+**Access**: private  
+<a name="module_jy-transform_constants..MIN_YAML_INDENT"></a>
+
+### jy-transform:constants~MIN_YAML_INDENT : <code>number</code> ℗
+The minimum file indention (0 SPACE) for YAML types.
 
 **Kind**: inner constant of [<code>jy-transform:constants</code>](#module_jy-transform_constants)  
 **Access**: private  
@@ -492,6 +464,57 @@ Reads from a passed stream and resolves by callback.
 This module provides the _transform_ functionality for YAML, JS or JSON source to destination mapping.
 
 **Access**: private  
+<a name="module_jy-transform_transformer..transform"></a>
+
+### jy-transform:transformer~transform ⇒ <code>Promise</code>
+The entry method for all transformations accepting a configuration object and
+an (optional) middleware function. It executes the transformation logic.
+
+1. Input (read)
+2. Transform [ + Middleware]
+3. Output (write).
+
+**Kind**: inner property of [<code>jy-transform:transformer</code>](#module_jy-transform_transformer)  
+**Returns**: <code>Promise</code> - The transformation result.  
+**Access**: public  
+**Resolve**: <code>string</code> With the transformation result as message (e.g. to be logged by caller).  
+**Reject**: <code>TypeError</code> Will throw this error when the passed `middleware` is not type of `Function`.  
+**Reject**: <code>ValidationError</code> If any `options` validation occurs.  
+**Reject**: <code>Error</code> Will throw any error if read, transform or write operation failed due to any reason.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | [<code>TransformOptions</code>](#TransformOptions) | The configuration for a transformation. |
+
+**Example**  
+```js
+import { transform } from 'jy-transform';
+const options = {
+  src: 'foo/bar.yaml',            // From YAML file...
+  transform: async (object) => {  // ...with exchanging value...
+    object.foo = 'new value';
+    return object;
+  },
+  target: 'foo/bar.json',         // ...to a new JSON file.
+  indent: 4,
+};
+
+// ---- Promise style:
+
+transform(options)
+  .then(console.log)
+  .catch(console.error);
+
+
+// ---- async/await style:
+
+try {
+  const msg = await transform(options);
+  console.log(msg);
+} catch (err) {
+  console.error(err.stack);
+};
+```
 <a name="module_jy-transform_validation_joi-extensions-file-helper"></a>
 
 ## jy-transform:validation:joi-extensions-file-helper ℗
@@ -577,6 +600,9 @@ values for origin and target depending on the `options.src` or `options.dest` va
 * [jy-transform:validation:options-schema-helper](#module_jy-transform_validation_options-schema-helper) : <code>Object</code> ℗
     * [~inferOriginDefault](#module_jy-transform_validation_options-schema-helper..inferOriginDefault) ⇒ <code>string</code>
     * [~inferTargetDefault](#module_jy-transform_validation_options-schema-helper..inferTargetDefault) ⇒ <code>string</code>
+    * [~isFileStream](#module_jy-transform_validation_options-schema-helper..isFileStream) ⇒ <code>boolean</code> ℗
+    * [~adaptTargetPathType](#module_jy-transform_validation_options-schema-helper..adaptTargetPathType) ⇒ <code>string</code> ℗
+    * [~inferDestDefaultFromSrc](#module_jy-transform_validation_options-schema-helper..inferDestDefaultFromSrc) ⇒ <code>string</code> \| <code>undefined</code>
     * [~getTypeFromFilePath(pathStr, defaultValue)](#module_jy-transform_validation_options-schema-helper..getTypeFromFilePath) ⇒ <code>string</code> ℗
 
 <a name="module_jy-transform_validation_options-schema-helper..inferOriginDefault"></a>
@@ -605,6 +631,48 @@ Infers the _target_ type value from current validation context.
 | --- | --- | --- |
 | context | <code>Object</code> | The validation context. |
 
+<a name="module_jy-transform_validation_options-schema-helper..isFileStream"></a>
+
+### jy-transform:validation:options-schema-helper~isFileStream ⇒ <code>boolean</code> ℗
+Checks if passed `object` is a file stream instance.
+
+**Kind**: inner constant of [<code>jy-transform:validation:options-schema-helper</code>](#module_jy-transform_validation_options-schema-helper)  
+**Returns**: <code>boolean</code> - A `true` if passed `object` is a file stream instance, else `false`.  
+**Access**: private  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| object | <code>\*</code> | The object to check. |
+
+<a name="module_jy-transform_validation_options-schema-helper..adaptTargetPathType"></a>
+
+### jy-transform:validation:options-schema-helper~adaptTargetPathType ⇒ <code>string</code> ℗
+Returns the passes `dest` value or an adapted destination path (the latter if `target` is defined an differs from
+destinations path extension).
+
+**Kind**: inner constant of [<code>jy-transform:validation:options-schema-helper</code>](#module_jy-transform_validation_options-schema-helper)  
+**Returns**: <code>string</code> - The `dest` value or an adapted destination path.  
+**Access**: private  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| dest | <code>string</code> | The destination path. |
+| [target] | <code>string</code> | The target file type of destination. |
+
+<a name="module_jy-transform_validation_options-schema-helper..inferDestDefaultFromSrc"></a>
+
+### jy-transform:validation:options-schema-helper~inferDestDefaultFromSrc ⇒ <code>string</code> \| <code>undefined</code>
+This function is used to infer a _default_ value in case `options.dest` is not defined.
+Checks if `context.src` is either a string or a file stream where can get the file path from.
+If this detection process cannot be fulfilled then the function returns `undefined`.
+
+**Kind**: inner constant of [<code>jy-transform:validation:options-schema-helper</code>](#module_jy-transform_validation_options-schema-helper)  
+**Returns**: <code>string</code> \| <code>undefined</code> - The adapted `dest` path if possible, or `undefined`.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| context | <code>Object</code> | The validation context. |
+
 <a name="module_jy-transform_validation_options-schema-helper..getTypeFromFilePath"></a>
 
 ### jy-transform:validation:options-schema-helper~getTypeFromFilePath(pathStr, defaultValue) ⇒ <code>string</code> ℗
@@ -628,20 +696,28 @@ The module options schema used in [module:options-validator](module:options-vali
 **See**: [module:options-validator](module:options-validator)  
 
 * [jy-transform:validation:options-schema](#module_jy-transform_validation_options-schema) : <code>Object</code> ℗
-    * [~readerOptionsSchema](#module_jy-transform_validation_options-schema..readerOptionsSchema) : <code>JoiSchema</code> ℗
-    * [~writerOptionsSchema](#module_jy-transform_validation_options-schema..writerOptionsSchema) : <code>JoiSchema</code> ℗
+    * [~readOptionsSchema](#module_jy-transform_validation_options-schema..readOptionsSchema) : <code>JoiSchema</code> ℗
+    * [~writeOptionsSchema](#module_jy-transform_validation_options-schema..writeOptionsSchema) : <code>JoiSchema</code> ℗
+    * [~transformOptionsSchema](#module_jy-transform_validation_options-schema..transformOptionsSchema) : <code>JoiSchema</code> ℗
 
-<a name="module_jy-transform_validation_options-schema..readerOptionsSchema"></a>
+<a name="module_jy-transform_validation_options-schema..readOptionsSchema"></a>
 
-### jy-transform:validation:options-schema~readerOptionsSchema : <code>JoiSchema</code> ℗
-The prepared [external:joi.JoiSchema](external:joi.JoiSchema) for validating the [Reader](Reader) options.
+### jy-transform:validation:options-schema~readOptionsSchema : <code>JoiSchema</code> ℗
+The prepared [external:joi.JoiSchema](external:joi.JoiSchema) for validating the [ReadOptions](#ReadOptions).
 
 **Kind**: inner constant of [<code>jy-transform:validation:options-schema</code>](#module_jy-transform_validation_options-schema)  
 **Access**: private  
-<a name="module_jy-transform_validation_options-schema..writerOptionsSchema"></a>
+<a name="module_jy-transform_validation_options-schema..writeOptionsSchema"></a>
 
-### jy-transform:validation:options-schema~writerOptionsSchema : <code>JoiSchema</code> ℗
-The prepared [external:joi.JoiSchema](external:joi.JoiSchema) for validating the [Writer](Writer) options.
+### jy-transform:validation:options-schema~writeOptionsSchema : <code>JoiSchema</code> ℗
+The prepared [external:joi.JoiSchema](external:joi.JoiSchema) for validating the [WriteOptions](#WriteOptions).
+
+**Kind**: inner constant of [<code>jy-transform:validation:options-schema</code>](#module_jy-transform_validation_options-schema)  
+**Access**: private  
+<a name="module_jy-transform_validation_options-schema..transformOptionsSchema"></a>
+
+### jy-transform:validation:options-schema~transformOptionsSchema : <code>JoiSchema</code> ℗
+The prepared [external:joi.JoiSchema](external:joi.JoiSchema) for validating the [TransformOptions](#TransformOptions).
 
 **Kind**: inner constant of [<code>jy-transform:validation:options-schema</code>](#module_jy-transform_validation_options-schema)  
 **Access**: private  
@@ -864,7 +940,7 @@ Expect a `ValidationError` for a given options function.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| invalidOptions | [<code>ReaderOptions</code>](#ReaderOptions) \| [<code>WriterOptions</code>](#WriterOptions) | The options which potentially produce the error. |
+| invalidOptions | [<code>ReadOptions</code>](#ReadOptions) \| [<code>WriteOptions</code>](#WriteOptions) | The options which potentially produce the error. |
 | schema | <code>Schema</code> | The validation schema. |
 
 <a name="module_jy-transform_unit-test_test-options-schema..expectOptionsValidationSuccess"></a>
@@ -877,7 +953,7 @@ Expect a validation success for a given options.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| validOptions | [<code>ReaderOptions</code>](#ReaderOptions) \| [<code>WriterOptions</code>](#WriterOptions) | The options which should be correct. |
+| validOptions | [<code>ReadOptions</code>](#ReadOptions) \| [<code>WriteOptions</code>](#WriteOptions) | The options which should be correct. |
 | schema | <code>Schema</code> | The validation schema. |
 
 <a name="readJs"></a>
@@ -891,7 +967,7 @@ Reads the data from a given JS or JSON source.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| options | [<code>ReaderOptions</code>](#ReaderOptions) | Contains the JS/JSON source reference to read from. |
+| options | [<code>ReadOptions</code>](#ReadOptions) | Contains the JS/JSON source reference to read from. |
 
 <a name="readYaml"></a>
 
@@ -906,7 +982,7 @@ exception on those.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| options | [<code>ReaderOptions</code>](#ReaderOptions) | Contains the YAML source reference to read from. |
+| options | [<code>ReadOptions</code>](#ReadOptions) | Contains the YAML source reference to read from. |
 
 <a name="read"></a>
 
@@ -922,7 +998,7 @@ Reads a particular content type from a source provided in the passed `options`.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| options | [<code>ReaderOptions</code>](#ReaderOptions) | The read options. |
+| options | [<code>ReadOptions</code>](#ReadOptions) | The read options. |
 
 **Example**  
 ```js
@@ -949,55 +1025,6 @@ options = {
 read(options)
   .then(obj => console.log(JSON.stringify(obj)))
   .catch(console.error);
-```
-<a name="transform"></a>
-
-## transform ⇒ <code>Promise</code>
-The entry method for all transformation accepting a configuration object and
-an (optional) middleware function. It executes the transformation logic.
-
-1. Input (read)
-2. Transform [ + Middleware]
-3. Output (write).
-
-**Kind**: global variable  
-**Returns**: <code>Promise</code> - The result.  
-**Access**: public  
-**Resolve**: <code>string</code> With the transformation result as message (e.g. to be logged by caller).  
-**Reject**: <code>TypeError</code> Will throw this error when the passed `middleware` is not type of `Function`.  
-**Reject**: <code>ValidationError</code> If any `options` validation occurs.  
-**Reject**: <code>Error</code> Will throw any error if read, transform or write operation failed due to any reason.  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| options | [<code>TransformerOptions</code>](#TransformerOptions) | The configuration for a transformation. |
-| [middleware] | <code>function</code> | This middleware Promise can be used to        intercept the JSON object for altering the passed JSON, the function signature is:        ```        async function(object)        ```        <p>        **NOTE:** the Promise has to return the processed JS object. |
-
-**Example**  
-```js
-import { transform } from 'jy-transform';
-const options = {...};
-
-const middleware = async (object) {
-  object.myproperty = 'new value';
-  return object;
-};
-
-// ---- Promise style:
-
-transform(options, middleware)
-  .then(console.log)
-  .catch(console.error);
-
-
-// ---- async/await style:
-
-try {
-  const msg = await transform(options, middleware);
-  console.log(msg);
-} catch (err) {
-  console.error(err.stack);
-};
 ```
 <a name="createExportsString"></a>
 
@@ -1083,7 +1110,7 @@ Writes a JS object to a YAML destination.
 | Param | Type | Description |
 | --- | --- | --- |
 | object | <code>Object</code> | The JS object to write into YAML destination. |
-| options | [<code>WriterOptions</code>](#WriterOptions) | The write destination and indention. |
+| options | [<code>WriteOptions</code>](#WriteOptions) | The write destination and indention. |
 
 <a name="writeJson"></a>
 
@@ -1103,7 +1130,7 @@ Writes a JS object to a JSON destination.
 | Param | Type | Description |
 | --- | --- | --- |
 | object | <code>Object</code> | The JS object to write into JSON destination. |
-| options | [<code>WriterOptions</code>](#WriterOptions) | The write destination and indention. |
+| options | [<code>WriteOptions</code>](#WriteOptions) | The write destination and indention. |
 
 <a name="writeJs"></a>
 
@@ -1123,7 +1150,7 @@ Writes a JS object to a JS destination. The object is prefixed by `module.export
 | Param | Type | Description |
 | --- | --- | --- |
 | object | <code>Object</code> | The JSON to write into JS destination. |
-| options | [<code>WriterOptions</code>](#WriterOptions) | The write destination and indention. |
+| options | [<code>WriteOptions</code>](#WriteOptions) | The write destination and indention. |
 
 <a name="write"></a>
 
@@ -1140,7 +1167,7 @@ Writes the passe JS object to a particular destination described by the passed `
 | Param | Type | Description |
 | --- | --- | --- |
 | object | <code>Object</code> | The JS source object to write. |
-| options | [<code>WriterOptions</code>](#WriterOptions) | The write options. |
+| options | [<code>WriteOptions</code>](#WriteOptions) | The write options. |
 
 **Example**  
 ```js
@@ -1183,9 +1210,9 @@ write(obj, options)
   .then(console.log)
   .catch(console.error);
 ```
-<a name="ReaderOptions"></a>
+<a name="ReadOptions"></a>
 
-## ReaderOptions : <code>object</code>
+## ReadOptions : <code>object</code>
 The configuration properties provided to the `read` function.
 
 **Kind**: global typedef  
@@ -1194,14 +1221,14 @@ The configuration properties provided to the `read` function.
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| src | <code>string</code> \| <code>Stream.Readable</code> \| <code>object</code> |  | The source (if `string` type is treated as a file path). |
-| origin | <code>string</code> | <code>&quot;yaml&quot;</code> | The origin type. |
+| src | <code>string</code> \| <code>Stream.Readable</code> \| <code>object</code> |  | The source (if `string` type it is treated as a file path). |
+| origin | <code>string</code> | <code>&quot;yaml&quot;</code> | The source origin type. |
 | imports | <code>string</code> |  | The exports name for reading from JS source files or objects only. |
 
-<a name="WriterOptions"></a>
+<a name="WriteOptions"></a>
 
-## WriterOptions : <code>object</code>
-The writer configuration properties provided to the `write` function.
+## WriteOptions : <code>object</code>
+The configuration properties provided to the `write` function.
 
 **Kind**: global typedef  
 **Access**: public  
@@ -1209,15 +1236,15 @@ The writer configuration properties provided to the `write` function.
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| dest | <code>string</code> \| <code>Stream.Writable</code> \| <code>object</code> |  | The destination (if `string` type is treated as a file path). |
-| target | <code>string</code> | <code>&quot;js&quot;</code> | The target type. |
-| indent | <code>number</code> | <code>2</code> | The indention value for pretty-print of output. |
+| dest | <code>string</code> \| <code>Stream.Writable</code> \| <code>object</code> |  | The destination (if `string` type it is treated as a file path). |
+| target | <code>string</code> | <code>&quot;js&quot;</code> | The destination target type. |
+| indent | <code>number</code> | <code>2</code> | The indentation value for pretty-print of output. |
 | exports | <code>string</code> |  | The exports name for usage in JS destination files only. |
 | force | <code>string</code> | <code>false</code> | Force overwriting of existing output files on write phase. |
 
-<a name="TransformerOptions"></a>
+<a name="TransformOptions"></a>
 
-## TransformerOptions : <code>object</code>
+## TransformOptions : <code>object</code>
 The configuration properties provided to the `transform` function.
 
 **Kind**: global typedef  
@@ -1226,13 +1253,14 @@ The configuration properties provided to the `transform` function.
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| src | <code>string</code> \| <code>Stream.Readable</code> \| <code>object</code> |  | The source (if `string` type is treated as a file path). |
-| origin | <code>string</code> | <code>&quot;yaml&quot;</code> | The origin type. |
-| imports | <code>string</code> |  | The exports name for reading from JS source files                                                      or objects only. |
-| dest | <code>string</code> \| <code>Stream.Writable</code> \| <code>object</code> |  | The destination (if `string` type is treated as a file path). |
-| target | <code>string</code> | <code>&quot;js&quot;</code> | The target type. |
-| indent | <code>number</code> | <code>2</code> | The indention value for pretty-print of output. |
-| exports | <code>string</code> |  | The exports name for usage in JS destination files only. |
+| src | <code>string</code> \| <code>Stream.Readable</code> \| <code>object</code> |  | The _read_ source (if `string` type it is treated as a file                                                      path). |
+| origin | <code>string</code> | <code>&quot;yaml&quot;</code> | The _read_ source origin type. |
+| imports | <code>string</code> |  | The _read_ exports name for reading from JS source files or                                                      objects only. |
+| transform | <code>function</code> |  | The option is a _transformation_ function with the following                                                      signature:                                                      <p><p>                                                      ```                                                      [async|Promise] function(object)                                                      ``` |
+| dest | <code>string</code> \| <code>Stream.Writable</code> \| <code>object</code> |  | The _write_ destination (if `string` type it is treated as a                                                      file path). This property could be optional in case we infer a                                                      value from `src` which is then either a string or a file stream                                                      where can get the file path from. If this detection process                                                      cannot be fulfilled then the property is `undefined` and the                                                      transform process will fail with a `ValidationError` on write                                                      phase. |
+| target | <code>string</code> | <code>&quot;js&quot;</code> | The _write_ target type. |
+| indent | <code>number</code> | <code>2</code> | The _write_ indentation value for pretty-print of output. |
+| exports | <code>string</code> |  | The _write_ exports name for usage in JS destination files only. |
 | force | <code>string</code> | <code>false</code> | Force overwriting of existing output files on write phase. |
 
 <a name="external_joi"></a>

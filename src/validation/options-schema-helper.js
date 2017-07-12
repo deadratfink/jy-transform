@@ -76,7 +76,63 @@ export const inferTargetDefault = (context) => {
   return type;
 };
 
+/**
+ * Checks if passed `object` is a file stream instance.
+ *
+ * @param {*} object - The object to check.
+ * @returns {boolean} A `true` if passed `object` is a file stream instance, else `false`.
+ * @private
+ */
+export const isFileStream = (object) => {
+  return isStream(object) && object.path;
+};
+
+/**
+ * Returns the passes `dest` value or an adapted destination path (the latter if `target` is defined an differs from
+ * destinations path extension).
+ *
+ * @param {string} dest     - The destination path.
+ * @param {string} [target] - The target file type of destination.
+ * @returns {string} The `dest` value or an adapted destination path.
+ * @private
+ */
+export const adaptTargetPathType = (dest, target) => {
+  if (target) {
+    const tmpDest = dest;
+    const destDirName = path.dirname(tmpDest);
+    const ext = path.extname(tmpDest);
+    const basename = path.basename(tmpDest, ext);
+    let destType = ext;
+    if (ext.charAt(0) === '.') {
+      destType = ext.substr(1);
+    }
+    if (EXT_TO_TYPE_MAP[destType] !== target) {
+      destType = target;
+    }
+    return path.join(destDirName, basename + '.' + destType);
+  }
+  return dest;
+};
+
+/**
+ * This function is used to infer a _default_ value in case `options.dest` is not defined.
+ * Checks if `context.src` is either a string or a file stream where can get the file path from.
+ * If this detection process cannot be fulfilled then the function returns `undefined`.
+ *
+ * @param {Object} context - The validation context.
+ * @returns {string|undefined} The adapted `dest` path if possible, or `undefined`.
+ */
+export const inferDestDefaultFromSrc = (context) => {
+  if (typeof context.src === 'string' || isFileStream(context.src)) {
+    return adaptTargetPathType((context.src.path || context.src), context.target);
+  }
+  return undefined; // TODO how to handle this??? Throw Error?
+};
+
 export default {
+  isFileStream,
+  adaptTargetPathType,
   inferOriginDefault,
   inferTargetDefault,
+  inferDestDefaultFromSrc,
 };

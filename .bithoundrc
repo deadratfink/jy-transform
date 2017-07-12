@@ -1,0 +1,22 @@
+{
+  "critics": {
+   "lint": {"engine": "eslint"}
+  },
+  "dependencies": {
+    "unused-ignores": [
+      "grunt-*",
+      "bower",
+      "eslint"
+    ]
+  }
+  "ignore": [
+    "**/bin/**",
+    "**/coverage/**",
+    "**/lib/**",
+    "**/node_modules/**",
+    "**/readme/**"
+  ],
+  "test": [
+    "**/test/unit/**"
+  ]
+}

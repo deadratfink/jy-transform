@@ -1,4 +1,4 @@
-import logger from 'cli';
+import logger from 'cli'; // TODO remove
 import fs from 'fs';
 import isStream from 'is-stream';
 import jsYaml from 'js-yaml';
@@ -15,7 +15,7 @@ import {
   UTF8
 } from './constants';
 import Joi from './validation/joi-extensions';
-import { writerOptionsSchema } from './validation/options-schema';
+import { writeOptionsSchema } from './validation/options-schema';
 
 /**
  * @module jy-transform:writer
@@ -85,8 +85,7 @@ async function serializeJsToJsonString(object, indent) {
  * name which does not exist.
  *
  * @param {string} dest - The destination file.
- * @returns {string}    - A consecutive file name or the original one if
- *                        `dest` file does not exist.
+ * @returns {string}    - A consecutive file name or the original one if `dest` file does not exist.
  * @private
  */
 function getConsecutiveDestName(dest) {
@@ -184,8 +183,8 @@ function writeToStream(object, dest, target) {
 /**
  * Writes a JS object to a YAML destination.
  *
- * @param {Object} object         - The JS object to write into YAML destination.
- * @param {WriterOptions} options - The write destination and indention.
+ * @param {Object} object        - The JS object to write into YAML destination.
+ * @param {WriteOptions} options - The write destination and indention.
  * @see {@link MIN_INDENT}
  * @see {@link DEFAULT_INDENT}
  * @see {@link MAX_INDENT}
@@ -215,8 +214,8 @@ async function writeYaml(object, options) {
 /**
  * Writes a JS object to a JSON destination.
  *
- * @param {Object} object         - The JS object to write into JSON destination.
- * @param {WriterOptions} options - The write destination and indention.
+ * @param {Object} object        - The JS object to write into JSON destination.
+ * @param {WriteOptions} options - The write destination and indention.
  * @see {@link MIN_INDENT}
  * @see {@link DEFAULT_INDENT}
  * @see {@link MAX_INDENT}
@@ -238,8 +237,8 @@ async function writeJson(object, options) {
 /**
  * Writes a JS object to a JS destination. The object is prefixed by `module.exports[.${options.exports}] = `.
  *
- * @param {Object} object         - The JSON to write into JS destination.
- * @param {WriterOptions} options - The write destination and indention.
+ * @param {Object} object        - The JSON to write into JS destination.
+ * @param {WriteOptions} options - The write destination and indention.
  * @see {@link MIN_INDENT}
  * @see {@link DEFAULT_INDENT}
  * @see {@link MAX_INDENT}
@@ -268,8 +267,8 @@ async function writeJs(object, options) {
 /**
  * Writes the passe JS object to a particular destination described by the passed `options`.
  *
- * @param {Object} object         - The JS source object to write.
- * @param {WriterOptions} options - The write options.
+ * @param {Object} object        - The JS source object to write.
+ * @param {WriteOptions} options - The write options.
  * @returns {Promise} The result.
  * @resolve {string} With the write success message.
  * @reject {Error} If any write error occurs.
@@ -316,12 +315,12 @@ async function writeJs(object, options) {
  *   .catch(console.error);
  */
 export async function write(object, options) {
-  console.log('OPTIONS ON WRITE ===> ' + JSON.stringify(options, null, 4))
-  const validatedOptions = await Joi.validate(options, writerOptionsSchema);
+  // console.log('OPTIONS ON WRITE ===> ' + JSON.stringify(options, null, 4)) // TODO remove
+  const validatedOptions = await Joi.validate(options, writeOptionsSchema);
 
   // HINT: we have to use the original options object because the caller must not loose the reference to options.dest,
   // so we copy everything here except the assertedOptions.dest (joi does not return the original reference)!
-  Object.assign(options, { target: validatedOptions.target }, { exports: validatedOptions.exports },
+  Object.assign(options, { target: validatedOptions.target }, { exports: validatedOptions.exports }, // TODO does this work without full copy?
     { indent: validatedOptions.indent }, { force: validatedOptions.force });
   validatedOptions.dest = options.dest;
   switch (validatedOptions.target) {

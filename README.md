@@ -1,9 +1,27 @@
-[![License][gh-license-image]][gh-license-url] [![Issue Stats][gh-issues-image]][gh-issues-url] [![Releases][gh-releases-image]][gh-releases-url] [![Tags][gh-tags-image]][gh-tags-url] [![Build Status][ci-image]][ci-url] [![Waffle][waffle-image]][waffle-url] [![Code Climate][cocl-image]][cocl-url]
-[![codecov.io][cc-image-master]][cc-url-master] [![coveralls.io][ca-image-master]][ca-url-master] [![inch-ci.org][inch-image-master]][inch-url-master] [![Dependency Status][dep-image-master]][dep-url-master] [![devDependency Status][devdep-image-master]][devdep-url-master]
+[![Node version][node-version-image]][node-version-url]
+[![License][gh-license-image]][gh-license-url]
+[![Issue Stats][gh-issues-image]][gh-issues-url]
+[![Releases][gh-releases-image]][gh-releases-url]
+[![Tags][gh-tags-image]][gh-tags-url]
+[![Build Status][ci-image]][ci-url]
+[![Waffle][waffle-ready-image]][waffle-url]
+[![Waffle][waffle-waffle-in-progress-image]][waffle-url]
+[![Code Climate][cocl-image]][cocl-url]
+[![codecov.io][cc-image-master]][cc-url-master]
+[![coveralls.io][ca-image-master]][ca-url-master]
+[![inch-ci.org][inch-image-master]][inch-url-master]
+[![bitHound Code][bithound-code-image]][bithound-url]
+[![bitHound Dependencies][bitHound-dependencies-image]][bitHound-dependencies]
+[![bitHound Dev Dependencies][bitHound-dev-dependencies-image]][bitHound-dependencies]
+[![NSP Status][nsp-image-master]][nsp-url-master]
+<!-- [![bitHound Overall Score][bitHound-score-image]][bithound-url]
+[![bitHound Overall Score](https://www.bithound.io/github/deadratfink/jy-transform/badges/score.svg?style=flat-square)](https://www.bithound.io/github/deadratfink/jy-transform) -->
+<!-- [![Dependency Status][dep-image-master]][dep-url-master]
+[![devDependency Status][devdep-image-master]][devdep-url-master] -->
 
-[![NPM](https://nodei.co/npm/jy-transform.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/jy-transform/)
 
-[![NPM](https://nodei.co/npm-dl/jy-transform.png?height=3&months=9)](https://nodei.co/npm-dl/jy-transform/)
+[![NPM][npm-image]][npm-url]
+[![NPM][npm-downloads-image]][npm-url]
 
 [gh-license-image]: https://img.shields.io/github/license/deadratfink/jy-transform.svg?style=flat-square
 [gh-license-url]: https://github.com/deadratfink/jy-transform/blob/master/LICENSE.md
@@ -25,7 +43,8 @@
 [is-issue-image]: http://issuestats.com/github/deadratfink/jy-transform/badge/issue?style=flat-square
 [is-url]: http://issuestats.com/github/deadratfink/jy-transform
 
-[waffle-image]: https://img.shields.io/waffle/label/deadratfink/jy-transform.svg?label=ready&title=Waffle%20Ready&style=flat-square
+[waffle-ready-image]: https://img.shields.io/waffle/label/deadratfink/jy-transform.svg?label=ready&title=Waffle%20Ready&style=flat-square
+[waffle-waffle-in-progress-image]: https://img.shields.io/waffle/label/deadratfink/jy-transform.svg?label=in%20progress&title=Waffle%20In%20Progress&style=flat-square
 [waffle-url]: https://waffle.io/deadratfink/jy-transform
 
 [cocl-image]: https://img.shields.io/codeclimate/github/deadratfink/jy-transform.svg?style=flat-square
@@ -48,6 +67,22 @@
 [devdep-image-master]: https://img.shields.io/david/dev/deadratfink/jy-transform/master.svg?style=flat-square
 [devdep-url-master]: https://david-dm.org/deadratfink/jy-transform/master#info=devDependencies
 
+[nsp-image-master]: https://nodesecurity.io/orgs/deadratfink/projects/7ac99a62-a8c4-4321-8d57-8a5e542f04f0/badge?style=flat-square
+[nsp-url-master]: https://nodesecurity.io/orgs/deadratfink/projects/7ac99a62-a8c4-4321-8d57-8a5e542f04f0
+
+[node-version-image]: https://img.shields.io/node/v/jy-transform.svg?style=flat-square
+[node-version-url]: http://nodejs.org/download/
+
+[npm-image]: https://nodei.co/npm/jy-transform.png?downloads=true&downloadRank=true&stars=true
+[npm-url]: https://nodei.co/npm/jy-transform/
+[npm-downloads-image]: https://nodei.co/npm-dl/jy-transform.png?height=2&months=9
+
+[bithound-url]: https://www.bithound.io/github/deadratfink/jy-transform
+[bithound-code-image]: https://img.shields.io/bithound/code/github/deadratfink/jy-transform.svg?style=flat-square
+[bitHound-dependencies]: https://www.bithound.io/github/deadratfink/jy-transform/master/dependencies/npm
+[bitHound-dependencies-image]: https://img.shields.io/bithound/dependencies/github/deadratfink/jy-transform.svg?style=flat-square
+[bitHound-dev-dependencies-image]: https://img.shields.io/bithound/devDependencies/github/deadratfink/jy-transform.svg?style=flat-square
+[bitHound-score-image]: https://img.shields.io/bithound/score/github/deadratfink/jy-transform.svg?style=flat-square
 
 
 # jy-transform 
@@ -91,22 +126,30 @@ npm install jy-transform --global
 ```javascript
 import { transform } from 'jy-transform';
 
-const transformOptions = {
-  src: 'foo/bar.yaml',
-  target: 'foo/bar.json',
-  indent: 4,
+const options = {
+  src: 'foo/bar.yaml',            // Here: read from YAML file...
+  transform: async (object) => {  // ...with exchanging value...
+    object.foo = 'new value';
+    return object;
+  },                            
+  dest: 'foo/bar.json',           // ...to a new JSON file.
+  indent: 4,                      // Ensure an indentation of 4.
 };
 
-const transformFunc = async (object) => {
-  object.foo = 'new value';
-  return object;
-};
+// ---- Promise style:
 
-// of course, inside an async
+transform(options)
+  .then(console.log)
+  .catch(console.error);
+
+
+// ---- async/await style:
+
+
 try {
-  const msg = await transform(transformOptions, transformFunc);
-  console.log(msg);
-} catch (err) {
+  const msg = await transform(options);  // Transform, of course, inside an async.
+  console.log(msg);                      // Success message!
+} catch (err) {                          // Oops!
   console.error(err.stack);
 }
 ```
@@ -116,11 +159,11 @@ try {
 ```javascript
 import { read } from 'jy-transform';
 
-let object;
+const options = { src: 'foo/bar.yaml' };  // Here: read from file.
 
 try {
-  object = await read({ src: 'foo/bar.yaml' }); // here: read from file
-  console.log(JSON.stringify(object));
+  const object = await read(options);
+  console.log(JSON.stringify(object));    // Print write success message.
 } catch (err) {
   console.error(err.stack);
 }
@@ -131,9 +174,11 @@ try {
 ```javascript
 import { write } from 'jy-transform';
 
+const options = { dest: 'foo/bar.yaml' }; // Here: write to file.
+
 try {
-  const msg = await write(object, { dest: 'foo/bar.yaml' });
-  console.log(msg);
+  const msg = await write(object, options);
+  console.log(msg); // Print write success message.
 } catch (err) {
   console.error(err.stack);
 }
@@ -142,7 +187,7 @@ try {
 ## Why This Module?
 
 After struggling with some huge YAML file and accidentally
-occurring wrong indentions which results in an annoying investigation hell,
+occurring wrong indentations which results in an annoying investigation hell,
 I decided to get rid of the YAML file and therefore, create a module which
 should be aimed as the swiss army knife for transforming YAML, JS and JSON
 types into each other format.
@@ -150,8 +195,7 @@ types into each other format.
 ## Usage
 
 The module can be used on CLI or as API (the latter is fully
-[Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise))
-based).
+[Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) based).
 
 ### Usage Types
 
@@ -279,7 +323,7 @@ Usage:
 Options:
   -o, --origin [STRING]  The origin type of INPUT-FILE: [ js | json | yaml ]. (Default is if not given, the type is tried to be inferred from the extension of source path, else it is 'yaml')
   -t, --target [STRING]  The target type of OUTPUT-FILE: [ js | json | yaml ]. (Default is if not given, the type is tried to be inferred from the extension of destination path, else it is 'js')
-  -i, --indent [NUMBER]  The indention for pretty-print: 1 - 8. (Default is 4)
+  -i, --indent [NUMBER]  The indentation for pretty-print: 1 - 8. (Default is 4)
   -f, --force            Force overwriting of existing output files on write phase. When files are not overwritten (which is default),
                          then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in
                          case of foo.yaml it would be foo(1).yaml.
@@ -312,7 +356,7 @@ The OPTIONS are more formally defined in the following table:
 | --- | --- | --- | --- | --- | --- |
 | `-o` | `--origin` | string of: [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation origin type. | if not given, the type is tried to be inferred from the extension of source path, else it is _yaml_ | no |
 | `-t` | `--target` | string of: [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation target type. | if not given, the type is tried to be inferred from the extension of destination path, else it is _js_ | no |
-| `-i` | `--indent` | integer<br>[ 1 - 8 ]<br> | The code indention used in destination files. | 2 | no |
+| `-i` | `--indent` | integer<br>[ 1 - 8 ]<br> | The code indentation used in destination files. | 2 | no |
 | `-f` | `--force` | n/a | Force overwriting of existing output files on write phase. When files are not overwritten (which is default), then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of _foo.yaml_ it would be _foo(1).yaml_.  | _false_ | no |
 | `-m` | `--imports` | string | Define a 'module.exports[.identifier] = ' identifier (to read from JS _source_ file only, must be a valid JS identifier!) | _undefined_ | no |
 | `-x` | `--exports` | string | Define a 'module.exports[.identifier] = ' identifier (for usage in JS _destination_ file only, must be a valid JS identifier!) | _undefined_ | no |
@@ -322,7 +366,7 @@ The OPTIONS are more formally defined in the following table:
 | `-h` | `--help` | n/a | Display help and usage details. | n/a | no |
 
 
-**NOTE:** an invalid indention setting (1 > `-i`, `--indent` > 8) does not raise an error but a default of 4 SPACEs is applied instead.
+**NOTE:** an invalid indentation setting (1 > `-i`, `--indent` > 8) does not raise an error but a default of 4 SPACEs is applied instead.
 
 #### Examples
 
@@ -487,7 +531,7 @@ By default this feature is not enabled to prevent you from accidentally
 overwriting your input source or already generated targets.
 
 But let's say we want to overwrite the original source now because you want
-to change the indention from 2 to 4 SPACEs, then we can do this as follows:
+to change the indentation from 2 to 4 SPACEs, then we can do this as follows:
 ```
 $ jyt foo.js -f
 ```
@@ -557,7 +601,7 @@ The `options` object has to follow this key-values tables:
 | Option | Type | Description | Default | Required |
 | --- | --- | --- | --- | --- |
 | `dest` | <code>[ _String_ &#124; _Stream.Writable_ &#124; _Object_ ]</code> | The destination information object: `String` is used as file path, `Stream.Writable` writes a stringified source and `object` is used for direct JS object assignment of the (stringified or JS object) source. If a string is set as file path then the output and if input and output file path are the same, then the file overwriting is handled depending on the `force` value! | - | yes |
-| `indent` | <code>_Number_</code> | The indention in files. | 2 | no |
+| `indent` | <code>_Number_</code> | The indentation in files. | 2 | no |
 | `force` | <code>_Boolean_</code> | Force overwriting of existing output files on write phase. When files are not overwritten, then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of _foo.yaml_ it would be _foo(1).yaml_. | _false_ | no |
 | `imports` | <code>_String_</code> | Define a `module.exports[.identifier] = ...` identifier (to read from JS _source_ only, must be a valid JS identifier!) | _undefined_ | no |
 | `exports` | <code>_String_</code> | Define a `module.exports[.identifier] = ...` identifier (for usage in JS _destination_ only, must be a valid JS identifier!) | _undefined_ | no |

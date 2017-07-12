@@ -5,22 +5,30 @@
 ```javascript
 import { transform } from 'jy-transform';
 
-const transformOptions = {
-  src: 'foo/bar.yaml',
-  target: 'foo/bar.json',
-  indent: 4,
+const options = {
+  src: 'foo/bar.yaml',            // Here: read from YAML file...
+  transform: async (object) => {  // ...with exchanging value...
+    object.foo = 'new value';
+    return object;
+  },                            
+  dest: 'foo/bar.json',           // ...to a new JSON file.
+  indent: 4,                      // Ensure an indentation of 4.
 };
 
-const transformFunc = async (object) => {
-  object.foo = 'new value';
-  return object;
-};
+// ---- Promise style:
 
-// of course, inside an async
+transform(options)
+  .then(console.log)
+  .catch(console.error);
+
+
+// ---- async/await style:
+
+
 try {
-  const msg = await transform(transformOptions, transformFunc);
-  console.log(msg);
-} catch (err) {
+  const msg = await transform(options);  // Transform, of course, inside an async.
+  console.log(msg);                      // Success message!
+} catch (err) {                          // Oops!
   console.error(err.stack);
 }
 ```
@@ -30,9 +38,11 @@ try {
 ```javascript
 import { read } from 'jy-transform';
 
+const options = { src: 'foo/bar.yaml' };  // Here: read from file.
+
 try {
-  const object = await read({ src: 'foo/bar.yaml' }); // here: read from file
-  console.log(JSON.stringify(object));
+  const object = await read(options);
+  console.log(JSON.stringify(object));    // Print write success message.
 } catch (err) {
   console.error(err.stack);
 }
@@ -43,9 +53,11 @@ try {
 ```javascript
 import { write } from 'jy-transform';
 
+const options = { dest: 'foo/bar.yaml' }; // Here: write to file.
+
 try {
-  const msg = await write(object, { dest: 'foo/bar.yaml' });
-  console.log(msg);
+  const msg = await write(object, options);
+  console.log(msg); // Print write success message.
 } catch (err) {
   console.error(err.stack);
 }
@@ -54,7 +66,7 @@ try {
 ## Why This Module?
 
 After struggling with some huge YAML file and accidentally
-occurring wrong indentions which results in an annoying investigation hell,
+occurring wrong indentations which results in an annoying investigation hell,
 I decided to get rid of the YAML file and therefore, create a module which
 should be aimed as the swiss army knife for transforming YAML, JS and JSON
 types into each other format.
@@ -190,7 +202,7 @@ Usage:
 Options:
   -o, --origin [STRING]  The origin type of INPUT-FILE: [ js | json | yaml ]. (Default is if not given, the type is tried to be inferred from the extension of source path, else it is 'yaml')
   -t, --target [STRING]  The target type of OUTPUT-FILE: [ js | json | yaml ]. (Default is if not given, the type is tried to be inferred from the extension of destination path, else it is 'js')
-  -i, --indent [NUMBER]  The indention for pretty-print: 1 - 8. (Default is 4)
+  -i, --indent [NUMBER]  The indentation for pretty-print: 1 - 8. (Default is 4)
   -f, --force            Force overwriting of existing output files on write phase. When files are not overwritten (which is default),
                          then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in
                          case of foo.yaml it would be foo(1).yaml.
@@ -223,7 +235,7 @@ The OPTIONS are more formally defined in the following table:
 | --- | --- | --- | --- | --- | --- |
 | `-o` | `--origin` | string of: [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation origin type. | if not given, the type is tried to be inferred from the extension of source path, else it is _yaml_ | no |
 | `-t` | `--target` | string of: [ _js_ &#124; _json_ &#124; _yaml_ ]</code> | The transformation target type. | if not given, the type is tried to be inferred from the extension of destination path, else it is _js_ | no |
-| `-i` | `--indent` | integer<br>[ 1 - 8 ]<br> | The code indention used in destination files. | 2 | no |
+| `-i` | `--indent` | integer<br>[ 1 - 8 ]<br> | The code indentation used in destination files. | 2 | no |
 | `-f` | `--force` | n/a | Force overwriting of existing output files on write phase. When files are not overwritten (which is default), then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of _foo.yaml_ it would be _foo(1).yaml_.  | _false_ | no |
 | `-m` | `--imports` | string | Define a 'module.exports[.identifier] = ' identifier (to read from JS _source_ file only, must be a valid JS identifier!) | _undefined_ | no |
 | `-x` | `--exports` | string | Define a 'module.exports[.identifier] = ' identifier (for usage in JS _destination_ file only, must be a valid JS identifier!) | _undefined_ | no |
@@ -233,7 +245,7 @@ The OPTIONS are more formally defined in the following table:
 | `-h` | `--help` | n/a | Display help and usage details. | n/a | no |
 
 
-**NOTE:** an invalid indention setting (1 > `-i`, `--indent` > 8) does not raise an error but a default of 4 SPACEs is applied instead.
+**NOTE:** an invalid indentation setting (1 > `-i`, `--indent` > 8) does not raise an error but a default of 4 SPACEs is applied instead.
 
 #### Examples
 
@@ -398,7 +410,7 @@ By default this feature is not enabled to prevent you from accidentally
 overwriting your input source or already generated targets.
 
 But let's say we want to overwrite the original source now because you want
-to change the indention from 2 to 4 SPACEs, then we can do this as follows:
+to change the indentation from 2 to 4 SPACEs, then we can do this as follows:
 ```
 $ jyt foo.js -f
 ```
@@ -468,7 +480,7 @@ The `options` object has to follow this key-values tables:
 | Option | Type | Description | Default | Required |
 | --- | --- | --- | --- | --- |
 | `dest` | <code>[ _String_ &#124; _Stream.Writable_ &#124; _Object_ ]</code> | The destination information object: `String` is used as file path, `Stream.Writable` writes a stringified source and `object` is used for direct JS object assignment of the (stringified or JS object) source. If a string is set as file path then the output and if input and output file path are the same, then the file overwriting is handled depending on the `force` value! | - | yes |
-| `indent` | <code>_Number_</code> | The indention in files. | 2 | no |
+| `indent` | <code>_Number_</code> | The indentation in files. | 2 | no |
 | `force` | <code>_Boolean_</code> | Force overwriting of existing output files on write phase. When files are not overwritten, then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of _foo.yaml_ it would be _foo(1).yaml_. | _false_ | no |
 | `imports` | <code>_String_</code> | Define a `module.exports[.identifier] = ...` identifier (to read from JS _source_ only, must be a valid JS identifier!) | _undefined_ | no |
 | `exports` | <code>_String_</code> | Define a `module.exports[.identifier] = ...` identifier (for usage in JS _destination_ only, must be a valid JS identifier!) | _undefined_ | no |

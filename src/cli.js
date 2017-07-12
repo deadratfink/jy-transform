@@ -49,7 +49,7 @@ const packagePath = path.join(__dirname, '../package.json');
  *   Array}}
  * @private
  */
-const options = {
+const cliOptionsSchema = {
   origin: ['o', 'The origin type of INPUT-FILE: [ ' + TYPE_JS + ' | ' + TYPE_JSON + ' | ' + TYPE_YAML
     + ' ]', 'string', ORIGIN_DESCRIPTION],
   target: ['t', 'The target type of OUTPUT-FILE: [ ' + TYPE_JS + ' | ' + TYPE_JSON + ' | ' + TYPE_YAML
@@ -87,7 +87,7 @@ function error(err) {
  *
  * @param {Array} args     - The first mandatory argument is the input file (`args[0]`), the second (optional)
  *                           argument is the output file (`args[1]`).
- * @param {module:jy-transform:type-definitions~TransformerOptions} cliOptions - The options provided via CLI.
+ * @param {module:jy-transform:type-definitions~TransformOptions} cliOptions - The options provided via CLI.
  * @private
  */
 function main(args, cliOptions) {
@@ -117,9 +117,7 @@ function main(args, cliOptions) {
 
   cli.debug('Passed options:\n' + JSON.stringify(cliOptions, null, 4));
 
-  // transform with options
-
-  return transform(cliOptions)
+  transform(cliOptions)
     .then(cli.info)
     .catch(error);
 }
@@ -131,5 +129,5 @@ cli.width = 120;
 cli.setUsage(usage);
 cli.setApp(packagePath);
 cli.enable('version', 'status', 'timeout');
-cli.parse(options);
+cli.parse(cliOptionsSchema);
 cli.main(main);

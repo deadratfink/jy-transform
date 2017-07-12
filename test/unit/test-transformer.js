@@ -50,21 +50,20 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
   /**
    * Transformation middleware changing value for `foo` property.
    *
-   * @param {Object} json - To transform.
+   * @param {Object} object - To transform.
    */
-  const middlewareFunc = async (json) => {
-    json.foo = EXPECTED_VALUE;
-    return json;
+  const transformFunc = async (object) => {
+    object.foo = EXPECTED_VALUE;
+    return object;
   };
 
   /**
    * Helper method which asserts the successful transformation.
    *
    * @param {Object} options      - The transformation options.
-   * @param {Function} middleware - The transformation middleware.
    */
-  function assertTransformSuccess(options, middleware) {
-    return transform(options, middleware)
+  function assertTransformSuccess(options) {
+    return transform(options)
       .then((msg) => {
         logger.info(msg);
         const stats = fsExtra.statSync(options.dest);
@@ -79,11 +78,10 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
    * Helper method which asserts the successful transformation.
    *
    * @param {Object} options      - The transformation options.
-   * @param {Function} middleware - The transformation middleware.
    */
-  async function assertYamlTransformSuccess(options, middleware) {
+  async function assertYamlTransformSuccess(options) {
     expect.assertions(3);
-    const msg = await transform(options, middleware);
+    const msg = await transform(options);
     logger.info(msg);
     expect(msg).toEqual(expect.any(String));
     const stats = fsExtra.statSync(options.dest);
@@ -94,9 +92,20 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
   }
 
   describe('Testing transform with middleware', () => {
-    it('should throw TypeError if middleware passed is not a function type', async () => {
+    it('should throw ValidationError if middleware passed is not a function type', async () => {
       expect.assertions(1);
-      await expect(transform({ src: {}, dest: {} }, 'not a function')).rejects.toBeInstanceOf(TypeError);
+      await expect(transform({
+        src: {},
+        transform: 'not a function',
+        dest: {},
+      })).rejects.toMatchObject({ name: 'ValidationError', isJoi: true });
+    });
+
+    it('should throw ValidationError if options.dest is not set and cannot be resolved from options.src type', async () => {
+      expect.assertions(1);
+      await expect(transform({
+        src: {}, // we cannot infer destination from this type!
+      })).rejects.toMatchObject({ name: 'ValidationError', isJoi: true });
     });
 
     it('should not fail if middleware passed is returning a Promise', () => {
@@ -104,8 +113,11 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
       const returningPromise = async (object) => {
         return object;
       };
-      return expect(transform({ src: {}, dest: {} }, returningPromise))
-        .resolves.toBe('Writing JS to options.dest successful.');
+      return expect(transform({
+        src: {},
+        transform: returningPromise,
+        dest: {},
+      })).resolves.toBe('Writing JS to options.dest successful.');
     });
 
     it('should not fail if middleware passed is not returning a Promise', () => {
@@ -113,8 +125,11 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
       const notReturningPromise = (object) => {
         return object;
       };
-      return expect(transform({ src: {}, dest: {} }, notReturningPromise))
-        .resolves.toBe('Writing JS to options.dest successful.');
+      return expect(transform({
+        src: {},
+        transform: notReturningPromise,
+        dest: {},
+      })).resolves.toBe('Writing JS to options.dest successful.');
     });
   });
 
@@ -132,8 +147,9 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
       expect.assertions(2);
       const msg = await transform({
         src: path.resolve(TRANSFORMER_TEST_BASE_DIR + '/test-data.yaml'),
+        transform: transformFunc,
         dest: path.resolve(TRANSFORMER_TEST_BASE_DIR + '/test-data.js'),
-      }, middlewareFunc);
+      });
       logger.info(msg);
       const stats = fs.statSync(DEST);
       expect(stats.isFile()).toBeTruthy();
@@ -151,9 +167,10 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
       expect.assertions(2);
       const options = {
         src: path.resolve(SRC),
+        transform: transformFunc,
         dest: path.resolve(DEST),
       };
-      await assertTransformSuccess(options, middlewareFunc);
+      await assertTransformSuccess(options);
     });
   });
 
@@ -165,9 +182,10 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
       expect.assertions(2);
       const options = {
         src: path.resolve(SRC),
+        transform: transformFunc,
         dest: path.resolve(DEST),
       };
-      await assertTransformSuccess(options, middlewareFunc);
+      await assertTransformSuccess(options);
     });
   });
 
@@ -179,9 +197,10 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
       expect.assertions(2);
       const options = {
         src: path.resolve(SRC),
+        transform: transformFunc,
         dest: path.resolve(DEST),
       };
-      await assertTransformSuccess(options, middlewareFunc);
+      await assertTransformSuccess(options);
     });
   });
 
@@ -193,9 +212,10 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
       expect.assertions(2);
       const options = {
         src: path.resolve(SRC),
+        transform: transformFunc,
         dest: path.resolve(DEST),
       };
-      await assertTransformSuccess(options, middlewareFunc);
+      await assertTransformSuccess(options);
     });
   });
 
@@ -208,10 +228,11 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
       expect.assertions(2);
       const options = {
         src: path.resolve(SRC),
+        transform: transformFunc,
         dest: path.resolve(DEST),
       };
 
-      transform(options, middlewareFunc)
+      transform(options)
         .then((msg) => {
           logger.info(msg);
           const stats = fsExtra.statSync(options.dest);
@@ -245,10 +266,11 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
       expect.assertions(2);
       const options = {
         src: path.resolve(SRC),
+        transform: transformFunc,
         dest: path.resolve(DEST),
       };
 
-      transform(options, middlewareFunc)
+      transform(options)
         .then((msg) => {
           logger.info(msg);
           const stats = fsExtra.statSync(options.dest);
@@ -282,9 +304,10 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
       expect.assertions(2);
       const options = {
         src: path.resolve(SRC),
+        transform: transformFunc,
         dest: path.resolve(DEST),
       };
-      await assertTransformSuccess(options, middlewareFunc);
+      await assertTransformSuccess(options);
     });
   });
 
@@ -296,9 +319,10 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
       expect.assertions(2);
       const options = {
         src: path.resolve(SRC),
+        transform: transformFunc,
         dest: path.resolve(DEST),
       };
-      await assertYamlTransformSuccess(options, middlewareFunc);
+      await assertYamlTransformSuccess(options);
     });
   });
 
@@ -310,9 +334,10 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
       expect.assertions(2);
       const options = {
         src: path.resolve(SRC),
+        transform: transformFunc,
         dest: path.resolve(DEST),
       };
-      await assertTransformSuccess(options, middlewareFunc);
+      await assertTransformSuccess(options);
     });
   });
 });

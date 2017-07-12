@@ -37,6 +37,7 @@ npm test
 - [codeclimate-test-reporter](https://github.com/codeclimate/javascript-test-reporter): Code Climate test reporter client for javascript projects
 - [codecov](https://github.com/codecov/codecov-node): Uploading report to Codecov: https://codecov.io
 - [coveralls](https://github.com/nickmerwin/node-coveralls): takes json-cov output into stdin and POSTs to coveralls.io
+- [cwd](https://github.com/jonschlinkert/cwd): Easily get the CWD (current working directory) of a project based on package.json, optionally starting from a given path. (node.js/javascript util)
 - [doctoc](https://github.com/thlorenz/doctoc): Generates TOC for markdown files of local git repo.
 - [eslint](https://github.com/eslint/eslint): An AST-based pattern checker for JavaScript.
 - [eslint-config-airbnb-base](https://github.com/airbnb/javascript): Airbnb&#39;s base JS ESLint config, following our styleguide
@@ -50,6 +51,7 @@ npm test
 - [jsdoc-babel](https://github.com/ctumolosus/jsdoc-babel): A JSDoc plugin that transforms ES6 source files with Babel before they are processsed.
 - [jsdoc-parse](https://github.com/jsdoc2md/jsdoc-parse): Transforms jsdoc data into something more suitable for use as template input
 - [jsdoc-to-markdown](https://github.com/jsdoc2md/jsdoc-to-markdown): Generates markdown API documentation from jsdoc annotated source code
+- [nsp](https://github.com/nodesecurity/nsp): The Node Security (nodesecurity.io) command line interface
 - [package-json-to-readme](https://github.com/zeke/package-json-to-readme): Generate a README.md from package.json contents
 - [winston](https://github.com/winstonjs/winston): A multi-transport async logging library for Node.js
 - [winston-console-formatter](https://github.com/eugeny-dementev/winston-console-formatter): Pretty print console formatter in yaml like style

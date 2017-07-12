@@ -10,12 +10,17 @@ os:
 - linux
 - osx
 
+script:
+- make test
+- npm install bithound --save-dev
+- bithound check git@github.com:deadratfink/jy-transform.git
+
 after_success:
 - ./node_modules/codecov/bin/codecov -e TRAVIS_NODE_VERSION
 - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js --verbose
 - ./node_modules/codeclimate-test-reporter/bin/codeclimate.js < ./coverage/lcov.info
 
 branches:
-    only: # whitelist
-    - master
-    - /^(bugfix|feature|refactor)\/(#\d)?.*$/
+  only: # whitelist
+  - master
+  - /^(bugfix|feature|refactor)\/(#\d)?.*$/

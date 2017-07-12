@@ -7,11 +7,10 @@
 - [Typedefs](#typedefs)
 - [jy-transform:constants](#jy-transformconstants)
 - [read ⇒ <code>Promise</code>](#read-%E2%87%92-codepromisecode)
-- [transform ⇒ <code>Promise</code>](#transform-%E2%87%92-codepromisecode)
 - [write ⇒ <code>Promise</code>](#write-%E2%87%92-codepromisecode)
-- [ReaderOptions : <code>object</code>](#readeroptions--codeobjectcode)
-- [WriterOptions : <code>object</code>](#writeroptions--codeobjectcode)
-- [TransformerOptions : <code>object</code>](#transformeroptions--codeobjectcode)
+- [ReadOptions : <code>object</code>](#readoptions--codeobjectcode)
+- [WriteOptions : <code>object</code>](#writeoptions--codeobjectcode)
+- [TransformOptions : <code>object</code>](#transformoptions--codeobjectcode)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -29,15 +28,6 @@
 <dt><a href="#read">read</a> ⇒ <code>Promise</code></dt>
 <dd><p>Reads a particular content type from a source provided in the passed <code>options</code>.</p>
 </dd>
-<dt><a href="#transform">transform</a> ⇒ <code>Promise</code></dt>
-<dd><p>The entry method for all transformation accepting a configuration object and
-an (optional) middleware function. It executes the transformation logic.</p>
-<ol>
-<li>Input (read)</li>
-<li>Transform [ + Middleware]</li>
-<li>Output (write).</li>
-</ol>
-</dd>
 <dt><a href="#write">write</a> ⇒ <code>Promise</code></dt>
 <dd><p>Writes the passe JS object to a particular destination described by the passed <code>options</code>.</p>
 </dd>
@@ -46,13 +36,13 @@ an (optional) middleware function. It executes the transformation logic.</p>
 ## Typedefs
 
 <dl>
-<dt><a href="#ReaderOptions">ReaderOptions</a> : <code>object</code></dt>
+<dt><a href="#ReadOptions">ReadOptions</a> : <code>object</code></dt>
 <dd><p>The configuration properties provided to the <code>read</code> function.</p>
 </dd>
-<dt><a href="#WriterOptions">WriterOptions</a> : <code>object</code></dt>
-<dd><p>The writer configuration properties provided to the <code>write</code> function.</p>
+<dt><a href="#WriteOptions">WriteOptions</a> : <code>object</code></dt>
+<dd><p>The configuration properties provided to the <code>write</code> function.</p>
 </dd>
-<dt><a href="#TransformerOptions">TransformerOptions</a> : <code>object</code></dt>
+<dt><a href="#TransformOptions">TransformOptions</a> : <code>object</code></dt>
 <dd><p>The configuration properties provided to the <code>transform</code> function.</p>
 </dd>
 </dl>
@@ -104,7 +94,7 @@ Reads a particular content type from a source provided in the passed `options`.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| options | [<code>ReaderOptions</code>](#ReaderOptions) | The read options. |
+| options | [<code>ReadOptions</code>](#ReadOptions) | The read options. |
 
 **Example**  
 ```js
@@ -132,55 +122,6 @@ read(options)
   .then(obj => console.log(JSON.stringify(obj)))
   .catch(console.error);
 ```
-<a name="transform"></a>
-
-## transform ⇒ <code>Promise</code>
-The entry method for all transformation accepting a configuration object and
-an (optional) middleware function. It executes the transformation logic.
-
-1. Input (read)
-2. Transform [ + Middleware]
-3. Output (write).
-
-**Kind**: global variable  
-**Returns**: <code>Promise</code> - The result.  
-**Access**: public  
-**Resolve**: <code>string</code> With the transformation result as message (e.g. to be logged by caller).  
-**Reject**: <code>TypeError</code> Will throw this error when the passed `middleware` is not type of `Function`.  
-**Reject**: <code>ValidationError</code> If any `options` validation occurs.  
-**Reject**: <code>Error</code> Will throw any error if read, transform or write operation failed due to any reason.  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| options | [<code>TransformerOptions</code>](#TransformerOptions) | The configuration for a transformation. |
-| [middleware] | <code>function</code> | This middleware Promise can be used to        intercept the JSON object for altering the passed JSON, the function signature is:        ```        async function(object)        ```        <p>        **NOTE:** the Promise has to return the processed JS object. |
-
-**Example**  
-```js
-import { transform } from 'jy-transform';
-const options = {...};
-
-const middleware = async (object) {
-  object.myproperty = 'new value';
-  return object;
-};
-
-// ---- Promise style:
-
-transform(options, middleware)
-  .then(console.log)
-  .catch(console.error);
-
-
-// ---- async/await style:
-
-try {
-  const msg = await transform(options, middleware);
-  console.log(msg);
-} catch (err) {
-  console.error(err.stack);
-};
-```
 <a name="write"></a>
 
 ## write ⇒ <code>Promise</code>
@@ -196,7 +137,7 @@ Writes the passe JS object to a particular destination described by the passed `
 | Param | Type | Description |
 | --- | --- | --- |
 | object | <code>Object</code> | The JS source object to write. |
-| options | [<code>WriterOptions</code>](#WriterOptions) | The write options. |
+| options | [<code>WriteOptions</code>](#WriteOptions) | The write options. |
 
 **Example**  
 ```js
@@ -239,9 +180,9 @@ write(obj, options)
   .then(console.log)
   .catch(console.error);
 ```
-<a name="ReaderOptions"></a>
+<a name="ReadOptions"></a>
 
-## ReaderOptions : <code>object</code>
+## ReadOptions : <code>object</code>
 The configuration properties provided to the `read` function.
 
 **Kind**: global typedef  
@@ -250,14 +191,14 @@ The configuration properties provided to the `read` function.
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| src | <code>string</code> \| <code>Stream.Readable</code> \| <code>object</code> |  | The source (if `string` type is treated as a file path). |
-| origin | <code>string</code> | <code>&quot;yaml&quot;</code> | The origin type. |
+| src | <code>string</code> \| <code>Stream.Readable</code> \| <code>object</code> |  | The source (if `string` type it is treated as a file path). |
+| origin | <code>string</code> | <code>&quot;yaml&quot;</code> | The source origin type. |
 | imports | <code>string</code> |  | The exports name for reading from JS source files or objects only. |
 
-<a name="WriterOptions"></a>
+<a name="WriteOptions"></a>
 
-## WriterOptions : <code>object</code>
-The writer configuration properties provided to the `write` function.
+## WriteOptions : <code>object</code>
+The configuration properties provided to the `write` function.
 
 **Kind**: global typedef  
 **Access**: public  
@@ -265,15 +206,15 @@ The writer configuration properties provided to the `write` function.
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| dest | <code>string</code> \| <code>Stream.Writable</code> \| <code>object</code> |  | The destination (if `string` type is treated as a file path). |
-| target | <code>string</code> | <code>&quot;js&quot;</code> | The target type. |
-| indent | <code>number</code> | <code>2</code> | The indention value for pretty-print of output. |
+| dest | <code>string</code> \| <code>Stream.Writable</code> \| <code>object</code> |  | The destination (if `string` type it is treated as a file path). |
+| target | <code>string</code> | <code>&quot;js&quot;</code> | The destination target type. |
+| indent | <code>number</code> | <code>2</code> | The indentation value for pretty-print of output. |
 | exports | <code>string</code> |  | The exports name for usage in JS destination files only. |
 | force | <code>string</code> | <code>false</code> | Force overwriting of existing output files on write phase. |
 
-<a name="TransformerOptions"></a>
+<a name="TransformOptions"></a>
 
-## TransformerOptions : <code>object</code>
+## TransformOptions : <code>object</code>
 The configuration properties provided to the `transform` function.
 
 **Kind**: global typedef  
@@ -282,12 +223,13 @@ The configuration properties provided to the `transform` function.
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| src | <code>string</code> \| <code>Stream.Readable</code> \| <code>object</code> |  | The source (if `string` type is treated as a file path). |
-| origin | <code>string</code> | <code>&quot;yaml&quot;</code> | The origin type. |
-| imports | <code>string</code> |  | The exports name for reading from JS source files                                                      or objects only. |
-| dest | <code>string</code> \| <code>Stream.Writable</code> \| <code>object</code> |  | The destination (if `string` type is treated as a file path). |
-| target | <code>string</code> | <code>&quot;js&quot;</code> | The target type. |
-| indent | <code>number</code> | <code>2</code> | The indention value for pretty-print of output. |
-| exports | <code>string</code> |  | The exports name for usage in JS destination files only. |
+| src | <code>string</code> \| <code>Stream.Readable</code> \| <code>object</code> |  | The _read_ source (if `string` type it is treated as a file                                                      path). |
+| origin | <code>string</code> | <code>&quot;yaml&quot;</code> | The _read_ source origin type. |
+| imports | <code>string</code> |  | The _read_ exports name for reading from JS source files or                                                      objects only. |
+| transform | <code>function</code> |  | The option is a _transformation_ function with the following                                                      signature:                                                      <p><p>                                                      ```                                                      [async|Promise] function(object)                                                      ``` |
+| dest | <code>string</code> \| <code>Stream.Writable</code> \| <code>object</code> |  | The _write_ destination (if `string` type it is treated as a                                                      file path). This property could be optional in case we infer a                                                      value from `src` which is then either a string or a file stream                                                      where can get the file path from. If this detection process                                                      cannot be fulfilled then the property is `undefined` and the                                                      transform process will fail with a `ValidationError` on write                                                      phase. |
+| target | <code>string</code> | <code>&quot;js&quot;</code> | The _write_ target type. |
+| indent | <code>number</code> | <code>2</code> | The _write_ indentation value for pretty-print of output. |
+| exports | <code>string</code> |  | The _write_ exports name for usage in JS destination files only. |
 | force | <code>string</code> | <code>false</code> | Force overwriting of existing output files on write phase. |
 

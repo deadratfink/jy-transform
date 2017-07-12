@@ -26,7 +26,8 @@
     "wiki": "jsdoc2md ./jyt lib/*.js index.js > docs/API.md && doctoc docs/API.md --github --title '### TOC' --maxlevel 2 && cat docs/API.md > '../jy-transform.wiki/API-v2.md' && cat docs/CONTRIBUTING.md > ../jy-transform.wiki/Contributing.md && cat docs/CHANGELOG.md > ../jy-transform.wiki/Changelog.md && doctoc ../jy-transform.wiki/Changelog.md --github --title '### TOC' --maxlevel 3",
     "pretest": "mkdir -pv test/tmp",
     "test": "JYT_DEBUG=false JYT_ERROR=false jest --forceExit --expand --no-cache --coverage --config=./.jestrc.js",
-    "eslint": "eslint ."
+    "eslint": "eslint .",
+    "nsp": "nsp check"
   },
   "engines": {
     "node": ">=4.0.0"
@@ -64,6 +65,7 @@
     "jsdoc-babel": " ~0.3.0",
     "jsdoc-parse": " ~3.0.0",
     "jsdoc-to-markdown": " ~3.0.0",
+    "nsp": "~2.6.3",
     "package-json-to-readme": " ~2.0.0",
     "winston": " ~2.3.0",
     "winston-console-formatter": "~0.3.1"

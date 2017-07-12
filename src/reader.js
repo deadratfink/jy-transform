@@ -4,9 +4,9 @@ import { Buffer } from 'buffer';
 import path from 'path';
 import fs from 'fs';
 import isStream from 'is-stream';
-import stringify from 'json-stringify-safe';
-import logger from 'cli';
-import { readerOptionsSchema } from './validation/options-schema';
+import stringify from 'json-stringify-safe'; // TODO remove
+import logger from 'cli'; // TODO remove
+import { readOptionsSchema } from './validation/options-schema';
 import Joi from './validation/joi-extensions';
 import {
   UTF8,
@@ -61,7 +61,7 @@ function readFromStream(readable, origin) {
 /**
  * Reads the data from a given JS or JSON source.
  *
- * @param {ReaderOptions} options - Contains the JS/JSON source reference to read from.
+ * @param {ReadOptions} options - Contains the JS/JSON source reference to read from.
  * @returns {Promise.<Object>} Contains the read JS object.
  * @private
  */
@@ -108,7 +108,7 @@ async function readJs(options) {
  * *NOTE:* this function does not understand multi-document sources, it throws
  * exception on those.
  *
- * @param {ReaderOptions} options - Contains the YAML source reference to read from.
+ * @param {ReadOptions} options - Contains the YAML source reference to read from.
  * @returns {Promise.<Object>} Contains the read JS object.
  * @private
  */
@@ -149,7 +149,7 @@ async function readYaml(options) {
 /**
  * Reads a particular content type from a source provided in the passed `options`.
  *
- * @param {ReaderOptions} options - The read options.
+ * @param {ReadOptions} options - The read options.
  * @returns {Promise} The result.
  * @resolve {string} Resolves with JS object result.
  * @reject {ValidationError} If any `options` validation occurs.
@@ -181,13 +181,13 @@ async function readYaml(options) {
  *   .catch(console.error);
  */
 export async function read(options) {
-  const assertedOptions = await Joi.validate(options, readerOptionsSchema);
-  switch (assertedOptions.origin) {
+  const validatedOptions = await Joi.validate(options, readOptionsSchema);
+  switch (validatedOptions.origin) {
     case TYPE_JS:
     case TYPE_JSON:
-      return readJs(assertedOptions);
+      return readJs(validatedOptions);
     default:
-      return readYaml(assertedOptions);
+      return readYaml(validatedOptions);
   }
 }
 

@@ -16,10 +16,17 @@ clean: ## Removes generated files in folders ./node_modules, ./lib and ./coverag
 	rm -rf node_modules
 	rm -rf coverage
 
-test: ## Runs the test suite and ESLint.
-	@printf "Running test suite and ESLint...\n"
+test: ## Runs the test suite, ESLint and a [Node Security Plattform](https://nodesecurity.io/opensource) check.
+	@printf "Running test suite, ESLint and NSP...\n"
 	npm test
 	npm run eslint
+	npm run nsp
+
+nsp: ## Runs an [Node Security Plattform](https://nodesecurity.io/opensource) check.
+	@printf "Running NSP check...\n"
+	npm run nsp
+
+bithound bithound check git@github.com:deadratfink/jy-transform.git
 
 readme: ## Creates all the documentation parts of the project: _README.md_, _MAKE.md_, _PACKAGE.md_ and _API.md_ (the latter based on [JSDoc](http://usejsdoc.org/)).
 	@printf "Create documentation...\n"

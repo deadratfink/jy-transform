@@ -16,8 +16,8 @@ import {
   MAX_INDENT,
 } from '../../../src/constants';
 import {
-  readerOptionsSchema,
-  writerOptionsSchema,
+  readOptionsSchema,
+  writeOptionsSchema,
 } from '../../../src/validation/options-schema';
 import Joi from '../../../src/validation/joi-extensions';
 
@@ -30,8 +30,8 @@ import Joi from '../../../src/validation/joi-extensions';
 /**
  * Expect a `ValidationError` for a given options function.
  *
- * @param {ReaderOptions|WriterOptions} invalidOptions - The options which potentially produce the error.
- * @param {Schema} schema                              - The validation schema.
+ * @param {ReadOptions|WriteOptions} invalidOptions - The options which potentially produce the error.
+ * @param {Schema} schema                           - The validation schema.
  * @private
  */
 function expectOptionsValidationError(invalidOptions, schema) {
@@ -45,8 +45,8 @@ function expectOptionsValidationError(invalidOptions, schema) {
 /**
  * Expect a validation success for a given options.
  *
- * @param {ReaderOptions|WriterOptions} validOptions - The options which should be correct.
- * @param {Schema} schema                            - The validation schema.
+ * @param {ReadOptions|WriteOptions} validOptions - The options which should be correct.
+ * @param {Schema} schema                         - The validation schema.
  * @private
  */
 function expectOptionsValidationSuccess(validOptions, schema) {
@@ -55,13 +55,13 @@ function expectOptionsValidationSuccess(validOptions, schema) {
 }
 
 describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
-  describe('Testing readerOptionsSchema validation', () => {
+  describe('Testing readOptionsSchema validation', () => {
     it('should reject when options is missing (null)', () =>
-      expectOptionsValidationError(null, readerOptionsSchema)
+      expectOptionsValidationError(null, readOptionsSchema)
     );
 
     it('should reject when options is missing (undefined)', () =>
-      expectOptionsValidationError(undefined, readerOptionsSchema)
+      expectOptionsValidationError(undefined, readOptionsSchema)
     );
 
     it('should set all defaults', async () => {
@@ -70,7 +70,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
         src: './test/data/test-data.yaml',
         dest: './test/tmp/test-data.js',
       };
-      const validatedOptions = await Joi.validate(options, readerOptionsSchema);
+      const validatedOptions = await Joi.validate(options, readOptionsSchema);
       expect(validatedOptions.origin).toBe(DEFAULT_ORIGIN);
       expect(validatedOptions.imports).toBe(DEFAULT_JS_IMPORTS_IDENTIFIER);
     });
@@ -80,7 +80,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
       const options = {
         src: './test/data/test-data.js', // non default type
       };
-      const validatedOptions = await Joi.validate(options, readerOptionsSchema);
+      const validatedOptions = await Joi.validate(options, readOptionsSchema);
       expect(validatedOptions.origin).toBe(TYPE_JS);
     });
 
@@ -90,7 +90,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
         origin: TYPE_JS,
         src: new Stream.Readable(), // no inference possible
       };
-      const validatedOptions = await Joi.validate(options, readerOptionsSchema);
+      const validatedOptions = await Joi.validate(options, readOptionsSchema);
       expect(validatedOptions.origin).toBe(TYPE_JS);
     });
 
@@ -100,7 +100,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
         src: {},
         dest: 'some-file',
       };
-      const validatedOptions = await Joi.validate(options, readerOptionsSchema);
+      const validatedOptions = await Joi.validate(options, readOptionsSchema);
       expect(validatedOptions.origin).toBe(TYPE_JS);
     });
   });
@@ -110,18 +110,18 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
       expectOptionsValidationError({
         src: './test',
         dest: 'some-file',
-      }, readerOptionsSchema)
+      }, readOptionsSchema)
     );
 
     it('should reject when options.src is undefined', () =>
-      expectOptionsValidationError({ dest: 'some-file' }, readerOptionsSchema)
+      expectOptionsValidationError({ dest: 'some-file' }, readOptionsSchema)
     );
 
     it('should reject when options.src is null', () =>
       expectOptionsValidationError({
         src: null,
         dest: 'some-file',
-      }, readerOptionsSchema)
+      }, readOptionsSchema)
     );
 
     it('should resolve to default origin ' + DEFAULT_ORIGIN + ' when options.src is Stream.Readable and ' +
@@ -132,7 +132,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
         dest: new Stream.Writable(),
         target: TYPE_YAML,
       };
-      const validatedOptions = await Joi.validate(options, readerOptionsSchema);
+      const validatedOptions = await Joi.validate(options, readOptionsSchema);
       expect(validatedOptions.origin).toBe(DEFAULT_ORIGIN);
       expect(validatedOptions.target).toBe(TYPE_YAML);
     });
@@ -144,7 +144,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
           src: './test/data/test-data',
           dest: 'some-file'
         };
-        const validatedOptions = await Joi.validate(options, readerOptionsSchema);
+        const validatedOptions = await Joi.validate(options, readOptionsSchema);
         expect(validatedOptions.origin).toBe(DEFAULT_ORIGIN);
       });
 
@@ -153,7 +153,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
           src: './test/data/test-data',
           dest: 'some-file',
           origin: TYPE_JS,
-        }, readerOptionsSchema);
+        }, readOptionsSchema);
       });
 
       it('should resolve when options.origin has valid target ' + TYPE_JSON, () => {
@@ -161,7 +161,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
           src: './test/data/test-data-json',
           dest: 'some-file',
           origin: TYPE_JSON,
-        }, readerOptionsSchema);
+        }, readOptionsSchema);
       });
 
       it('should resolve when options.origin has valid target ' + TYPE_YAML, () => {
@@ -169,7 +169,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
           src: './test/data/test-data-yaml',
           dest: 'some-file',
           origin: TYPE_YAML,
-        }, readerOptionsSchema);
+        }, readOptionsSchema);
       });
 
       it('should reject when options.origin is null', () =>
@@ -177,7 +177,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
           src: './test/data/test-data-yaml',
           dest: 'some-file',
           origin: null,
-        }, readerOptionsSchema)
+        }, readOptionsSchema)
       );
 
       it('should reject when options.origin is not allowed value', () =>
@@ -185,7 +185,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
           src: './test/data/test-data-yaml',
           dest: 'some-file',
           origin: 'not-allowed',
-        }, readerOptionsSchema)
+        }, readOptionsSchema)
       );
     });
 
@@ -196,7 +196,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
           src: './test/data/test-data.js',
           dest: 'some-file',
           imports: nonStringIdentifier,
-        }, readerOptionsSchema)
+        }, readOptionsSchema)
       );
 
       const invalidIdentifier = '#3/-';
@@ -205,7 +205,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
           src: './test/data/test-data.js',
           dest: 'some-file',
           imports: invalidIdentifier,
-        }, readerOptionsSchema)
+        }, readOptionsSchema)
       );
 
       const validIdentifier = 'bar';
@@ -214,18 +214,18 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
           src: './test/data/test-data.js',
           dest: 'some-file',
           imports: validIdentifier,
-        }, readerOptionsSchema)
+        }, readOptionsSchema)
       );
     });
   });
 
-  describe('Testing writerOptionsSchema validation', () => {
+  describe('Testing writeOptionsSchema validation', () => {
     it('should reject when options is missing (null)', () =>
-      expectOptionsValidationError(null, writerOptionsSchema)
+      expectOptionsValidationError(null, writeOptionsSchema)
     );
 
     it('should reject when options is missing (undefined)', () =>
-      expectOptionsValidationError(undefined, writerOptionsSchema)
+      expectOptionsValidationError(undefined, writeOptionsSchema)
     );
 
     it('should set all defaults', async () => {
@@ -233,7 +233,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
       const options = {
         dest: './test/tmp/test-data.js',
       };
-      const validatedOptions = await Joi.validate(options, writerOptionsSchema);
+      const validatedOptions = await Joi.validate(options, writeOptionsSchema);
       expect(validatedOptions.target).toBe(DEFAULT_TARGET);
       expect(validatedOptions.indent).toBe(DEFAULT_INDENT);
       expect(validatedOptions.exports).toBe(DEFAULT_JS_EXPORTS_IDENTIFIER);
@@ -245,7 +245,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
       const options = {
         dest: 'some-file.yml', // non default type
       };
-      const validatedOptions = await Joi.validate(options, writerOptionsSchema);
+      const validatedOptions = await Joi.validate(options, writeOptionsSchema);
       expect(validatedOptions.target).toBe(TYPE_YAML);
     });
 
@@ -255,7 +255,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
         target: TYPE_YAML,
         dest: new Stream.Writable(), // no inference possible
       };
-      const validatedOptions = await Joi.validate(options, writerOptionsSchema);
+      const validatedOptions = await Joi.validate(options, writeOptionsSchema);
       expect(validatedOptions.target).toBe(TYPE_YAML);
     });
 
@@ -264,20 +264,20 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
       const options = {
         dest: {},
       };
-      const validatedOptions = await Joi.validate(options, writerOptionsSchema);
+      const validatedOptions = await Joi.validate(options, writeOptionsSchema);
       expect(validatedOptions.target).toBe(TYPE_JS);
     });
 
     describe('Testing options.dest schema validation', () => {
       it('should reject when options.dest is undefined', () =>
-        expectOptionsValidationError({ src: './test/data/test-data.js' }, writerOptionsSchema)
+        expectOptionsValidationError({ src: './test/data/test-data.js' }, writeOptionsSchema)
       );
 
       it('should reject when options.dest is null', () =>
         expectOptionsValidationError({
           src: './test/data/test-data.js',
           dest: null,
-        }, writerOptionsSchema)
+        }, writeOptionsSchema)
       );
 
       it('should resolve output when options.dest is Stream.Writable and options.target is set', async () => {
@@ -286,7 +286,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
           dest: new Stream.Writable(),
           target: TYPE_YAML,
         };
-        const validatedOptions = await Joi.validate(options, writerOptionsSchema);
+        const validatedOptions = await Joi.validate(options, writeOptionsSchema);
         expect(validatedOptions.target).toBe(TYPE_YAML);
       });
 
@@ -296,7 +296,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
           const options = {
             dest: fs.createWriteStream('./test/tmp/test-data.yaml'),
           };
-          const validatedOptions = await Joi.validate(options, writerOptionsSchema);
+          const validatedOptions = await Joi.validate(options, writeOptionsSchema);
           expect(validatedOptions.target).toBe(TYPE_YAML);
         });
 
@@ -306,7 +306,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
         const options = {
           dest: new Stream.Writable(),
         };
-        const validatedOptions = await Joi.validate(options, writerOptionsSchema);
+        const validatedOptions = await Joi.validate(options, writeOptionsSchema);
         expect(validatedOptions.target).toBe(DEFAULT_TARGET);
       });
     });
@@ -316,7 +316,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
         const options = {
           dest: 'some-file'
         };
-        const validatedOptions = await Joi.validate(options, writerOptionsSchema);
+        const validatedOptions = await Joi.validate(options, writeOptionsSchema);
         expect(validatedOptions.target).toBe(DEFAULT_TARGET);
       });
 
@@ -325,7 +325,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
           src: './test/data/test-data.js',
           dest: 'some-file',
           target: TYPE_JS,
-        }, writerOptionsSchema);
+        }, writeOptionsSchema);
       });
 
       it('should resolve when options.target has valid target ' + TYPE_JSON, () => {
@@ -333,7 +333,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
           src: './test/data/test-data.json',
           dest: 'some-file',
           target: TYPE_JS,
-        }, writerOptionsSchema);
+        }, writeOptionsSchema);
       });
 
       it('should resolve when options.target has valid target ' + TYPE_YAML, () => {
@@ -341,7 +341,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
           src: './test/data/test-data.yaml',
           dest: 'some-file',
           target: TYPE_YAML,
-        }, writerOptionsSchema);
+        }, writeOptionsSchema);
       });
 
       it('should reject when options.target is null', () =>
@@ -349,7 +349,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
           src: './test/data/test-data.js',
           dest: 'some-file',
           target: null,
-        }, writerOptionsSchema)
+        }, writeOptionsSchema)
       );
 
       it('should reject when options.target is not allowed value', () =>
@@ -357,7 +357,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
           src: './test/data/test-data.js',
           dest: 'some-file',
           target: 'not-allowed',
-        }, writerOptionsSchema)
+        }, writeOptionsSchema)
       );
     });
 
@@ -368,7 +368,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
           src: './test/data/test-data.js',
           dest: 'some-file',
           exports: nonStringIdentifier,
-        }, writerOptionsSchema)
+        }, writeOptionsSchema)
       );
 
       const invalidIdentifier = '#3/-';
@@ -377,7 +377,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
           src: './test/data/test-data.js',
           dest: 'some-file',
           exports: invalidIdentifier,
-        }, writerOptionsSchema)
+        }, writeOptionsSchema)
       );
 
       const validIdentifier = 'bar';
@@ -386,7 +386,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
           src: './test/data/test-data.js',
           dest: 'some-file',
           exports: validIdentifier,
-        }, writerOptionsSchema)
+        }, writeOptionsSchema)
       );
     });
 
@@ -397,7 +397,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
           src: './test/data/test-data.js',
           dest: 'some-file',
           force: notBoolean,
-        }, writerOptionsSchema)
+        }, writeOptionsSchema)
       );
 
       it('should accept valid value \'false\'', () =>
@@ -405,7 +405,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
           src: './test/data/test-data.js',
           dest: 'some-file',
           force: false,
-        }, writerOptionsSchema)
+        }, writeOptionsSchema)
       );
 
       it('should accept valid value \'true\'', () =>
@@ -413,7 +413,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
           src: './test/data/test-data.js',
           dest: 'some-file',
           force: true,
-        }, writerOptionsSchema)
+        }, writeOptionsSchema)
       );
     });
 
@@ -424,7 +424,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
           src: './test/data/test-data.js',
           dest: 'some-file',
           indent: notInteger,
-        }, writerOptionsSchema)
+        }, writeOptionsSchema)
       );
 
       it('should accept valid \'' + MIN_INDENT + '\'', () =>
@@ -432,7 +432,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
           src: './test/data/test-data.js',
           dest: 'some-file',
           indent: MIN_INDENT,
-        }, writerOptionsSchema)
+        }, writeOptionsSchema)
       );
 
       it('should accept valid \'' + MAX_INDENT + '\'', () =>
@@ -440,7 +440,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
           src: './test/data/test-data.js',
           dest: 'some-file',
           indent: MAX_INDENT,
-        }, writerOptionsSchema)
+        }, writeOptionsSchema)
       );
 
       it('should reject < \'' + MIN_INDENT + '\'', () =>
@@ -448,7 +448,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
           src: './test/data/test-data.js',
           dest: 'some-file',
           indent: MIN_INDENT - 1,
-        }, writerOptionsSchema)
+        }, writeOptionsSchema)
       );
 
       it('should reject > \'' + MAX_INDENT + '\'', () =>
@@ -456,7 +456,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
           src: './test/data/test-data.js',
           dest: 'some-file',
           indent: MAX_INDENT + 1,
-        }, writerOptionsSchema)
+        }, writeOptionsSchema)
       );
     });
   });
