@@ -79,7 +79,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - writer - ', () => {
       await fsPromised.stat(dest);
       statErr = new Error('Error expected when checking file = ' + dest);
     } catch (err) {
-      logger.info('Error is EXPECTED: ' + err.stack);
+      logger.debug('Error is EXPECTED: ' + err.stack);
       expect(err).toBeDefined();
       expect(err.code).toBe('ENOENT');
     }
@@ -178,7 +178,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - writer - ', () => {
       const errorThrowingStream = new stream.Writable();
       // eslint-disable-next-line no-underscore-dangle, func-names
       errorThrowingStream._write = function (chunk, encoding, done) {
-        logger.info('stream emitting Error now');
+        logger.debug('stream emitting Error now');
         this.emit('error', new Error('Dummy Error'));
         done();
       };
@@ -247,7 +247,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - writer - ', () => {
           done(new Error('Error expected, but got success message: ' + msg));
         })
         .catch((err) => {
-          logger.info('EXPECTED ERROR: ' + (err.stack ? err.stack : err));
+          logger.debug('EXPECTED ERROR: ' + (err.stack ? err.stack : err));
           expect(err).toBeDefined();
           // NOTE: here wo do not get an Error type but simply an Object:
           // {
@@ -437,9 +437,9 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - writer - ', () => {
       await asyncFunctions.reduce((p, fn, idx) => {
         return p.then((msg) => {
           if (msg) {
-            logger.info('testing overwrite #' + (idx + 1) + '/' + asyncFunctions.length + ': ' + msg);
+            logger.debug('testing overwrite #' + (idx + 1) + '/' + asyncFunctions.length + ': ' + msg);
           } else {
-            logger.info('testing overwrite #' + (idx) + '/' + asyncFunctions.length + ': started!');
+            logger.debug('testing overwrite #' + (idx) + '/' + asyncFunctions.length + ': started!');
           }
           return fn().then(result => result).catch(err => err.message);
         });

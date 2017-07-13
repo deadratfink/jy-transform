@@ -40,7 +40,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
   beforeEach(() => {
     try {
       fsExtra.copySync(SRC_YAML, TRANSFORMER_TEST_BASE_DIR + '/test-data.yaml');
-      logger.info('copied ' + SRC_YAML + ' to ' + TRANSFORMER_TEST_BASE_DIR);
+      logger.debug('copied ' + SRC_YAML + ' to ' + TRANSFORMER_TEST_BASE_DIR);
     } catch (err) {
       logger.error('could not copy ' + SRC_YAML + ' to ' + TRANSFORMER_TEST_BASE_DIR + err.stack);
       throw err;
@@ -65,7 +65,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
   function assertTransformSuccess(options) {
     return transform(options)
       .then((msg) => {
-        logger.info(msg);
+        logger.debug(msg);
         const stats = fsExtra.statSync(options.dest);
         expect(stats.isFile()).toBeTruthy();
         // eslint-disable-next-line import/no-dynamic-require, global-require
@@ -82,7 +82,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
   async function assertYamlTransformSuccess(options) {
     expect.assertions(3);
     const msg = await transform(options);
-    logger.info(msg);
+    logger.debug(msg);
     expect(msg).toEqual(expect.any(String));
     const stats = fsExtra.statSync(options.dest);
     expect(stats.isFile()).toBeTruthy();
@@ -151,7 +151,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
         transform: transformFunc,
         dest: path.resolve(TRANSFORMER_TEST_BASE_DIR + '/test-data.js'),
       });
-      logger.info(msg);
+      logger.debug(msg);
       const stats = fs.statSync(DEST);
       expect(stats.isFile()).toBeTruthy();
       // eslint-disable-next-line import/no-unresolved, global-require, import/no-dynamic-require
@@ -235,7 +235,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
 
       transform(options)
         .then((msg) => {
-          logger.info(msg);
+          logger.debug(msg);
           const stats = fsExtra.statSync(options.dest);
           expect(stats.isFile()).toBeTruthy();
 
@@ -273,7 +273,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
 
       transform(options)
         .then((msg) => {
-          logger.info(msg);
+          logger.debug(msg);
           const stats = fsExtra.statSync(options.dest);
           expect(stats.isFile()).toBeTruthy();
 
