@@ -33,7 +33,6 @@
     "node": ">=5.0.0"
   },
   "dependencies": {
-    "babel-cli": "~6.24.1",
     "cli": " ~1.0.1",
     "is-stream": " ~1.1.0",
     "joi": "~10.6.0",
@@ -44,6 +43,7 @@
     "serialize-js": " ~1.1.0"
   },
   "devDependencies": {
+    "babel-cli": "~6.24.1",
     "babel-eslint": " ~7.2.3",
     "babel-plugin-transform-flow-strip-types": "~6.22.0",
     "babel-preset-env": "~1.6.0",

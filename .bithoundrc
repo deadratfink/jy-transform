@@ -6,7 +6,6 @@
   },
   "dependencies": {
     "unused-ignores": [
-      "babel-cli",
       "eslint"
     ]
   }
