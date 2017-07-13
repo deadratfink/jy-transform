@@ -1,11 +1,12 @@
 {
   "critics": {
-   "lint": {"engine": "eslint"}
+   "lint": {
+    "engine": "eslint"
+   }
   },
   "dependencies": {
     "unused-ignores": [
-      "grunt-*",
-      "bower",
+      "babel-cli",
       "eslint"
     ]
   }
