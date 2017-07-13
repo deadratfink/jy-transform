@@ -18,7 +18,6 @@ npm test
 
 ## Dependencies
 
-- [babel-cli](https://github.com/babel/babel/tree/master/packages): Babel command line.
 - [cli](https://github.com/node-js-libs/cli): A tool for rapidly building command line apps
 - [is-stream](https://github.com/sindresorhus/is-stream): Check if something is a Node.js stream
 - [joi](https://github.com/hapijs/joi): Object schema validation
@@ -30,6 +29,7 @@ npm test
 
 ## Dev Dependencies
 
+- [babel-cli](https://github.com/babel/babel/tree/master/packages): Babel command line.
 - [babel-eslint](https://github.com/babel/babel-eslint): Custom parser for ESLint
 - [babel-plugin-transform-flow-strip-types](https://github.com/babel/babel/tree/master/packages): Strip flow type annotations from your output code.
 - [babel-preset-env](https://github.com/babel/babel-preset-env): A Babel preset for each environment.
@@ -54,7 +54,6 @@ npm test
 - [nsp](https://github.com/nodesecurity/nsp): The Node Security (nodesecurity.io) command line interface
 - [package-json-to-readme](https://github.com/zeke/package-json-to-readme): Generate a README.md from package.json contents
 - [winston](https://github.com/winstonjs/winston): A multi-transport async logging library for Node.js
-- [winston-console-formatter](https://github.com/eugeny-dementev/winston-console-formatter): Pretty print console formatter in yaml like style
 
 
 ## License
