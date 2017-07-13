@@ -84,7 +84,7 @@ async function serializeJsToJsonString(object, indent) {
  * name which does not exist.
  *
  * @param {string} dest - The destination file.
- * @returns {string}    - A consecutive file name or the original one if `dest` file does not exist.
+ * @returns {string} A consecutive file name or the original one if `dest` file does not exist.
  * @private
  */
 function getConsecutiveDestName(dest) {
@@ -102,21 +102,18 @@ function getConsecutiveDestName(dest) {
 /**
  * Ensures that all dirs exists for file type `dest` and writes the JS object to file.
  *
- * @param {string} object            - The object to write into file.
- * @param {string} dest              - The file destination path.
- * @param {string} target            - The target type, one of [ 'yaml' | 'json' | 'js' ].
- * @param {boolean} [forceOverwrite] - Forces overwriting the destination file if `true`.
+ * @param {string} object                  - The object to write into file.
+ * @param {string} dest                    - The file destination path.
+ * @param {string} target                  - The target type, one of [ 'yaml' | 'json' | 'js' ].
+ * @param {boolean} [forceOverwrite=false] - Forces overwriting the destination file if `true`.
  * @private
  */
-async function mkdirAndWrite(object, dest, target, forceOverwrite) {
+async function mkdirAndWrite(object, dest, target, forceOverwrite = false) {
   const destDir = path.dirname(dest);
-  // logger.debug('Destination dir: ' + destDir); TODO remove
   await mkdirp(destDir);
-  // logger.debug('Destination dir ' + destDir + ' successfully written'); TODO remove
   let finalDestination = dest;
-  if (forceOverwrite === undefined || forceOverwrite === false) {
+  if (!forceOverwrite) {
     finalDestination = getConsecutiveDestName(dest);
-    // logger.debug('Setting was: do not overwrite, using destination ' + finalDestination + '.'); TODO remove
   }
   await fsPromisified.writeFile(finalDestination, object, UTF8);
   return 'Writing \'' + target + '\' file \'' + finalDestination + '\' successful.';

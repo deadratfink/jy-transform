@@ -1082,12 +1082,12 @@ Ensures that all dirs exists for file type `dest` and writes the JS object to fi
 **Kind**: global variable  
 **Access**: private  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| object | <code>string</code> | The object to write into file. |
-| dest | <code>string</code> | The file destination path. |
-| target | <code>string</code> | The target type, one of [ 'yaml' | 'json' | 'js' ]. |
-| [forceOverwrite] | <code>boolean</code> | Forces overwriting the destination file if `true`. |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| object | <code>string</code> |  | The object to write into file. |
+| dest | <code>string</code> |  | The file destination path. |
+| target | <code>string</code> |  | The target type, one of [ 'yaml' | 'json' | 'js' ]. |
+| [forceOverwrite] | <code>boolean</code> | <code>false</code> | Forces overwriting the destination file if `true`. |
 
 <a name="writeYaml"></a>
 
