@@ -1,12 +1,13 @@
 {
   "files": {
     "included": [
-      "src/**/*.js",
+      "lib/**/*.js",
       "test/test*.js",
       "index.js",
       "jyt"
     ],
     "excluded": [
+      "lib/**/*"
     ]
   }
 }

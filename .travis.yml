@@ -18,6 +18,7 @@ after_success:
 - ./node_modules/codecov/bin/codecov -e TRAVIS_NODE_VERSION
 - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js --verbose
 - ./node_modules/codeclimate-test-reporter/bin/codeclimate.js < ./coverage/lcov.info
+- ./node_modules/.bin/codacy-coverage < ./coverage/lcov.info
 
 branches:
   only: # whitelist

@@ -22,6 +22,10 @@ test: build ## Runs the test suite, ESLint and a [Node Security Plattform](https
 	npm run eslint
 	npm run nsp
 
+inch: build ## Runs [inch](https://github.com/rrrene/inchjs) for api-docs check. **NOTE: due to some bug in inch it does not work at the moment!**
+	@printf "Running inch to check api-docs status...\n"
+	npm run inch
+
 nsp: ## Runs an [Node Security Plattform](https://nodesecurity.io/opensource) check.
 	@printf "Running NSP check...\n"
 	npm run nsp

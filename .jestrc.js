@@ -20,7 +20,7 @@ module.exports = {
   },
   mapCoverage: true,
   testMatch: [
-   // '!**/test/unit/test-cli.js',
+    // '**/test/unit/test-cli.js',
     // '**/test/unit/validation/test-joi-extensions-file-helper.js',
     // '**/test/unit/validation/test-joi-extensions-identifier-helper.js',
     //'**/test/unit/test-transformer.js',

@@ -30,6 +30,7 @@ const execJyt = async (args) => {
     console.log(`stdout: ${JSON.stringify(result, null, 4)}`);
     console.log(`stdout: ${result.stdout}`);
     console.log(`stderr: ${result.stderr}`);
+    return result;
   } catch (err) {
     console.log(`stdout: ${err.stdout}`);
     console.log(`stderr: ${err.stderr}`);
@@ -80,6 +81,43 @@ const execJyt = async (args) => {
 
 //exec('./jyt inch.json inch.yml -i 1')
 
+const CLI_OPTIONS_LONGTO_SHORT_MAP = {
+  origin: '-o',
+  target: '-t',
+  indent: '-i',
+  force: '-f ',
+  imports: '-m ',
+  exports: '-x '
+};
+
+function optionsToArgs(options) {
+  const args = [];
+  args.push(options.src);
+  if (options.dest) {
+    args.push(options.dest)
+  }
+  if (options.origin) {
+    args.push(options.origin)
+  }
+}
+
+/**
+ * Helper method which asserts the successful transformation.
+ *
+ * @param {Object} options      - The transformation options.
+ */
+function assertTransformSuccess(options) {
+  return transform(options)
+    .then((msg) => {
+      logger.debug(msg);
+      const stats = fsExtra.statSync(options.dest);
+      expect(stats.isFile()).toBeTruthy();
+      // eslint-disable-next-line import/no-dynamic-require, global-require
+      const json = require(path.resolve(options.dest));
+      expect(json.foo).toBe(EXPECTED_VALUE);
+    });
+}
+
 describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
   const TEST_DATA_DIR = './test/data';
   const SRC_YAML = TEST_DATA_DIR + '/test-file.yaml';
@@ -100,5 +138,6 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
 
   it('cli', async () => {
     await execJyt(['./inch.json', CLI_TEST_BASE_DIR + '/inch.yaml', '-i 2', '-t yaml']);
+
   });
 });
