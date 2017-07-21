@@ -159,7 +159,7 @@ exception on those.</p>
 <dd><p>Writes a JS object to a JS destination. The object is prefixed by <code>module.exports[.${options.exports}] =</code>.</p>
 </dd>
 <dt><a href="#write">write</a> ⇒ <code>Promise</code></dt>
-<dd><p>Writes the passe JS object to a particular destination described by the passed <code>options</code>.</p>
+<dd><p>Writes the passed JS object to a particular destination described by the passed <code>options</code>.</p>
 </dd>
 </dl>
 
@@ -697,28 +697,60 @@ The module options schema used in [module:options-validator](module:options-vali
 **See**: [module:options-validator](module:options-validator)  
 
 * [jy-transform:validation:options-schema](#module_jy-transform_validation_options-schema) : <code>Object</code> ℗
-    * [~readOptionsSchema](#module_jy-transform_validation_options-schema..readOptionsSchema) : <code>JoiSchema</code> ℗
-    * [~writeOptionsSchema](#module_jy-transform_validation_options-schema..writeOptionsSchema) : <code>JoiSchema</code> ℗
-    * [~transformOptionsSchema](#module_jy-transform_validation_options-schema..transformOptionsSchema) : <code>JoiSchema</code> ℗
+    * [~forceSchema](#module_jy-transform_validation_options-schema..forceSchema) : [<code>Schema</code>](#external_joi.Schema) ℗
+    * [~indentSchema](#module_jy-transform_validation_options-schema..indentSchema) : [<code>Schema</code>](#external_joi.Schema) ℗
+    * [~exportsSchema](#module_jy-transform_validation_options-schema..exportsSchema) : [<code>Schema</code>](#external_joi.Schema) ℗
+    * [~targetSchema](#module_jy-transform_validation_options-schema..targetSchema) : [<code>Schema</code>](#external_joi.Schema) ℗
+    * [~readOptionsSchema](#module_jy-transform_validation_options-schema..readOptionsSchema) : [<code>Schema</code>](#external_joi.Schema) ℗
+    * [~writeOptionsSchema](#module_jy-transform_validation_options-schema..writeOptionsSchema) : [<code>Schema</code>](#external_joi.Schema) ℗
+    * [~transformOptionsSchema](#module_jy-transform_validation_options-schema..transformOptionsSchema) : [<code>Schema</code>](#external_joi.Schema) ℗
 
+<a name="module_jy-transform_validation_options-schema..forceSchema"></a>
+
+### jy-transform:validation:options-schema~forceSchema : [<code>Schema</code>](#external_joi.Schema) ℗
+The `force` options schema.
+
+**Kind**: inner constant of [<code>jy-transform:validation:options-schema</code>](#module_jy-transform_validation_options-schema)  
+**Access**: private  
+<a name="module_jy-transform_validation_options-schema..indentSchema"></a>
+
+### jy-transform:validation:options-schema~indentSchema : [<code>Schema</code>](#external_joi.Schema) ℗
+The `indent` options schema.
+
+**Kind**: inner constant of [<code>jy-transform:validation:options-schema</code>](#module_jy-transform_validation_options-schema)  
+**Access**: private  
+<a name="module_jy-transform_validation_options-schema..exportsSchema"></a>
+
+### jy-transform:validation:options-schema~exportsSchema : [<code>Schema</code>](#external_joi.Schema) ℗
+The `exports` options schema.
+
+**Kind**: inner constant of [<code>jy-transform:validation:options-schema</code>](#module_jy-transform_validation_options-schema)  
+**Access**: private  
+<a name="module_jy-transform_validation_options-schema..targetSchema"></a>
+
+### jy-transform:validation:options-schema~targetSchema : [<code>Schema</code>](#external_joi.Schema) ℗
+The `target` options schema.
+
+**Kind**: inner constant of [<code>jy-transform:validation:options-schema</code>](#module_jy-transform_validation_options-schema)  
+**Access**: private  
 <a name="module_jy-transform_validation_options-schema..readOptionsSchema"></a>
 
-### jy-transform:validation:options-schema~readOptionsSchema : <code>JoiSchema</code> ℗
-The prepared [external:joi.JoiSchema](external:joi.JoiSchema) for validating the [ReadOptions](#ReadOptions).
+### jy-transform:validation:options-schema~readOptionsSchema : [<code>Schema</code>](#external_joi.Schema) ℗
+The prepared [Schema](#external_joi.Schema) for validating the [ReadOptions](#ReadOptions).
 
 **Kind**: inner constant of [<code>jy-transform:validation:options-schema</code>](#module_jy-transform_validation_options-schema)  
 **Access**: private  
 <a name="module_jy-transform_validation_options-schema..writeOptionsSchema"></a>
 
-### jy-transform:validation:options-schema~writeOptionsSchema : <code>JoiSchema</code> ℗
-The prepared [external:joi.JoiSchema](external:joi.JoiSchema) for validating the [WriteOptions](#WriteOptions).
+### jy-transform:validation:options-schema~writeOptionsSchema : [<code>Schema</code>](#external_joi.Schema) ℗
+The prepared [Schema](#external_joi.Schema) for validating the [WriteOptions](#WriteOptions).
 
 **Kind**: inner constant of [<code>jy-transform:validation:options-schema</code>](#module_jy-transform_validation_options-schema)  
 **Access**: private  
 <a name="module_jy-transform_validation_options-schema..transformOptionsSchema"></a>
 
-### jy-transform:validation:options-schema~transformOptionsSchema : <code>JoiSchema</code> ℗
-The prepared [external:joi.JoiSchema](external:joi.JoiSchema) for validating the [TransformOptions](#TransformOptions).
+### jy-transform:validation:options-schema~transformOptionsSchema : [<code>Schema</code>](#external_joi.Schema) ℗
+The prepared [Schema](#external_joi.Schema) for validating the [TransformOptions](#TransformOptions).
 
 **Kind**: inner constant of [<code>jy-transform:validation:options-schema</code>](#module_jy-transform_validation_options-schema)  
 **Access**: private  
@@ -878,6 +910,34 @@ This function formats the log string by given options to log.
 This unit test suite checks the correct transformation behaviour of the CLI interface.
 
 **Access**: private  
+
+* [jy-transform:unit-test:test-cli](#module_jy-transform_unit-test_test-cli) ℗
+    * [~optionsToArgs(options)](#module_jy-transform_unit-test_test-cli..optionsToArgs) ⇒ <code>Array.&lt;string&gt;</code>
+    * [~assertTransformSuccess(options)](#module_jy-transform_unit-test_test-cli..assertTransformSuccess)
+
+<a name="module_jy-transform_unit-test_test-cli..optionsToArgs"></a>
+
+### jy-transform:unit-test:test-cli~optionsToArgs(options) ⇒ <code>Array.&lt;string&gt;</code>
+Creates the CLI args/options from given `options` object.
+
+**Kind**: inner method of [<code>jy-transform:unit-test:test-cli</code>](#module_jy-transform_unit-test_test-cli)  
+**Returns**: <code>Array.&lt;string&gt;</code> - The CLI args and options.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | [<code>TransformOptions</code>](#TransformOptions) | The transformation options. |
+
+<a name="module_jy-transform_unit-test_test-cli..assertTransformSuccess"></a>
+
+### jy-transform:unit-test:test-cli~assertTransformSuccess(options)
+Helper method which asserts the successful transformation.
+
+**Kind**: inner method of [<code>jy-transform:unit-test:test-cli</code>](#module_jy-transform_unit-test_test-cli)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | [<code>TransformOptions</code>](#TransformOptions) | The transformation options. |
+
 <a name="module_jy-transform_test-unit_index"></a>
 
 ## jy-transform:test-unit:index ℗
@@ -1156,7 +1216,7 @@ Writes a JS object to a JS destination. The object is prefixed by `module.export
 <a name="write"></a>
 
 ## write ⇒ <code>Promise</code>
-Writes the passe JS object to a particular destination described by the passed `options`.
+Writes the passed JS object to a particular destination described by the passed `options`.
 
 **Kind**: global variable  
 **Returns**: <code>Promise</code> - The result.  

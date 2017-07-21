@@ -29,8 +29,24 @@ export const TEST_SUITE_DESCRIPTION_FUNCTIONAL = chalk.inverse(
   'The ' + chalk.bold(Package.name) + chalk.blue(' FUNCTIONAL ') + 'Test Suite'
 );
 
+/**
+ * The basic test data directory path.
+ * @type {string}
+ * @private
+ */
+export const TEST_DATA_DIR = './test/data';
+
+/**
+ * An expected value from source files.
+ * @type {string}
+ * @constant
+ * @private
+ */
+export const EXPECTED_VALUE = 'bar';
 
 export default {
   TEST_SUITE_DESCRIPTION_UNIT,
   TEST_SUITE_DESCRIPTION_FUNCTIONAL,
+  TEST_DATA_DIR,
+  EXPECTED_VALUE,
 };

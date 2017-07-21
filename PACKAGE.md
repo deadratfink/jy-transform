@@ -35,6 +35,7 @@ npm test
 - [babel-plugin-transform-runtime](https://github.com/babel/babel/tree/master/packages): Externalise references to helpers and builtins, automatically polyfilling your code without polluting globals
 - [babel-preset-env](https://github.com/babel/babel-preset-env): A Babel preset for each environment.
 - [chalk](https://github.com/chalk/chalk): Terminal string styling done right. Much color
+- [codacy-coverage](https://github.com/codacy/node-codacy-coverage): Code Coverage reporter for Codacy.com
 - [codeclimate-test-reporter](https://github.com/codeclimate/javascript-test-reporter): Code Climate test reporter client for javascript projects
 - [codecov](https://github.com/codecov/codecov-node): Uploading report to Codecov: https://codecov.io
 - [coveralls](https://github.com/nickmerwin/node-coveralls): takes json-cov output into stdin and POSTs to coveralls.io
@@ -48,6 +49,7 @@ npm test
 - [eslint-plugin-jest-async](https://github.com/deadratfink/jy-transform.git): ESLint plugin to detect improper Jest test assertions for asynchronous (Promise-based) actions
 - [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc): JSDoc linting rules for ESLint.
 - [fs-extra](https://github.com/jprichardson/node-fs-extra): fs-extra contains methods that aren&#39;t included in the vanilla Node.js fs package. Such as mkdir -p, cp -r, and rm -rf.
+- [inchjs](https://github.com/rrrene/inchjs): JS Wrapper for Inch for JavaScript
 - [jest](https://github.com/facebook/jest): Delightful JavaScript Testing.
 - [jsdoc-babel](https://github.com/ctumolosus/jsdoc-babel): A JSDoc plugin that transforms ES6 source files with Babel before they are processsed.
 - [jsdoc-parse](https://github.com/jsdoc2md/jsdoc-parse): Transforms jsdoc data into something more suitable for use as template input

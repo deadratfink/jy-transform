@@ -29,7 +29,7 @@
 <dd><p>Reads a particular content type from a source provided in the passed <code>options</code>.</p>
 </dd>
 <dt><a href="#write">write</a> ⇒ <code>Promise</code></dt>
-<dd><p>Writes the passe JS object to a particular destination described by the passed <code>options</code>.</p>
+<dd><p>Writes the passed JS object to a particular destination described by the passed <code>options</code>.</p>
 </dd>
 </dl>
 
@@ -125,7 +125,7 @@ read(options)
 <a name="write"></a>
 
 ## write ⇒ <code>Promise</code>
-Writes the passe JS object to a particular destination described by the passed `options`.
+Writes the passed JS object to a particular destination described by the passed `options`.
 
 **Kind**: global variable  
 **Returns**: <code>Promise</code> - The result.  

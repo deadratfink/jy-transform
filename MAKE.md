@@ -5,6 +5,7 @@ Target Call | Description | Dependencies
 `$ make clean` | Removes generated files in folders ./node_modules, ./lib and ./coverage" |
 `$ make eslint` | Runs ESLint. |
 `$ make help` | Prints the help about targets. |
+`$ make inch` | Runs [inch](https://github.com/rrrene/inchjs) for api-docs check. **NOTE | `build`
 `$ make install` | Installs all modules |
 `$ make nsp` | Runs an [Node Security Plattform](https://nodesecurity.io/opensource) check. |
 `$ make publish` | Publishes module to NPM registry. | `test readme`

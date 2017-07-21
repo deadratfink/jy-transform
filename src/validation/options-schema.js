@@ -25,8 +25,78 @@ import {
  */
 
 /**
- * The prepared {@link external:joi.JoiSchema} for validating the {@link ReadOptions}.
- * @type {JoiSchema}
+ * The `force` options schema.
+ * @type {external:joi.Schema}
+ * @private
+ */
+const forceSchema = Joi
+  .boolean()
+  .default(DEFAULT_FORCE_FILE_OVERWRITE)
+  .description('Force overwriting of existing output files on write phase.');
+
+/**
+ * The `indent` options schema.
+ * @type {external:joi.Schema}
+ * @private
+ */
+const indentSchema = Joi
+  .when('target', {
+    is: TYPE_YAML,
+    then: Joi
+      .number()
+      .integer()
+      .min(MIN_YAML_INDENT) // Must be 2 for YAML type!
+      .max(MAX_INDENT)
+      .default(DEFAULT_INDENT),
+    otherwise: Joi
+      .number()
+      .integer()
+      .min(MIN_INDENT)
+      .max(MAX_INDENT)
+      .default(DEFAULT_INDENT),
+  })
+  .description('The indention value for pretty-print of output.');
+
+/**
+ * The `exports` options schema.
+ * @type {external:joi.Schema}
+ * @private
+ */
+const exportsSchema = Joi
+  .string()
+  .validEs6Identifier()
+  .description('The name of property to export while writing a JS object to a JS output destination.');
+
+/**
+ * The `target` options schema.
+ * @type {external:joi.Schema}
+ * @private
+ */
+const targetSchema = Joi
+  .when('dest', {
+    is: Joi.object().type(Stream.Writable),
+    then: Joi
+      .string()
+      .valid(TYPE_YAML, TYPE_JSON, TYPE_JS)
+      .default(inferTargetDefault, 'try target default resolution from dest type if not set (Stream.Writable)'),
+    otherwise: Joi
+      .when('dest', {
+        is: Joi.string(),
+        then: Joi
+          .string()
+          .valid(TYPE_YAML, TYPE_JSON, TYPE_JS)
+          .default(inferTargetDefault, 'try target resolution from dest type if latter not set (String)'),
+        otherwise: Joi // check
+          .string()
+          .valid(TYPE_YAML, TYPE_JSON, TYPE_JS)
+          .default(TYPE_JS),
+      }),
+  })
+  .description('The target type of output.');
+
+/**
+ * The prepared {@link external:joi.Schema} for validating the {@link ReadOptions}.
+ * @type {external:joi.Schema}
  * @constant
  * @private
  */
@@ -72,8 +142,8 @@ export const readOptionsSchema = Joi.object().keys({
   .unknown();
 
 /**
- * The prepared {@link external:joi.JoiSchema} for validating the {@link WriteOptions}.
- * @type {JoiSchema}
+ * The prepared {@link external:joi.Schema} for validating the {@link WriteOptions}.
+ * @type {external:joi.Schema}
  * @constant
  * @private
  */
@@ -88,59 +158,17 @@ export const writeOptionsSchema = Joi.object().keys({
     )
     .required()
     .description('The output destination (if string type is treated as a file path).'),
-  target: Joi
-    .when('dest', {
-      is: Joi.object().type(Stream.Writable),
-      then: Joi
-        .string()
-        .valid(TYPE_YAML, TYPE_JSON, TYPE_JS)
-        .default(inferTargetDefault, 'try target resolution from dest type if not set (Stream.Writable)'),
-      otherwise: Joi
-        .when('dest', {
-          is: Joi.string(),
-          then: Joi
-            .string()
-            .valid(TYPE_YAML, TYPE_JSON, TYPE_JS)
-            .default(inferTargetDefault, 'try target resolution from dest type if latter not set (String)'),
-          otherwise: Joi // check
-            .string()
-            .valid(TYPE_YAML, TYPE_JSON, TYPE_JS)
-            .default(TYPE_JS),
-        }),
-    })
-    .description('The target type of output.'),
-  exports: Joi
-    .string()
-    .validEs6Identifier()
-    .description('The name of property to export while writing a JS object to a JS output destination.'),
-  indent: Joi
-    .when('target', {
-      is: TYPE_YAML,
-      then: Joi
-        .number()
-        .integer()
-        .min(MIN_YAML_INDENT) // Must be 2 for YAML type!
-        .max(MAX_INDENT)
-        .default(DEFAULT_INDENT),
-      otherwise: Joi
-        .number()
-        .integer()
-        .min(MIN_INDENT)
-        .max(MAX_INDENT)
-        .default(DEFAULT_INDENT),
-    })
-    .description('The indention value for pretty-print of output.'),
-  force: Joi
-    .boolean()
-    .default(DEFAULT_FORCE_FILE_OVERWRITE)
-    .description('Force overwriting of existing output files on write phase.'),
+  target: targetSchema,
+  exports: exportsSchema,
+  indent: indentSchema,
+  force: forceSchema,
 }).default()
   .required()
   .unknown();
 
 /**
- * The prepared {@link external:joi.JoiSchema} for validating the {@link TransformOptions}.
- * @type {JoiSchema}
+ * The prepared {@link external:joi.Schema} for validating the {@link TransformOptions}.
+ * @type {external:joi.Schema}
  * @constant
  * @private
  */
@@ -158,55 +186,12 @@ export const transformOptionsSchema = readOptionsSchema.concat(Joi.object().keys
       Joi.object().type(Stream.Writable),
       Joi.object().type(Object),
     )
-    .default(inferDestDefaultFromSrc, 'try dest resolution from src if not set') // TODO message!?
+    .default(inferDestDefaultFromSrc, 'try dest resolution from src if not set')
     .description('The output destination (if string type is treated as a file path).'),
-  target: Joi
-    .when('dest', {
-      is: Joi.object().type(Stream.Writable),
-      then: Joi
-        .string()
-        .valid(TYPE_YAML, TYPE_JSON, TYPE_JS)
-        .default(inferTargetDefault,
-          'tried target default inferred from dest type if not set (Stream.Writable)'),
-      otherwise: Joi
-        .when('dest', {
-          is: Joi.string(),
-          then: Joi
-            .string()
-            .valid(TYPE_YAML, TYPE_JSON, TYPE_JS)
-            .default(inferTargetDefault, 'try target resolution from dest type if latter not set (String)'),
-          otherwise: Joi // check
-            .string()
-            .valid(TYPE_YAML, TYPE_JSON, TYPE_JS)
-            .default(TYPE_JS),
-        }),
-    })
-    .description('The target type of output.'),
-  exports: Joi
-    .string()
-    .validEs6Identifier()
-    .description('The name of property to export while writing a JS object to a JS output destination.'),
-  indent: Joi
-    .when('target', {
-      is: TYPE_YAML,
-      then: Joi
-        .number()
-        .integer()
-        .min(MIN_YAML_INDENT) // Must be 2 for YAML type!
-        .max(MAX_INDENT)
-        .default(DEFAULT_INDENT),
-      otherwise: Joi
-        .number()
-        .integer()
-        .min(MIN_INDENT)
-        .max(MAX_INDENT)
-        .default(DEFAULT_INDENT),
-    })
-    .description('The indention value for pretty-print of output.'),
-  force: Joi
-    .boolean()
-    .default(DEFAULT_FORCE_FILE_OVERWRITE)
-    .description('Force overwriting of existing output files on write phase.'),
+  target: targetSchema,
+  exports: exportsSchema,
+  indent: indentSchema,
+  force: forceSchema,
 }).default()
   .required()
 );

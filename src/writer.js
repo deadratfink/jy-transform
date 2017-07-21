@@ -261,7 +261,7 @@ async function writeJs(object, options) {
 }
 
 /**
- * Writes the passe JS object to a particular destination described by the passed `options`.
+ * Writes the passed JS object to a particular destination described by the passed `options`.
  *
  * @param {Object} object        - The JS source object to write.
  * @param {WriteOptions} options - The write options.

@@ -103,38 +103,38 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
       const validatedOptions = await Joi.validate(options, readOptionsSchema);
       expect(validatedOptions.origin).toBe(TYPE_JS);
     });
-  });
 
-  describe('Testing options.src schema validation', () => {
-    it('should reject when options.src is an existing directory path string', () =>
-      expectOptionsValidationError({
-        src: './test',
-        dest: 'some-file',
-      }, readOptionsSchema)
-    );
+    describe('Testing options.src schema validation', () => {
+      it('should reject when options.src is an existing directory path string', () =>
+        expectOptionsValidationError({
+          src: './test',
+          dest: 'some-file',
+        }, readOptionsSchema)
+      );
 
-    it('should reject when options.src is undefined', () =>
-      expectOptionsValidationError({ dest: 'some-file' }, readOptionsSchema)
-    );
+      it('should reject when options.src is undefined', () =>
+        expectOptionsValidationError({ dest: 'some-file' }, readOptionsSchema)
+      );
 
-    it('should reject when options.src is null', () =>
-      expectOptionsValidationError({
-        src: null,
-        dest: 'some-file',
-      }, readOptionsSchema)
-    );
+      it('should reject when options.src is null', () =>
+        expectOptionsValidationError({
+          src: null,
+          dest: 'some-file',
+        }, readOptionsSchema)
+      );
 
-    it('should resolve to default origin ' + DEFAULT_ORIGIN + ' when options.src is Stream.Readable and ' +
-      'options.origin is not set', async () => {
-      expect.assertions(2);
-      const options = {
-        src: new Stream.Readable(),
-        dest: new Stream.Writable(),
-        target: TYPE_YAML,
-      };
-      const validatedOptions = await Joi.validate(options, readOptionsSchema);
-      expect(validatedOptions.origin).toBe(DEFAULT_ORIGIN);
-      expect(validatedOptions.target).toBe(TYPE_YAML);
+      it('should resolve to default origin ' + DEFAULT_ORIGIN + ' when options.src is Stream.Readable and ' +
+        'options.origin is not set', async () => {
+        expect.assertions(2);
+        const options = {
+          src: new Stream.Readable(),
+          dest: new Stream.Writable(),
+          target: TYPE_YAML,
+        };
+        const validatedOptions = await Joi.validate(options, readOptionsSchema);
+        expect(validatedOptions.origin).toBe(DEFAULT_ORIGIN);
+        expect(validatedOptions.target).toBe(TYPE_YAML);
+      });
     });
 
     describe('Testing options.origin schema validation', () => {

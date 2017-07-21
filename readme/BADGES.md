@@ -14,6 +14,8 @@
 [![bitHound Dependencies][bitHound-dependencies-image]][bitHound-dependencies]
 [![bitHound Dev Dependencies][bitHound-dev-dependencies-image]][bitHound-dependencies]
 [![NSP Status][nsp-image-master]][nsp-url-master]
+[![Codacy Badge](https://img.shields.io/codacy/grade/c2ebaac0f9874062ba468ff6bd7edc4e.svg?style=flat-square)](https://www.codacy.com/app/deadratfink/jy-transform?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=deadratfink/jy-transform&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://img.shields.io/codacy/coverage/c2ebaac0f9874062ba468ff6bd7edc4e.svg?style=flat-square)](https://www.codacy.com/app/deadratfink/jy-transform?utm_source=github.com&utm_medium=referral&utm_content=deadratfink/jy-transform&utm_campaign=Badge_Coverage)
 <!-- [![bitHound Overall Score][bitHound-score-image]][bithound-url]
 [![bitHound Overall Score](https://www.bithound.io/github/deadratfink/jy-transform/badges/score.svg?style=flat-square)](https://www.bithound.io/github/deadratfink/jy-transform) -->
 <!-- [![Dependency Status][dep-image-master]][dep-url-master]
