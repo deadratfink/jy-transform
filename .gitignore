@@ -4,6 +4,7 @@
 /VERSION.txt
 node_modules
 test/functional/tmp
+test/tmp
 /.project
 /.settings/*
 npm-debug.log

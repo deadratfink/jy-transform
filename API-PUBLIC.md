@@ -3,11 +3,8 @@
 ## TOC
 
 - [Modules](#modules)
-- [Members](#members)
 - [Typedefs](#typedefs)
 - [jy-transform:constants](#jy-transformconstants)
-- [read ⇒ <code>Promise</code>](#read-%E2%87%92-codepromisecode)
-- [write ⇒ <code>Promise</code>](#write-%E2%87%92-codepromisecode)
 - [ReadOptions : <code>object</code>](#readoptions--codeobjectcode)
 - [WriteOptions : <code>object</code>](#writeoptions--codeobjectcode)
 - [TransformOptions : <code>object</code>](#transformoptions--codeobjectcode)
@@ -19,17 +16,6 @@
 <dl>
 <dt><a href="#module_jy-transform_constants">jy-transform:constants</a></dt>
 <dd><p>Useful constants used for the module and its usage.</p>
-</dd>
-</dl>
-
-## Members
-
-<dl>
-<dt><a href="#read">read</a> ⇒ <code>Promise</code></dt>
-<dd><p>Reads a particular content type from a source provided in the passed <code>options</code>.</p>
-</dd>
-<dt><a href="#write">write</a> ⇒ <code>Promise</code></dt>
-<dd><p>Writes the passed JS object to a particular destination described by the passed <code>options</code>.</p>
 </dd>
 </dl>
 
@@ -80,106 +66,6 @@ The `'js'` type constant.
 
 **Kind**: inner constant of [<code>jy-transform:constants</code>](#module_jy-transform_constants)  
 **Access**: public  
-<a name="read"></a>
-
-## read ⇒ <code>Promise</code>
-Reads a particular content type from a source provided in the passed `options`.
-
-**Kind**: global variable  
-**Returns**: <code>Promise</code> - The result.  
-**Access**: public  
-**Resolve**: <code>string</code> Resolves with JS object result.  
-**Reject**: <code>ValidationError</code> If any `options` validation occurs.  
-**Reject**: <code>Error</code> If any write error occurs.  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| options | [<code>ReadOptions</code>](#ReadOptions) | The read options. |
-
-**Example**  
-```js
-import { read } from 'jy-transform';
-
-
-// --- from file path
-
-options = {
-  src: 'foo.yml'
-};
-
-read(options)
-  .then(obj => console.log(JSON.stringify(obj)))
-  .catch(console.error);
-
-
-// --- from Readable
-
-options = {
-  src: fs.createReadStream('foo.yml')
-};
-
-read(options)
-  .then(obj => console.log(JSON.stringify(obj)))
-  .catch(console.error);
-```
-<a name="write"></a>
-
-## write ⇒ <code>Promise</code>
-Writes the passed JS object to a particular destination described by the passed `options`.
-
-**Kind**: global variable  
-**Returns**: <code>Promise</code> - The result.  
-**Access**: public  
-**Resolve**: <code>string</code> With the write success message.  
-**Reject**: <code>Error</code> If any write error occurs.  
-**Reject**: <code>ValidationError</code> If any `options` validation occurs.  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| object | <code>Object</code> | The JS source object to write. |
-| options | [<code>WriteOptions</code>](#WriteOptions) | The write options. |
-
-**Example**  
-```js
-import { write } from 'jy-transform';
-
-
-// ---- write obj to file ---
-
-const obj = {...};
-const options = {
-  dest: 'result.js',
-  indent: 4
-}
-
-write(obj, options)
-  .then(console.log)
-  .catch(console.error);
-
-
-// ---- write obj to Writable ---
-
-options = {
-  dest: fs.createWriteStream('result.json'),
-  indent: 4
-}
-
-write(obj, options)
-  .then(console.log)
-  .catch(console.error);
-
-
-// ---- write obj to object ---
-
-options = {
-  dest: {},
-  indent: 4
-}
-
-write(obj, options)
-  .then(console.log)
-  .catch(console.error);
-```
 <a name="ReadOptions"></a>
 
 ## ReadOptions : <code>object</code>
