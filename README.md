@@ -2,6 +2,8 @@
 
 # Stats
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/deadratfink/jy-transform.svg)](https://greenkeeper.io/)
+
 ## General
 
 | [License](https://github.com/deadratfink/jy-transform/blob/master/LICENSE.md) | [Issues](https://github.com/deadratfink/jy-transform/issues) | [Releases](https://github.com/deadratfink/jy-transform/releases) | [Tags](https://github.com/deadratfink/jy-transform/tags) | [Travis CI](https://travis-ci.org) | [Waffle](https://waffle.io/deadratfink/jy-transform) | [Code Climate](https://codeclimate.com/github/deadratfink/jy-transform) |
