@@ -21,11 +21,10 @@
   "private": false,
   "scripts": {
     "build": "NODE_ENV=production babel src --out-dir lib --copy-files --source-maps",
-    "doc": "cat docs/LOGO.md > README.md && cat docs/BADGES.md >> README.md && cat docs/TOC.md >> README.md && package-json-to-readme --no-footer ./package.json >> README.md && cat docs/USAGE.md >> README.md && echo '\n# Changelog\n' >> README.md && cat docs/CHANGELOG.md >> README.md && doctoc README.md --github --title '# TOC' --maxlevel 2",
     "readme": "bin/create-readme.sh -a true -c false -m true -l false",
     "wiki": "jsdoc2md ./jyt lib/*.js index.js > docs/API.md && doctoc docs/API.md --github --title '### TOC' --maxlevel 2 && cat docs/API.md > '../jy-transform.wiki/API-v2.md' && cat docs/CONTRIBUTING.md > ../jy-transform.wiki/Contributing.md && cat docs/CHANGELOG.md > ../jy-transform.wiki/Changelog.md && doctoc ../jy-transform.wiki/Changelog.md --github --title '### TOC' --maxlevel 3",
     "pretest": "mkdir -pv test/tmp",
-    "test": "JYT_DEBUG=false JYT_ERROR=false jest --forceExit --expand --no-cache --coverage --config=./.jestrc.js",
+    "test": "jest --forceExit --expand --no-cache --coverage --config=./.jestrc.js",
     "eslint": "eslint .",
     "nsp": "nsp check",
     "inch": "inchjs suggest && inchjs list --all && inchjs stats"
@@ -41,7 +40,7 @@
     "json-stringify-safe": " ~5.0.1",
     "mkdirp-then": " ~1.2.0",
     "promisify-es6": "~1.0.2",
-    "serialize-js": " ~1.1.0"
+    "serialize-js": "deadratfink/serialize-js#feature/single_quote_only"
   },
   "devDependencies": {
     "babel-cli": "~6.24.1",

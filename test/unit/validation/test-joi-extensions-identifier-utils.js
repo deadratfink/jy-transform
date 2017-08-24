@@ -1,8 +1,8 @@
-import { isValidEs6Identifier } from '../../../src/validation/joi-extensions-identifier-helper';
+import { isValidEs6Identifier } from '../../../src/validation/joi-extensions-identifier-utils';
 import { TEST_SUITE_DESCRIPTION_UNIT } from '../../helper-constants';
 
 /**
- * @module jy-transform:unit-test:test-joi-extensions-identifier-helper
+ * @module jy-transform:unit-test:test-joi-extensions-identifier-utils
  * @description This unit test suite checks validity and correctness of ES6 identifiers.
  * @private
  */

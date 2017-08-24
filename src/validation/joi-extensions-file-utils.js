@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 /**
- * @module jy-transform:validation:joi-extensions-file-helper
+ * @module jy-transform:validation:joi-extensions-file-utils
  * @description An (extended) Joi validation schema helper functions for the module options on FS validation.
  * @private
  */

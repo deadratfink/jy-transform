@@ -36,7 +36,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - writer - ', () => {
    * @constant
    * @private
    */
-  const WRITER_TEST_BASE_DIR = './test/tmp/writer';
+  const WRITER_TEST_BASE_DIR = './test/functional/tmp/writer';
 
   beforeAll(() => {
     fsExtra.ensureDirSync(WRITER_TEST_BASE_DIR);
@@ -143,7 +143,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - writer - ', () => {
       expect(msg).toBeDefined();
       await expectDestFileExists(file);
       // eslint-disable-next-line import/no-unresolved, global-require
-      const object = require('../tmp/writer/test-data-by-js-stream-with-exports-identifier.js').test;
+      const object = require('./tmp/writer/test-data-by-js-stream-with-exports-identifier.js').test;
       expect(object.test).toBeDefined();
       expect(object.test).toBe('value');
     });

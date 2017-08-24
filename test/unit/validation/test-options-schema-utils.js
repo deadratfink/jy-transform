@@ -4,7 +4,7 @@ import {
   inferOriginDefault,
   inferTargetDefault,
   inferDestDefaultFromSrc,
-} from '../../../src/validation/options-schema-helper';
+} from '../../../src/validation/options-schema-utils';
 import { TEST_SUITE_DESCRIPTION_UNIT } from '../../helper-constants';
 import {
   TYPE_YAML,
@@ -14,7 +14,7 @@ import {
 } from '../../../src/constants';
 
 /**
- * @module jy-transform:unit-test:test-options-schema-helper
+ * @module jy-transform:unit-test:test-options-schema-utils
  * @description This unit test suite checks the validity and correctness of options schema helper methods.
  * @private
  */
@@ -22,7 +22,7 @@ import {
 describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema-helper - ', () => {
   describe('Function inferOriginDefault', () => {
     it('should infer the correct origin from relative path string with existing file having a known file extension',
-      () => expect(inferOriginDefault({ src: 'test/unit/validation/test-joi-extensions-file-helper.js' })).toBe(TYPE_JS)
+      () => expect(inferOriginDefault({ src: 'test/unit/validation/test-joi-extensions-file-utils.js' })).toBe(TYPE_JS)
     );
 
     it('should infer the default origin from relative path string with existing file having an unsupported file ' +
@@ -35,7 +35,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema-helper - ', () => {
 
     it('should infer the correct origin from read stream of existing file having a known file ending', () =>
       expect(inferOriginDefault({
-        src: fs.createReadStream('test/unit/validation/test-joi-extensions-file-helper.js'),
+        src: fs.createReadStream('test/unit/validation/test-joi-extensions-file-utils.js'),
       })).toBe(TYPE_JS)
     );
 

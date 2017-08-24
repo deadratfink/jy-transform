@@ -1,7 +1,7 @@
 import JoiBase from 'joi';
 import promisify from 'promisify-es6';
-import { isExistingFile } from './joi-extensions-file-helper';
-import { isValidEs6Identifier } from './joi-extensions-identifier-helper';
+import { isExistingFile } from './joi-extensions-file-utils';
+import { isValidEs6Identifier } from './joi-extensions-identifier-utils';
 
 /**
  * @module jy-transform:validation:joi-extension

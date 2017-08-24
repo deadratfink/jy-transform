@@ -1,180 +1,31 @@
-import fs from 'fs';
 import isStream from 'is-stream';
 import jsYaml from 'js-yaml';
-import jsonStringifySafe from 'json-stringify-safe';
-import mkdirp from 'mkdirp-then';
-import os from 'os';
-import path from 'path';
-import promisify from 'promisify-es6';
-import serializeJs from 'serialize-js';
 import {
   TYPE_JS,
   TYPE_JSON,
   TYPE_YAML,
-  UTF8
 } from './constants';
 import Joi from './validation/joi-extensions';
 import { writeOptionsSchema } from './validation/options-schema';
+import {
+  serializeJsToJsonString,
+  serializeJsToString
+} from './serialize-utils';
+import {
+  writeToFile,
+  writeToStream,
+} from './io-utils';
 
 /**
  * @module jy-transform:writer
- * @description This module provides the _write_ functionality to write JS objects from memory to a JSON/JS/YAML
- * destination (file, object or {@link stream.Readable}).
+ * @description This module provides the _public_ interface for the _write_ functionality to write JS objects from
+ * memory to a JSON/JS/YAML destination (file, `Object` or {@link stream.Writable}).
  * @private
  */
-
-/**
- * Promisified `fs` module.
- * @private
- */
-const fsPromisified = promisify(fs);
 
 // ////////////////////////////////////////////////////////////////////////////
 // METHODS (PRIVATE)
 // ////////////////////////////////////////////////////////////////////////////
-
-/**
- * Creates a potential named `'module.exports[.exportsTo]'` string.
- *
- * @param {string} [exportsTo] - The export name.
- * @returns {Promise.<string>} Resolves with the exports string.
- * @private
- */
-async function createExportsString(exportsTo) {
-  let exports = 'module.exports';
-  if (exportsTo) {
-    exports += '.' + exportsTo + ' = ';
-  } else {
-    exports += ' = ';
-  }
-  return exports;
-}
-
-/**
- * Serialize a JS object to string.
- *
- * @param {Object} object      - The JS Object to serialize.
- * @param {number} indent      - The indention.
- * @param {string} [exportsTo] - Name for export (*IMPORTANT:* must be a valid ES6 identifier).
- * @returns {Promise.<string>} - Promise resolve with the serialized JS content.
- * @private
- * @todo [[#35](https://github.com/deadratfink/jy-transform/issues/35)] Add `'use strict';` in JS output file (->
- *   `'\'use strict\';' + os.EOL + os.EOL + ...`)?
- */
-async function serializeJsToString(object, indent, exportsTo) {
-  const exportsStr = await createExportsString(exportsTo);
-  return exportsStr + serializeJs.serialize(object, { indent }) + ';' + os.EOL;
-}
-
-/**
- * Serialize a JS object to JSON string.
- *
- * @param {Object} object - The object to serialize.
- * @param {number} indent - The code indention.
- * @returns {string} The serialized JSON.
- * @private
- */
-async function serializeJsToJsonString(object, indent) {
-  return jsonStringifySafe(object, null, indent) + os.EOL;
-}
-
-/**
- * Turns the destination file name into a name containing a consecutive
- * number if it exists. It iterates over the files until it finds a file
- * name which does not exist.
- *
- * @param {string} dest - The destination file.
- * @returns {string} A consecutive file name or the original one if `dest` file does not exist.
- * @private
- */
-function getConsecutiveDestName(dest) {
-  let tmpDest = dest;
-  let i = 0;
-  const destDirName = path.dirname(tmpDest);
-  const ext = path.extname(tmpDest);
-  const basename = path.basename(tmpDest, ext);
-  while (fs.existsSync(tmpDest)) {
-    tmpDest = path.join(destDirName, basename + '(' + (i += 1) + ')' + ext);
-  }
-  return tmpDest;
-}
-
-/**
- * Ensures that all dirs exists for file type `dest` and writes the JS object to file.
- *
- * @param {string} object                  - The object to write into file.
- * @param {string} dest                    - The file destination path.
- * @param {string} target                  - The target type, one of [ 'yaml' | 'json' | 'js' ].
- * @param {boolean} [forceOverwrite=false] - Forces overwriting the destination file if `true`.
- * @private
- */
-async function mkdirAndWrite(object, dest, target, forceOverwrite = false) {
-  const destDir = path.dirname(dest);
-  await mkdirp(destDir);
-  let finalDestination = dest;
-  if (!forceOverwrite) {
-    finalDestination = getConsecutiveDestName(dest);
-  }
-  await fsPromisified.writeFile(finalDestination, object, UTF8);
-  return 'Writing \'' + target + '\' file \'' + finalDestination + '\' successful.';
-}
-
-/**
- * Writes a serialized object to file.
- *
- * @param {string} object            - The object to write into file.
- * @param {string} dest              - The file destination path.
- * @param {string} target            - The target type, one of [ 'yaml' | 'json' | 'js' ].
- * @param {boolean} [forceOverwrite] - Forces overwriting the destination file if `true`.
- * @see {@link TYPE_YAML}
- * @see {@link TYPE_JSON}
- * @see {@link TYPE_JS}
- * @returns {Promise.<string>} Containing the write success message to handle by caller (e.g. for logging).
- * @throws {Error} If serialized JSON file could not be written due to any reason.
- * @private
- */
-function writeToFile(object, dest, target, forceOverwrite) {
-  return new Promise((resolve, reject) => {
-    fsPromisified.stat(dest)
-      .then((stats) => {
-        if (stats.isDirectory()) {
-          reject(new Error('Destination file is a directory, pls specify a valid file resource!'));
-          return;
-        }
-        // file exists
-        resolve(mkdirAndWrite(object, dest, target, forceOverwrite));
-      })
-      .catch(() => {
-        // ignore error (because file could possibly not exist at this point of time)
-        resolve(mkdirAndWrite(object, dest, target, forceOverwrite));
-      });
-  });
-}
-
-/**
- * Writes a string serialized data object to a stream.
- *
- * @param {string} object - The data to write into stream.
- * @param {string} dest   - The stream destination.
- * @param {string} target - The target type, one of [ 'yaml' | 'json' | 'js' ].
- * @see {@link TYPE_YAML}
- * @see {@link TYPE_JSON}
- * @see {@link TYPE_JS}
- * @returns {Promise.<string>} Containing the write success message to handle by caller (e.g. for logging).
- * @throws {Error} If serialized JS object could not be written due to any reason.
- * @private
- */
-function writeToStream(object, dest, target) {
-  return new Promise((resolve, reject) => {
-    dest
-      .on('error', reject)
-      .on('finish', () => resolve('Writing ' + target + ' to stream successful.'));
-
-    // write stringified data
-    dest.write(object);
-    dest.end();
-  });
-}
 
 /**
  * Writes a JS object to a YAML destination.
@@ -231,18 +82,18 @@ async function writeJson(object, options) {
 }
 
 /**
- * Writes a JS object to a JS destination. The object is prefixed by `module.exports[.${options.exports}] = `.
+ * Writes a JS object to a JS destination.
  *
  * @param {Object} object        - The JSON to write into JS destination.
- * @param {WriteOptions} options - The write destination and indention.
+ * @param {WriteOptions} options - The write options.
  * @see {@link MIN_INDENT}
  * @see {@link DEFAULT_INDENT}
  * @see {@link MAX_INDENT}
- * @returns {Promise.<string>} - Containing the write success message to handle by caller (e.g. for logging).
+ * @returns {Promise.<string>} Containing the write success message to handle by caller (e.g. for logging).
  * @private
  */
 async function writeJs(object, options) {
-  const data = await serializeJsToString(object, options.indent, options.exports);
+  const data = await serializeJsToString(object, options);
   if (typeof options.dest === 'string') { // file
     return writeToFile(data, options.dest, TYPE_JS, options.force);
   } else if (isStream.writable(options.dest)) { // stream

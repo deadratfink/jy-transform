@@ -7,7 +7,7 @@ import {
 } from '../constants';
 
 /**
- * @module jy-transform:validation:options-schema-helper
+ * @module jy-transform:validation:options-schema-utils
  * @description Provides some helper functions used in {@link module:validation:options-schema} to resolve default
  * values for origin and target depending on the `options.src` or `options.dest` value.
  * @type {Object}

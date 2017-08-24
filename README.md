@@ -13,11 +13,12 @@
 [![bitHound Code][bithound-code-image]][bithound-url]
 [![bitHound Dependencies][bitHound-dependencies-image]][bitHound-dependencies]
 [![bitHound Dev Dependencies][bitHound-dev-dependencies-image]][bitHound-dependencies]
+[![Codacy Badge](https://img.shields.io/codacy/grade/c2ebaac0f9874062ba468ff6bd7edc4e.svg?style=flat)](https://www.codacy.com/app/deadratfink/jy-transform?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=deadratfink/jy-transform&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://img.shields.io/codacy/coverage/c2ebaac0f9874062ba468ff6bd7edc4e.svg?style=flat)](https://www.codacy.com/app/deadratfink/jy-transform?utm_source=github.com&utm_medium=referral&utm_content=deadratfink/jy-transform&utm_campaign=Badge_Coverage)
+[![Greenkeeper badge](https://badges.greenkeeper.io/deadratfink/jy-transform.svg?style=flat)](https://greenkeeper.io/)
 [![NSP Status][nsp-image-master]][nsp-url-master]
-[![Codacy Badge](https://img.shields.io/codacy/grade/c2ebaac0f9874062ba468ff6bd7edc4e.svg?style=flat-square)](https://www.codacy.com/app/deadratfink/jy-transform?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=deadratfink/jy-transform&amp;utm_campaign=Badge_Grade)
-[![Codacy Badge](https://img.shields.io/codacy/coverage/c2ebaac0f9874062ba468ff6bd7edc4e.svg?style=flat-square)](https://www.codacy.com/app/deadratfink/jy-transform?utm_source=github.com&utm_medium=referral&utm_content=deadratfink/jy-transform&utm_campaign=Badge_Coverage)
 <!-- [![bitHound Overall Score][bitHound-score-image]][bithound-url]
-[![bitHound Overall Score](https://www.bithound.io/github/deadratfink/jy-transform/badges/score.svg?style=flat-square)](https://www.bithound.io/github/deadratfink/jy-transform) -->
+[![bitHound Overall Score](https://www.bithound.io/github/deadratfink/jy-transform/badges/score.svg?style=flat)](https://www.bithound.io/github/deadratfink/jy-transform) -->
 <!-- [![Dependency Status][dep-image-master]][dep-url-master]
 [![devDependency Status][devdep-image-master]][devdep-url-master] -->
 
@@ -25,54 +26,54 @@
 [![NPM][npm-image]][npm-url]
 [![NPM][npm-downloads-image]][npm-url]
 
-[gh-license-image]: https://img.shields.io/github/license/deadratfink/jy-transform.svg?style=flat-square
+[gh-license-image]: https://img.shields.io/github/license/deadratfink/jy-transform.svg?style=flat
 [gh-license-url]: https://github.com/deadratfink/jy-transform/blob/master/LICENSE.md
 
-[gh-issues-image]: https://img.shields.io/github/issues/deadratfink/jy-transform.svg?style=flat-square
+[gh-issues-image]: https://img.shields.io/github/issues/deadratfink/jy-transform.svg?style=flat
 [gh-issues-url]: https://github.com/deadratfink/jy-transform/issues
 
-[gh-releases-image]: https://img.shields.io/github/release/deadratfink/jy-transform.svg?style=flat-square
+[gh-releases-image]: https://img.shields.io/github/release/deadratfink/jy-transform.svg?style=flat
 [gh-releases-url]: https://github.com/deadratfink/jy-transform/releases
 
-[gh-tags-image]: https://img.shields.io/github/tag/deadratfink/jy-transform.svg?style=flat-square
+[gh-tags-image]: https://img.shields.io/github/tag/deadratfink/jy-transform.svg?style=flat
 [gh-tags-url]: https://github.com/deadratfink/jy-transform/tags
 
 
-[ci-image]: https://img.shields.io/travis/deadratfink/jy-transform.svg?style=flat-square
+[ci-image]: https://img.shields.io/travis/deadratfink/jy-transform.svg?style=flat
 [ci-url]: https://travis-ci.org/deadratfink/jy-transform/branches
 
-[is-pull-image]: http://issuestats.com/github/deadratfink/jy-transform/badge/pr?style=flat-square
-[is-issue-image]: http://issuestats.com/github/deadratfink/jy-transform/badge/issue?style=flat-square
+[is-pull-image]: http://issuestats.com/github/deadratfink/jy-transform/badge/pr?style=flat
+[is-issue-image]: http://issuestats.com/github/deadratfink/jy-transform/badge/issue?style=flat
 [is-url]: http://issuestats.com/github/deadratfink/jy-transform
 
-[waffle-ready-image]: https://img.shields.io/waffle/label/deadratfink/jy-transform.svg?label=ready&title=Waffle%20Ready&style=flat-square
-[waffle-waffle-in-progress-image]: https://img.shields.io/waffle/label/deadratfink/jy-transform.svg?label=in%20progress&title=Waffle%20In%20Progress&style=flat-square
+[waffle-ready-image]: https://img.shields.io/waffle/label/deadratfink/jy-transform.svg?label=ready&title=Waffle%20Ready&style=flat
+[waffle-waffle-in-progress-image]: https://img.shields.io/waffle/label/deadratfink/jy-transform.svg?label=in%20progress&title=Waffle%20In%20Progress&style=flat
 [waffle-url]: https://waffle.io/deadratfink/jy-transform
 
-[cocl-image]: https://img.shields.io/codeclimate/github/deadratfink/jy-transform.svg?style=flat-square
+[cocl-image]: https://img.shields.io/codeclimate/github/deadratfink/jy-transform.svg?style=flat
 [cocl-url]: https://codeclimate.com/github/deadratfink/jy-transform
 
 
-[cc-image-master]: https://img.shields.io/codecov/c/github/deadratfink/jy-transform/master.svg?style=flat-square
+[cc-image-master]: https://img.shields.io/codecov/c/github/deadratfink/jy-transform/master.svg?style=flat
 [cc-url-master]: https://codecov.io/github/deadratfink/jy-transform?branch=master
 
-[ca-image-master]: https://img.shields.io/coveralls/deadratfink/jy-transform/master.svg?style=flat-square
+[ca-image-master]: https://img.shields.io/coveralls/deadratfink/jy-transform/master.svg?style=flat
 [ca-url-master]: https://coveralls.io/github/deadratfink/jy-transform?branch=master
 
 
-[inch-image-master]: https://inch-ci.org/github/deadratfink/jy-transform.svg?branch=master&style=flat-square
+[inch-image-master]: https://inch-ci.org/github/deadratfink/jy-transform.svg?branch=master&style=flat
 [inch-url-master]: https://inch-ci.org/github/deadratfink/jy-transform?branch=master
 
-[dep-image-master]: https://img.shields.io/david/deadratfink/jy-transform/master.svg?style=flat-square
+[dep-image-master]: https://img.shields.io/david/deadratfink/jy-transform/master.svg?style=flat
 [dep-url-master]: https://david-dm.org/deadratfink/jy-transform/master
 
-[devdep-image-master]: https://img.shields.io/david/dev/deadratfink/jy-transform/master.svg?style=flat-square
+[devdep-image-master]: https://img.shields.io/david/dev/deadratfink/jy-transform/master.svg?style=flat
 [devdep-url-master]: https://david-dm.org/deadratfink/jy-transform/master#info=devDependencies
 
-[nsp-image-master]: https://nodesecurity.io/orgs/deadratfink/projects/7ac99a62-a8c4-4321-8d57-8a5e542f04f0/badge?style=flat-square
+[nsp-image-master]: https://nodesecurity.io/orgs/deadratfink/projects/7ac99a62-a8c4-4321-8d57-8a5e542f04f0/badge?style=flat
 [nsp-url-master]: https://nodesecurity.io/orgs/deadratfink/projects/7ac99a62-a8c4-4321-8d57-8a5e542f04f0
 
-[node-version-image]: https://img.shields.io/node/v/jy-transform.svg?style=flat-square
+[node-version-image]: https://img.shields.io/node/v/jy-transform.svg?style=flat
 [node-version-url]: http://nodejs.org/download/
 
 [npm-image]: https://nodei.co/npm/jy-transform.png?downloads=true&downloadRank=true&stars=true
@@ -80,11 +81,11 @@
 [npm-downloads-image]: https://nodei.co/npm-dl/jy-transform.png?height=2&months=9
 
 [bithound-url]: https://www.bithound.io/github/deadratfink/jy-transform
-[bithound-code-image]: https://img.shields.io/bithound/code/github/deadratfink/jy-transform.svg?style=flat-square
+[bithound-code-image]: https://img.shields.io/bithound/code/github/deadratfink/jy-transform.svg?style=flat
 [bitHound-dependencies]: https://www.bithound.io/github/deadratfink/jy-transform/master/dependencies/npm
-[bitHound-dependencies-image]: https://img.shields.io/bithound/dependencies/github/deadratfink/jy-transform.svg?style=flat-square
-[bitHound-dev-dependencies-image]: https://img.shields.io/bithound/devDependencies/github/deadratfink/jy-transform.svg?style=flat-square
-[bitHound-score-image]: https://img.shields.io/bithound/score/github/deadratfink/jy-transform.svg?style=flat-square
+[bitHound-dependencies-image]: https://img.shields.io/bithound/dependencies/github/deadratfink/jy-transform.svg?style=flat
+[bitHound-dev-dependencies-image]: https://img.shields.io/bithound/devDependencies/github/deadratfink/jy-transform.svg?style=flat
+[bitHound-score-image]: https://img.shields.io/bithound/score/github/deadratfink/jy-transform.svg?style=flat
 
 
 # jy-transform 
@@ -113,6 +114,7 @@ npm install jy-transform --global
   - [Use Cases](#use-cases)
   - [Limitations](#limitations)
   - [CLI Usage](#cli-usage)
+  - [Examples](#examples)
   - [Origin and Target Type Inference](#origin-and-target-type-inference)
   - [API Usage](#api-usage)
 - [API Reference](#api-reference)
@@ -129,7 +131,7 @@ npm install jy-transform --global
 import { transform } from 'jy-transform';
 
 const options = {
-  src: 'foo/bar.yaml',            // Here: read from YAML file...
+  src: 'foo/bar.yaml',            // E.g. read from YAML file...
   transform: async (object) => {  // ...with exchanging value...
     object.foo = 'new value';
     return object;
@@ -147,7 +149,6 @@ transform(options)
 
 // ---- async/await style:
 
-
 try {
   const msg = await transform(options);  // Transform, of course, inside an async.
   console.log(msg);                      // Success message!
@@ -161,11 +162,19 @@ try {
 ```javascript
 import { read } from 'jy-transform';
 
-const options = { src: 'foo/bar.yaml' };  // Here: read from file.
+const options = { src: 'foo/bar.yaml' };  // E.g. read from file.
+
+// ---- Promise style:
+
+read(options)
+  .then((object) => console.log(JSON.stringify(object))) // Print read object.
+  .catch(console.error);
+
+// ---- async/await style:
 
 try {
   const object = await read(options);
-  console.log(JSON.stringify(object));    // Print write success message.
+  console.log(JSON.stringify(object));    // Print read object.
 } catch (err) {
   console.error(err.stack);
 }
@@ -176,11 +185,19 @@ try {
 ```javascript
 import { write } from 'jy-transform';
 
-const options = { dest: 'foo/bar.yaml' }; // Here: write to file.
+const options = { dest: 'foo/bar.yaml' }; // E.g. write to file.
+
+// ---- Promise style:
+
+write(object, options)
+  .then(console.log)                      // Print write success message.
+  .catch(console.error);
+
+// ---- async/await style:
 
 try {
   const msg = await write(object, options);
-  console.log(msg); // Print write success message.
+  console.log(msg);                      // Print write success message.
 } catch (err) {
   console.error(err.stack);
 }
@@ -197,7 +214,7 @@ types into each other format.
 ## Usage
 
 The module can be used on CLI or as API (the latter is fully
-[Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) based).
+[Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)/`async` based).
 
 ### Usage Types
 
@@ -213,9 +230,9 @@ Both usage types are described in more detail in the following sections.
 So, what are the typical use cases for this module? In terms of _transformation_
 these consists of different phases:
 
-- Reading files (`Reader`)
-- Transforming JSON objects (`Transformer`) or apply dedicated actions on the intermediate JSON objects (`Transformer` + `Middleware`)
-- Writing files (`Writer`)
+  1. Reading from source
+  2. Transforming JSON objects (`Transformer`) or apply dedicated actions on the intermediate JSON objects
+  3. Writing to a destination
 
 #### Reading From
 
@@ -226,17 +243,18 @@ these consists of different phases:
 Additionally, on API level from a:
 
 - `stream.Readable`
- - Contain serialized JS, JSON or YAML
- - If not file stream it requires `options.origin` property set
- - Reads as UTF-8
+   - Contain serialized JS, JSON or YAML
+   - If not file stream it requires `options.origin` property set
+   - Reads as UTF-8
 - JS `object`
- - Actually, this means the reading phase is "skipped", because object is in-memory already
- - Of course, this case _cannot_ not be applied to serialized JSON or YAML content
+   - Actually, this means the reading phase is "skipped", because object is in-memory already
+   - Of course, this case _cannot_ not be applied to serialized JSON or YAML content
 
-#### Transformation [+ Middleware] 
+#### Transformation
 
 The _transformation_ is usually a format change, but can also be refer to content changes on the
-intermediate JS object (the latter via _middleware_). All possible directions are:
+intermediate JS object, the latter with the help of a configured `transform` callback function.
+All possible directions are:
 
 - YAML ⇒ JS
 - YAML ⇒ JSON
@@ -254,8 +272,8 @@ while:
 - [JS](https://developer.mozilla.org/en-US/docs/Web/JavaScript) = _*.js_ (JS object)
 - [JSON](http://json.org) = _*.json_ (JS object serialized as JSON)
 
-As mentioned above a _middleware_ can apply particular actions on the intermediate JS object via injected functions.
-This is an optional part for [transformation](#transformation) phase.
+As mentioned above the configured `transform` callback can apply particular actions on the intermediate JS object, but
+this is an optional part for [transformation](#transformation) phase.
 
 #### Writing To
 
@@ -266,12 +284,12 @@ This is an optional part for [transformation](#transformation) phase.
 Additionally, on API level to a:
 
 - `stream.Writable`
- - Serialized JS, JSON and YAML
- - Requires `options.target` property set
- - Writes UTF-8
+   - Serialized JS, JSON and YAML
+   - Requires `options.target` property set
+   - Writes UTF-8
 - JS `object
- - JS as simple reference
- - YAML and JSON as serialized string
+   - JS as simple reference
+   - YAML and JSON as serialized string
 
 ### Limitations
 
@@ -313,7 +331,7 @@ Additionally, on API level to a:
 ### CLI Usage
 
 The CLI provides the `jyt` command which requires the use of some options.
-After the global installation you can access the `Transformer`'s command options
+After the global installation you can access the command options
 with the usual `--help` option which prints an overview about all
 available CLI properties:
 
@@ -348,7 +366,8 @@ The ARGS are more formally defined in the following table:
 | `INPUT-FILE` | URI | The source file path for transformation. | - | yes |
 | `OUTPUT-FILE` | URI | The destination file path to transform to. | When this options is omitted then the output file is stored relative to the input file (same base name but with another extension if type differs). If input and output type are the same then the file overwriting is handled depending on the `--force` value! | no |
 
-**NOTE:** the input file has to be specified and should be _first_ argument (in fact, it can be anywhere but it must be before an out file argument)!
+> **NOTE:** the _input file_ has to be specified and should be _first_ argument (in fact, it can be
+> anywhere but it must be _before_ an _output file_ argument)!
 
 #### CLI Options
 
@@ -367,18 +386,15 @@ The OPTIONS are more formally defined in the following table:
 | `-v` | `--version` | n/a | Display the current version. | n/a | no |
 | `-h` | `--help` | n/a | Display help and usage details. | n/a | no |
 
+### Examples
 
-**NOTE:** an invalid indentation setting (1 > `-i`, `--indent` > 8) does not raise an error but a default of 4 SPACEs is applied instead.
-
-#### Examples
-
-Now we know which properties can be applied on CLI, so let's assume we
+Now we know which properties can be applied on CLI it's time for some examples. Let's assume we
 have a YAML content located in _foo.yaml_ holding this data:
 
 ```yaml
 foo: bar
 ```
-##### Example: YAML ⇒ JSON
+#### Example: YAML ⇒ JSON
 
 Then we can transform it to a JSON content as _foo.json_ file:
 
@@ -390,18 +406,19 @@ Then we can transform it to a JSON content as _foo.json_ file:
 
 simply by using this command:
 
-```
+```text
 $ jyt foo.yaml -t json -i 4
 ```
 
-In this example we have overwritten the standard target type (which is `js`)
-and applying an indent of 4 SPACEs instead of the default (2). As default the output
+In this example we have overwritten the standard _target_ type (which is `js`)
+and applying an _indent_ of 4 SPACEs instead of the default (which is 2). As default the output
 file _foo.json_ is written relative to the input file (by omitting the
 `dest` option here).
 
-**NOTE:** here you _have_ to provide the target with option `-t json` or else the
-default `js` would have been applied! If the source would have been a `js`
-type like
+> **NOTE:** here you _have_ to provide the target with option `-t json` or else the
+> default `js` would have been applied!
+
+If the source would have been a `js` type like in this example
 
 ```
 $ jyt foo.js -t json -i 4
@@ -410,9 +427,11 @@ $ jyt foo.js -t json -i 4
 then the `js` value for `origin` is automatically inferred from file extension.
 Accordingly, this is also true for the `target` option.
 
-##### Example: JSON ⇒ JS
+#### Example: JSON ⇒ JS
+
 The command
-```
+
+```text
 $ jyt foo.json -i 4
 ```
 results in _foo.js_:
@@ -422,34 +441,42 @@ module.exports = {
 }
 ```
 
-##### Example: JS ⇒ YAML
+#### Example: JS ⇒ YAML
+
 The command
-```
+
+```text
 $ jyt foo.js -t yaml
 ```
+
 results in _foo.yaml_:
+
 ```yaml
 foo: bar
 ```
 
-##### Example: Transformation with Different Destination
+#### Example: Transformation with Different Destination
 
 Simply specify the _output_ file with a different file name:
-```
+
+```text
 $ jyt foo.json results/foobar.yaml
 ```
 
-##### Example: Transformation with Unsupported Source File Extension
+#### Example: Transformation with Unsupported Source File Extension
 
 As said, normally we infer from file extension to the type, but assume the source
 file has a file name which does not imply the type (here a JSON
 type in a TEXT file), then you can simply provide the `-o` option with the
-correct `origin` type (of course, the `-t` option works analogous):
-```
+correct `origin` type:
+
+```text
 $ jyt foo.txt foobar.yaml -o json
 ```
 
-##### Example: Read from File with Exports Identifier
+> **NOTE:** of course, the `-t` (`--target`) option works analogous.
+
+#### Example: Read from File with Exports Identifier
 
 It could be that a JS source `exports` several objects and you want to read
 from exactly the one you specify, then provide the `-m` (`--imports`) option.
@@ -466,81 +493,90 @@ module.exports.bar = {
 };
 ```
 but you want to convert only `bar` object, then call:
-```
+
+```text
 $ jyt foo.js bar.yaml -m bar
 ```
+
 to get the YAML result:
+
 ```yaml
 bar: foo
 ```
 
-**NOTE:** the same applies on API level when using JS objects as `dest`:
+> **NOTE:** the same applies on API level when using JS objects as `dest`:
+> 
+> ```javascript
+> const fooBar = {
+>   foo: 'bar',
+>   bar: 'foo'
+> };
+> 
+> const options = {
+>   src: fooBar,
+>   dest: {},
+>   exports: 'bar'
+> };
 
-```javascript
-const fooBar = {
-  foo: 'bar',
-  bar: 'foo'
-};
+> //...transform
+> ```
+> 
+> The transformation will result in this in-memory object:
+> 
+> ```javascript
+> bar: {
+>   foo: 'bar',
+>   bar: 'foo'
+> }
+> ```
+> 
+> Of course, as sub-node of `options.dest`.
 
-const options = {
-  src: fooBar,
-  dest: {},
-  exports: 'bar'
-};
-
-//...transform
-```
-
-The transformation will result in this in-memory object:
-
-```javascript
-bar: {
-  foo: 'bar',
-  bar: 'foo'
-}
-```
-Of course, as sub-node of `options.dest`.
-
-##### Example: Write Exports Identifier for JS File
+#### Example: Write Exports Identifier for JS File
 
 Assume you want to generate a JS file with an exports string which gets an
 identifier. We reuse the YAML file from above:
+
 ```yaml
 foo: bar
 ```
+
 using this command:
+
 ```
 $ jyt foo.yaml foobar.js -x foobar
 ```
+
 This generates the following output in JS file using `foobar` as identifier:
+
 ```javascript
 module.exports.foobar = {
   foo: "bar"
 }
 ```
 
-**NOTE:** the identifier must be a valid JS identifier accoding to ECMAScript 6
-(see also [Valid JavaScript variable names in ECMAScript 6](https://mathiasbynens.be/notes/javascript-identifiers-es6)
-and [Generating a regular expression to match valid JavaScript identifiers](https://mathiasbynens.be/demo/javascript-identifier-regex)).
+> **NOTE:** the identifier must be a valid JS identifier accoding to ECMAScript 6
+> (see also [Valid JavaScript variable names in ECMAScript 6](https://mathiasbynens.be/notes/javascript-identifiers-es6)
+> and [Generating a regular expression to match valid JavaScript identifiers](https://mathiasbynens.be/demo/javascript-identifier-regex)).
 
-##### Example: Force Overwriting
+#### Example: Force Overwriting
 
-**IMPORTANT NOTE:** when using this feature then any subsequent
-execution which uses the same target/file name,
-will overwrite the original source or target created beforehand!
+> **IMPORTANT NOTE:** when using this feature then any subsequent execution which
+> uses the same target/file name, can _overwrite_ the original source or target created beforehand!
 
-By default this feature is not enabled to prevent you from accidentally
+Therefore, this feature is _not_ enabled by default to prevent you from accidentally
 overwriting your input source or already generated targets.
 
 But let's say we want to overwrite the original source now because you want
 to change the indentation from 2 to 4 SPACEs, then we can do this as follows:
+
+```text
+$ jyt foo.js -i 4 -f
 ```
-$ jyt foo.js -f
-```
-Of course, leaving out the `-f` switch creates a new file relatively to
-the `origin`, named as _foo(1).js_ (note the consecutive number). Naturally,
-another run of the command would result in a file called _foo(2).js_
-and so forth.
+
+> **NOTE:** the other way round (i.e. leaving out the `-f` (`--force`)) switch would create a _new file_ relatively to
+> the `src` _foo.js_, named as _foo(1).js_; note the consecutive number! Naturally,
+> another run of the command would result in a file called _foo(2).js_ and so forth.
 
 ### Origin and Target Type Inference
 
@@ -554,8 +590,7 @@ extensions. This is supported as shown by the following table (from-to):
 | _*.js_ | _js_ |
 | _*.json_ | _json_ |
 
-**NOTE:** if you have files without an extension or e.g. _*.txt_ you _have_ to
-specify the origin or target type!
+> **NOTE:** if you have files without an extension or e.g. _*.txt_ you _have_ to specify the origin or target type!
 
 ### API Usage
 
@@ -564,12 +599,12 @@ Since the usage on CLI is a 2-step process:
  1. Read from source file to JS object ⇒ 
  2. Write out (maybe to other type)
 
-the direct API calls additionally provide the usage of a _middleware_ function
-where you can alter the input JS object before it is written and therefore, which turns
+the direct API calls additionally provide the optional usage of a `transform` function
+where you can alter the intermediate JS object before it is written and therefore, turns
 this into a 3-step process:
 
  1. Read from source ⇒ 
- 2. Alter the JS object ⇒ 
+ 2. Transform the JS object ⇒ 
  3. Write out (maybe to other type)
 
 For more details about this and all the functions provided by this module please refer to the
@@ -579,97 +614,85 @@ The `origin` and `target` type inference is also standard for the API level.
 
 #### API Properties
 
-The `Transformer` exposes the following function which takes besides an (optional)
-`middleware` function the necessary `options` for the transformation:
+The public `transform` function (that does not mean the optional `transform `callback here!) takes
+the necessary `options` for the transformation:
 
 ```javascript
-async function transform(options, middleware)
+async function transform(options)
 ```
+
+> **HINT:** of course, if you like you can use the `read`and `write` functionality solely besides any transformation needs.
 
 #### Options
 
-The `options` object has to follow this key-values tables:
+For a detailed description see:
 
-##### Reader Options
-
-| Option | Type | Description | Default | Required |
-| --- | --- | --- | --- | --- |
-| `origin` | <code>_String_</code> | The origin type. | If not given, the type is tried to be inferred from the extension of source path, else it is _yaml_. | no |
-| `target` | <code>_String_</code> | The target type. | If not given, the type is tried to be inferred from the extension of destination path, else it is _js_. | no |
-| `src` | <code>[ _String_ &#124; _Stream.Readable_ &#124; _Object_ ]</code> | The source information object: `String` is used as file path, `Stream.Readable` provides a stringified source and `object` is used as direct JS source. | - | yes |
-
-##### Writer Options
-
-| Option | Type | Description | Default | Required |
-| --- | --- | --- | --- | --- |
-| `dest` | <code>[ _String_ &#124; _Stream.Writable_ &#124; _Object_ ]</code> | The destination information object: `String` is used as file path, `Stream.Writable` writes a stringified source and `object` is used for direct JS object assignment of the (stringified or JS object) source. If a string is set as file path then the output and if input and output file path are the same, then the file overwriting is handled depending on the `force` value! | - | yes |
-| `indent` | <code>_Number_</code> | The indentation in files. | 2 | no |
-| `force` | <code>_Boolean_</code> | Force overwriting of existing output files on write phase. When files are not overwritten, then the next transformation with same output file name gets a consecutive number on the base file name, e.g. in case of _foo.yaml_ it would be _foo(1).yaml_. | _false_ | no |
-| `imports` | <code>_String_</code> | Define a `module.exports[.identifier] = ...` identifier (to read from JS _source_ only, must be a valid JS identifier!) | _undefined_ | no |
-| `exports` | <code>_String_</code> | Define a `module.exports[.identifier] = ...` identifier (for usage in JS _destination_ only, must be a valid JS identifier!) | _undefined_ | no |
-
-##### Transformer Options
-
-These are a combination of the [Reader](#reader-options) and [Writer](#writer-options) Options.
+- [Read Options](API-PUBLIC.md#readoptions--codeobjectcode)
+- [Write Options](API-PUBLIC.md#writeoptions--codeobjectcode)
+- [Transform Options](API-PUBLIC.md#transformoptions--codeobjectcode)
 
 ##### Example
 
 ```javascript
 const options = {
-  origin: 'json',
-  target: 'yaml',
   src: 'foo.json',
+  origin: 'json', // actually, not needed here, inferred from src's extension automatically!
   dest: './foo/bar.yaml',
+  target: 'yaml', // actually, not needed here, inferred from dest's extension automatically!
   indent: 4
 }
 ```
 
-#### Using Middleware
+#### Using Transform Callback
 
-The `middleware` is optional but if provided it must be of type `Function` and
-a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
+The `transform` property is optional but if provided it must be of type `Function` and could but must not be 
+a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)/`async`.
+
+- When being a Promise it has to resolve with the `data` object or reject with an `Error` based object.
+- In case of normal or `async` function return `data` or throw an `Error`.
+
 One of the easiest ones is the identity function
 
 _f(data) → data_
 
-which could be expressed as [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
-function as follows:
+which could be expressed as follows:
 
 ```javascript
-const identity = async (data) => {
-  return data;
-}
+const identity = data => data;
 ```
 
 Of course, this would have no effect on the provided JS data. Actually, this one is
-used internally when no middleware is provided to ensure the proper promised
+used internally as default when no `transform` function is configured to ensure the proper
 control flow.
 
-OK, lets go back to a more practical example, e.g. we want to alter the value of
+OK, lets go back to a more practical example, e.g. we want to alter the value of a
 JS property before it is written to a file. Assuming we have this piece of YAML
-object as input:
+as input from a file called _src.yaml_:
 
 ```yaml
 foo: old bar
 ```
 
-Applying this [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
-as middleware
+Applying this `transform` callback option to the `src` content
 
 ```javascript
 import { transform } from 'jy-transform';
 
-const middleware = async (data) => {
-  data.foo = 'new bar';
-  return data;
+const options = {
+  src: 'src.yaml',
+  dest: 'result.json',
+  transform: async (data) => {
+    data.foo = 'new bar';
+    return data;
+  }
 };
 
-transform(options, middleware)
+transform(options)
   .then(console.log)
   .catch(console.error);
 ```
 
-will result in such JSON file:
+will result in such JSON file content:
 
 ```json
 {
@@ -687,43 +710,44 @@ Let's assume we have some Promise functions to apply. For simplicity reasons we
 simulate these for the moment by some functions, each adding a key-value to the
 given (initially empty) JS object.
 
-**NOTE:** each of them has to resolve with the `data` object!
+> **NOTE:** each of them has to resolve with the `object` object!
 
 ```javascript
-const key1 = async (data) => {
-  odata.key1 = 'value1';
-  return data;
+const key1 = async (object) => {
+  object.key1 = 'value1';
+  return object;
 };
 
-const key2 = async (data) => {
-  data.key2 = 'value2';
-  return data;
+const key2 = async (object) => {
+  object.key2 = 'value2';
+  return object;
 };
 
-const key3 = async (data) => {
-  data.key3 = 'value3';
-  return data;
+const key3 = async (object) => {
+  object.key3 = 'value3';
+  return object;
 };
 ```
 
 These can be collected by different aggregation or composition functions of the underlying
 Promise framework, e.g. using the [`Promise.all([...])`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all)
-function. This one can collect all three functions above and ensure their proper subsequent execution:
+function. This one can collect all three functions above and ensure their proper execution:
 
 ```javascript
 import { transform } from 'jy-transform';
 
-const middleware = (data) => {
-  return Promise.all([key1(data), key2(data), key3(data)])
-    .then(result => result[result.length - 1]);
+const options = {
+  src: {},
+  transform: async (object) => Promise.all([key1(object), key2(object), key3(object)])
+    .then(result => result[result.length - 1])
 };
 
-return transform({ src: {} }, middleware)
+transform(options)
   .then(console.log)
   .catch(console.error);
 ```
 
-Then the result in the `middleware` function can be retrieved from the returned
+The result in the `transform` function can be retrieved from the returned
 array, i.e. in case of [`Promise.all([...])`](http://bluebirdjs.com/docs/api/promise.all.html)
 you have to pick the _last_ element which contains the "final product".
 
@@ -737,26 +761,24 @@ From our example above it would be result in this object
 }
 ```
 
-which then is passed back to the transformation chain. Following this pattern
+which is passed back to the transformation chain. Following this pattern
 you can do almost everything with the JS object, like
 
-- deleting properties
-- changing properties to other types
-- validating and throwing error if not valid
+- Deleting properties
+- Changing properties to other types
+- Validating and throwing/resolving with error if not valid
 - ...
-
-Whatever you do during transformation, just keep it valid ;-)
 
 ## API Reference
 
 For more details on how to use the API, please refer to the
-[API Reference](https://github.com/deadratfink/jy-transform/wiki/API-v3)
+[API Reference](https://github.com/deadratfink/jy-transform/wiki/API-public-v3)
 wiki which describes the full API and provides more examples.
 
 ## Contributing
 
 Pull requests and stars are always welcome. For bugs and feature requests, please create an
-[issue](https://github.com/deadratfink/jy-transform/issues).
+[issue](https://github.com/deadratfink/jy-transform/issues) or create a PR.
 See the wiki [Contributing](https://github.com/deadratfink/jy-transform/wiki/Contributing)
 section for more details about conventions.
 

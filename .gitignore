@@ -3,7 +3,7 @@
 *.iml
 /VERSION.txt
 node_modules
-test/tmp
+test/functional/tmp
 /.project
 /.settings/*
 npm-debug.log

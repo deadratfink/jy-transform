@@ -63,6 +63,11 @@
  * @property {number} [indent=2]                    - The indentation value for pretty-print of output.
  * @property {string} [exports=undefined]           - The exports name for usage in JS destination files only.
  * @property {string} [force=false]                 - Force overwriting of existing output files on write phase.
+ * @property {boolean} [no-es6=false]               - Whether not to use ECMAScript6 syntax for JS type output like
+ *                                                    `module.exports` instead of `export default`, applicable only
+ *                                                    for JS output.
+ * @property {boolean} [no-single=false]            - Whether _not_ to use single-quotes style for values in JS type
+ *                                                    output (i.e. double-quotes).
  * @public
  */
 
@@ -91,5 +96,10 @@
  * @property {number} [indent=2]                      - The _write_ indentation value for pretty-print of output.
  * @property {string} [exports=undefined]             - The _write_ exports name for usage in JS destination files only.
  * @property {string} [force=false]                   - Force overwriting of existing output files on write phase.
+ * @property {boolean} [no-es6=false]                 - Whether not to use ECMAScript6 syntax for JS type output like
+ *                                                     `module.exports` instead of `export default`, applicable only
+ *                                                     for JS output.
+ * @property {boolean} [no-single=false]              - Whether _not_ to use single-quotes style for values in JS type
+ *                                                      output (i.e. double-quotes).
  * @public
  */

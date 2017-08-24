@@ -1,5 +1,5 @@
 /**
- * @module jy-transform:validation:joi-extensions-identifier-helper
+ * @module jy-transform:validation:joi-extensions-identifier-utils
  * @description An (extended) Joi validation schema helper function for the module options to validate ES6 identifiers.
  * @private
  */
@@ -20,7 +20,7 @@ const identifierRegExpECMAScript6 = /^(?!(?:do|if|in|for|let|new|try|var|case|el
  * @returns {boolean} A `true` if valid, else `false`.
  * @protected
  * @example
- * import { isValidEs6Identifier } from './validation/joi-extensions-identifier-helper.js';
+ * import { isValidEs6Identifier } from './validation/joi-extensions-identifier-utils.js';
  * const identifier = 'foo';
  * console.log('valid = ' + isValidEs6Identifier(identifier));
  */

@@ -14,6 +14,9 @@ import {
   DEFAULT_INDENT,
   MIN_INDENT,
   MAX_INDENT,
+  DEFAULT_STRICT,
+  DEFAULT_NO_ES6,
+  DEFAULT_NO_SINGLE_QUOTES,
 } from '../../../src/constants';
 import {
   readOptionsSchema,
@@ -229,7 +232,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
     );
 
     it('should set all defaults', async () => {
-      expect.assertions(4);
+      expect.assertions(7);
       const options = {
         dest: './test/tmp/test-data.js',
       };
@@ -238,6 +241,9 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
       expect(validatedOptions.indent).toBe(DEFAULT_INDENT);
       expect(validatedOptions.exports).toBe(DEFAULT_JS_EXPORTS_IDENTIFIER);
       expect(validatedOptions.force).toBe(DEFAULT_FORCE_FILE_OVERWRITE);
+      expect(validatedOptions.strict).toBe(DEFAULT_STRICT);
+      expect(validatedOptions['no-es6']).toBe(DEFAULT_NO_ES6);
+      expect(validatedOptions['no-single']).toBe(DEFAULT_NO_SINGLE_QUOTES);
     });
 
     it('should infer options.target from file type', async () => {

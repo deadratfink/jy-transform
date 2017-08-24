@@ -106,6 +106,31 @@ export const DEFAULT_TARGET = TYPE_JS;
 export const DEFAULT_FORCE_FILE_OVERWRITE = false;
 
 /**
+ * Whether to write a "use strict;" in JS type output.
+ * @type {boolean}
+ * @constant
+ * @private
+ */
+export const DEFAULT_STRICT = false;
+
+
+/**
+ * Whether _not_ to use ECMAScript6 syntax for JS type output.
+ * @type {boolean}
+ * @constant
+ * @private
+ */
+export const DEFAULT_NO_ES6 = false;
+
+/**
+ * Whether _not_ to use single-quotes style for values in JS type output (i.e. double-quotes).
+ * @type {boolean}
+ * @constant
+ * @private
+ */
+export const DEFAULT_NO_SINGLE_QUOTES = false;
+
+/**
  * The `origin` description value.
  * @type {string}
  * @constant

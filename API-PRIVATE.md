@@ -31,7 +31,7 @@
 - [readJs ⇒ <code>Promise.&lt;Object&gt;</code> ℗](#readjs-%E2%87%92-codepromiseltobjectgtcode-%E2%84%97)
 - [readYaml ⇒ <code>Promise.&lt;Object&gt;</code> ℗](#readyaml-%E2%87%92-codepromiseltobjectgtcode-%E2%84%97)
 - [read ⇒ <code>Promise</code>](#read-%E2%87%92-codepromisecode)
-- [createExportsString ⇒ <code>Promise.&lt;string&gt;</code> ℗](#createexportsstring-%E2%87%92-codepromiseltstringgtcode-%E2%84%97)
+- [createExportString ⇒ <code>Promise.&lt;string&gt;</code> ℗](#createexportstring-%E2%87%92-codepromiseltstringgtcode-%E2%84%97)
 - [serializeJsToString ⇒ <code>Promise.&lt;string&gt;</code> ℗](#serializejstostring-%E2%87%92-codepromiseltstringgtcode-%E2%84%97)
 - [serializeJsToJsonString ⇒ <code>string</code> ℗](#serializejstojsonstring-%E2%87%92-codestringcode-%E2%84%97)
 - [mkdirAndWrite ℗](#mkdirandwrite-%E2%84%97)
@@ -39,6 +39,12 @@
 - [writeJson ⇒ <code>Promise.&lt;string&gt;</code> ℗](#writejson-%E2%87%92-codepromiseltstringgtcode-%E2%84%97)
 - [writeJs ⇒ <code>Promise.&lt;string&gt;</code> ℗](#writejs-%E2%87%92-codepromiseltstringgtcode-%E2%84%97)
 - [write ⇒ <code>Promise</code>](#write-%E2%87%92-codepromisecode)
+- [assertTransformSuccess ℗](#asserttransformsuccess-%E2%84%97)
+- [assertYamlTransformSuccess](#assertyamltransformsuccess)
+- [transformFunc](#transformfunc)
+- [assertTransformSuccess](#asserttransformsuccess)
+- [assertYamlTransformSuccess](#assertyamltransformsuccess-1)
+- [_jsYaml ⇒ <code>Object</code> ℗](#_jsyaml-%E2%87%92-codeobjectcode-%E2%84%97)
 - [ReadOptions : <code>object</code>](#readoptions--codeobjectcode)
 - [WriteOptions : <code>object</code>](#writeoptions--codeobjectcode)
 - [TransformOptions : <code>object</code>](#transformoptions--codeobjectcode)
@@ -137,7 +143,7 @@ exception on those.</p>
 <dt><a href="#read">read</a> ⇒ <code>Promise</code></dt>
 <dd><p>Reads a particular content type from a source provided in the passed <code>options</code>.</p>
 </dd>
-<dt><a href="#createExportsString">createExportsString</a> ⇒ <code>Promise.&lt;string&gt;</code> ℗</dt>
+<dt><a href="#createExportString">createExportString</a> ⇒ <code>Promise.&lt;string&gt;</code> ℗</dt>
 <dd><p>Creates a potential named <code>&#39;module.exports[.exportsTo]&#39;</code> string.</p>
 </dd>
 <dt><a href="#serializeJsToString">serializeJsToString</a> ⇒ <code>Promise.&lt;string&gt;</code> ℗</dt>
@@ -160,6 +166,24 @@ exception on those.</p>
 </dd>
 <dt><a href="#write">write</a> ⇒ <code>Promise</code></dt>
 <dd><p>Writes the passed JS object to a particular destination described by the passed <code>options</code>.</p>
+</dd>
+<dt><a href="#assertTransformSuccess">assertTransformSuccess</a> ℗</dt>
+<dd><p>Helper method which asserts the successful transformation.</p>
+</dd>
+<dt><a href="#assertYamlTransformSuccess">assertYamlTransformSuccess</a></dt>
+<dd><p>Helper method which asserts the successful transformation.</p>
+</dd>
+<dt><a href="#transformFunc">transformFunc</a></dt>
+<dd><p>Transformation middleware changing value for <code>foo</code> property.</p>
+</dd>
+<dt><a href="#assertTransformSuccess">assertTransformSuccess</a></dt>
+<dd><p>Helper method which asserts the successful transformation.</p>
+</dd>
+<dt><a href="#assertYamlTransformSuccess">assertYamlTransformSuccess</a></dt>
+<dd><p>Helper method which asserts the successful transformation.</p>
+</dd>
+<dt><a href="#_jsYaml">_jsYaml</a> ⇒ <code>Object</code> ℗</dt>
+<dd><p>Creates the options from the given transform function, source and destination path parameters.</p>
 </dd>
 </dl>
 
@@ -270,6 +294,9 @@ Useful constants used for the module and its usage.
     * [~DEFAULT_ORIGIN](#module_jy-transform_constants..DEFAULT_ORIGIN) : <code>string</code> ℗
     * [~DEFAULT_TARGET](#module_jy-transform_constants..DEFAULT_TARGET) : <code>string</code> ℗
     * [~DEFAULT_FORCE_FILE_OVERWRITE](#module_jy-transform_constants..DEFAULT_FORCE_FILE_OVERWRITE) : <code>boolean</code> ℗
+    * [~DEFAULT_STRICT](#module_jy-transform_constants..DEFAULT_STRICT) : <code>boolean</code> ℗
+    * [~DEFAULT_NO_ES6](#module_jy-transform_constants..DEFAULT_NO_ES6) : <code>boolean</code> ℗
+    * [~DEFAULT_NO_SINGLE_QUOTES](#module_jy-transform_constants..DEFAULT_NO_SINGLE_QUOTES) : <code>boolean</code> ℗
     * [~ORIGIN_DESCRIPTION](#module_jy-transform_constants..ORIGIN_DESCRIPTION) : <code>string</code> ℗
     * [~TARGET_DESCRIPTION](#module_jy-transform_constants..TARGET_DESCRIPTION) : <code>string</code> ℗
     * [~DEST_DESCRIPTION](#module_jy-transform_constants..DEST_DESCRIPTION) : <code>string</code> ℗
@@ -357,6 +384,27 @@ The default `origin` value: 'js'.
 
 ### jy-transform:constants~DEFAULT_FORCE_FILE_OVERWRITE : <code>boolean</code> ℗
 Whether to overwrite existing file or object on output.
+
+**Kind**: inner constant of [<code>jy-transform:constants</code>](#module_jy-transform_constants)  
+**Access**: private  
+<a name="module_jy-transform_constants..DEFAULT_STRICT"></a>
+
+### jy-transform:constants~DEFAULT_STRICT : <code>boolean</code> ℗
+Whether to write a "use strict;" in JS type output.
+
+**Kind**: inner constant of [<code>jy-transform:constants</code>](#module_jy-transform_constants)  
+**Access**: private  
+<a name="module_jy-transform_constants..DEFAULT_NO_ES6"></a>
+
+### jy-transform:constants~DEFAULT_NO_ES6 : <code>boolean</code> ℗
+Whether _not_ to use ECMAScript6 syntax for JS type output.
+
+**Kind**: inner constant of [<code>jy-transform:constants</code>](#module_jy-transform_constants)  
+**Access**: private  
+<a name="module_jy-transform_constants..DEFAULT_NO_SINGLE_QUOTES"></a>
+
+### jy-transform:constants~DEFAULT_NO_SINGLE_QUOTES : <code>boolean</code> ℗
+Whether _not_ to use single-quotes style for values in JS type output (i.e. double-quotes).
 
 **Kind**: inner constant of [<code>jy-transform:constants</code>](#module_jy-transform_constants)  
 **Access**: private  
@@ -568,8 +616,7 @@ This method checks if a given `identifier` is a valid ECMAScript 6 identifier.
 
 **Example**  
 ```js
-import { isValidEs6Identifier } from './validation/joi-extensions-identifier-helper.js';
-const identifier = 'foo';
+import { isValidEs6Identifier } from joi-extensionsjoi-extensions-identifier-utils.jsier = 'foo';
 console.log('valid = ' + isValidEs6Identifier(identifier));
 ```
 <a name="module_jy-transform_validation_joi-extension"></a>
@@ -698,6 +745,9 @@ The module options schema used in [module:options-validator](module:options-vali
 
 * [jy-transform:validation:options-schema](#module_jy-transform_validation_options-schema) : <code>Object</code> ℗
     * [~forceSchema](#module_jy-transform_validation_options-schema..forceSchema) : [<code>Schema</code>](#external_joi.Schema) ℗
+    * [~strictSchema](#module_jy-transform_validation_options-schema..strictSchema) : [<code>Schema</code>](#external_joi.Schema) ℗
+    * [~noES6Schema](#module_jy-transform_validation_options-schema..noES6Schema) : [<code>Schema</code>](#external_joi.Schema) ℗
+    * [~noSingleSchema](#module_jy-transform_validation_options-schema..noSingleSchema) : [<code>Schema</code>](#external_joi.Schema) ℗
     * [~indentSchema](#module_jy-transform_validation_options-schema..indentSchema) : [<code>Schema</code>](#external_joi.Schema) ℗
     * [~exportsSchema](#module_jy-transform_validation_options-schema..exportsSchema) : [<code>Schema</code>](#external_joi.Schema) ℗
     * [~targetSchema](#module_jy-transform_validation_options-schema..targetSchema) : [<code>Schema</code>](#external_joi.Schema) ℗
@@ -708,28 +758,49 @@ The module options schema used in [module:options-validator](module:options-vali
 <a name="module_jy-transform_validation_options-schema..forceSchema"></a>
 
 ### jy-transform:validation:options-schema~forceSchema : [<code>Schema</code>](#external_joi.Schema) ℗
-The `force` options schema.
+The `force` option schema.
+
+**Kind**: inner constant of [<code>jy-transform:validation:options-schema</code>](#module_jy-transform_validation_options-schema)  
+**Access**: private  
+<a name="module_jy-transform_validation_options-schema..strictSchema"></a>
+
+### jy-transform:validation:options-schema~strictSchema : [<code>Schema</code>](#external_joi.Schema) ℗
+The `force` option schema.
+
+**Kind**: inner constant of [<code>jy-transform:validation:options-schema</code>](#module_jy-transform_validation_options-schema)  
+**Access**: private  
+<a name="module_jy-transform_validation_options-schema..noES6Schema"></a>
+
+### jy-transform:validation:options-schema~noES6Schema : [<code>Schema</code>](#external_joi.Schema) ℗
+The `no-es6` option schema.
+
+**Kind**: inner constant of [<code>jy-transform:validation:options-schema</code>](#module_jy-transform_validation_options-schema)  
+**Access**: private  
+<a name="module_jy-transform_validation_options-schema..noSingleSchema"></a>
+
+### jy-transform:validation:options-schema~noSingleSchema : [<code>Schema</code>](#external_joi.Schema) ℗
+The `no-single` option schema.
 
 **Kind**: inner constant of [<code>jy-transform:validation:options-schema</code>](#module_jy-transform_validation_options-schema)  
 **Access**: private  
 <a name="module_jy-transform_validation_options-schema..indentSchema"></a>
 
 ### jy-transform:validation:options-schema~indentSchema : [<code>Schema</code>](#external_joi.Schema) ℗
-The `indent` options schema.
+The `indent` option schema.
 
 **Kind**: inner constant of [<code>jy-transform:validation:options-schema</code>](#module_jy-transform_validation_options-schema)  
 **Access**: private  
 <a name="module_jy-transform_validation_options-schema..exportsSchema"></a>
 
 ### jy-transform:validation:options-schema~exportsSchema : [<code>Schema</code>](#external_joi.Schema) ℗
-The `exports` options schema.
+The `exports` option schema.
 
 **Kind**: inner constant of [<code>jy-transform:validation:options-schema</code>](#module_jy-transform_validation_options-schema)  
 **Access**: private  
 <a name="module_jy-transform_validation_options-schema..targetSchema"></a>
 
 ### jy-transform:validation:options-schema~targetSchema : [<code>Schema</code>](#external_joi.Schema) ℗
-The `target` options schema.
+The `target` option schema.
 
 **Kind**: inner constant of [<code>jy-transform:validation:options-schema</code>](#module_jy-transform_validation_options-schema)  
 **Access**: private  
@@ -808,6 +879,8 @@ The test suite constants definitions.
 * [jy-transform:unit:helper-constants](#module_jy-transform_unit_helper-constants) : <code>Object</code> ℗
     * [~TEST_SUITE_DESCRIPTION_UNIT](#module_jy-transform_unit_helper-constants..TEST_SUITE_DESCRIPTION_UNIT) : <code>string</code>
     * [~TEST_SUITE_DESCRIPTION_FUNCTIONAL](#module_jy-transform_unit_helper-constants..TEST_SUITE_DESCRIPTION_FUNCTIONAL) : <code>string</code>
+    * [~TEST_DATA_DIR](#module_jy-transform_unit_helper-constants..TEST_DATA_DIR) : <code>string</code> ℗
+    * [~EXPECTED_VALUE](#module_jy-transform_unit_helper-constants..EXPECTED_VALUE) : <code>string</code> ℗
 
 <a name="module_jy-transform_unit_helper-constants..TEST_SUITE_DESCRIPTION_UNIT"></a>
 
@@ -823,6 +896,20 @@ The unit test suite description for the plugin.
 
 **Kind**: inner constant of [<code>jy-transform:unit:helper-constants</code>](#module_jy-transform_unit_helper-constants)  
 **Access**: public  
+<a name="module_jy-transform_unit_helper-constants..TEST_DATA_DIR"></a>
+
+### jy-transform:unit:helper-constants~TEST_DATA_DIR : <code>string</code> ℗
+The basic test data directory path.
+
+**Kind**: inner constant of [<code>jy-transform:unit:helper-constants</code>](#module_jy-transform_unit_helper-constants)  
+**Access**: private  
+<a name="module_jy-transform_unit_helper-constants..EXPECTED_VALUE"></a>
+
+### jy-transform:unit:helper-constants~EXPECTED_VALUE : <code>string</code> ℗
+An expected value from source files.
+
+**Kind**: inner constant of [<code>jy-transform:unit:helper-constants</code>](#module_jy-transform_unit_helper-constants)  
+**Access**: private  
 <a name="module_jy-transform_unit_logger"></a>
 
 ## jy-transform:unit:logger : <code>Object</code> ℗
@@ -912,27 +999,86 @@ This unit test suite checks the correct transformation behaviour of the CLI inte
 **Access**: private  
 
 * [jy-transform:unit-test:test-cli](#module_jy-transform_unit-test_test-cli) ℗
-    * [~optionsToArgs(options)](#module_jy-transform_unit-test_test-cli..optionsToArgs) ⇒ <code>Array.&lt;string&gt;</code>
-    * [~assertTransformSuccess(options)](#module_jy-transform_unit-test_test-cli..assertTransformSuccess)
+    * [~CLI_TEST_BASE_DIR](#module_jy-transform_unit-test_test-cli..CLI_TEST_BASE_DIR) : <code>string</code> ℗
+    * [~SRC_YAML](#module_jy-transform_unit-test_test-cli..SRC_YAML) : <code>string</code> ℗
+    * [~SRC_JSON](#module_jy-transform_unit-test_test-cli..SRC_JSON) : <code>string</code> ℗
+    * [~SRC_JS](#module_jy-transform_unit-test_test-cli..SRC_JS) : <code>string</code> ℗
+    * [~CLI_OPTIONS_LONG_TO_SHORT_MAP](#module_jy-transform_unit-test_test-cli..CLI_OPTIONS_LONG_TO_SHORT_MAP) : <code>Object</code> ℗
+    * [~createOptions(src, dest)](#module_jy-transform_unit-test_test-cli..createOptions) ⇒ <code>Object</code> ℗
+    * [~execJyt(args)](#module_jy-transform_unit-test_test-cli..execJyt) ⇒ <code>Promise</code> ℗
+    * [~optionsToArgs(options)](#module_jy-transform_unit-test_test-cli..optionsToArgs) ⇒ <code>Array.&lt;string&gt;</code> ℗
+
+<a name="module_jy-transform_unit-test_test-cli..CLI_TEST_BASE_DIR"></a>
+
+### jy-transform:unit-test:test-cli~CLI_TEST_BASE_DIR : <code>string</code> ℗
+Temporary base dir for transformer test output.
+
+**Kind**: inner constant of [<code>jy-transform:unit-test:test-cli</code>](#module_jy-transform_unit-test_test-cli)  
+**Access**: private  
+<a name="module_jy-transform_unit-test_test-cli..SRC_YAML"></a>
+
+### jy-transform:unit-test:test-cli~SRC_YAML : <code>string</code> ℗
+A YAML source file path.
+
+**Kind**: inner constant of [<code>jy-transform:unit-test:test-cli</code>](#module_jy-transform_unit-test_test-cli)  
+**Access**: private  
+<a name="module_jy-transform_unit-test_test-cli..SRC_JSON"></a>
+
+### jy-transform:unit-test:test-cli~SRC_JSON : <code>string</code> ℗
+A JSON source file path.
+
+**Kind**: inner constant of [<code>jy-transform:unit-test:test-cli</code>](#module_jy-transform_unit-test_test-cli)  
+**Access**: private  
+<a name="module_jy-transform_unit-test_test-cli..SRC_JS"></a>
+
+### jy-transform:unit-test:test-cli~SRC_JS : <code>string</code> ℗
+A JS source file path.
+
+**Kind**: inner constant of [<code>jy-transform:unit-test:test-cli</code>](#module_jy-transform_unit-test_test-cli)  
+**Access**: private  
+<a name="module_jy-transform_unit-test_test-cli..CLI_OPTIONS_LONG_TO_SHORT_MAP"></a>
+
+### jy-transform:unit-test:test-cli~CLI_OPTIONS_LONG_TO_SHORT_MAP : <code>Object</code> ℗
+Object mapping from JS option to to short CLI option.
+
+**Kind**: inner constant of [<code>jy-transform:unit-test:test-cli</code>](#module_jy-transform_unit-test_test-cli)  
+**Access**: private  
+<a name="module_jy-transform_unit-test_test-cli..createOptions"></a>
+
+### jy-transform:unit-test:test-cli~createOptions(src, dest) ⇒ <code>Object</code> ℗
+Creates the options from the given source and destination path parameters.
+
+**Kind**: inner method of [<code>jy-transform:unit-test:test-cli</code>](#module_jy-transform_unit-test_test-cli)  
+**Returns**: <code>Object</code> - The options object.  
+**Access**: private  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| src | <code>string</code> | The source path. |
+| dest | <code>string</code> | The destination path. |
+
+<a name="module_jy-transform_unit-test_test-cli..execJyt"></a>
+
+### jy-transform:unit-test:test-cli~execJyt(args) ⇒ <code>Promise</code> ℗
+Executes `./jyt` script with given args (which includes source, destination and all options).
+
+**Kind**: inner method of [<code>jy-transform:unit-test:test-cli</code>](#module_jy-transform_unit-test_test-cli)  
+**Access**: private  
+**Resolve**: <code>string</code> The transformation success message.  
+**Rejects**: <code>Error</code> Any error occurred.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| args | <code>Array.&lt;string&gt;</code> | The source, destination CLI arguments and all CLI options. |
 
 <a name="module_jy-transform_unit-test_test-cli..optionsToArgs"></a>
 
-### jy-transform:unit-test:test-cli~optionsToArgs(options) ⇒ <code>Array.&lt;string&gt;</code>
+### jy-transform:unit-test:test-cli~optionsToArgs(options) ⇒ <code>Array.&lt;string&gt;</code> ℗
 Creates the CLI args/options from given `options` object.
 
 **Kind**: inner method of [<code>jy-transform:unit-test:test-cli</code>](#module_jy-transform_unit-test_test-cli)  
 **Returns**: <code>Array.&lt;string&gt;</code> - The CLI args and options.  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| options | [<code>TransformOptions</code>](#TransformOptions) | The transformation options. |
-
-<a name="module_jy-transform_unit-test_test-cli..assertTransformSuccess"></a>
-
-### jy-transform:unit-test:test-cli~assertTransformSuccess(options)
-Helper method which asserts the successful transformation.
-
-**Kind**: inner method of [<code>jy-transform:unit-test:test-cli</code>](#module_jy-transform_unit-test_test-cli)  
+**Access**: private  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -955,6 +1101,41 @@ This unit test suite checks the validity and correctness of the Reader module.
 ## jy-transform:unit-test:test-transformer ℗
 This unit test suite checks the correct transformation behaviour of the Transformer module.
 
+**Access**: private  
+
+* [jy-transform:unit-test:test-transformer](#module_jy-transform_unit-test_test-transformer) ℗
+    * [~SRC_YAML](#module_jy-transform_unit-test_test-transformer..SRC_YAML) : <code>string</code> ℗
+    * [~SRC_JSON](#module_jy-transform_unit-test_test-transformer..SRC_JSON) : <code>string</code> ℗
+    * [~SRC_JS](#module_jy-transform_unit-test_test-transformer..SRC_JS) : <code>string</code> ℗
+    * [~TRANSFORMER_TEST_BASE_DIR](#module_jy-transform_unit-test_test-transformer..TRANSFORMER_TEST_BASE_DIR) : <code>string</code> ℗
+
+<a name="module_jy-transform_unit-test_test-transformer..SRC_YAML"></a>
+
+### jy-transform:unit-test:test-transformer~SRC_YAML : <code>string</code> ℗
+A YAML source file path.
+
+**Kind**: inner constant of [<code>jy-transform:unit-test:test-transformer</code>](#module_jy-transform_unit-test_test-transformer)  
+**Access**: private  
+<a name="module_jy-transform_unit-test_test-transformer..SRC_JSON"></a>
+
+### jy-transform:unit-test:test-transformer~SRC_JSON : <code>string</code> ℗
+A JSON source file path.
+
+**Kind**: inner constant of [<code>jy-transform:unit-test:test-transformer</code>](#module_jy-transform_unit-test_test-transformer)  
+**Access**: private  
+<a name="module_jy-transform_unit-test_test-transformer..SRC_JS"></a>
+
+### jy-transform:unit-test:test-transformer~SRC_JS : <code>string</code> ℗
+A JS source file path.
+
+**Kind**: inner constant of [<code>jy-transform:unit-test:test-transformer</code>](#module_jy-transform_unit-test_test-transformer)  
+**Access**: private  
+<a name="module_jy-transform_unit-test_test-transformer..TRANSFORMER_TEST_BASE_DIR"></a>
+
+### jy-transform:unit-test:test-transformer~TRANSFORMER_TEST_BASE_DIR : <code>string</code> ℗
+Temporary base dir for writer test output.
+
+**Kind**: inner constant of [<code>jy-transform:unit-test:test-transformer</code>](#module_jy-transform_unit-test_test-transformer)  
 **Access**: private  
 <a name="module_jy-transform_unit-test_test-writer"></a>
 
@@ -1087,9 +1268,9 @@ read(options)
   .then(obj => console.log(JSON.stringify(obj)))
   .catch(console.error);
 ```
-<a name="createExportsString"></a>
+<a name="createExportString"></a>
 
-## createExportsString ⇒ <code>Promise.&lt;string&gt;</code> ℗
+## createExportString ⇒ <code>Promise.&lt;string&gt;</code> ℗
 Creates a potential named `'module.exports[.exportsTo]'` string.
 
 **Kind**: global variable  
@@ -1098,6 +1279,7 @@ Creates a potential named `'module.exports[.exportsTo]'` string.
 
 | Param | Type | Description |
 | --- | --- | --- |
+| es6 | <code>boolean</code> | Whether to use ECMAScript6 export syntax. |
 | [exportsTo] | <code>string</code> | The export name. |
 
 <a name="serializeJsToString"></a>
@@ -1108,17 +1290,11 @@ Serialize a JS object to string.
 **Kind**: global variable  
 **Returns**: <code>Promise.&lt;string&gt;</code> - - Promise resolve with the serialized JS content.  
 **Access**: private  
-**Todo**
-
-- [ ] [[#35](https://github.com/deadratfink/jy-transform/issues/35)] Add `'use strict';` in JS output file (->
-  `'\'use strict\';' + os.EOL + os.EOL + ...`)?
-
 
 | Param | Type | Description |
 | --- | --- | --- |
 | object | <code>Object</code> | The JS Object to serialize. |
-| indent | <code>number</code> | The indention. |
-| [exportsTo] | <code>string</code> | Name for export (*IMPORTANT:* must be a valid ES6 identifier). |
+| options | [<code>WriteOptions</code>](#WriteOptions) | The write options. |
 
 <a name="serializeJsToJsonString"></a>
 
@@ -1211,7 +1387,7 @@ Writes a JS object to a JS destination. The object is prefixed by `module.export
 | Param | Type | Description |
 | --- | --- | --- |
 | object | <code>Object</code> | The JSON to write into JS destination. |
-| options | [<code>WriteOptions</code>](#WriteOptions) | The write destination and indention. |
+| options | [<code>WriteOptions</code>](#WriteOptions) | The write options. |
 
 <a name="write"></a>
 
@@ -1271,6 +1447,77 @@ write(obj, options)
   .then(console.log)
   .catch(console.error);
 ```
+<a name="assertTransformSuccess"></a>
+
+## assertTransformSuccess ℗
+Helper method which asserts the successful transformation.
+
+**Kind**: global variable  
+**Access**: private  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | [<code>TransformOptions</code>](#TransformOptions) | The transformation options. |
+
+<a name="assertYamlTransformSuccess"></a>
+
+## assertYamlTransformSuccess
+Helper method which asserts the successful transformation.
+
+**Kind**: global variable  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>Object</code> | The transformation options. |
+
+<a name="transformFunc"></a>
+
+## transformFunc
+Transformation middleware changing value for `foo` property.
+
+**Kind**: global variable  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| object | <code>Object</code> | To transform. |
+
+<a name="assertTransformSuccess"></a>
+
+## assertTransformSuccess
+Helper method which asserts the successful transformation.
+
+**Kind**: global variable  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>Object</code> | The transformation options. |
+
+<a name="assertYamlTransformSuccess"></a>
+
+## assertYamlTransformSuccess
+Helper method which asserts the successful transformation.
+
+**Kind**: global variable  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>Object</code> | The transformation options. |
+
+<a name="_jsYaml"></a>
+
+## _jsYaml ⇒ <code>Object</code> ℗
+Creates the options from the given transform function, source and destination path parameters.
+
+**Kind**: global variable  
+**Returns**: <code>Object</code> - The options object.  
+**Access**: private  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| src | <code>string</code> |  | The source path. |
+| dest | <code>string</code> |  | The destination path. |
+| [func] | <code>\*</code> | <code>transformFunc</code> | The transform function. |
+
 <a name="ReadOptions"></a>
 
 ## ReadOptions : <code>object</code>
@@ -1302,6 +1549,8 @@ The configuration properties provided to the `write` function.
 | indent | <code>number</code> | <code>2</code> | The indentation value for pretty-print of output. |
 | exports | <code>string</code> |  | The exports name for usage in JS destination files only. |
 | force | <code>string</code> | <code>false</code> | Force overwriting of existing output files on write phase. |
+| no-es6 | <code>boolean</code> | <code>false</code> | Whether not to use ECMAScript6 syntax for JS type output like                                                    `module.exports` instead of `export default`, applicable only                                                    for JS output. |
+| no-single | <code>boolean</code> | <code>false</code> | Whether _not_ to use single-quotes style for values in JS type                                                    output (i.e. double-quotes). |
 
 <a name="TransformOptions"></a>
 
@@ -1323,6 +1572,8 @@ The configuration properties provided to the `transform` function.
 | indent | <code>number</code> | <code>2</code> | The _write_ indentation value for pretty-print of output. |
 | exports | <code>string</code> |  | The _write_ exports name for usage in JS destination files only. |
 | force | <code>string</code> | <code>false</code> | Force overwriting of existing output files on write phase. |
+| no-es6 | <code>boolean</code> | <code>false</code> | Whether not to use ECMAScript6 syntax for JS type output like                                                     `module.exports` instead of `export default`, applicable only                                                     for JS output. |
+| no-single | <code>boolean</code> | <code>false</code> | Whether _not_ to use single-quotes style for values in JS type                                                      output (i.e. double-quotes). |
 
 <a name="external_joi"></a>
 

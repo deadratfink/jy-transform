@@ -4,7 +4,7 @@ import {
   inferDestDefaultFromSrc,
   inferOriginDefault,
   inferTargetDefault,
-} from './options-schema-helper';
+} from './options-schema-utils';
 import {
   TYPE_YAML,
   TYPE_JS,
@@ -14,6 +14,9 @@ import {
   MIN_INDENT,
   MIN_YAML_INDENT,
   MAX_INDENT,
+  DEFAULT_STRICT,
+  DEFAULT_NO_ES6,
+  DEFAULT_NO_SINGLE_QUOTES,
 } from '../constants';
 
 /**
@@ -25,7 +28,7 @@ import {
  */
 
 /**
- * The `force` options schema.
+ * The `force` option schema.
  * @type {external:joi.Schema}
  * @private
  */
@@ -35,30 +38,59 @@ const forceSchema = Joi
   .description('Force overwriting of existing output files on write phase.');
 
 /**
- * The `indent` options schema.
+ * The `force` option schema.
  * @type {external:joi.Schema}
  * @private
  */
-const indentSchema = Joi
-  .when('target', {
-    is: TYPE_YAML,
-    then: Joi
-      .number()
-      .integer()
-      .min(MIN_YAML_INDENT) // Must be 2 for YAML type!
-      .max(MAX_INDENT)
-      .default(DEFAULT_INDENT),
-    otherwise: Joi
-      .number()
-      .integer()
-      .min(MIN_INDENT)
-      .max(MAX_INDENT)
-      .default(DEFAULT_INDENT),
-  })
-  .description('The indention value for pretty-print of output.');
+const strictSchema = Joi
+  .boolean()
+  .default(DEFAULT_STRICT)
+  .description('Whether to write a "use strict;" in JS type output.');
 
 /**
- * The `exports` options schema.
+ * The `no-es6` option schema.
+ * @type {external:joi.Schema}
+ * @private
+ */
+const noES6Schema = Joi
+  .boolean()
+  .default(DEFAULT_NO_ES6)
+  .description('Whether not to use ECMAScript6 syntax for JS type output like "module.exports" instead of ' +
+    '"export default", applicable only for JS output.');
+
+/**
+ * The `no-single` option schema.
+ * @type {external:joi.Schema}
+ * @private
+ */
+const noSingleSchema = Joi
+  .boolean()
+  .default(DEFAULT_NO_SINGLE_QUOTES)
+  .description('Whether not to use single-quotes style for values in JS type output (i.e. double-quotes).');
+
+/**
+ * The `indent` option schema.
+ * @type {external:joi.Schema}
+ * @private
+ */
+const indentSchema = Joi.when('target', {
+  is: TYPE_YAML,
+  then: Joi
+    .number()
+    .integer()
+    .min(MIN_YAML_INDENT) // Must be 2 for YAML type!
+    .max(MAX_INDENT)
+    .default(DEFAULT_INDENT),
+  otherwise: Joi
+    .number()
+    .integer()
+    .min(MIN_INDENT)
+    .max(MAX_INDENT)
+    .default(DEFAULT_INDENT),
+}).description('The indention value for pretty-print of output.');
+
+/**
+ * The `exports` option schema.
  * @type {external:joi.Schema}
  * @private
  */
@@ -68,31 +100,29 @@ const exportsSchema = Joi
   .description('The name of property to export while writing a JS object to a JS output destination.');
 
 /**
- * The `target` options schema.
+ * The `target` option schema.
  * @type {external:joi.Schema}
  * @private
  */
-const targetSchema = Joi
-  .when('dest', {
-    is: Joi.object().type(Stream.Writable),
-    then: Joi
-      .string()
-      .valid(TYPE_YAML, TYPE_JSON, TYPE_JS)
-      .default(inferTargetDefault, 'try target default resolution from dest type if not set (Stream.Writable)'),
-    otherwise: Joi
-      .when('dest', {
-        is: Joi.string(),
-        then: Joi
-          .string()
-          .valid(TYPE_YAML, TYPE_JSON, TYPE_JS)
-          .default(inferTargetDefault, 'try target resolution from dest type if latter not set (String)'),
-        otherwise: Joi // check
-          .string()
-          .valid(TYPE_YAML, TYPE_JSON, TYPE_JS)
-          .default(TYPE_JS),
-      }),
-  })
-  .description('The target type of output.');
+const targetSchema = Joi.when('dest', {
+  is: Joi.object().type(Stream.Writable),
+  then: Joi
+    .string()
+    .valid(TYPE_YAML, TYPE_JSON, TYPE_JS)
+    .default(inferTargetDefault, 'try target default resolution from dest type if not set (Stream.Writable)'),
+  otherwise: Joi
+    .when('dest', {
+      is: Joi.string(),
+      then: Joi
+        .string()
+        .valid(TYPE_YAML, TYPE_JSON, TYPE_JS)
+        .default(inferTargetDefault, 'try target resolution from dest type if latter not set (String)'),
+      otherwise: Joi // check
+        .string()
+        .valid(TYPE_YAML, TYPE_JSON, TYPE_JS)
+        .default(TYPE_JS),
+    }),
+}).description('The target type of output.');
 
 /**
  * The prepared {@link external:joi.Schema} for validating the {@link ReadOptions}.
@@ -162,6 +192,9 @@ export const writeOptionsSchema = Joi.object().keys({
   exports: exportsSchema,
   indent: indentSchema,
   force: forceSchema,
+  strict: strictSchema,
+  'no-es6': noES6Schema,
+  'no-single': noSingleSchema,
 }).default()
   .required()
   .unknown();
@@ -192,6 +225,9 @@ export const transformOptionsSchema = readOptionsSchema.concat(Joi.object().keys
   exports: exportsSchema,
   indent: indentSchema,
   force: forceSchema,
+  strict: strictSchema,
+  'no-es6': noES6Schema,
+  'no-single': noSingleSchema,
 }).default()
   .required()
 );

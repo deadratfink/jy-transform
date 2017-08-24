@@ -211,6 +211,8 @@ The configuration properties provided to the `write` function.
 | indent | <code>number</code> | <code>2</code> | The indentation value for pretty-print of output. |
 | exports | <code>string</code> |  | The exports name for usage in JS destination files only. |
 | force | <code>string</code> | <code>false</code> | Force overwriting of existing output files on write phase. |
+| no-es6 | <code>boolean</code> | <code>false</code> | Whether not to use ECMAScript6 syntax for JS type output like                                                    `module.exports` instead of `export default`, applicable only                                                    for JS output. |
+| no-single | <code>boolean</code> | <code>false</code> | Whether _not_ to use single-quotes style for values in JS type                                                    output (i.e. double-quotes). |
 
 <a name="TransformOptions"></a>
 
@@ -232,4 +234,6 @@ The configuration properties provided to the `transform` function.
 | indent | <code>number</code> | <code>2</code> | The _write_ indentation value for pretty-print of output. |
 | exports | <code>string</code> |  | The _write_ exports name for usage in JS destination files only. |
 | force | <code>string</code> | <code>false</code> | Force overwriting of existing output files on write phase. |
+| no-es6 | <code>boolean</code> | <code>false</code> | Whether not to use ECMAScript6 syntax for JS type output like                                                     `module.exports` instead of `export default`, applicable only                                                     for JS output. |
+| no-single | <code>boolean</code> | <code>false</code> | Whether _not_ to use single-quotes style for values in JS type                                                      output (i.e. double-quotes). |
 

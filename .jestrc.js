@@ -6,7 +6,8 @@ module.exports = {
     'src/**/*.js',
     '!src/cli.js', // TODO: maybe later!
     '!src/debug-log.js', // TODO: maybe later!
-    'index.js'
+    'index.js',
+    'jyt',
   ],
   coverageDirectory: './coverage/',
   coverageReporters: ['html', 'lcov', 'lcovonly', 'text'],
@@ -20,15 +21,16 @@ module.exports = {
   },
   mapCoverage: true,
   testMatch: [
-    // '**/test/unit/test-cli.js',
+   // '**/test/functional/test-jyt-cli.js',
     // '**/test/unit/validation/test-joi-extensions-file-helper.js',
     // '**/test/unit/validation/test-joi-extensions-identifier-helper.js',
-    // '**/test/unit/test-transformer.js',
+    //'**/test/functional/test-transformer.js',
     // '**/test/unit/test-index.js',
     //'**/test/unit/test-reader.js',
     // '**/test/unit/test-writer.js',
     //  '**/test/unit/validation/test-options-schema.js',
-    '**/test/unit/**/*.js',
+     '**/test/unit/**/*.js',
+     '**/test/functional/**/*.js',
 //'**/test/unit/validation/test-options-schema-helper.js',
 
     // '**/test/test-log-wrapper.js',
@@ -39,9 +41,8 @@ module.exports = {
   ],
   testEnvironment: 'node',
   testPathIgnorePatterns: [
-    // '<rootDir>/test/data/.*',
-    // '<rootDir>/test/tmp/.*',
-    // '<rootDir>/test/logger.js',
+    '<rootDir>/test/functional/tmp/.*',
+    '<rootDir>/test/data/.*',
   ],
   verbose: true,
 };

@@ -11,6 +11,9 @@ jobs:
    steps:
     - checkout
     - run:
+        name: Install modules
+        command: make install
+    - run:
         name: Running tests
         command: make test
     - run:

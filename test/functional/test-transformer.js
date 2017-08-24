@@ -15,7 +15,11 @@ import {
   EXPECTED_VALUE,
 } from '../helper-constants';
 
-const fsPromised = promisify(fs);
+/**
+ * Promisified `fs` module.
+ * @private
+ */
+const fsPromisified = promisify(fs);
 
 /**
  * @module jy-transform:unit-test:test-transformer
@@ -53,8 +57,7 @@ const SRC_JS = TEST_DATA_DIR + '/test-file.js';
  * @constant
  * @private
  */
-const TRANSFORMER_TEST_BASE_DIR = './test/tmp/transformer';
-
+const TRANSFORMER_TEST_BASE_DIR = './test/functional/tmp/transformer';
 
 /**
  * Transformation middleware changing value for `foo` property.
@@ -71,14 +74,14 @@ async function transformFunc(object) {
  *
  * @param {Object} options - The transformation options.
  */
-async function assertTransformSuccess(options) {
+async function assertTransformSuccess(options, es6 = true) {
   expect.assertions(2);
   const msg = await transform(options);
   logger.debug(msg);
   const stats = fsExtra.statSync(options.dest);
   expect(stats.isFile()).toBeTruthy();
   // eslint-disable-next-line import/no-dynamic-require, global-require
-  const json = require(path.resolve(options.dest));
+  const json = es6 ? require(path.resolve(options.dest)).default : require(path.resolve(options.dest));
   expect(json.foo).toBe(EXPECTED_VALUE);
 }
 
@@ -94,7 +97,7 @@ async function assertYamlTransformSuccess(options) {
   expect(msg).toEqual(expect.any(String));
   const stats = fsExtra.statSync(options.dest);
   expect(stats.isFile()).toBeTruthy();
-  const yaml = await fsPromised.readFile(options.dest, UTF8);
+  const yaml = await fsPromisified.readFile(options.dest, UTF8);
   const object = jsYaml.safeLoad(yaml);
   expect(object.foo).toBe(EXPECTED_VALUE);
 }
@@ -125,7 +128,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
   describe('Testing transform with middleware', () => {
     it('should throw ValidationError if middleware passed is not a function type', async () => {
       expect.assertions(1);
-      await expect(transform(createOptions({}, 'not a function', {})))
+      await expect(transform(createOptions({}, {}, 'not a function')))
         .rejects.toMatchObject({ name: 'ValidationError', isJoi: true });
     });
 
@@ -160,9 +163,10 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
 
   describe('Testing Transformer transforming from YAML to JS to relative path', () => {
     const DEST = TRANSFORMER_TEST_BASE_DIR + '/test-data.js';
+    const DEST_NO_ES6 = TRANSFORMER_TEST_BASE_DIR + '/test-data-no-es6.js';
+    const DEST_DQ_AND_STRICT = TRANSFORMER_TEST_BASE_DIR + '/test-data-double-quotes-and-strict.js';
 
-    it('should store ' + DEST + ' file relative to ' + TRANSFORMER_TEST_BASE_DIR + '/test-data.yaml', async () => {
-      expect.assertions(2);
+    beforeAll(async () => {
       // Prepare test data.
       try {
         fsExtra.copySync(SRC_YAML, TRANSFORMER_TEST_BASE_DIR + '/test-data.yaml');
@@ -172,6 +176,10 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
           err.stack);
         throw err;
       }
+    });
+
+    it('should store ' + DEST + ' file relative to ' + TRANSFORMER_TEST_BASE_DIR + '/test-data.yaml', async () => {
+      expect.assertions(2);
       const msg = await transform({
         src: path.resolve(TRANSFORMER_TEST_BASE_DIR + '/test-data.yaml'),
         transform: transformFunc,
@@ -181,7 +189,43 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
       const stats = fs.statSync(DEST);
       expect(stats.isFile()).toBe(true);
       // eslint-disable-next-line import/no-unresolved, global-require, import/no-dynamic-require
-      const json = require('../tmp/transformer/test-data.js');
+      const json = require('./tmp/transformer/test-data.js').default;
+      expect(json.foo).toBe(EXPECTED_VALUE);
+    });
+
+    it('should store ' + DEST + ' file with double-quotes and strict', async () => {
+      expect.assertions(2);
+      const msg = await transform({
+        src: path.resolve(TRANSFORMER_TEST_BASE_DIR + '/test-data.yaml'),
+        dest: path.resolve(DEST_DQ_AND_STRICT),
+        transform: transformFunc,
+        target: TYPE_JS,
+        strict: true,
+        'no-single': true,
+      });
+      logger.debug(msg);
+      const stats = fs.statSync(DEST_DQ_AND_STRICT);
+      expect(stats.isFile()).toBe(true);
+      // eslint-disable-next-line import/no-unresolved, global-require, import/no-dynamic-require
+      const jsContentString = await fsPromisified.readFile(DEST_DQ_AND_STRICT, UTF8);
+      expect(jsContentString.startsWith('"use strict;"')).toBe(true);
+    });
+
+    it('should store ' + TRANSFORMER_TEST_BASE_DIR + '/test-data-no-es6.js file relative to ' +
+      TRANSFORMER_TEST_BASE_DIR + '/test-data.yaml (non-ES6 syntax)', async () => {
+      expect.assertions(2);
+      const msg = await transform({
+        src: path.resolve(TRANSFORMER_TEST_BASE_DIR + '/test-data.yaml'),
+        dest: path.resolve(DEST_NO_ES6),
+        transform: transformFunc,
+        target: TYPE_JS,
+        'no-es6': true,
+      });
+      logger.debug(msg);
+      const stats = fs.statSync(DEST_NO_ES6);
+      expect(stats.isFile()).toBe(true);
+      // eslint-disable-next-line import/no-unresolved, global-require, import/no-dynamic-require
+      const json = require('./tmp/transformer/test-data-no-es6.js');
       expect(json.foo).toBe(EXPECTED_VALUE);
     });
   });
@@ -210,7 +254,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
         transform: transformFunc,
         dest: path.resolve(DEST),
       };
-      await assertTransformSuccess(options);
+      await assertTransformSuccess(options, false);
     });
   });
 
@@ -238,7 +282,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
         transform: transformFunc,
         dest: path.resolve(DEST),
       };
-      await assertTransformSuccess(options);
+      await assertTransformSuccess(options, false);
     });
   });
 
@@ -281,7 +325,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
         transform: transformFunc,
         dest: path.resolve(DEST),
       };
-      await assertTransformSuccess(options);
+      await assertTransformSuccess(options, false);
     });
   });
 
