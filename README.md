@@ -108,6 +108,8 @@ npm install jy-transform --global
   - [Transform from Source to Destination](#transform-from-source-to-destination)
   - [Read into JS object from particular Source (File, Stream or JS Object)](#read-into-js-object-from-particular-source-file-stream-or-js-object)
   - [Write JS object to particular Destination](#write-js-object-to-particular-destination)
+- [CLI in 3 Seconds](#cli-in-3-seconds)
+  - [File Transformation](#file-transformation)
 - [Why This Module?](#why-this-module)
 - [Usage](#usage)
   - [Usage Types](#usage-types)
@@ -201,6 +203,16 @@ try {
 } catch (err) {
   console.error(err);
 }
+```
+
+## CLI in 3 Seconds
+
+### File Transformation
+
+E.g. transform YAML content file to a JSON file with an indention of 4:
+
+```text
+$ jyt foo/bar.yaml -t json -i 4
 ```
 
 ## Why This Module?

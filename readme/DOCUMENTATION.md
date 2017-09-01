@@ -78,6 +78,16 @@ try {
 }
 ```
 
+## CLI in 3 Seconds
+
+### File Transformation
+
+E.g. transform YAML content file to a JSON file with an indention of 4:
+
+```text
+$ jyt foo/bar.yaml -t json -i 4
+```
+
 ## Why This Module?
 
 After struggling with some huge YAML file and accidentally
