@@ -1,7 +1,7 @@
 import YAMLException from 'js-yaml/lib/js-yaml/exception';
 import fs from 'fs';
 import { read } from '../../src/reader';
-import { TEST_SUITE_DESCRIPTION_UNIT } from '../helper-constants';
+import { TEST_SUITE_DESCRIPTION_FUNCTIONAL } from '../helper-constants';
 import {
   TYPE_JS,
   TYPE_YAML,
@@ -14,7 +14,7 @@ import {
  * @private
  */
 
-describe(TEST_SUITE_DESCRIPTION_UNIT + ' - reader - ', () => {
+describe(TEST_SUITE_DESCRIPTION_FUNCTIONAL + ' - reader - ', () => {
   /**
    * Assert a `Error` properties for a given reader function.
    *

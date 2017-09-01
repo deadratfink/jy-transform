@@ -82,16 +82,16 @@ fi
 # API-PRIVATE.md
 ###############################################################################
 
-if [ "$api" == "true" ]; then
-  printf "Create documentation (API-PRIVATE.md)\n"
-  touch API-PRIVATE.md
-  printf "<!-- START doctoc -->\n<!-- END doctoc -->\n\n" >> API-PRIVATE.md
-  node node_modules/.bin/jsdoc2md --no-cache --private --configure .jsdoc.json . > API-PRIVATE.md
-  node node_modules/.bin/doctoc API-PRIVATE.md --github --title "## TOC" --maxlevel 2
-
-  printf -- "- [Private Api Reference](./API-PRIVATE.md)" >> README.md
-  printf "\n\n" >> README.md
-fi
+#if [ "$api" == "true" ]; then
+#  printf "Create documentation (API-PRIVATE.md)\n"
+#  touch API-PRIVATE.md
+#  printf "<!-- START doctoc -->\n<!-- END doctoc -->\n\n" >> API-PRIVATE.md
+#  node node_modules/.bin/jsdoc2md --no-cache --private --configure .jsdoc.json . > API-PRIVATE.md
+#  node node_modules/.bin/doctoc API-PRIVATE.md --github --title "## TOC" --maxlevel 2
+#
+#  printf -- "- [Private Api Reference](./API-PRIVATE.md)" >> README.md
+#  printf "\n\n" >> README.md
+#fi
 
 ###############################################################################
 # MAKE.md

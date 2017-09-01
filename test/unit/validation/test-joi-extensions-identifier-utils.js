@@ -7,7 +7,7 @@ import { TEST_SUITE_DESCRIPTION_UNIT } from '../../helper-constants';
  * @private
  */
 
-describe(TEST_SUITE_DESCRIPTION_UNIT + ' - joi-extensions-identifier-helper - ', () => {
+describe(TEST_SUITE_DESCRIPTION_UNIT + ' - joi-extensions-identifier-utils - ', () => {
   const nonStringIdentifier = {};
   it('should validate non-string identifier \'' + JSON.toString(nonStringIdentifier) + '\' to false', () =>
     expect(isValidEs6Identifier(nonStringIdentifier)).toBe(false)

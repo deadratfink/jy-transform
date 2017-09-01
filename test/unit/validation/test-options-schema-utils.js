@@ -19,7 +19,7 @@ import {
  * @private
  */
 
-describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema-helper - ', () => {
+describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema-utils - ', () => {
   describe('Function inferOriginDefault', () => {
     it('should infer the correct origin from relative path string with existing file having a known file extension',
       () => expect(inferOriginDefault({ src: 'test/unit/validation/test-joi-extensions-file-utils.js' })).toBe(TYPE_JS)
@@ -54,7 +54,7 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema-helper - ', () => {
 
   describe('Function inferTargetDefault', () => {
     it('should infer the correct target from relative path string with existing file having a known file ending', () =>
-      expect(inferTargetDefault({ dest: 'test/unit/validation/test-joi-extensions-file-helper.yaml' })).toBe(TYPE_YAML)
+      expect(inferTargetDefault({ dest: 'test/unit/validation/test-joi-extensions-file-utils.yaml' })).toBe(TYPE_YAML)
     );
 
     it('should infer the default target from relative path string with existing file having an unknown file type', () =>

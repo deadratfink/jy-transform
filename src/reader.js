@@ -80,31 +80,7 @@ async function readYaml(options) {
  * @resolve {string} Resolves with JS object result.
  * @reject {ValidationError} If any `options` validation occurs.
  * @reject {Error} If any write error occurs.
- * @public
- * @example
- * import { read } from 'jy-transform';
- *
- *
- * // --- from file path
- *
- * options = {
- *   src: 'foo.yml'
- * };
- *
- * read(options)
- *   .then(obj => console.log(JSON.stringify(obj)))
- *   .catch(console.error);
- *
- *
- * // --- from Readable
- *
- * options = {
- *   src: fs.createReadStream('foo.yml')
- * };
- *
- * read(options)
- *   .then(obj => console.log(JSON.stringify(obj)))
- *   .catch(console.error);
+ * @private
  */
 export async function read(options) {
   const validatedOptions = await Joi.validate(options, readOptionsSchema);

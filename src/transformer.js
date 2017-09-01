@@ -23,34 +23,7 @@ import { transformOptionsSchema } from './validation/options-schema';
  * @reject {TypeError} Will throw this error when the passed `middleware` is not type of `Function`.
  * @reject {ValidationError} If any `options` validation occurs.
  * @reject {Error} Will throw any error if read, transform or write operation failed due to any reason.
- * @public
- * @example
- * import { transform } from 'jy-transform';
- * const options = {
- *   src: 'foo/bar.yaml',            // From YAML file...
- *   transform: async (object) => {  // ...with exchanging value...
- *     object.foo = 'new value';
- *     return object;
- *   },
- *   target: 'foo/bar.json',         // ...to a new JSON file.
- *   indent: 4,
- * };
- *
- * // ---- Promise style:
- *
- * transform(options)
- *   .then(console.log)
- *   .catch(console.error);
- *
- *
- * // ---- async/await style:
- *
- * try {
- *   const msg = await transform(options);
- *   console.log(msg);
- * } catch (err) {
- *   console.error(err.stack);
- * };
+ * @private
  */
 export async function transform(options) {
   const validatedOptions = await Joi.validate(options, transformOptionsSchema);

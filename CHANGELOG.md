@@ -17,7 +17,7 @@ new interface:
    - This is the default now:
        - Usage of `export default` instead of `module.exports`.
        - Usage of `export const foo` instead of `module.exports.foo`.
-   - Can be suppressed by `options[no-es6]` (default `false`).
+   - Can be suppressed by `options[no-es6] = true` (default `false`).
 - [[#62](https://github.com/deadratfink/jy-transform/issues/62)] The `options.transform` function (formerly aka
   _middleware_ function) is no longer necessary to be a Promise/`async` one.
 - [[#59](https://github.com/deadratfink/jy-transform/issues/59)] Support single-quotes options for JS output.

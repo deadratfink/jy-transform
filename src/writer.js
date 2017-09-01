@@ -121,45 +121,6 @@ async function writeJs(object, options) {
  * @reject {Error} If any write error occurs.
  * @reject {ValidationError} If any `options` validation occurs.
  * @public
- * @example
- * import { write } from 'jy-transform';
- *
- *
- * // ---- write obj to file ---
- *
- * const obj = {...};
- * const options = {
- *   dest: 'result.js',
- *   indent: 4
- * }
- *
- * write(obj, options)
- *   .then(console.log)
- *   .catch(console.error);
- *
- *
- * // ---- write obj to Writable ---
- *
- * options = {
- *   dest: fs.createWriteStream('result.json'),
- *   indent: 4
- * }
- *
- * write(obj, options)
- *   .then(console.log)
- *   .catch(console.error);
- *
- *
- * // ---- write obj to object ---
- *
- * options = {
- *   dest: {},
- *   indent: 4
- * }
- *
- * write(obj, options)
- *   .then(console.log)
- *   .catch(console.error);
  */
 export async function write(object, options) {
   const validatedOptions = await Joi.validate(options, writeOptionsSchema);

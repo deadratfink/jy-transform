@@ -1,7 +1,8 @@
 {
   "source": {
     "include": [
-      "./"
+      "./src/jy-transform.js",
+      "./src/type-definitions.js"
     ],
     "exclude": [
       "test",

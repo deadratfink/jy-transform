@@ -4,7 +4,7 @@
 
 - [Modules](#modules)
 - [Typedefs](#typedefs)
-- [jy-transform:constants](#jy-transformconstants)
+- [jy-transform](#jy-transform)
 - [ReadOptions : <code>object</code>](#readoptions--codeobjectcode)
 - [WriteOptions : <code>object</code>](#writeoptions--codeobjectcode)
 - [TransformOptions : <code>object</code>](#transformoptions--codeobjectcode)
@@ -14,8 +14,8 @@
 ## Modules
 
 <dl>
-<dt><a href="#module_jy-transform_constants">jy-transform:constants</a></dt>
-<dd><p>Useful constants used for the module and its usage.</p>
+<dt><a href="#module_jy-transform">jy-transform</a></dt>
+<dd><p>This module provides the <em>public</em> interface for the <em>read</em>, <em>write</em> and <em>transform</em> functionality.</p>
 </dd>
 </dl>
 
@@ -33,38 +33,193 @@
 </dd>
 </dl>
 
-<a name="module_jy-transform_constants"></a>
+<a name="module_jy-transform"></a>
 
-## jy-transform:constants
-Useful constants used for the module and its usage.
+## jy-transform
+This module provides the _public_ interface for the _read_, _write_ and _transform_ functionality.
 
 **Access**: public  
+**Author**: Jens Krefeldt <j.krefeldt@gmail.com>  
 
-* [jy-transform:constants](#module_jy-transform_constants)
-    * [~TYPE_YAML](#module_jy-transform_constants..TYPE_YAML) : <code>string</code>
-    * [~TYPE_JSON](#module_jy-transform_constants..TYPE_JSON) : <code>string</code>
-    * [~TYPE_JS](#module_jy-transform_constants..TYPE_JS) : <code>string</code>
+* [jy-transform](#module_jy-transform)
+    * [~transform](#module_jy-transform..transform) ⇒ <code>Promise</code>
+    * [~read](#module_jy-transform..read) ⇒ <code>Promise</code>
+    * [~write](#module_jy-transform..write) ⇒ <code>Promise</code>
+    * [~TYPE_YAML](#module_jy-transform..TYPE_YAML) : <code>string</code>
+    * [~TYPE_JS](#module_jy-transform..TYPE_JS) : <code>string</code>
+    * [~TYPE_JSON](#module_jy-transform..TYPE_JSON) : <code>string</code>
 
-<a name="module_jy-transform_constants..TYPE_YAML"></a>
+<a name="module_jy-transform..transform"></a>
 
-### jy-transform:constants~TYPE_YAML : <code>string</code>
+### jy-transform~transform ⇒ <code>Promise</code>
+The entry method for all transformations accepting a configuration object and
+an (optional) middleware function. It executes the transformation logic.
+
+1. Input (read)
+2. Transform [ + Middleware]
+3. Output (write).
+
+**Kind**: inner constant of [<code>jy-transform</code>](#module_jy-transform)  
+**Returns**: <code>Promise</code> - The transformation result.  
+**Access**: public  
+**Resolve**: <code>string</code> With the transformation result as message (e.g. to be logged by caller).  
+**Reject**: <code>TypeError</code> Will throw this error when the passed `middleware` is not type of `Function`.  
+**Reject**: <code>ValidationError</code> If any `options` validation occurs.  
+**Reject**: <code>Error</code> Will throw any error if read, transform or write operation failed due to any reason.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | [<code>TransformOptions</code>](#TransformOptions) | The configuration for a transformation. |
+
+**Example**  
+```js
+import { transform } from 'jy-transform';
+const options = {
+  src: 'foo/bar.yaml',            // From YAML file...
+  transform: async (object) => {  // ...with exchanging value...
+    object.foo = 'new value';
+    return object;
+  },
+  target: 'foo/bar.json',         // ...to a new JSON file.
+  indent: 4,
+};
+
+// ---- Promise style:
+
+transform(options)
+  .then(console.log)
+  .catch(console.error);
+
+
+// ---- async/await style:
+
+try {
+  const msg = await transform(options);
+  console.log(msg);
+} catch (err) {
+  console.error(err.stack);
+};
+```
+<a name="module_jy-transform..read"></a>
+
+### jy-transform~read ⇒ <code>Promise</code>
+Reads a particular content type from a source provided in the passed `options`.
+
+**Kind**: inner constant of [<code>jy-transform</code>](#module_jy-transform)  
+**Returns**: <code>Promise</code> - The result.  
+**Access**: public  
+**Resolve**: <code>string</code> Resolves with JS object result.  
+**Reject**: <code>ValidationError</code> If any `options` validation occurs.  
+**Reject**: <code>Error</code> If any write error occurs.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | [<code>ReadOptions</code>](#ReadOptions) | The read options. |
+
+**Example**  
+```js
+import { read } from 'jy-transform';
+
+
+// --- from file path
+
+options = {
+  src: 'foo.yml'
+};
+
+read(options)
+  .then(obj => console.log(JSON.stringify(obj)))
+  .catch(console.error);
+
+
+// --- from Readable
+
+options = {
+  src: fs.createReadStream('foo.yml')
+};
+
+read(options)
+  .then(obj => console.log(JSON.stringify(obj)))
+  .catch(console.error);
+```
+<a name="module_jy-transform..write"></a>
+
+### jy-transform~write ⇒ <code>Promise</code>
+Writes the passed JS object to a particular destination described by the passed `options`.
+
+**Kind**: inner constant of [<code>jy-transform</code>](#module_jy-transform)  
+**Returns**: <code>Promise</code> - The result.  
+**Access**: public  
+**Resolve**: <code>string</code> With the write success message.  
+**Reject**: <code>Error</code> If any write error occurs.  
+**Reject**: <code>ValidationError</code> If any `options` validation occurs.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| object | <code>Object</code> | The JS source object to write. |
+| options | [<code>WriteOptions</code>](#WriteOptions) | The write options. |
+
+**Example**  
+```js
+import { write } from 'jy-transform';
+
+
+// ---- write obj to file ---
+
+const obj = {...};
+const options = {
+  dest: 'result.js',
+  indent: 4
+}
+
+write(obj, options)
+  .then(console.log)
+  .catch(console.error);
+
+
+// ---- write obj to Writable ---
+
+options = {
+  dest: fs.createWriteStream('result.json'),
+  indent: 4
+}
+
+write(obj, options)
+  .then(console.log)
+  .catch(console.error);
+
+
+// ---- write obj to object ---
+
+options = {
+  dest: {},
+  indent: 4
+}
+
+write(obj, options)
+  .then(console.log)
+  .catch(console.error);
+```
+<a name="module_jy-transform..TYPE_YAML"></a>
+
+### jy-transform~TYPE_YAML : <code>string</code>
 The `'yaml'` type constant.
 
-**Kind**: inner constant of [<code>jy-transform:constants</code>](#module_jy-transform_constants)  
+**Kind**: inner constant of [<code>jy-transform</code>](#module_jy-transform)  
 **Access**: public  
-<a name="module_jy-transform_constants..TYPE_JSON"></a>
+<a name="module_jy-transform..TYPE_JS"></a>
 
-### jy-transform:constants~TYPE_JSON : <code>string</code>
-The `'json'` type constant.
-
-**Kind**: inner constant of [<code>jy-transform:constants</code>](#module_jy-transform_constants)  
-**Access**: public  
-<a name="module_jy-transform_constants..TYPE_JS"></a>
-
-### jy-transform:constants~TYPE_JS : <code>string</code>
+### jy-transform~TYPE_JS : <code>string</code>
 The `'js'` type constant.
 
-**Kind**: inner constant of [<code>jy-transform:constants</code>](#module_jy-transform_constants)  
+**Kind**: inner constant of [<code>jy-transform</code>](#module_jy-transform)  
+**Access**: public  
+<a name="module_jy-transform..TYPE_JSON"></a>
+
+### jy-transform~TYPE_JSON : <code>string</code>
+The `'json'` type constant.
+
+**Kind**: inner constant of [<code>jy-transform</code>](#module_jy-transform)  
 **Access**: public  
 <a name="ReadOptions"></a>
 

@@ -1,31 +1,14 @@
-import { transform, read, write, TYPE_YAML, TYPE_JS, TYPE_JSON } from '../../index';
+import { transform, read, write, TYPE_YAML, TYPE_JS, TYPE_JSON } from '../../src/jy-transform';
 import { TEST_SUITE_DESCRIPTION_UNIT } from '../helper-constants';
 
-// eslint-disable-next-line import/no-commonjs
-const index = require('../../index');
-
 /**
- * @module jy-transform:test-unit:index
- * @description This unit test module tests the correct exporting from _./index.js_.
+ * @module jy-transform:test-unit:jy-transform
+ * @description This unit test module tests the correct exporting from _./src/jy-transform.js_.
  * @private
  */
 
-describe(TEST_SUITE_DESCRIPTION_UNIT + ' - index - ', () => {
+describe(TEST_SUITE_DESCRIPTION_UNIT + ' - jy-transform - ', () => {
   describe('Exports Check Unit Tests', () => {
-    describe('Exports', () =>
-      it('should be an existing Object', () => {
-        expect.assertions(8);
-        expect(index).toBeDefined();
-        expect(Object.keys(index)).toHaveLength(6);
-        expect(index.transform).toBeDefined();
-        expect(index.transform).toBeInstanceOf(Function);
-        expect(index.read).toBeDefined();
-        expect(index.read).toBeInstanceOf(Function);
-        expect(index.write).toBeDefined();
-        expect(index.write).toBeInstanceOf(Function);
-      })
-    );
-
     describe('Exported transform', () =>
       it('should be an existing function', () => {
         expect.assertions(2);

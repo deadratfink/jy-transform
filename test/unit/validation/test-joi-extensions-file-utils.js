@@ -7,7 +7,7 @@ import { isExistingFile } from '../../../src/validation/joi-extensions-file-util
  * @private
  */
 
-describe(TEST_SUITE_DESCRIPTION_UNIT + ' - joi-extensions-file-helper - ', () => {
+describe(TEST_SUITE_DESCRIPTION_UNIT + ' - joi-extensions-file-utils - ', () => {
   describe('Method isExistingFile(pathStr) ', () => {
     it('should return true on relative path string with existing file', () =>
       expect(isExistingFile('test/unit/validation/test-joi-extensions-file-utils.js')).toBe(true)

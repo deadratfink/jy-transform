@@ -5,7 +5,7 @@ import os from 'os';
 import stream from 'stream';
 import { write } from '../../src/writer';
 import { logger } from '../logger';
-import { TEST_SUITE_DESCRIPTION_UNIT } from '../helper-constants';
+import { TEST_SUITE_DESCRIPTION_FUNCTIONAL } from '../helper-constants';
 import {
   TYPE_YAML,
   TYPE_JS,
@@ -20,7 +20,7 @@ const fsPromised = promisify(fs);
  * @private
  */
 
-describe(TEST_SUITE_DESCRIPTION_UNIT + ' - writer - ', () => {
+describe(TEST_SUITE_DESCRIPTION_FUNCTIONAL + ' - writer - ', () => {
   /**
    * Sample JS content used in tests.
    *

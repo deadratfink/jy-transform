@@ -33,7 +33,8 @@ module.exports = {
      '**/test/functional/**/*.js',
 //'**/test/unit/validation/test-options-schema-helper.js',
 
-    // '**/test/test-log-wrapper.js',
+
+    //'**/test/unit/test-serialize-utils.js',
     // '**/test/unit/test-middleware.js',
     // '**/test/test-index.js',
     //'/*.js!**/test/functional/util/**',

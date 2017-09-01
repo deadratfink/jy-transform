@@ -8,6 +8,7 @@ lib/
 index.js
 test/data
 test/tmp
+test/functional/tmp
 
 # TODO reve later when test os done
 test/unit/test-cli.js

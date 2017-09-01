@@ -16,8 +16,7 @@ import serializeJs from 'serialize-js';
  * @returns {Promise.<string>} Resolves with the exports string.
  * @private
  */
-async function createExportString(es6, exportsTo) {
-  console.log('################## ####### es6 = ' + es6)
+export async function createExportString(es6, exportsTo) {
   let exports = es6 ? 'export' : 'module.exports';
   if (exportsTo) {
     exports += es6 ? ` const ${exportsTo} = ` : '.' + exportsTo + ' = ';

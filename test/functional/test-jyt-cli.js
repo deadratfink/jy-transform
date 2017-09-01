@@ -1,6 +1,6 @@
 import jsYaml from 'js-yaml';
 import promisify from 'promisify-es6';
-import { exec, execFile, spawn } from 'child_process';
+import { exec } from 'child_process';
 import fsExtra from 'fs-extra';
 import fs from 'fs';
 import cwd from 'cwd';
@@ -11,7 +11,7 @@ import {
   TYPE_JS,
 } from '../../src/constants';
 import {
-  TEST_SUITE_DESCRIPTION_UNIT,
+  TEST_SUITE_DESCRIPTION_FUNCTIONAL,
   TEST_DATA_DIR,
   EXPECTED_VALUE,
 } from '../helper-constants';
@@ -72,8 +72,8 @@ const CLI_OPTIONS_LONG_TO_SHORT_MAP = {
   imports: '-m',
   exports: '-x',
   strict: '-s',
-  'no-es6': '--no-es6',
-  'no-single': '--no-single',
+  'no-es6': '--no-es6', // no short available
+  'no-single': '--no-single', // no short available
 };
 
 /**
@@ -97,12 +97,11 @@ function createOptions(src, dest) {
  * @param {string[]} args - The source, destination CLI arguments and all CLI options.
  * @returns {Promise} A result, see details.
  * @resolve {string} The transformation success message.
- * @rejects {Error} Any error occurred.
+ * @reject {Error} Any error occurred.
  * @private
  */
 function execJyt(args) {
   return new Promise((resolve, reject) => {
-    console.log('CWD: ' + cwd());
     const command = './jyt ' + args.join(' ');
     logger.info('executing command: ' + command);
     const childProcess = exec(command, { cwd: cwd() /* , encoding: 'utf8' */ }, (err, stdout, stderr) => {
@@ -137,6 +136,7 @@ function optionsToArgs(options) {
  * Helper method which asserts the successful transformation.
  *
  * @param {TransformOptions} options - The transformation options.
+ * @param {boolean} [es6=true]       - Whether to use ES6 syntax.
  * @private
  */
 async function assertTransformSuccess(options, es6 = true) {
@@ -167,7 +167,7 @@ async function assertYamlTransformSuccess(options) {
   expect(object.foo).toBe(EXPECTED_VALUE);
 }
 
-describe(TEST_SUITE_DESCRIPTION_UNIT + ' - ./jyt -> ./src/cli.js - ', () => {
+describe(TEST_SUITE_DESCRIPTION_FUNCTIONAL + ' - ./jyt -> ./src/cli.js - ', () => {
   beforeAll(() => {
     fsExtra.ensureDirSync(CLI_TEST_BASE_DIR);
     fsExtra.emptyDirSync(CLI_TEST_BASE_DIR);

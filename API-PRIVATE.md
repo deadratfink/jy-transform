@@ -27,6 +27,7 @@
 - [jy-transform:unit:helper-constants : <code>Object</code> ℗](#jy-transformunithelper-constants--codeobjectcode-%E2%84%97)
 - [jy-transform:unit:logger : <code>Object</code> ℗](#jy-transformunitlogger--codeobjectcode-%E2%84%97)
 - [jy-transform:test-unit:index ℗](#jy-transformtest-unitindex-%E2%84%97)
+- [jy-transform:test-unit:serialize-utils ℗](#jy-transformtest-unitserialize-utils-%E2%84%97)
 - [jy-transform:test-unit:test-joi-extension-file-utils ℗](#jy-transformtest-unittest-joi-extension-file-utils-%E2%84%97)
 - [jy-transform:unit-test:test-joi-extensions-identifier-utils ℗](#jy-transformunit-testtest-joi-extensions-identifier-utils-%E2%84%97)
 - [jy-transform:unit-test:test-options-schema-utils ℗](#jy-transformunit-testtest-options-schema-utils-%E2%84%97)
@@ -118,6 +119,9 @@ memory to a JSON/JS/YAML destination (file, <code>Object</code> or <a href="stre
 </dd>
 <dt><a href="#module_jy-transform_test-unit_index">jy-transform:test-unit:index</a> ℗</dt>
 <dd><p>This unit test module tests the correct exporting from <em>./index.js</em>.</p>
+</dd>
+<dt><a href="#module_jy-transform_test-unit_serialize-utils">jy-transform:test-unit:serialize-utils</a> ℗</dt>
+<dd><p>This unit test suite checks the validity and correctness of JS serialization utility methods.</p>
 </dd>
 <dt><a href="#module_jy-transform_test-unit_test-joi-extension-file-utils">jy-transform:test-unit:test-joi-extension-file-utils</a> ℗</dt>
 <dd><p>This unit test module tests validation FS helper method.</p>
@@ -563,7 +567,7 @@ This module provides the _public_ interface for the _read_ functionality of YAML
 * [jy-transform:reader](#module_jy-transform_reader) ℗
     * [~readJsOrJson](#module_jy-transform_reader..readJsOrJson) ⇒ <code>Promise.&lt;Object&gt;</code> ℗
     * [~readYaml](#module_jy-transform_reader..readYaml) ⇒ <code>Promise.&lt;Object&gt;</code> ℗
-    * [~read](#module_jy-transform_reader..read) ⇒ <code>Promise</code>
+    * [~read](#module_jy-transform_reader..read) ⇒ <code>Promise</code> ℗
 
 <a name="module_jy-transform_reader..readJsOrJson"></a>
 
@@ -595,12 +599,12 @@ exception on those.
 
 <a name="module_jy-transform_reader..read"></a>
 
-### jy-transform:reader~read ⇒ <code>Promise</code>
+### jy-transform:reader~read ⇒ <code>Promise</code> ℗
 Reads a particular content type from a source provided in the passed `options`.
 
 **Kind**: inner property of [<code>jy-transform:reader</code>](#module_jy-transform_reader)  
 **Returns**: <code>Promise</code> - The result.  
-**Access**: public  
+**Access**: private  
 **Resolve**: <code>string</code> Resolves with JS object result.  
 **Reject**: <code>ValidationError</code> If any `options` validation occurs.  
 **Reject**: <code>Error</code> If any write error occurs.  
@@ -1220,7 +1224,7 @@ Executes `./jyt` script with given args (which includes source, destination and 
 **Returns**: <code>Promise</code> - A result, see details.  
 **Access**: private  
 **Resolve**: <code>string</code> The transformation success message.  
-**Rejects**: <code>Error</code> Any error occurred.  
+**Reject**: <code>Error</code> Any error occurred.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -1420,6 +1424,12 @@ This function formats the log string by given options to log.
 This unit test module tests the correct exporting from _./index.js_.
 
 **Access**: private  
+<a name="module_jy-transform_test-unit_serialize-utils"></a>
+
+## jy-transform:test-unit:serialize-utils ℗
+This unit test suite checks the validity and correctness of JS serialization utility methods.
+
+**Access**: private  
 <a name="module_jy-transform_test-unit_test-joi-extension-file-utils"></a>
 
 ## jy-transform:test-unit:test-joi-extension-file-utils ℗
@@ -1547,9 +1557,10 @@ Helper method which asserts the successful transformation.
 **Kind**: global variable  
 **Access**: private  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| options | [<code>TransformOptions</code>](#TransformOptions) | The transformation options. |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| options | [<code>TransformOptions</code>](#TransformOptions) |  | The transformation options. |
+| [es6] | <code>boolean</code> | <code>true</code> | Whether to use ES6 syntax. |
 
 <a name="assertYamlTransformSuccess"></a>
 
@@ -1580,9 +1591,10 @@ Helper method which asserts the successful transformation.
 
 **Kind**: global variable  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| options | <code>Object</code> | The transformation options. |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| options | <code>Object</code> |  | The transformation options. |
+| [es6] | <code>boolean</code> | <code>true</code> | Whether to use ES6 syntax. |
 
 <a name="assertYamlTransformSuccess"></a>
 

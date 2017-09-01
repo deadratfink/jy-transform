@@ -105,9 +105,9 @@ npm install jy-transform --global
 ## TOC
 
 - [API in a Minute](#api-in-a-minute)
-  - [Read, Transform & Write from Source to Destination](#read-transform--write-from-source-to-destination)
-  - [Read into JS object from particular Source (File, Stream or JS Object) only](#read-into-js-object-from-particular-source-file-stream-or-js-object-only)
-  - [Write JS object to particular Destination only](#write-js-object-to-particular-destination-only)
+  - [Transform from Source to Destination](#transform-from-source-to-destination)
+  - [Read into JS object from particular Source (File, Stream or JS Object)](#read-into-js-object-from-particular-source-file-stream-or-js-object)
+  - [Write JS object to particular Destination](#write-js-object-to-particular-destination)
 - [Why This Module?](#why-this-module)
 - [Usage](#usage)
   - [Usage Types](#usage-types)
@@ -125,7 +125,7 @@ npm install jy-transform --global
 
 ## API in a Minute
 
-### Read, Transform & Write from Source to Destination
+### Transform from Source to Destination
 
 ```javascript
 import { transform } from 'jy-transform';
@@ -153,11 +153,11 @@ try {
   const msg = await transform(options);  // Transform, of course, inside an async.
   console.log(msg);                      // Success message!
 } catch (err) {                          // Oops!
-  console.error(err.stack);
+  console.error(err);
 }
 ```
 
-### Read into JS object from particular Source (File, Stream or JS Object) only
+### Read into JS object from particular Source (File, Stream or JS Object)
 
 ```javascript
 import { read } from 'jy-transform';
@@ -176,11 +176,11 @@ try {
   const object = await read(options);
   console.log(JSON.stringify(object));    // Print read object.
 } catch (err) {
-  console.error(err.stack);
+  console.error(err);
 }
 ```
 
-### Write JS object to particular Destination only
+### Write JS object to particular Destination
 
 ```javascript
 import { write } from 'jy-transform';
@@ -199,7 +199,7 @@ try {
   const msg = await write(object, options);
   console.log(msg);                      // Print write success message.
 } catch (err) {
-  console.error(err.stack);
+  console.error(err);
 }
 ```
 
@@ -231,26 +231,28 @@ So, what are the typical use cases for this module? In terms of _transformation_
 these consists of different phases:
 
   1. Reading from source
-  2. Transforming JSON objects (`Transformer`) or apply dedicated actions on the intermediate JSON objects
+  2. Transforming JSON objects or apply dedicated actions on the intermediate JSON objects
   3. Writing to a destination
 
-#### Reading From
+#### Read Case
 
-- _*.yaml_ file
-- _*.js_ file
-- _*.json_ file
+Reading from a file:
 
-Additionally, on API level from a:
+- _*.yaml_
+- _*.js_
+- _*.json_
 
-- `stream.Readable`
-   - Contain serialized JS, JSON or YAML
-   - If not file stream it requires `options.origin` property set
+Additionally, on API level from:
+
+- `stream.Readable`:
+   - Contains serialized JS, JSON or YAML
+   - If not a file stream then setting requires `options.origin` property is mandatory
    - Reads as UTF-8
-- JS `object`
+- JS `object`:
    - Actually, this means the reading phase is "skipped", because object is in-memory already
    - Of course, this case _cannot_ not be applied to serialized JSON or YAML content
 
-#### Transformation
+#### Transformation Case
 
 The _transformation_ is usually a format change, but can also be refer to content changes on the
 intermediate JS object, the latter with the help of a configured `transform` callback function.
@@ -275,21 +277,23 @@ while:
 As mentioned above the configured `transform` callback can apply particular actions on the intermediate JS object, but
 this is an optional part for [transformation](#transformation) phase.
 
-#### Writing To
+#### Write Case
 
-- _*.yaml_ file
-- _*.js_ file
-- _*.json_ file
+Writing to a file:
 
-Additionally, on API level to a:
+- _*.yaml_
+- _*.js_
+- _*.json_
 
-- `stream.Writable`
+Additionally, on API level to:
+
+- `stream.Writable`:
    - Serialized JS, JSON and YAML
    - Requires `options.target` property set
    - Writes UTF-8
-- JS `object
-   - JS as simple reference
-   - YAML and JSON as serialized string
+- JS `object`:
+   - JS as a simple reference
+   - YAML and JSON as a serialized string
 
 ### Limitations
 
@@ -324,9 +328,6 @@ Additionally, on API level to a:
   and JS only, but at the moment we require that each document to transform is a
   _single_ one per source (or in case of JS could be identified)! This feature is
   planned and reflected in [#14](https://github.com/deadratfink/jy-transform/issues/14).
-- Schema validation for input and output is another topic which is planned by
-  [#1](https://github.com/deadratfink/jy-transform/issues/1) and
-  [#2](https://github.com/deadratfink/jy-transform/issues/2).
 
 ### CLI Usage
 
@@ -400,7 +401,7 @@ Then we can transform it to a JSON content as _foo.json_ file:
 
 ```json
 {
-  "foo": "bar"
+    "foo": "bar"
 }
 ```
 
@@ -432,13 +433,11 @@ Accordingly, this is also true for the `target` option.
 The command
 
 ```text
-$ jyt foo.json -i 4
+$ jyt foo.json
 ```
 results in _foo.js_:
 ```javascript
-module.exports = {
-    foo: "bar"
-}
+export default {foo: 'bar'}
 ```
 
 #### Example: JS ⇒ YAML
@@ -789,8 +788,6 @@ section for more details about conventions.
 - [Module Details](./PACKAGE.md)
 
 - [Public Api Reference](./API-PUBLIC.md)
-
-- [Private Api Reference](./API-PRIVATE.md)
 
 - [Makefile Reference](./MAKE.md)
 

@@ -10,7 +10,7 @@ import {
   TYPE_JS,
 } from '../../src/constants';
 import {
-  TEST_SUITE_DESCRIPTION_UNIT,
+  TEST_SUITE_DESCRIPTION_FUNCTIONAL,
   TEST_DATA_DIR,
   EXPECTED_VALUE,
 } from '../helper-constants';
@@ -72,7 +72,8 @@ async function transformFunc(object) {
 /**
  * Helper method which asserts the successful transformation.
  *
- * @param {Object} options - The transformation options.
+ * @param {Object} options     - The transformation options.
+ * @param {boolean} [es6=true] - Whether to use ES6 syntax.
  */
 async function assertTransformSuccess(options, es6 = true) {
   expect.assertions(2);
@@ -119,7 +120,7 @@ function createOptions(src, dest, func = transformFunc) {
   };
 }
 
-describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
+describe(TEST_SUITE_DESCRIPTION_FUNCTIONAL + ' - transformer - ', () => {
   beforeAll(() => {
     fsExtra.ensureDirSync(TRANSFORMER_TEST_BASE_DIR);
     fsExtra.emptyDirSync(TRANSFORMER_TEST_BASE_DIR);
@@ -231,13 +232,12 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
   });
 
   describe('Testing Transformer transforming from YAML to JS', () => {
-    const SRC = './test/data/test-file.yaml';
     const DEST = TRANSFORMER_TEST_BASE_DIR + '/test-data-transform-yaml-js.js';
 
-    it('should store ' + SRC + ' file to ' + DEST, async () => {
+    it('should store ' + SRC_YAML + ' file to ' + DEST, async () => {
       expect.assertions(2);
       const options = {
-        src: path.resolve(SRC),
+        src: path.resolve(SRC_YAML),
         transform: transformFunc,
         dest: path.resolve(DEST),
       };
@@ -272,13 +272,12 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
   });
 
   describe('Testing Transformer transforming from JS to JSON', () => {
-    const SRC = './test/data/test-file.js';
     const DEST = TRANSFORMER_TEST_BASE_DIR + '/test-data-transform-js-json.json';
 
-    it('should store ' + SRC + ' file to ' + DEST, async () => {
+    it('should store ' + SRC_JS + ' file to ' + DEST, async () => {
       expect.assertions(2);
       const options = {
-        src: path.resolve(SRC),
+        src: path.resolve(SRC_JS),
         transform: transformFunc,
         dest: path.resolve(DEST),
       };
@@ -288,12 +287,11 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
 
   describe('Testing Transformer transforming from JS to YAML', () => {
     expect.assertions(2);
-    const SRC = './test/data/test-file.js';
     const DEST = TRANSFORMER_TEST_BASE_DIR + '/test-data-transform-js-yaml.yaml';
 
-    it('should store ' + SRC + ' file to ' + DEST, async () => {
+    it('should store ' + SRC_JS + ' file to ' + DEST, async () => {
       const options = {
-        src: path.resolve(SRC),
+        src: path.resolve(SRC_JS),
         transform: transformFunc,
         dest: path.resolve(DEST),
       };
@@ -302,12 +300,11 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
   });
 
   describe('Testing Transformer transforming from YAML to YAML', () => {
-    const SRC = './test/data/test-file.yaml';
     const DEST = TRANSFORMER_TEST_BASE_DIR + '/test-data-transform-yaml-yaml.yaml';
 
-    it('should store ' + SRC + ' file to ' + DEST, async () => {
+    it('should store ' + SRC_YAML + ' file to ' + DEST, async () => {
       const options = {
-        src: path.resolve(SRC),
+        src: path.resolve(SRC_YAML),
         transform: transformFunc,
         dest: path.resolve(DEST),
       };
@@ -316,12 +313,11 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
   });
 
   describe('Testing Transformer transforming from JSON to JSON', () => {
-    const SRC = './test/data/test-file.json';
     const DEST = TRANSFORMER_TEST_BASE_DIR + '/test-data-transform-json-json.json';
 
-    it('should store ' + SRC + ' file to ' + DEST, async () => {
+    it('should store ' + SRC_JSON + ' file to ' + DEST, async () => {
       const options = {
-        src: path.resolve(SRC),
+        src: path.resolve(SRC_JSON),
         transform: transformFunc,
         dest: path.resolve(DEST),
       };
@@ -330,12 +326,11 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
   });
 
   describe('Testing Transformer transforming from JSON to YAML', () => {
-    const SRC = './test/data/test-file.json';
     const DEST = TRANSFORMER_TEST_BASE_DIR + '/test-data-transform-json-yaml.yaml';
 
-    it('should store ' + SRC + ' file to ' + DEST, async () => {
+    it('should store ' + SRC_JSON + ' file to ' + DEST, async () => {
       const options = {
-        src: path.resolve(SRC),
+        src: path.resolve(SRC_JSON),
         transform: transformFunc,
         dest: path.resolve(DEST),
       };
@@ -344,13 +339,12 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - transformer - ', () => {
   });
 
   describe('Testing Transformer transforming from JS to JS', () => {
-    const SRC = './test/data/test-file.js';
     const DEST = TRANSFORMER_TEST_BASE_DIR + '/test-data-transform-js-js.js';
 
-    it('should store ' + SRC + ' file to ' + DEST, async () => {
+    it('should store ' + SRC_JS + ' file to ' + DEST, async () => {
       expect.assertions(2);
       const options = {
-        src: path.resolve(SRC),
+        src: path.resolve(SRC_JS),
         transform: transformFunc,
         dest: path.resolve(DEST),
       };
