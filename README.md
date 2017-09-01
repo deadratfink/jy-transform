@@ -119,7 +119,6 @@ npm install jy-transform --global
   - [Examples](#examples)
   - [Origin and Target Type Inference](#origin-and-target-type-inference)
   - [API Usage](#api-usage)
-- [API Reference](#api-reference)
 - [Contributing](#contributing)
 - [Further information](#further-information)
 
@@ -779,12 +778,6 @@ you can do almost everything with the JS object, like
 - Changing properties to other types
 - Validating and throwing/resolving with error if not valid
 - ...
-
-## API Reference
-
-For more details on how to use the API, please refer to the
-[API Reference](https://github.com/deadratfink/jy-transform/wiki/API-public-v3)
-wiki which describes the full API and provides more examples.
 
 ## Contributing
 
