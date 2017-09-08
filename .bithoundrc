@@ -21,7 +21,9 @@
     "**/coverage/**",
     "**/lib/**",
     "**/node_modules/**",
-    "**/readme/**"
+    "**/readme/**",
+    "**/test/tmp/**"
+    "**/test/functional/tmp/**"
   ],
   "test": [
     "**/test/unit/**",
