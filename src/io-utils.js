@@ -79,7 +79,7 @@ export async function readYamlFromfile(file) {
   // load source from YAML file
   const yaml = await fsPromisified.readFile(file, UTF8);
   try {
-    return jsYaml.safeLoad(yaml); // TODO promisify???
+    return jsYaml.safeLoad(yaml);
   } catch (err) { // probably a YAMLException
     throw err;
   }

@@ -5,7 +5,6 @@ module.exports = {
     '!lib/**/*.js',
     'src/**/*.js',
     '!src/cli.js', // TODO: maybe later!
-    '!src/debug-log.js', // TODO: maybe later!
     'index.js',
     'jyt',
   ],

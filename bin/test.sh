@@ -20,7 +20,8 @@ fi
 #git checkout --track origin/master
 #git checkout --track origin/development
 #export GIT_MERGE_AUTOEDIT=no
-#git config gitflow.branch.develop development
+#git config gi
+# tflow.branch.develop development
 #git config gitflow.prefix.versiontag v
 #git flow init -fd
 #git flow release start $VERSION

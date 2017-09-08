@@ -10,6 +10,7 @@
 [![codecov.io][cc-image-master]][cc-url-master]
 [![coveralls.io][ca-image-master]][ca-url-master]
 [![inch-ci.org][inch-image-master]][inch-url-master]
+[![bitHound Overall Score](https://www.bithound.io/github/deadratfink/jy-transform/badges/score.svg)](https://www.bithound.io/github/deadratfink/jy-transform)
 [![bitHound Code][bithound-code-image]][bithound-url]
 [![bitHound Dependencies][bitHound-dependencies-image]][bitHound-dependencies]
 [![bitHound Dev Dependencies][bitHound-dev-dependencies-image]][bitHound-dependencies]

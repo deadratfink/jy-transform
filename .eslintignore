@@ -1,7 +1,6 @@
 coverage/**
 node_modules/**
 api-docs
-coverage/
 readme/
 .idea
 lib/
@@ -10,5 +9,5 @@ test/data
 test/tmp
 test/functional/tmp
 
-# TODO reve later when test os done
+# TODO revert later when test is done
 test/unit/test-cli.js
