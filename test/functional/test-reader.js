@@ -244,10 +244,6 @@ describe(TEST_SUITE_DESCRIPTION_FUNCTIONAL + ' - reader - ', () => {
       expectReaderSuccess({ src: './test/data/test-data.yaml' }, 'myproperty', 'old value')
     );
 
-    it('should read JS from object successfully', () => // TODO
-      expectReaderSuccess({ src: { test: 'value' } }, 'test', 'value')
-    );
-
     it('should read YAML from stream successfully', () =>
       expectReaderSuccess({
         origin: TYPE_YAML,
