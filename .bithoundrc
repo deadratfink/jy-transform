@@ -1,12 +1,19 @@
 {
   "critics": {
-   "lint": {
-    "engine": "eslint"
-   }
+    "lint": {
+      "engine": "eslint",
+      "configLocation": ".eslintrc.js",
+      "ignoreLocation": ".eslintignore"
+    }
   },
   "dependencies": {
     "unused-ignores": [
       "eslint"
+    ],
+    "mute": [
+      "package-json-to-readme",
+      "jsdoc-to-markdown",
+      "inchjs"
     ]
   }
   "ignore": [
@@ -17,6 +24,7 @@
     "**/readme/**"
   ],
   "test": [
-    "**/test/unit/**"
+    "**/test/unit/**",
+    "**/test/functional/**"
   ]
 }
