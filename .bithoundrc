@@ -4,6 +4,9 @@
       "engine": "eslint",
       "configLocation": ".eslintrc.js",
       "ignoreLocation": ".eslintignore"
+    },
+    "wc": {
+      "limit": 500
     }
   },
   "dependencies": {
