@@ -14,9 +14,10 @@
       "eslint"
     ],
     "mute": [
-      "package-json-to-readme",
+      "bithound",
+      "inchjs",
       "jsdoc-to-markdown",
-      "inchjs"
+      "package-json-to-readme"
     ]
   }
   "ignore": [

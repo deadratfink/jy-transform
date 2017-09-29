@@ -129,25 +129,32 @@ describe(TEST_SUITE_DESCRIPTION_FUNCTIONAL + ' - transformer - ', () => {
   describe('Testing transform with middleware', () => {
     it('should throw ValidationError if middleware passed is not a function type', async () => {
       expect.assertions(1);
-      await expect(transform(createOptions({}, {}, 'not a function')))
-        .rejects.toMatchObject({ name: 'ValidationError', isJoi: true });
+      try {
+        await transform(createOptions({}, {}, 'not a function'));
+      } catch (err) {
+        expect(err.name).toMatch('ValidationError');
+      }
     });
 
     it('should throw ValidationError if options.dest is not set and cannot be resolved from options.src type',
       async () => {
         expect.assertions(1);
-        await expect(transform(createOptions({} /* We cannot infer destination from this src type! */)))
-          .rejects.toMatchObject({ name: 'ValidationError', isJoi: true });
-      });
+        try {
+          await transform(createOptions({} /* We cannot infer destination from undefined src type! */));
+        } catch (err) {
+          expect(err.name).toMatch('ValidationError');
+        }
+      }
+    );
 
-    it('should not fail if middleware passed is returning a Promise', () => {
+    it('should not fail if transform callback passed is returning a Promise', () => {
       expect.assertions(1);
       const returningPromise = async object => object;
       return expect(transform(createOptions({}, {}, returningPromise)))
         .resolves.toBe('Writing JS to options.dest successful.');
     });
 
-    it('should not fail if middleware passed is not returning a Promise', () => {
+    it('should not fail if transform callback passed is not returning a Promise', () => {
       expect.assertions(1);
       const notReturningPromise = object => object;
       return expect(transform(createOptions({}, {}, notReturningPromise)))
@@ -155,7 +162,7 @@ describe(TEST_SUITE_DESCRIPTION_FUNCTIONAL + ' - transformer - ', () => {
     });
   });
 
-  describe('Testing transform without middleware', () => {
+  describe('Testing transform without transform callback', () => {
     it('should not fail', () => {
       expect.assertions(1);
       return expect(transform({ src: {}, dest: {} })).resolves.toBe('Writing JS to options.dest successful.');

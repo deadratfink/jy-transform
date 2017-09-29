@@ -91,14 +91,18 @@ describe(TEST_SUITE_DESCRIPTION_FUNCTIONAL + ' - writer - ', () => {
   /**
    * Assert an `Error` for a given writer function.
    *
-   * @param {Object} object                 - The JS object to write.
-   * @param {Object} options                - The options which potentially produce the error.
-   * @param {Object} [match={name:'Error'}] - The propertie(s) an error should contain.
+   * @param {Object} object        - The JS object to write.
+   * @param {Object} options       - The options which potentially produce the error.
+   * @param {string} [match=Error] - The error name to match.
    * @private
    */
-  const expectWriteError = (object, options, match = { name: 'Error' }) => {
+  const expectWriteError = async (object, options, match = 'Error') => {
     expect.assertions(1);
-    return expect(write(object, options)).rejects.toMatchObject(match);
+    try {
+      await write(object, options);
+    } catch (err) {
+      expect(err.name).toMatch(match);
+    }
   };
 
   /**
@@ -153,7 +157,7 @@ describe(TEST_SUITE_DESCRIPTION_FUNCTIONAL + ' - writer - ', () => {
         dest: WRITER_TEST_BASE_DIR + '/test-data-by-js-stream-with-invalid-exports-identifier.js',
         exports: '#3/-',
       };
-      return expectWriteError(JS_CONTENT, options, { name: 'ValidationError', isJoi: true });
+      return expectWriteError(JS_CONTENT, options, 'ValidationError');
     });
 
     it('should write JS to stream and fail by invalid exports identifier (\'#3/-\')', () => {
@@ -162,7 +166,7 @@ describe(TEST_SUITE_DESCRIPTION_FUNCTIONAL + ' - writer - ', () => {
         dest: fs.createWriteStream(file),
         exports: '#3/-',
       };
-      return expectWriteError(JS_CONTENT, options, { name: 'ValidationError', isJoi: true });
+      return expectWriteError(JS_CONTENT, options, 'ValidationError');
     });
 
     it('should write JS to stream and fail by invalid exports identifier (\'if\')', () => {
@@ -171,7 +175,7 @@ describe(TEST_SUITE_DESCRIPTION_FUNCTIONAL + ' - writer - ', () => {
         dest: fs.createWriteStream(file),
         exports: 'if',
       };
-      return expectWriteError(JS_CONTENT, options, { name: 'ValidationError', isJoi: true });
+      return expectWriteError(JS_CONTENT, options, 'ValidationError');
     });
 
     it('should write JS to stream and fail by provoked error', () => {
@@ -203,7 +207,7 @@ describe(TEST_SUITE_DESCRIPTION_FUNCTIONAL + ' - writer - ', () => {
         dest: {},
         exports: '',
       };
-      return expectWriteError(JS_CONTENT, options, { name: 'ValidationError', isJoi: true });
+      return expectWriteError(JS_CONTENT, options, 'ValidationError');
     });
 
     const exports = 'foo';
@@ -227,11 +231,11 @@ describe(TEST_SUITE_DESCRIPTION_FUNCTIONAL + ' - writer - ', () => {
         dest: {},
         exports: invalidIdentifier,
       };
-      return expectWriteError(JS_CONTENT, options, { name: 'ValidationError', isJoi: true });
+      return expectWriteError(JS_CONTENT, options, 'ValidationError');
     });
 
     it('should reject write JS with Error on missing destination', () => {
-      return expectWriteError(JS_CONTENT, {}, { name: 'ValidationError', isJoi: true });
+      return expectWriteError(JS_CONTENT, {}, 'ValidationError');
     });
 
     it('should reject write JS to file by invalid file path', (done) => {
@@ -353,11 +357,11 @@ describe(TEST_SUITE_DESCRIPTION_FUNCTIONAL + ' - writer - ', () => {
       };
       return expectWriteError(invalidYamlJson, {
         dest: WRITER_TEST_BASE_DIR + '/test-data-by-js-to-file-invalid.yaml'
-      }, { name: 'YAMLException' });
+      }, 'YAMLException');
     });
 
     it('should reject with Error on missing destination', () => {
-      return expectWriteError(JS_CONTENT, {}, { name: 'ValidationError', isJoi: true });
+      return expectWriteError(JS_CONTENT, {}, 'ValidationError');
     });
   });
 

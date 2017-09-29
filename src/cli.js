@@ -104,13 +104,13 @@ function main(args, cliOptions) {
 
   if (args.length > 0) {
     cli.debug('input file: ' + args[0]);
-    cliOptions.src = args[0];
+    cliOptions.src = args[0]; // eslint-disable-line prefer-destructuring
   } else {
     error('please specify an input file as first argument!');
   }
   if (args.length > 1) {
     cli.debug('output file: ' + args[1]);
-    cliOptions.dest = args[1];
+    cliOptions.dest = args[1]; // eslint-disable-line prefer-destructuring
   } else {
     cli.debug('output file not specified, using default');
   }

@@ -18,13 +18,17 @@ describe(TEST_SUITE_DESCRIPTION_FUNCTIONAL + ' - reader - ', () => {
   /**
    * Assert a `Error` properties for a given reader function.
    *
-   * @param {Object} options                - The options which potentially produce the error.
-   * @param {Object} [match={name:'Error'}] - The propertie(s) error should contain.
+   * @param {Object} options         - The options which potentially produce the error.
+   * @param {string} [match=Error] - The error name to match.
    * @private
    */
-  const expectReaderError = (options, match = { name: 'Error' }) => {
+  const expectReaderError = async (options, match = 'Error') => {
     expect.assertions(1);
-    return expect(read(options)).rejects.toMatchObject(match);
+    try {
+      await read(options);
+    } catch (err) {
+      expect(err.name).toMatch(match);
+    }
   };
 
   /**
@@ -64,7 +68,7 @@ describe(TEST_SUITE_DESCRIPTION_FUNCTIONAL + ' - reader - ', () => {
         src: './test/data/test-data.js',
         imports: '',
       };
-      return expectReaderError(options, { name: 'ValidationError', isJoi: true });
+      return expectReaderError(options, 'ValidationError');
     });
 
     it('should read JS successfully', () =>
@@ -122,7 +126,7 @@ describe(TEST_SUITE_DESCRIPTION_FUNCTIONAL + ' - reader - ', () => {
         src: './test/data/test-imports.js',
         imports: invalidIdentifier,
       };
-      return expectReaderError(options, { name: 'ValidationError', isJoi: true });
+      return expectReaderError(options, 'ValidationError');
     });
 
     it('should reject reading JS from file with Error on non-existent identifier for options.imports: '
@@ -178,7 +182,7 @@ describe(TEST_SUITE_DESCRIPTION_FUNCTIONAL + ' - reader - ', () => {
         },
         imports: invalidIdentifier,
       };
-      return expectReaderError(options, { name: 'ValidationError', isJoi: true });
+      return expectReaderError(options, 'ValidationError');
     });
 
     it('should reject reading JS (deeply) from file with Error on non-existent identifier for options.imports: '
@@ -231,11 +235,11 @@ describe(TEST_SUITE_DESCRIPTION_FUNCTIONAL + ' - reader - ', () => {
     );
 
     it('should fail JS(ON) read by missing options', () =>
-      expectReaderError(null, { name: 'ValidationError', isJoi: true })
+      expectReaderError(null, 'ValidationError')
     );
 
     it('should fail JS(ON) read by missing options.src', () =>
-      expectReaderError({}, { name: 'ValidationError', isJoi: true })
+      expectReaderError({}, 'ValidationError')
     );
   });
 
@@ -263,26 +267,23 @@ describe(TEST_SUITE_DESCRIPTION_FUNCTIONAL + ' - reader - ', () => {
     );
 
     it('should fail reading YAML by providing empty JS object as options.src', () =>
-      expectReaderError({ src: {}, origin: TYPE_YAML }, { name: 'ValidationError', isJoi: true })
+      expectReaderError({ src: {}, origin: TYPE_YAML }, 'ValidationError')
     );
 
     it('should fail YAML reading by missing input options', () =>
-      expectReaderError(null, { name: 'ValidationError', isJoi: true })
+      expectReaderError(null, 'ValidationError')
     );
 
     it('should fail reading YAML by missing options.src', () =>
-      expectReaderError({}, { name: 'ValidationError', isJoi: true })
+      expectReaderError({}, 'ValidationError')
     );
 
     it('should fail reading YAML from configured directory source', () =>
-      expectReaderError({ src: './test/data' }, { name: 'ValidationError', isJoi: true })
+      expectReaderError({ src: './test/data' }, 'ValidationError')
     );
 
     it('should fail reading YAML from non-existing file', () =>
-      expectReaderError({ src: './test/data/non-existing.yml' }, {
-        name: 'ValidationError',
-        isJoi: true
-      })
+      expectReaderError({ src: './test/data/non-existing.yml' }, 'ValidationError')
     );
   });
 });

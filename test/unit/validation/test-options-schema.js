@@ -37,12 +37,13 @@ import Joi from '../../../src/validation/joi-extensions';
  * @param {Schema} schema                           - The validation schema.
  * @private
  */
-function expectOptionsValidationError(invalidOptions, schema) {
+async function expectOptionsValidationError(invalidOptions, schema) {
   expect.assertions(1);
-  return expect(Joi.validate(invalidOptions, schema)).rejects.toMatchObject({
-    name: 'ValidationError',
-    isJoi: true,
-  });
+  try {
+    await Joi.validate(invalidOptions, schema);
+  } catch (err) {
+    expect(err.name).toMatch('ValidationError');
+  }
 }
 
 /**
@@ -60,12 +61,10 @@ function expectOptionsValidationSuccess(validOptions, schema) {
 describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
   describe('Testing readOptionsSchema validation', () => {
     it('should reject when options is missing (null)', () =>
-      expectOptionsValidationError(null, readOptionsSchema)
-    );
+      expectOptionsValidationError(null, readOptionsSchema));
 
     it('should reject when options is missing (undefined)', () =>
-      expectOptionsValidationError(undefined, readOptionsSchema)
-    );
+      expectOptionsValidationError(undefined, readOptionsSchema));
 
     it('should set all defaults', async () => {
       expect.assertions(2);

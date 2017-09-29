@@ -26,6 +26,7 @@ module.exports = {
       }],
     'consistent-return': 'error',
     'filenames/match-regex': ['error', '^[a-z0-9-]+$'],
+    'function-paren-newline': 'off', //['error', 'multiline'],
     'import/no-amd': 'error',
     'import/no-commonjs': 'error',
     'import/prefer-default-export': 'off',
