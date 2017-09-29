@@ -34,6 +34,7 @@ npm test
 - [babel-plugin-transform-flow-strip-types](https://github.com/babel/babel/tree/master/packages): Strip flow type annotations from your output code.
 - [babel-plugin-transform-runtime](https://github.com/babel/babel/tree/master/packages): Externalise references to helpers and builtins, automatically polyfilling your code without polluting globals
 - [babel-preset-env](https://github.com/babel/babel-preset-env): A Babel preset for each environment.
+- [bithound](https://github.com/bithound/cli.bithound.io): Commands for interacting with bitHound: https://bithound.io
 - [chalk](https://github.com/chalk/chalk): Terminal string styling done right
 - [codacy-coverage](https://github.com/codacy/node-codacy-coverage): Code Coverage reporter for Codacy.com
 - [codeclimate-test-reporter](https://github.com/codeclimate/javascript-test-reporter): Code Climate test reporter client for javascript projects

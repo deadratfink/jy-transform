@@ -10,6 +10,7 @@
 [![codecov.io][cc-image-master]][cc-url-master]
 [![coveralls.io][ca-image-master]][ca-url-master]
 [![inch-ci.org][inch-image-master]][inch-url-master]
+[![bitHound Overall Score](https://www.bithound.io/github/deadratfink/jy-transform/badges/score.svg)](https://www.bithound.io/github/deadratfink/jy-transform)
 [![bitHound Code][bithound-code-image]][bithound-url]
 [![bitHound Dependencies][bitHound-dependencies-image]][bitHound-dependencies]
 [![bitHound Dev Dependencies][bitHound-dev-dependencies-image]][bitHound-dependencies]
@@ -114,10 +115,10 @@ npm install jy-transform --global
 - [Usage](#usage)
   - [Usage Types](#usage-types)
   - [Use Cases](#use-cases)
+  - [Origin and Target Type Inference](#origin-and-target-type-inference)
   - [Limitations](#limitations)
   - [CLI Usage](#cli-usage)
   - [Examples](#examples)
-  - [Origin and Target Type Inference](#origin-and-target-type-inference)
   - [API Usage](#api-usage)
 - [Contributing](#contributing)
 - [Further information](#further-information)
@@ -305,6 +306,19 @@ Additionally, on API level to:
 - JS `object`:
    - JS as a simple reference
    - YAML and JSON as a serialized string
+
+### Origin and Target Type Inference
+
+This module supports automatic type inference from file extensions as shown by the following table (from-to):
+
+| File Extension | Type |
+| --- | --- |
+| _*.yaml_ | _yaml_ |
+| _*.yml_ | _yaml_ |
+| _*.js_ | _js_ |
+| _*.json_ | _json_ |
+
+> **NOTE:** if you have files without an extension or e.g. _*.txt_ you _have_ to specify the origin or target type!
 
 ### Limitations
 
@@ -527,7 +541,7 @@ bar: foo
 >   dest: {},
 >   exports: 'bar'
 > };
-
+>
 > //...transform
 > ```
 > 
@@ -587,20 +601,6 @@ $ jyt foo.js -i 4 -f
 > **NOTE:** the other way round (i.e. leaving out the `-f` (`--force`)) switch would create a _new file_ relatively to
 > the `src` _foo.js_, named as _foo(1).js_; note the consecutive number! Naturally,
 > another run of the command would result in a file called _foo(2).js_ and so forth.
-
-### Origin and Target Type Inference
-
-The examples above have shown that we have an automatic type inference from file
-extensions. This is supported as shown by the following table (from-to):
-
-| File Extension | Type |
-| --- | --- |
-| _*.yaml_ | _yaml_ |
-| _*.yml_ | _yaml_ |
-| _*.js_ | _js_ |
-| _*.json_ | _json_ |
-
-> **NOTE:** if you have files without an extension or e.g. _*.txt_ you _have_ to specify the origin or target type!
 
 ### API Usage
 
@@ -720,22 +720,22 @@ Let's assume we have some Promise functions to apply. For simplicity reasons we
 simulate these for the moment by some functions, each adding a key-value to the
 given (initially empty) JS object.
 
-> **NOTE:** each of them has to resolve with the `object` object!
+> **NOTE:** each of them has to resolve with the `data` object!
 
 ```javascript
-const key1 = async (object) => {
-  object.key1 = 'value1';
-  return object;
+const key1 = async (data) => {
+  data.key1 = 'value1';
+  return data;
 };
 
-const key2 = async (object) => {
-  object.key2 = 'value2';
-  return object;
+const key2 = async (data) => {
+  data.key2 = 'value2';
+  return data;
 };
 
-const key3 = async (object) => {
-  object.key3 = 'value3';
-  return object;
+const key3 = async (data) => {
+  data.key3 = 'value3';
+  return data;
 };
 ```
 
@@ -748,7 +748,7 @@ import { transform } from 'jy-transform';
 
 const options = {
   src: {},
-  transform: async (object) => Promise.all([key1(object), key2(object), key3(object)])
+  transform: (data) => Promise.all([key1(data), key2(data), key3(data)])
     .then(result => result[result.length - 1])
 };
 
