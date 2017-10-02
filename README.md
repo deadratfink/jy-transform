@@ -133,13 +133,13 @@ npm install jy-transform --global
 import { transform } from 'jy-transform';
 
 const options = {
-  src: 'foo/bar.yaml',            // E.g. read from YAML file...
-  transform: async (object) => {  // ...with exchanging value...
+  src: 'foo/bar.yaml',              // E.g. read from YAML file...
+  transform: async (object) => {    // ...with exchanging value...
     object.foo = 'new value';
     return object;
   },                            
-  dest: 'foo/bar.json',           // ...to a new JSON file.
-  indent: 4,                      // Ensure an indentation of 4.
+  dest: 'foo/bar-transformed.json', // ...to a new JSON file.
+  indent: 4,                        // Ensure an indentation of 4.
 };
 
 // ---- Promise style:
@@ -318,7 +318,7 @@ This module supports automatic type inference from file extensions as shown by t
 | _*.js_ | _js_ |
 | _*.json_ | _json_ |
 
-> **NOTE:** if you have files without an extension or e.g. _*.txt_ you _have_ to specify the origin or target type!
+> **NOTE:** if you have files without an extension or e.g. _*.txt_ you _have_ to specify the `origin` or `target` type!
 
 ### Limitations
 
@@ -326,7 +326,7 @@ This module supports automatic type inference from file extensions as shown by t
   `Function`s residing in JS type objects are _not_ supported, e.g. transforming
   
   ```javascript
-  module.exports = {
+  export const foobar = {
     fooKey: 'foo',
     fooFunction: function foo() {
         //...
@@ -508,11 +508,11 @@ from exactly the one you specify, then provide the `-m` (`--imports`) option.
 In this this example we have a _foo.js_ file exporting _two_ objects:
 
 ```javascript
-module.exports.foo = {
+export const foo = {
   foo: 'bar'
 };
 
-module.exports.bar = {
+export const bar = {
   bar: 'foo'
 };
 ```
@@ -574,8 +574,8 @@ $ jyt foo.yaml foobar.js -x foobar
 This generates the following output in JS file using `foobar` as identifier:
 
 ```javascript
-module.exports.foobar = {
-  foo: "bar"
+export const foobar = {
+  foo: 'bar'
 }
 ```
 
@@ -622,16 +622,16 @@ For more details about this and all the functions provided by this module please
 
 The `origin` and `target` type inference is also standard for the API level.
 
+> **HINT:** of course, if you like you can use the `read`and `write` functionality solely besides any transformation needs.
+
 #### API Properties
 
-The public `transform` function (that does not mean the optional `transform `callback here!) takes
+The public `transform` function (that does not mean the optional `transform` callback here!) takes
 the necessary `options` for the transformation:
 
 ```javascript
-async function transform(options)
+[async] function transform(options)
 ```
-
-> **HINT:** of course, if you like you can use the `read`and `write` functionality solely besides any transformation needs.
 
 #### Options
 
