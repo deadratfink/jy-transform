@@ -15,8 +15,8 @@ import {
   MIN_INDENT,
   MAX_INDENT,
   DEFAULT_STRICT,
-  DEFAULT_NO_ES6,
-  DEFAULT_NO_SINGLE_QUOTES,
+  DEFAULT_ES5,
+  DEFAULT_DOUBLE_QUOTES,
 } from '../../../src/constants';
 import {
   readOptionsSchema,
@@ -61,10 +61,12 @@ function expectOptionsValidationSuccess(validOptions, schema) {
 describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
   describe('Testing readOptionsSchema validation', () => {
     it('should reject when options is missing (null)', () =>
-      expectOptionsValidationError(null, readOptionsSchema));
+      expectOptionsValidationError(null, readOptionsSchema)
+    );
 
     it('should reject when options is missing (undefined)', () =>
-      expectOptionsValidationError(undefined, readOptionsSchema));
+      expectOptionsValidationError(undefined, readOptionsSchema)
+    );
 
     it('should set all defaults', async () => {
       expect.assertions(2);
@@ -241,8 +243,8 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
       expect(validatedOptions.exports).toBe(DEFAULT_JS_EXPORTS_IDENTIFIER);
       expect(validatedOptions.force).toBe(DEFAULT_FORCE_FILE_OVERWRITE);
       expect(validatedOptions.strict).toBe(DEFAULT_STRICT);
-      expect(validatedOptions['no-es6']).toBe(DEFAULT_NO_ES6);
-      expect(validatedOptions['no-single']).toBe(DEFAULT_NO_SINGLE_QUOTES);
+      expect(validatedOptions.es5).toBe(DEFAULT_ES5);
+      expect(validatedOptions.double).toBe(DEFAULT_DOUBLE_QUOTES);
     });
 
     it('should infer options.target from file type', async () => {
@@ -461,6 +463,60 @@ describe(TEST_SUITE_DESCRIPTION_UNIT + ' - options-schema - ', () => {
           src: './test/data/test-data.js',
           dest: 'some-file',
           indent: MAX_INDENT + 1,
+        }, writeOptionsSchema)
+      );
+    });
+
+    describe('Testing options.es5 schema validation', () => {
+      const notBoolean = {};
+      it('should reject non-boolean value \'' + stringify(notBoolean) + '\'', () =>
+        expectOptionsValidationError({
+          src: './test/data/test-data.js',
+          dest: 'some-file',
+          es5: notBoolean,
+        }, writeOptionsSchema)
+      );
+
+      it('should accept valid value \'false\'', () =>
+        expectOptionsValidationSuccess({
+          src: './test/data/test-data.js',
+          dest: 'some-file',
+          es5: false,
+        }, writeOptionsSchema)
+      );
+
+      it('should accept valid value \'true\'', () =>
+        expectOptionsValidationSuccess({
+          src: './test/data/test-data.js',
+          dest: 'some-file',
+          es5: true,
+        }, writeOptionsSchema)
+      );
+    });
+
+    describe('Testing options.double schema validation', () => {
+      const notBoolean = {};
+      it('should reject non-boolean value \'' + stringify(notBoolean) + '\'', () =>
+        expectOptionsValidationError({
+          src: './test/data/test-data.js',
+          dest: 'some-file',
+          double: notBoolean,
+        }, writeOptionsSchema)
+      );
+
+      it('should accept valid value \'false\'', () =>
+        expectOptionsValidationSuccess({
+          src: './test/data/test-data.js',
+          dest: 'some-file',
+          double: false,
+        }, writeOptionsSchema)
+      );
+
+      it('should accept valid value \'true\'', () =>
+        expectOptionsValidationSuccess({
+          src: './test/data/test-data.js',
+          dest: 'some-file',
+          double: true,
         }, writeOptionsSchema)
       );
     });

@@ -72,7 +72,7 @@
     "jsdoc-to-markdown": "~3.0.0",
     "nsp": "~2.8.0",
     "package-json-to-readme": "~2.0.0",
-    "winston": "~2.4.0"
+    "winston": "^2.4.0"
   },
   "preferGlobal": true,
   "bin": {

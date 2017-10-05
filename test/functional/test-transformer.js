@@ -209,7 +209,7 @@ describe(TEST_SUITE_DESCRIPTION_FUNCTIONAL + ' - transformer - ', () => {
         transform: transformFunc,
         target: TYPE_JS,
         strict: true,
-        'no-single': true,
+        double: true,
       });
       logger.debug(msg);
       const stats = fs.statSync(DEST_DQ_AND_STRICT);
@@ -227,7 +227,7 @@ describe(TEST_SUITE_DESCRIPTION_FUNCTIONAL + ' - transformer - ', () => {
         dest: path.resolve(DEST_NO_ES6),
         transform: transformFunc,
         target: TYPE_JS,
-        'no-es6': true,
+        es5: true,
       });
       logger.debug(msg);
       const stats = fs.statSync(DEST_NO_ES6);

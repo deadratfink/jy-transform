@@ -120,7 +120,7 @@ export const DEFAULT_STRICT = false;
  * @constant
  * @private
  */
-export const DEFAULT_NO_ES6 = false;
+export const DEFAULT_ES5 = false;
 
 /**
  * Whether _not_ to use single-quotes style for values in JS type output (i.e. double-quotes).
@@ -128,7 +128,7 @@ export const DEFAULT_NO_ES6 = false;
  * @constant
  * @private
  */
-export const DEFAULT_NO_SINGLE_QUOTES = false;
+export const DEFAULT_DOUBLE_QUOTES = false;
 
 /**
  * The `origin` description value.
