@@ -11,17 +11,17 @@ import serializeJs from 'serialize-js';
 /**
  * Creates a potential named `'module.exports[.exportsTo]'` string.
  *
- * @param {boolean} es6        - Whether to use ECMAScript6 export syntax.
+ * @param {boolean} es5        - Whether to use ECMAScript5 export syntax.
  * @param {string} [exportsTo] - The export name.
  * @returns {Promise.<string>} Resolves with the exports string.
  * @private
  */
-export async function createExportString(es6, exportsTo) {
-  let exports = es6 ? 'export' : 'module.exports';
+export async function createExportString(es5, exportsTo) {
+  let exports = es5 ? 'module.exports' : 'export';
   if (exportsTo) {
-    exports += es6 ? ` const ${exportsTo} = ` : '.' + exportsTo + ' = ';
+    exports += es5 ? '.' + exportsTo + ' = ' : ` const ${exportsTo} = `;
   } else {
-    exports += es6 ? ' default ' : ' = ';
+    exports += es5 ? ' = ' : ' default ';
   }
   return exports;
 }
@@ -37,13 +37,13 @@ export async function createExportString(es6, exportsTo) {
 export async function serializeJsToString(object, options) {
   let useStrict = '';
   if (options.strict) {
-    const quote = options['no-single'] ? '"' : '\'';
+    const quote = options.double ? '"' : '\'';
     useStrict = `${quote}use strict;${quote}${os.EOL}${os.EOL}`;
   }
-  const exportsStr = await createExportString(!options['no-es6'], options.exports);
+  const exportsStr = await createExportString(options.es5, options.exports);
   return `${useStrict}${exportsStr}${serializeJs.serialize(object, {
     indent: options.indent,
-    forceSingleQuotes: !options['no-single'],
+    forceSingleQuotes: !options.double,
   })};${os.EOL}`;
 }
 

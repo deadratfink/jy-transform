@@ -72,8 +72,8 @@ const CLI_OPTIONS_LONG_TO_SHORT_MAP = {
   imports: '-m',
   exports: '-x',
   strict: '-s',
-  'no-es6': '--no-es6', // no short available
-  'no-single': '--no-single', // no short available
+  es5: '--es5', // no short available
+  double: '--double', // no short available
 };
 
 /**
@@ -211,7 +211,7 @@ describe(TEST_SUITE_DESCRIPTION_FUNCTIONAL + ' - ./jyt -> ./src/cli.js - ', () =
         src: path.resolve(CLI_TEST_BASE_DIR + '/test-data.yaml'),
         dest: path.resolve(DEST_NO_ES6),
         target: TYPE_JS,
-        'no-es6': true,
+        es5: true,
       }));
       logger.debug(msg);
       const stats = fs.statSync(DEST_NO_ES6);

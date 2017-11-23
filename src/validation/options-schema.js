@@ -15,8 +15,8 @@ import {
   MIN_YAML_INDENT,
   MAX_INDENT,
   DEFAULT_STRICT,
-  DEFAULT_NO_ES6,
-  DEFAULT_NO_SINGLE_QUOTES,
+  DEFAULT_ES5,
+  DEFAULT_DOUBLE_QUOTES,
 } from '../constants';
 
 /**
@@ -48,24 +48,24 @@ const strictSchema = Joi
   .description('Whether to write a "use strict;" in JS type output.');
 
 /**
- * The `no-es6` option schema.
+ * The `es5` option schema.
  * @type {external:joi.Schema}
  * @private
  */
-const noES6Schema = Joi
+const es5Schema = Joi
   .boolean()
-  .default(DEFAULT_NO_ES6)
+  .default(DEFAULT_ES5)
   .description('Whether not to use ECMAScript6 syntax for JS type output like "module.exports" instead of ' +
     '"export default", applicable only for JS output.');
 
 /**
- * The `no-single` option schema.
+ * The `double` option schema.
  * @type {external:joi.Schema}
  * @private
  */
-const noSingleSchema = Joi
+const doubleSchema = Joi
   .boolean()
-  .default(DEFAULT_NO_SINGLE_QUOTES)
+  .default(DEFAULT_DOUBLE_QUOTES)
   .description('Whether not to use single-quotes style for values in JS type output (i.e. double-quotes).');
 
 /**
@@ -193,8 +193,8 @@ export const writeOptionsSchema = Joi.object().keys({
   indent: indentSchema,
   force: forceSchema,
   strict: strictSchema,
-  'no-es6': noES6Schema,
-  'no-single': noSingleSchema,
+  es5: es5Schema,
+  double: doubleSchema,
 }).default()
   .required()
   .unknown();
@@ -205,30 +205,32 @@ export const writeOptionsSchema = Joi.object().keys({
  * @constant
  * @private
  */
-export const transformOptionsSchema = readOptionsSchema.concat(Joi.object().keys({
-  transform: Joi
-    .func()
-    .arity(1)
-    .default(object => object)
-    .description('The transformation function to alter a read object.'),
-  dest: Joi
-    .alternatives().try(
-      Joi.string()
-        .min(1)
-        .label('dest - OUTPUT-FILE'),
-      Joi.object().type(Stream.Writable),
-      Joi.object().type(Object),
-    )
-    .default(inferDestDefaultFromSrc, 'try dest resolution from src if not set')
-    .description('The output destination (if string type is treated as a file path).'),
-  target: targetSchema,
-  exports: exportsSchema,
-  indent: indentSchema,
-  force: forceSchema,
-  strict: strictSchema,
-  'no-es6': noES6Schema,
-  'no-single': noSingleSchema,
-}).default()
+export const transformOptionsSchema = readOptionsSchema.concat(Joi
+  .object()
+  .keys({
+    transform: Joi
+      .func()
+      .arity(1)
+      .default(object => object)
+      .description('The transformation function to alter a read object.'),
+    dest: Joi
+      .alternatives().try(
+        Joi.string()
+          .min(1)
+          .label('dest - OUTPUT-FILE'),
+        Joi.object().type(Stream.Writable),
+        Joi.object().type(Object),
+      )
+      .default(inferDestDefaultFromSrc, 'try dest resolution from src if not set')
+      .description('The output destination (if string type is treated as a file path).'),
+    target: targetSchema,
+    exports: exportsSchema,
+    indent: indentSchema,
+    force: forceSchema,
+    strict: strictSchema,
+    es5: es5Schema,
+    double: doubleSchema,
+  }).default()
   .required()
 );
 

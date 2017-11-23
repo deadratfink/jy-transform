@@ -20,16 +20,17 @@ module.exports = {
   },
   mapCoverage: true,
   testMatch: [
-   // '**/test/functional/test-jyt-cli.js',
+    // '**/test/unit/test-serialize-utils.js',
+    // '**/test/functional/test-jyt-cli.js',
     // '**/test/unit/validation/test-joi-extensions-file-helper.js',
     // '**/test/unit/validation/test-joi-extensions-identifier-helper.js',
     //'**/test/functional/test-transformer.js',
     // '**/test/unit/test-index.js',
     //'**/test/unit/test-reader.js',
     // '**/test/unit/test-writer.js',
-    //  '**/test/unit/validation/test-options-schema.js',
-     '**/test/unit/**/*.js',
-     '**/test/functional/**/*.js',
+    //'**/test/unit/validation/test-options-schema.js',
+    '**/test/unit/**/*.js',
+    '**/test/functional/**/*.js',
 //'**/test/unit/validation/test-options-schema-helper.js',
 
 

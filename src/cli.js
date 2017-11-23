@@ -12,8 +12,8 @@ import {
   TYPE_JSON,
   TYPE_YAML,
   DEFAULT_STRICT,
-  DEFAULT_NO_ES6,
-  DEFAULT_NO_SINGLE_QUOTES,
+  DEFAULT_ES5,
+  DEFAULT_DOUBLE_QUOTES,
 } from './constants';
 import { transform } from './transformer';
 
@@ -53,24 +53,32 @@ const packagePath = path.join(__dirname, '../package.json');
  * @private
  */
 const cliOptionsSchema = {
-  origin: ['o', 'The origin type of INPUT-FILE: [ ' + TYPE_JS + ' | ' + TYPE_JSON + ' | ' + TYPE_YAML + ' ]',
+  origin: [
+    'o', 'The origin type of INPUT-FILE: [ ' + TYPE_JS + ' | ' + TYPE_JSON + ' | ' + TYPE_YAML + ' ]',
     'string', ORIGIN_DESCRIPTION],
-  target: ['t', 'The target type of OUTPUT-FILE: [ ' + TYPE_JS + ' | ' + TYPE_JSON + ' | ' + TYPE_YAML + ' ]',
+  target: [
+    't', 'The target type of OUTPUT-FILE: [ ' + TYPE_JS + ' | ' + TYPE_JSON + ' | ' + TYPE_YAML + ' ]',
     'string', TARGET_DESCRIPTION],
   indent: ['i', 'The indention for pretty-print: 1 - 8', 'int', DEFAULT_INDENT],
-  force: ['f', 'Force overwriting of existing output files on write phase: when files are not overwritten (which' +
+  force: [
+    'f', 'Force overwriting of existing output files on write phase: when files are not overwritten (which' +
     ' is default), then the next transformation with same output file name gets a consecutive number on the base' +
     ' file name, e.g. in case of foo.yaml it would be foo(1).yaml', 'boolean', DEFAULT_FORCE_FILE_OVERWRITE],
-  imports: ['m', 'Define an identifier for object (to read as "export const identifier / module.exports[.identifier]"' +
-  ' from JS source file only, must be a valid JS identifier!)', 'string', DEFAULT_JS_IMPORTS_IDENTIFIER],
-  exports: ['x', 'Define an identifier for object (write to "export const identifier / module.exports[.identifier]"' +
-  ' in JS destination file only, must be a valid JS identifier!)', 'string', DEFAULT_JS_EXPORTS_IDENTIFIER],
-  strict: ['s', 'Whether to write a "use strict;" in JS type output',
+  imports: [
+    'm', 'Define an identifier for object (to read as "export const identifier / module.exports[.identifier]"' +
+    ' from JS source file only, must be a valid JS identifier!)', 'string', DEFAULT_JS_IMPORTS_IDENTIFIER],
+  exports: [
+    'x', 'Define an identifier for object (write to "export const identifier / module.exports[.identifier]"' +
+    ' in JS destination file only, must be a valid JS identifier!)', 'string', DEFAULT_JS_EXPORTS_IDENTIFIER],
+  strict: [
+    's', 'Whether to write a "use strict;" in JS type output',
     'boolean', DEFAULT_STRICT],
-  'no-es6': [false, 'Whether not to use ECMAScript6 syntax for JS type output like "module.exports" instead of ' +
-    '"export default", applicable only for JS output', 'boolean', DEFAULT_NO_ES6],
-  'no-single': [false, 'Whether not to use single-quotes style for values in JS type output (i.e. double-quotes)',
-    'boolean', DEFAULT_NO_SINGLE_QUOTES],
+  es5: [
+    false, 'Whether not to use ECMAScript6 syntax for JS type output like "module.exports" instead of ' +
+    '"export default", applicable only for JS output', 'boolean', DEFAULT_ES5],
+  double: [
+    false, 'Whether not to use single-quotes style for values in JS type output (i.e. double-quotes)',
+    'boolean', DEFAULT_DOUBLE_QUOTES],
 };
 
 /**
