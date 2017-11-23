@@ -256,11 +256,11 @@ Reading from a file:
 
 Additionally, on API level from:
 
-- `stream.Readable`:
+- `stream.Readable` (stream2):
    - Contains serialized JS, JSON or YAML
    - If not a file stream then setting requires `options.origin` property is mandatory
    - Reads as UTF-8
-- JS `object`:
+- JS `Object`:
    - Actually, this means the reading phase is "skipped", because object is in-memory already
    - Of course, this case _cannot_ not be applied to serialized JSON or YAML content
 
@@ -299,11 +299,11 @@ Writing to a file:
 
 Additionally, on API level to:
 
-- `stream.Writable`:
+- `stream.Writable` (stream2) implementations:
    - Serialized JS, JSON and YAML
    - Requires `options.target` property set
    - Writes UTF-8
-- JS `object`:
+- JS `Object`:
    - JS as a simple reference
    - YAML and JSON as a serialized string
 

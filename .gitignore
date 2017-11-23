@@ -12,3 +12,4 @@ coverage
 nohup.out
 /jy-transform.wiki/
 /lib
+/package-lock.json

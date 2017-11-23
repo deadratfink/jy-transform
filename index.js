@@ -1,1 +1,1 @@
-module.exports = require('./src/jy-transform');
+module.exports = require('./lib/jy-transform');

@@ -1,5 +1,4 @@
 import JoiBase from 'joi';
-import promisify from 'promisify-es6';
 import { isExistingFile } from './joi-extensions-file-utils';
 import { isValidEs6Identifier } from './joi-extensions-identifier-utils';
 
@@ -48,7 +47,4 @@ export const EXTENSIONS = {
   ]
 };
 
-const JoiExtended = JoiBase.extend(EXTENSIONS);
-JoiExtended.validate = promisify(JoiExtended.validate);
-
-export default JoiExtended;
+export default JoiBase.extend(EXTENSIONS);

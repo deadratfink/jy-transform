@@ -53,17 +53,16 @@ This module provides the _public_ interface for the _read_, _write_ and _transfo
 
 ### jy-transform~transform ⇒ <code>Promise</code>
 The entry method for all transformations accepting a configuration object and
-an (optional) middleware function. It executes the transformation logic.
+an (optional) callback function. It executes the transformation logic.
 
 1. Input (read)
-2. Transform [ + Middleware]
+2. Transform [ + callback]
 3. Output (write).
 
 **Kind**: inner constant of [<code>jy-transform</code>](#module_jy-transform)  
 **Returns**: <code>Promise</code> - The transformation result.  
 **Access**: public  
 **Resolve**: <code>string</code> With the transformation result as message (e.g. to be logged by caller).  
-**Reject**: <code>TypeError</code> Will throw this error when the passed `middleware` is not type of `Function`.  
 **Reject**: <code>ValidationError</code> If any `options` validation occurs.  
 **Reject**: <code>Error</code> Will throw any error if read, transform or write operation failed due to any reason.  
 
@@ -76,11 +75,11 @@ an (optional) middleware function. It executes the transformation logic.
 import { transform } from 'jy-transform';
 const options = {
   src: 'foo/bar.yaml',            // From YAML file...
-  transform: async (object) => {  // ...with exchanging value...
+  transform: async (object) => {  // ...callback with exchanging value...
     object.foo = 'new value';
     return object;
   },
-  target: 'foo/bar.json',         // ...to a new JSON file.
+  target: 'foo/bar-transformed.json',         // ...to a new JSON file.
   indent: 4,
 };
 

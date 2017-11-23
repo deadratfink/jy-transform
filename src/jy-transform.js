@@ -16,16 +16,15 @@ import {
 
 /**
  * The entry method for all transformations accepting a configuration object and
- * an (optional) middleware function. It executes the transformation logic.
+ * an (optional) callback function. It executes the transformation logic.
  *
  * 1. Input (read)
- * 2. Transform [ + Middleware]
+ * 2. Transform [ + callback]
  * 3. Output (write).
  *
  * @param {TransformOptions} options - The configuration for a transformation.
  * @returns {Promise} The transformation result.
  * @resolve {string} With the transformation result as message (e.g. to be logged by caller).
- * @reject {TypeError} Will throw this error when the passed `middleware` is not type of `Function`.
  * @reject {ValidationError} If any `options` validation occurs.
  * @reject {Error} Will throw any error if read, transform or write operation failed due to any reason.
  * @public
@@ -33,11 +32,11 @@ import {
  * import { transform } from 'jy-transform';
  * const options = {
  *   src: 'foo/bar.yaml',            // From YAML file...
- *   transform: async (object) => {  // ...with exchanging value...
+ *   transform: async (object) => {  // ...callback with exchanging value...
  *     object.foo = 'new value';
  *     return object;
  *   },
- *   target: 'foo/bar.json',         // ...to a new JSON file.
+ *   target: 'foo/bar-transformed.json',         // ...to a new JSON file.
  *   indent: 4,
  * };
  *

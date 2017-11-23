@@ -18,16 +18,16 @@ const fsPromisified = promisify(fs);
 
 /**
  * @module jy-transform:io-utils
- * @description This module provides an I/O interface for files, streams or `Object`.
+ * @description This module provides a helper I/O interface for files, streams or `Object`.
  * @private
  */
 
 /**
- * Reads JS or JSON from file.
+ * Reads JS or JSON from file, optionally choosing a property given by `imports`.
  *
  * @param {string} file      - The file path.
  * @param {string} [imports] - An object which is exported in the file.
- * @returns {Object} The read object.
+ * @returns {Object} The read object from `file`.
  * @throws {Error} When an `imports` is given but the declared object key is not exported by the file.
  * @private
  */
@@ -37,7 +37,7 @@ export function readJsOrJsonFromFile(file, imports) {
     // eslint-disable-next-line import/no-dynamic-require, global-require
     const object = require(resolvedPath)[imports];
     if (!object) {
-      throw new Error('an identifier string \'' + imports + '\' was specified for JS object ' +
+      throw new Error(`An identifier string '${imports}' was specified for JS object ` +
         'but could not find this object, pls ensure that file ' + file + ' exports it.');
     }
     return object;
@@ -47,11 +47,11 @@ export function readJsOrJsonFromFile(file, imports) {
 }
 
 /**
- * Reads JS from JS object.
+ * Reads JS from JS object, optionally choosing a property given by `imports`.
  *
  * @param {string} object    - The JS object source.
- * @param {string} [imports] - An object which is is a sub-object in `object`.
- * @returns {Object} The given `object` object or any sub-object specified by `imports`.
+ * @param {string} [imports] - An object which is is a property/sub-object in `object`.
+ * @returns {Object} The given but cloned `object` or any property/sub-object specified by `imports`.
  * @throws {Error} When an `imports` is given but the declared object key is not contained in the source object.
  * @private
  */
@@ -59,8 +59,8 @@ export function readJsFromObject(object, imports) {
   if (imports) {
     const subObject = object[imports];
     if (!subObject) {
-      throw new Error('an identifier string \'' + imports + '\' was specified for JS sub-object ' +
-        'but could not find this sub-object, pls ensure that object source contains it.');
+      throw new Error(`An identifier string '${imports}' was specified for property/JS sub-object ` +
+        'but could not be found, pls ensure that object source contains it.');
     }
     return Object.assign({}, subObject); // clone, do not alter original object!
   }
@@ -70,19 +70,14 @@ export function readJsFromObject(object, imports) {
 /**
  * Reads YAML from file.
  *
- * @param {string} file    - The YAML file source.
+ * @param {string} file - The YAML file source.
  * @returns {Object} The read JS object from YAML file.
  * @throws {Error} When any I/O error occurs while the source file.
  * @private
  */
 export async function readYamlFromfile(file) {
-  // load source from YAML file
   const yaml = await fsPromisified.readFile(file, UTF8);
-  try {
-    return jsYaml.safeLoad(yaml);
-  } catch (err) { // probably a YAMLException
-    throw err;
-  }
+  return jsYaml.safeLoad(yaml);
 }
 
 /**
@@ -141,7 +136,7 @@ function getConsecutiveDestName(dest) {
 /**
  * Ensures that all dirs exists for file type `dest` and writes the JS object to file.
  *
- * @param {string} object                  - The object to write into file.
+ * @param {string} data                    - The object to write into file.
  * @param {string} dest                    - The file destination path.
  * @param {string} target                  - The target type, one of [ 'yaml' | 'json' | 'js' ].
  * @param {boolean} [forceOverwrite=false] - Forces overwriting the destination file if `true`.
@@ -150,21 +145,21 @@ function getConsecutiveDestName(dest) {
  * @see {@link TYPE_JS}
  * @private
  */
-async function mkdirAndWrite(object, dest, target, forceOverwrite = false) {
+async function mkdirAndWrite(data, dest, target, forceOverwrite = false) {
   const destDir = path.dirname(dest);
   await mkdirp(destDir);
   let finalDestination = dest;
   if (!forceOverwrite) {
     finalDestination = getConsecutiveDestName(dest);
   }
-  await fsPromisified.writeFile(finalDestination, object, UTF8);
+  await fsPromisified.writeFile(finalDestination, data, UTF8);
   return 'Writing \'' + target + '\' file \'' + finalDestination + '\' successful.';
 }
 
 /**
  * Writes a serialized object to file.
  *
- * @param {string} object            - The object to write into file.
+ * @param {string} data              - The object data to write into file.
  * @param {string} dest              - The file destination path.
  * @param {string} target            - The target type, one of [ 'yaml' | 'json' | 'js' ].
  * @param {boolean} [forceOverwrite] - Forces overwriting the destination file if `true`.
@@ -175,30 +170,25 @@ async function mkdirAndWrite(object, dest, target, forceOverwrite = false) {
  * @throws {Error} If serialized JSON file could not be written due to any reason.
  * @private
  */
-export function writeToFile(object, dest, target, forceOverwrite) {
-  return new Promise((resolve, reject) => {
-    fsPromisified.stat(dest)
-      .then((stats) => {
-        if (stats.isDirectory()) {
-          reject(new Error('Destination file is a directory, pls specify a valid file resource!'));
-          return;
-        }
-        // file exists
-        resolve(mkdirAndWrite(object, dest, target, forceOverwrite));
-      })
-      .catch(() => {
-        // ignore error (because file could possibly not exist at this point of time)
-        resolve(mkdirAndWrite(object, dest, target, forceOverwrite));
-      });
-  });
+export async function writeToFile(data, dest, target, forceOverwrite) {
+  let stats;
+  try {
+    stats = await fsPromisified.stat(dest);
+  } catch (_) {
+    // ignore error (because file could possibly not exist at this point of time)
+  }
+  if (stats && stats.isDirectory()) {
+    throw new Error(`Destination file '${dest}' is a directory, pls specify a valid file resource!`);
+  }
+  return mkdirAndWrite(data, dest, target, forceOverwrite);
 }
 
 /**
- * Writes a string serialized data object to a stream.
+ * Writes a string serialized data object to a `stream.Transform`.
  *
- * @param {string} object - The data to write into stream.
- * @param {string} dest   - The stream destination.
- * @param {string} target - The target type, one of [ 'yaml' | 'json' | 'js' ].
+ * @param {string} data                - The data to write into stream.
+ * @param {stream.Transform} writable  - The stream destination.
+ * @param {string} target              - The target type, one of [ 'yaml' | 'json' | 'js' ].
  * @see {@link TYPE_YAML}
  * @see {@link TYPE_JSON}
  * @see {@link TYPE_JS}
@@ -206,14 +196,39 @@ export function writeToFile(object, dest, target, forceOverwrite) {
  * @throws {Error} If serialized JS object could not be written due to any reason.
  * @private
  */
-export function writeToStream(object, dest, target) {
+export function writeToStreamTransform(data, writable, target) {
   return new Promise((resolve, reject) => {
-    dest
+    writable
       .on('error', reject)
       .on('finish', () => resolve('Writing ' + target + ' to stream successful.'));
 
     // write stringified data
-    dest.write(object);
-    dest.end();
+    writable.write(data);
+    writable.end();
+  });
+}
+
+/**
+ * Writes a string serialized data object to a `stream.Writable`.
+ *
+ * @param {string} data                             - The data to write into stream.
+ * @param {stream.Writable|stream.Duplex} writable  - The stream destination.
+ * @param {string} target                           - The target type, one of [ 'yaml' | 'json' | 'js' ].
+ * @see {@link TYPE_YAML}
+ * @see {@link TYPE_JSON}
+ * @see {@link TYPE_JS}
+ * @returns {Promise.<string>} Containing the write success message to handle by caller (e.g. for logging).
+ * @throws {Error} If serialized JS object could not be written due to any reason.
+ * @private
+ */
+export function writeToStreamWritable(data, writable, target) {
+  return new Promise((resolve, reject) => {
+    writable
+      .on('error', reject)
+      .on('finish', () => resolve('Writing ' + target + ' to stream successful.'));
+
+    // write stringified data
+    writable.write(data);
+    writable.end();
   });
 }

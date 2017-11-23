@@ -13,7 +13,7 @@ import {
 } from './serialize-utils';
 import {
   writeToFile,
-  writeToStream,
+  writeToStreamWritable,
 } from './io-utils';
 
 /**
@@ -50,8 +50,8 @@ async function writeYaml(object, options) {
 
   if (typeof options.dest === 'string') { // file
     return writeToFile(yaml, options.dest, TYPE_YAML, options.force);
-  } else if (isStream.writable(options.dest)) { // stream
-    return writeToStream(yaml, options.dest, TYPE_YAML);
+  } else if (isStream.writable(options.dest)) { // stream.Writable | stream.Duplex
+    return writeToStreamWritable(yaml, options.dest, TYPE_YAML);
   }
   // object
   options.dest = yaml;
@@ -74,7 +74,7 @@ async function writeJson(object, options) {
   if (typeof options.dest === 'string') { // file
     return writeToFile(jsonString, options.dest, TYPE_JSON, options.force);
   } else if (isStream.writable(options.dest)) { // stream
-    return writeToStream(jsonString, options.dest, TYPE_JSON);
+    return writeToStreamWritable(jsonString, options.dest, TYPE_JSON);
   }
   // object
   options.dest = jsonString;
@@ -97,7 +97,7 @@ async function writeJs(object, options) {
   if (typeof options.dest === 'string') { // file
     return writeToFile(data, options.dest, TYPE_JS, options.force);
   } else if (isStream.writable(options.dest)) { // stream
-    return writeToStream(data, options.dest, TYPE_JS);
+    return writeToStreamWritable(data, options.dest, TYPE_JS);
   }
   // object
   let msg;
@@ -116,7 +116,7 @@ async function writeJs(object, options) {
  *
  * @param {Object} object        - The JS source object to write.
  * @param {WriteOptions} options - The write options.
- * @returns {Promise} The result.
+ * @returns {Promise.<string>} The result message.
  * @resolve {string} With the write success message.
  * @reject {Error} If any write error occurs.
  * @reject {ValidationError} If any `options` validation occurs.
