@@ -59,7 +59,7 @@ an (optional) callback function. It executes the transformation logic.
 2. Transform [ + callback]
 3. Output (write).
 
-**Kind**: inner constant of [<code>jy-transform</code>](#module_jy-transform)  
+**Kind**: inner property of [<code>jy-transform</code>](#module_jy-transform)  
 **Returns**: <code>Promise</code> - The transformation result.  
 **Access**: public  
 **Resolve**: <code>string</code> With the transformation result as message (e.g. to be logged by caller).  
@@ -104,7 +104,7 @@ try {
 ### jy-transform~read ⇒ <code>Promise</code>
 Reads a particular content type from a source provided in the passed `options`.
 
-**Kind**: inner constant of [<code>jy-transform</code>](#module_jy-transform)  
+**Kind**: inner property of [<code>jy-transform</code>](#module_jy-transform)  
 **Returns**: <code>Promise</code> - The result.  
 **Access**: public  
 **Resolve**: <code>string</code> Resolves with JS object result.  
@@ -146,7 +146,7 @@ read(options)
 ### jy-transform~write ⇒ <code>Promise</code>
 Writes the passed JS object to a particular destination described by the passed `options`.
 
-**Kind**: inner constant of [<code>jy-transform</code>](#module_jy-transform)  
+**Kind**: inner property of [<code>jy-transform</code>](#module_jy-transform)  
 **Returns**: <code>Promise</code> - The result.  
 **Access**: public  
 **Resolve**: <code>string</code> With the write success message.  

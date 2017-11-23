@@ -46,7 +46,7 @@ npm test
 - [eslint-config-airbnb-base](https://github.com/airbnb/javascript): Airbnb&#39;s base JS ESLint config, following our styleguide
 - [eslint-plugin-filenames](https://github.com/selaux/eslint-plugin-filenames): Eslint rule for consistent filenames.
 - [eslint-plugin-import](https://github.com/benmosher/eslint-plugin-import): Import with sanity.
-- [eslint-plugin-jest](https://github.com/facebook/jest): Eslint rules for Jest
+- [eslint-plugin-jest](https://github.com/jest-community/eslint-plugin-jest): Eslint rules for Jest
 - [eslint-plugin-jest-async](https://github.com/deadratfink/jy-transform.git): ESLint plugin to detect improper Jest test assertions for asynchronous (Promise-based) actions
 - [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc): JSDoc linting rules for ESLint.
 - [fs-extra](https://github.com/jprichardson/node-fs-extra): fs-extra contains methods that aren&#39;t included in the vanilla Node.js fs package. Such as mkdir -p, cp -r, and rm -rf.
