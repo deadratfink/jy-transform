@@ -25,7 +25,7 @@
     "wiki": "jsdoc2md ./jyt lib/*.js index.js > docs/API.md && doctoc docs/API.md --github --title '### TOC' --maxlevel 2 && cat docs/API.md > '../jy-transform.wiki/API-v2.md' && cat docs/CONTRIBUTING.md > ../jy-transform.wiki/Contributing.md && cat docs/CHANGELOG.md > ../jy-transform.wiki/Changelog.md && doctoc ../jy-transform.wiki/Changelog.md --github --title '### TOC' --maxlevel 3",
     "pretest": "mkdir -pv test/tmp",
     "test": "jest --forceExit --expand --no-cache --coverage --config=./.jestrc.js",
-    "eslint": "eslint .",
+    "eslint": "eslint . --ext .json --ext .js",
     "nsp": "nsp check",
     "inch": "inchjs suggest && inchjs list --all && inchjs stats",
     "bithound": "bithound check git@github.com:deadratfink/jy-transform.git"
@@ -64,6 +64,7 @@
     "eslint-plugin-jest": " ~21.3.2",
     "eslint-plugin-jest-async": " ~1.0.3",
     "eslint-plugin-jsdoc": " ~3.2.0",
+    "eslint-plugin-json": "^1.2.0",
     "fs-extra": "~4.0.1",
     "inchjs": "~0.4.1",
     "jest": "~21.2.1",

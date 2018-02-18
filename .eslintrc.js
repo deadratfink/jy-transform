@@ -7,6 +7,7 @@ module.exports = {
   plugins: [
     'import',
     'jsdoc',
+    'json',
     'filenames',
     'jest',
     'jest-async'
@@ -71,6 +72,6 @@ module.exports = {
       additionalTagNames: {
         customTags: ['resolve', 'reject']
       },
-     }
+    }
   }
 };
