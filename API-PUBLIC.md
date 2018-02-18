@@ -74,12 +74,12 @@ an (optional) callback function. It executes the transformation logic.
 ```js
 import { transform } from 'jy-transform';
 const options = {
-  src: 'foo/bar.yaml',            // From YAML file...
-  transform: async (object) => {  // ...callback with exchanging value...
+  src: 'foo/bar.yaml',                 // From YAML file...
+  transform: async (object) => {       // ...callback with exchanging value...
     object.foo = 'new value';
     return object;
   },
-  target: 'foo/bar-transformed.json',         // ...to a new JSON file.
+  target: 'foo/bar-transformed.json',  // ...to a new JSON file.
   indent: 4,
 };
 
@@ -232,8 +232,8 @@ The configuration properties provided to the `read` function.
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | src | <code>string</code> \| <code>Stream.Readable</code> \| <code>object</code> |  | The source (if `string` type it is treated as a file path). |
-| origin | <code>string</code> | <code>&quot;yaml&quot;</code> | The source origin type. |
-| imports | <code>string</code> |  | The exports name for reading from JS source files or objects only. |
+| [origin] | <code>string</code> | <code>&quot;yaml&quot;</code> | The source origin type. |
+| [imports] | <code>string</code> |  | The exports name for reading from JS source files or objects only. |
 
 <a name="WriteOptions"></a>
 
@@ -247,12 +247,12 @@ The configuration properties provided to the `write` function.
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | dest | <code>string</code> \| <code>Stream.Writable</code> \| <code>object</code> |  | The destination (if `string` type it is treated as a file path). |
-| target | <code>string</code> | <code>&quot;js&quot;</code> | The destination target type. |
-| indent | <code>number</code> | <code>2</code> | The indentation value for pretty-print of output. |
-| exports | <code>string</code> |  | The exports name for usage in JS destination files only. |
-| force | <code>string</code> | <code>false</code> | Force overwriting of existing output files on write phase. |
-| no-es6 | <code>boolean</code> | <code>false</code> | Whether not to use ECMAScript6 syntax for JS type output like                                                    `module.exports` instead of `export default`, applicable only                                                    for JS output. |
-| no-single | <code>boolean</code> | <code>false</code> | Whether _not_ to use single-quotes style for values in JS type                                                    output (i.e. double-quotes). |
+| [target] | <code>string</code> | <code>&quot;js&quot;</code> | The destination target type. |
+| [indent] | <code>number</code> | <code>2</code> | The indentation value for pretty-print of output. |
+| [exports] | <code>string</code> |  | The exports name for usage in JS destination files only. |
+| [force] | <code>string</code> | <code>false</code> | Force overwriting of existing output files on write phase. |
+| [no-es6] | <code>boolean</code> | <code>false</code> | Whether not to use ECMAScript6 syntax for JS type output like                                                    `module.exports` instead of `export default`, applicable only                                                    for JS output. |
+| [no-single] | <code>boolean</code> | <code>false</code> | Whether _not_ to use single-quotes style for values in JS type                                                    output (i.e. double-quotes). |
 
 <a name="TransformOptions"></a>
 
@@ -266,14 +266,14 @@ The configuration properties provided to the `transform` function.
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | src | <code>string</code> \| <code>Stream.Readable</code> \| <code>object</code> |  | The _read_ source (if `string` type it is treated as a file                                                      path). |
-| origin | <code>string</code> | <code>&quot;yaml&quot;</code> | The _read_ source origin type. |
-| imports | <code>string</code> |  | The _read_ exports name for reading from JS source files or                                                      objects only. |
-| transform | <code>function</code> |  | The option is a _transformation_ function with the following                                                      signature:                                                      <p><p>                                                      ```                                                      [async|Promise] function(object)                                                      ``` |
-| dest | <code>string</code> \| <code>Stream.Writable</code> \| <code>object</code> |  | The _write_ destination (if `string` type it is treated as a                                                      file path). This property could be optional in case we infer a                                                      value from `src` which is then either a string or a file stream                                                      where can get the file path from. If this detection process                                                      cannot be fulfilled then the property is `undefined` and the                                                      transform process will fail with a `ValidationError` on write                                                      phase. |
-| target | <code>string</code> | <code>&quot;js&quot;</code> | The _write_ target type. |
-| indent | <code>number</code> | <code>2</code> | The _write_ indentation value for pretty-print of output. |
-| exports | <code>string</code> |  | The _write_ exports name for usage in JS destination files only. |
-| force | <code>string</code> | <code>false</code> | Force overwriting of existing output files on write phase. |
-| no-es6 | <code>boolean</code> | <code>false</code> | Whether not to use ECMAScript6 syntax for JS type output like                                                     `module.exports` instead of `export default`, applicable only                                                     for JS output. |
-| no-single | <code>boolean</code> | <code>false</code> | Whether _not_ to use single-quotes style for values in JS type                                                      output (i.e. double-quotes). |
+| [origin] | <code>string</code> | <code>&quot;yaml&quot;</code> | The _read_ source origin type. |
+| [imports] | <code>string</code> |  | The _read_ exports name for reading from JS source files or                                                      objects only. |
+| [transform] | <code>function</code> |  | The option is a _transformation_ function with the following                                                      signature:                                                      <p><p>                                                      ```                                                      [async|Promise] function(object)                                                      ``` |
+| [dest] | <code>string</code> \| <code>Stream.Writable</code> \| <code>object</code> |  | The _write_ destination (if `string` type it is treated as a                                                      file path). This property could be optional in case we infer a                                                      value from `src` which is then either a string or a file stream                                                      where can get the file path from. If this detection process                                                      cannot be fulfilled then the property is `undefined` and the                                                      transform process will fail with a `ValidationError` on write                                                      phase. |
+| [target] | <code>string</code> | <code>&quot;js&quot;</code> | The _write_ target type. |
+| [indent] | <code>number</code> | <code>2</code> | The _write_ indentation value for pretty-print of output. |
+| [exports] | <code>string</code> |  | The _write_ exports name for usage in JS destination files only. |
+| [force] | <code>string</code> | <code>false</code> | Force overwriting of existing output files on write phase. |
+| [no-es6] | <code>boolean</code> | <code>false</code> | Whether not to use ECMAScript6 syntax for JS type output like                                                     `module.exports` instead of `export default`, applicable only                                                     for JS output. |
+| [no-single] | <code>boolean</code> | <code>false</code> | Whether _not_ to use single-quotes style for values in JS type                                                      output (i.e. double-quotes). |
 

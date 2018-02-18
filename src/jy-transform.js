@@ -31,12 +31,12 @@ import {
  * @example
  * import { transform } from 'jy-transform';
  * const options = {
- *   src: 'foo/bar.yaml',            // From YAML file...
- *   transform: async (object) => {  // ...callback with exchanging value...
+ *   src: 'foo/bar.yaml',                 // From YAML file...
+ *   transform: async (object) => {       // ...callback with exchanging value...
  *     object.foo = 'new value';
  *     return object;
  *   },
- *   target: 'foo/bar-transformed.json',         // ...to a new JSON file.
+ *   target: 'foo/bar-transformed.json',  // ...to a new JSON file.
  *   indent: 4,
  * };
  *
