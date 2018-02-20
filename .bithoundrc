@@ -16,6 +16,7 @@
     "mute": [
       "bithound",
       "inchjs",
+      "joi",
       "jsdoc-to-markdown",
       "package-json-to-readme"
     ]
