@@ -18,6 +18,7 @@ npm test
 
 ## Dependencies
 
+- [babel-runtime](): babel selfContained runtime
 - [cli](https://github.com/node-js-libs/cli): A tool for rapidly building command line apps
 - [is-stream](): Check if something is a Node.js stream
 - [joi](): Object schema validation
