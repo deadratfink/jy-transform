@@ -31,7 +31,7 @@
     "bithound": "bithound check git@github.com:deadratfink/jy-transform.git"
   },
   "engines": {
-    "node": ">=5.0.0"
+    "node": ">=6.0.0"
   },
   "dependencies": {
     "babel-runtime": "^6.26.0",

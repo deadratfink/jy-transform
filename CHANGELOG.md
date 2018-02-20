@@ -11,12 +11,14 @@ new interface:
 - [README.md](https://github.com/deadratfink/jy-transform/blob/master/README.md)
 - [API-PUBLIC.md](https://github.com/deadratfink/jy-transform/blob/master/API-PUBLIC.md)
 
+> **IMPORTANT NOTE: Backwards Incompatible - Node.js version >= v6.0.0 required!**
+
 ### New Features:
 - [[#64](https://github.com/deadratfink/jy-transform/issues/64)] Support ES6 for JS output.
    - **CLI & API Backwards Incompatible Change!**
    - This is the default now:
-       - Usage of `export default` instead of `module.exports`.
-       - Usage of `export const foo` instead of `module.exports.foo`.
+       - Generation of `export default` instead of `module.exports`.
+       - Generation of `export const foo` instead of `module.exports.foo`.
    - Can be suppressed by `options[no-es6] = true` (default `false`).
 - [[#62](https://github.com/deadratfink/jy-transform/issues/62)] The `options.transform` function (formerly aka
   _middleware_ function) is no longer necessary to be a Promise/`async` one.
@@ -33,7 +35,7 @@ new interface:
   validated for 2 now and throws a `ValidationError` if < 2 (for others 0 is still valid).
 - [[#56](https://github.com/deadratfink/jy-transform/issues/56)] If _destination_ is not given on transformation
   process but the _target_ is, then the destination's file extension 
-  is adapted to the proper type, e.g. `$ ./jyt inch.json -t yaml` results in a file _inch.yaml_ (formerly:
+  is adapted to the proper type, e.g. `$ jyt inch.json -t yaml` results in a file _inch.yaml_ (formerly:
   _inch.json_ with YAML content or respectively _inch(1).json_ with YAML, the latter if `options.force` was `true`).
   
 ### Public Interface Changes & Improvements:
@@ -70,9 +72,9 @@ new interface:
    - Usage of _native_ Promises instead of [bluebird](http://bluebirdjs.com/docs/getting-started.html).
    - Test dependencies reduced.
 - [[#53](https://github.com/deadratfink/jy-transform/issues/53)] Update supported node versions:
+   - Add travis build for Node.js v8.x and v9.x.
    - **CLI & API Backwards Incompatible Change!**
-   - Add travis build for Node.js v8.x.
-   - Remove travis build for Node.js < v5.x.  
+   - Remove travis build for Node.js < v6.x.  
 - [[#52](https://github.com/deadratfink/jy-transform/issues/52)] Leverage modern ES6 features:
    - Integrated by [babel](https://babeljs.io/).
    - Update of dependencies and amount reduced.

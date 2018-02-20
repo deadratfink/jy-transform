@@ -4,13 +4,12 @@
       "env",
       {
         "targets": {
-          "node": "5"
+          "node": "6"
         }
       }
     ]
   ],
   "plugins": [
-    "transform-es2015-spread",
     [
       "transform-runtime",
       {
