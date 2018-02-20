@@ -10,9 +10,11 @@
     ]
   ],
   "plugins": [
+    "transform-es2015-spread",
     [
       "transform-runtime",
       {
+        "helpers": true,
         "polyfill": false,
         "regenerator": true
       }

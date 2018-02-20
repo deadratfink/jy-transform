@@ -49,9 +49,9 @@
 /**
  * The configuration properties provided to the `read` function.
  * @typedef {object} ReadOptions
- * @property {(string|Stream.Readable|object)} src  - The source (if `string` type it is treated as a file path).
- * @property {string} [origin=yaml]                 - The source origin type.
- * @property {string} [imports=undefined]           - The exports name for reading from JS source files or objects only.
+ * @property {(string|Stream.Readable|object)} src - The source (if `string` type it is treated as a file path).
+ * @property {string} [origin=yaml]                - The source origin type.
+ * @property {string} [imports=undefined]          - The exports name for reading from JS source files or objects only.
  * @public
  */
 
@@ -62,7 +62,7 @@
  * @property {string} [target=js]                   - The destination target type.
  * @property {number} [indent=2]                    - The indentation value for pretty-print of output.
  * @property {string} [exports=undefined]           - The exports name for usage in JS destination files only.
- * @property {string} [force=false]                 - Force overwriting of existing output files on write phase.
+ * @property {boolean} [force=false]                - Force overwriting of existing output files on write phase.
  * @property {boolean} [no-es6=false]               - Whether not to use ECMAScript6 syntax for JS type output like
  *                                                    `module.exports` instead of `export default`, applicable only
  *                                                    for JS output.
@@ -95,7 +95,7 @@
  * @property {string} [target=js]                     - The _write_ target type.
  * @property {number} [indent=2]                      - The _write_ indentation value for pretty-print of output.
  * @property {string} [exports=undefined]             - The _write_ exports name for usage in JS destination files only.
- * @property {string} [force=false]                   - Force overwriting of existing output files on write phase.
+ * @property {boolean} [force=false]                  - Force overwriting of existing output files on write phase.
  * @property {boolean} [no-es6=false]                 - Whether not to use ECMAScript6 syntax for JS type output like
  *                                                     `module.exports` instead of `export default`, applicable only
  *                                                     for JS output.

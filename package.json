@@ -34,9 +34,10 @@
     "node": ">=5.0.0"
   },
   "dependencies": {
+    "babel-runtime": "^6.26.0",
     "cli": "~1.0.1",
     "is-stream": "~1.1.0",
-    "joi": "~13.0.2",
+    "joi": "~12.0.0",
     "js-yaml": " ~3.10.0",
     "json-stringify-safe": "~5.0.1",
     "mkdirp-then": "~1.2.0",
