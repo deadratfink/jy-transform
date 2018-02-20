@@ -22,14 +22,14 @@
       "jsdoc-to-markdown",
       "package-json-to-readme"
     ]
-  }
+  },
   "ignore": [
     "**/bin/**",
     "**/coverage/**",
     "**/lib/**",
     "**/node_modules/**",
     "**/readme/**",
-    "**/test/tmp/**"
+    "**/test/tmp/**",
     "**/test/functional/tmp/**"
   ],
   "test": [
