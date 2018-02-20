@@ -15,6 +15,7 @@
     ],
     "mute": [
       "bithound",
+      "eslint-plugin-json",
       "inchjs",
       "joi",
       "jsdoc-to-markdown",
