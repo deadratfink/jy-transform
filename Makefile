@@ -42,6 +42,10 @@ eslint: ## Runs ESLint.
 	@printf "Running ESLint...\n"
 	npm run eslint
 
+bithound: ## Runs bithound check.
+	@printf "Running bithound check...\n"
+	npm run bithound
+
 help: ## Prints the help about targets.
 	@printf "Usage:    make [\033[34mtarget\033[0m]\n"
 	@printf "Default:  \033[34m%s\033[0m\n" $(.DEFAULT_GOAL)

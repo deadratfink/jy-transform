@@ -1,6 +1,7 @@
 Target Call | Description | Dependencies
 ---|---|---
 `$ make` | This calls the default target `help`. |
+`$ make bithound` | Runs bithound check. |
 `$ make build` | Babel transpiles files from _./src_ to _./lib_. |
 `$ make clean` | Removes generated files in folders ./node_modules, ./lib and ./coverage" |
 `$ make eslint` | Runs ESLint. |
