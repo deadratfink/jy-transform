@@ -18,6 +18,7 @@
 [![Codacy Badge](https://img.shields.io/codacy/coverage/c2ebaac0f9874062ba468ff6bd7edc4e.svg?style=flat)](https://www.codacy.com/app/deadratfink/jy-transform?utm_source=github.com&utm_medium=referral&utm_content=deadratfink/jy-transform&utm_campaign=Badge_Coverage)
 [![Greenkeeper badge](https://badges.greenkeeper.io/deadratfink/jy-transform.svg?style=flat)](https://greenkeeper.io/)
 [![NSP Status][nsp-image-master]][nsp-url-master]
+[![HitCount](http://hits.dwyl.io/deadratfink/jy-transform.svg?style=flat)](http://hits.dwyl.io/deadratfink/jy-transform)
 <!-- [![bitHound Overall Score][bitHound-score-image]][bithound-url]
 [![bitHound Overall Score](https://www.bithound.io/github/deadratfink/jy-transform/badges/score.svg?style=flat)](https://www.bithound.io/github/deadratfink/jy-transform) -->
 <!-- [![Dependency Status][dep-image-master]][dep-url-master]
@@ -25,7 +26,7 @@
 
 
 [![NPM][npm-image]][npm-url]
-[![NPM][npm-downloads-image]][npm-url]
+<!-- [![NPM][npm-downloads-image]][npm-url] -->
 
 [gh-license-image]: https://img.shields.io/github/license/deadratfink/jy-transform.svg?style=flat
 [gh-license-url]: https://github.com/deadratfink/jy-transform/blob/master/LICENSE.md

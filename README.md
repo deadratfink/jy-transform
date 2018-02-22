@@ -18,6 +18,7 @@
 [![Codacy Badge](https://img.shields.io/codacy/coverage/c2ebaac0f9874062ba468ff6bd7edc4e.svg?style=flat)](https://www.codacy.com/app/deadratfink/jy-transform?utm_source=github.com&utm_medium=referral&utm_content=deadratfink/jy-transform&utm_campaign=Badge_Coverage)
 [![Greenkeeper badge](https://badges.greenkeeper.io/deadratfink/jy-transform.svg?style=flat)](https://greenkeeper.io/)
 [![NSP Status][nsp-image-master]][nsp-url-master]
+[![HitCount](http://hits.dwyl.io/deadratfink/jy-transform.svg?style=flat)](http://hits.dwyl.io/deadratfink/jy-transform)
 <!-- [![bitHound Overall Score][bitHound-score-image]][bithound-url]
 [![bitHound Overall Score](https://www.bithound.io/github/deadratfink/jy-transform/badges/score.svg?style=flat)](https://www.bithound.io/github/deadratfink/jy-transform) -->
 <!-- [![Dependency Status][dep-image-master]][dep-url-master]
@@ -25,7 +26,7 @@
 
 
 [![NPM][npm-image]][npm-url]
-[![NPM][npm-downloads-image]][npm-url]
+<!-- [![NPM][npm-downloads-image]][npm-url] -->
 
 [gh-license-image]: https://img.shields.io/github/license/deadratfink/jy-transform.svg?style=flat
 [gh-license-url]: https://github.com/deadratfink/jy-transform/blob/master/LICENSE.md
@@ -105,13 +106,13 @@ npm install jy-transform --global
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ## TOC
 
-- [API in a Minute](#api-in-a-minute)
-  - [Transform from Source to Destination](#transform-from-source-to-destination)
-  - [Read into JS object from particular Source (File, Stream or JS Object)](#read-into-js-object-from-particular-source-file-stream-or-js-object)
-  - [Write JS object to particular Destination](#write-js-object-to-particular-destination)
+- [Why This Module?](#why-this-module)
 - [CLI in 3 Seconds](#cli-in-3-seconds)
   - [File Transformation](#file-transformation)
-- [Why This Module?](#why-this-module)
+- [API in a Minute](#api-in-a-minute)
+  - [Transformation from Source to Destination](#transformation-from-source-to-destination)
+  - [Read into JS object from particular Source (File, Stream or JS Object)](#read-into-js-object-from-particular-source-file-stream-or-js-object)
+  - [Write JS object to particular Destination](#write-js-object-to-particular-destination)
 - [Usage](#usage)
   - [Usage Types](#usage-types)
   - [Use Cases](#use-cases)
@@ -125,28 +126,46 @@ npm install jy-transform --global
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+## Why This Module?
+
+After struggling with some huge YAML file and accidentally
+occurring wrong indentations which results in an annoying investigation hell,
+I decided to get rid of the YAML file and therefore, create a module which
+should be aimed as the swiss army knife for transforming YAML, JS and JSON
+types into each other format.
+
+## CLI in 3 Seconds
+
+### File Transformation
+
+E.g. transform YAML content file to a JSON file with an indention of 4:
+
+```text
+$ jyt foo/bar.yaml -t json -i 4
+```
+
 ## API in a Minute
 
-### Transform from Source to Destination
+### Transformation from Source to Destination
 
 ```javascript
 import { transform } from 'jy-transform';
 
 const options = {
-  src: 'foo/bar.yaml',              // E.g. read from YAML file...
-  transform: async (object) => {    // ...with exchanging value...
+  src: 'foo/bar.yaml',                   // E.g. read from YAML file...
+  transform: async (object) => {         // ...with exchanging value...
     object.foo = 'new value';
     return object;
   },                            
-  dest: 'foo/bar-transformed.json', // ...to a new JSON file.
-  indent: 4,                        // Ensure an indentation of 4.
+  dest: 'foo/bar-transformed.json',      // ...to a new JSON file.
+  indent: 4,                             // Ensure an indentation of 4.
 };
 
 // ---- Promise style:
 
-transform(options)
-  .then(console.log)
-  .catch(console.error);
+transform(options)                       // Transform, of course, inside an async.
+  .then(console.log)                     // Success message!
+  .catch(console.error);                 // Oops!
 
 
 // ---- async/await style:
@@ -164,7 +183,7 @@ try {
 ```javascript
 import { read } from 'jy-transform';
 
-const options = { src: 'foo/bar.yaml' };  // E.g. read from file.
+const options = { src: 'foo/bar.yaml' };                 // E.g. read from file.
 
 // ---- Promise style:
 
@@ -176,7 +195,7 @@ read(options)
 
 try {
   const object = await read(options);
-  console.log(JSON.stringify(object));    // Print read object.
+  console.log(JSON.stringify(object));                   // Print read object.
 } catch (err) {
   console.error(err);
 }
@@ -204,24 +223,6 @@ try {
   console.error(err);
 }
 ```
-
-## CLI in 3 Seconds
-
-### File Transformation
-
-E.g. transform YAML content file to a JSON file with an indention of 4:
-
-```text
-$ jyt foo/bar.yaml -t json -i 4
-```
-
-## Why This Module?
-
-After struggling with some huge YAML file and accidentally
-occurring wrong indentations which results in an annoying investigation hell,
-I decided to get rid of the YAML file and therefore, create a module which
-should be aimed as the swiss army knife for transforming YAML, JS and JSON
-types into each other format.
 
 ## Usage
 
@@ -267,7 +268,7 @@ Additionally, on API level from:
 #### Transformation Case
 
 The _transformation_ is usually a format change, but can also be refer to content changes on the
-intermediate JS object, the latter with the help of a configured `transform` callback function.
+intermediate JS object, the latter with the help of a configurable `transform` callback function.
 All possible directions are:
 
 - YAML ⇒ JS
@@ -286,7 +287,7 @@ while:
 - [JS](https://developer.mozilla.org/en-US/docs/Web/JavaScript) = _*.js_ (JS object)
 - [JSON](http://json.org) = _*.json_ (JS object serialized as JSON)
 
-As mentioned above the configured `transform` callback can apply particular actions on the intermediate JS object, but
+As mentioned above a configurable `transform` callback can apply particular actions on the intermediate JS object, but
 this is an optional part for [transformation](#transformation) phase.
 
 #### Write Case

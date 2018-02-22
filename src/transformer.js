@@ -11,7 +11,7 @@ import { transformOptionsSchema } from './validation/options-schema';
 
 /**
  * The entry method for all transformations accepting a configuration object and
- * an (optional) callback function. It executes the transformation logic.
+ * a (configurable) transformation callback function.
  *
  * 1. Input (read)
  * 2. Transform [ + callback]
@@ -21,7 +21,7 @@ import { transformOptionsSchema } from './validation/options-schema';
  * @returns {Promise} The transformation result.
  * @resolve {string} With the transformation result as message (e.g. to be logged by caller).
  * @reject {ValidationError} If any `options` validation occurs.
- * @reject {Error} Will throw any error if read, transform or write operation failed due to any reason.
+ * @reject {Error} Will throw any error if read, transform or write operation has failed due to any reason.
  * @private
  */
 export async function transform(options) {

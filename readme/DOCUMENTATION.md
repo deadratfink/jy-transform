@@ -1,25 +1,43 @@
+## Why This Module?
+
+After struggling with some huge YAML file and accidentally
+occurring wrong indentations which results in an annoying investigation hell,
+I decided to get rid of the YAML file and therefore, create a module which
+should be aimed as the swiss army knife for transforming YAML, JS and JSON
+types into each other format.
+
+## CLI in 3 Seconds
+
+### File Transformation
+
+E.g. transform YAML content file to a JSON file with an indention of 4:
+
+```text
+$ jyt foo/bar.yaml -t json -i 4
+```
+
 ## API in a Minute
 
-### Transform from Source to Destination
+### Transformation from Source to Destination
 
 ```javascript
 import { transform } from 'jy-transform';
 
 const options = {
-  src: 'foo/bar.yaml',              // E.g. read from YAML file...
-  transform: async (object) => {    // ...with exchanging value...
+  src: 'foo/bar.yaml',                   // E.g. read from YAML file...
+  transform: async (object) => {         // ...with exchanging value...
     object.foo = 'new value';
     return object;
   },                            
-  dest: 'foo/bar-transformed.json', // ...to a new JSON file.
-  indent: 4,                        // Ensure an indentation of 4.
+  dest: 'foo/bar-transformed.json',      // ...to a new JSON file.
+  indent: 4,                             // Ensure an indentation of 4.
 };
 
 // ---- Promise style:
 
-transform(options)
-  .then(console.log)
-  .catch(console.error);
+transform(options)                       // Transform, of course, inside an async.
+  .then(console.log)                     // Success message!
+  .catch(console.error);                 // Oops!
 
 
 // ---- async/await style:
@@ -37,7 +55,7 @@ try {
 ```javascript
 import { read } from 'jy-transform';
 
-const options = { src: 'foo/bar.yaml' };  // E.g. read from file.
+const options = { src: 'foo/bar.yaml' };                 // E.g. read from file.
 
 // ---- Promise style:
 
@@ -49,7 +67,7 @@ read(options)
 
 try {
   const object = await read(options);
-  console.log(JSON.stringify(object));    // Print read object.
+  console.log(JSON.stringify(object));                   // Print read object.
 } catch (err) {
   console.error(err);
 }
@@ -77,24 +95,6 @@ try {
   console.error(err);
 }
 ```
-
-## CLI in 3 Seconds
-
-### File Transformation
-
-E.g. transform YAML content file to a JSON file with an indention of 4:
-
-```text
-$ jyt foo/bar.yaml -t json -i 4
-```
-
-## Why This Module?
-
-After struggling with some huge YAML file and accidentally
-occurring wrong indentations which results in an annoying investigation hell,
-I decided to get rid of the YAML file and therefore, create a module which
-should be aimed as the swiss army knife for transforming YAML, JS and JSON
-types into each other format.
 
 ## Usage
 
@@ -140,7 +140,7 @@ Additionally, on API level from:
 #### Transformation Case
 
 The _transformation_ is usually a format change, but can also be refer to content changes on the
-intermediate JS object, the latter with the help of a configured `transform` callback function.
+intermediate JS object, the latter with the help of a configurable `transform` callback function.
 All possible directions are:
 
 - YAML ⇒ JS
@@ -159,7 +159,7 @@ while:
 - [JS](https://developer.mozilla.org/en-US/docs/Web/JavaScript) = _*.js_ (JS object)
 - [JSON](http://json.org) = _*.json_ (JS object serialized as JSON)
 
-As mentioned above the configured `transform` callback can apply particular actions on the intermediate JS object, but
+As mentioned above a configurable `transform` callback can apply particular actions on the intermediate JS object, but
 this is an optional part for [transformation](#transformation) phase.
 
 #### Write Case
