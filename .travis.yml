@@ -11,8 +11,8 @@ os:
 
 script:
 - make test
-- npm install bithound --save-dev
-- bithound check git@github.com:deadratfink/jy-transform.git
+# - npm install bithound --save-dev
+# - bithound check git@github.com:deadratfink/jy-transform.git
 
 after_success:
 - ./node_modules/codecov/bin/codecov -e TRAVIS_NODE_VERSION
