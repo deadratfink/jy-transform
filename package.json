@@ -1,100 +1,112 @@
 {
-    "name": "jy-transform",
-    "description": "This project aims to read, write and transform YAML, JS or JSON objects into each other using CLI or API, while the source and destination resources can be files on CLI and additionally, objects or streams on API level.",
-    "version": "2.0.1",
-    "homepage": "https://github.com/deadratfink/jy-transform",
-    "author": {
-        "name": "Jens Krefeldt",
-        "email": "j.krefeldt@gmail.com",
-        "url": "https://github.com/deadratfink"
-    },
-    "contributors": [
-    ],
-    "license": "SEE LICENSE IN [LICENSE.md](https://github.com/deadratfink/jy-transform/blob/master/LICENSE.md)",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/deadratfink/jy-transform.git"
-    },
-    "publishConfig": {
-        "registry": "https://registry.npmjs.org/"
-    },
-    "bugs": "https://github.com/deadratfink/jy-transform/issues",
-    "private": false,
-    "config": {
-        "test": {
-            "mocha": {
-                "unit": {
-                    "reporter": "spec"
-                }
-            }
-        }
-    },
-    "scripts": {
-        "docs": "cat docs/LOGO.md > README.md && cat docs/BADGES.md >> README.md && cat docs/TOC.md >> README.md && package-json-to-readme --no-footer ./package.json >> README.md && cat docs/USAGE.md >> README.md && echo '\n# Changelog\n' >> README.md && cat docs/CHANGELOG.md >> README.md && doctoc README.md --github --title '# TOC' --maxlevel 2",
-        "wiki": "jsdoc2md ./jyt lib/*.js index.js > docs/API.md && doctoc docs/API.md --github --title '### TOC' --maxlevel 2 && cat docs/API.md > '../jy-transform.wiki/API-v2.md' && cat docs/CONTRIBUTING.md > ../jy-transform.wiki/Contributing.md && cat docs/CHANGELOG.md > ../jy-transform.wiki/Changelog.md && doctoc ../jy-transform.wiki/Changelog.md --github --title '### TOC' --maxlevel 3",
-        "pretest": "rm -Rf test/tmp",
-        "test": "istanbul cover _mocha --report lcovonly -- -R $npm_package_config_test_mocha_unit_reporter ./test/test*.js"
-    },
-    "engines": {
-        "node": ">=0.10.0"
-    },
-    "dependencies": {
-        "bluebird": "^3.4.6",
-        "cli": "^1.0.1",
-        "is-stream": "^1.1.0",
-        "js-yaml": "^3.6.1",
-        "json-stringify-safe": "^5.0.1",
-        "mkdirp-then": "^1.2.0",
-        "serialize-js": "^1.1.0"
-    },
-    "devDependencies": {
-        "codeclimate-test-reporter": "^0.5.0",
-        "codecov": "^2.3.0",
-        "coveralls": "^2.11.14",
-        "doctoc": "^1.0.0",
-        "fs-extra": "^4.0.1",
-        "istanbul": "^0.4.5",
-        "jsdoc-parse": "^3.0.0",
-        "jsdoc-to-markdown": "^3.0.0",
-        "mocha": "^3.1.2",
-        "mocha-lcov-reporter": "^1.2.0",
-        "object-path": "^0.11.2",
-        "package-json-to-readme": "^2.0.0",
-        "winston": "^2.3.0"
-    },
-    "preferGlobal": true,
-    "bin": {
-        "jyt": "./jyt"
-    },
-    "main": "./index.js",
-    "keywords": [
-        "api",
-        "cli",
-        "jy",
-        "jyt",
-        "jy-transform",
-        "transform",
-        "convert",
-        "javascript",
-        "js",
-        "json",
-        "yaml",
-        "yaml2js",
-        "yaml-2-js",
-        "yaml2json",
-        "yaml-2-json",
-        "js2yaml",
-        "js-2-yaml",
-        "json2yaml",
-        "json-2-yaml",
-        "yamltojs",
-        "yaml-to-js",
-        "yamltojson",
-        "yaml-to-json",
-        "jstoyaml",
-        "js-to-yaml",
-        "jsontoyaml",
-        "json-to-yaml",
-        "promise"
-    ]
+  "name": "jy-transform",
+  "description": "This project aims to read, write and transform YAML, JS or JSON objects into each other using CLI or API, while the source and destination resources can be files on CLI and additionally, objects or streams on API level.",
+  "version": "3.0.0",
+  "homepage": "https://github.com/deadratfink/jy-transform",
+  "author": {
+    "name": "Jens Krefeldt",
+    "email": "j.krefeldt@gmail.com",
+    "url": "https://github.com/deadratfink"
+  },
+  "contributors": [],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/deadratfink/jy-transform.git"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "bugs": "https://github.com/deadratfink/jy-transform/issues",
+  "private": false,
+  "scripts": {
+    "build": "NODE_ENV=production babel src --out-dir lib --copy-files --source-maps",
+    "readme": "bin/create-readme.sh -a true -c false -m true -l false",
+    "wiki": "jsdoc2md ./jyt lib/*.js index.js > docs/API.md && doctoc docs/API.md --github --title '### TOC' --maxlevel 2 && cat docs/API.md > '../jy-transform.wiki/API-v2.md' && cat docs/CONTRIBUTING.md > ../jy-transform.wiki/Contributing.md && cat docs/CHANGELOG.md > ../jy-transform.wiki/Changelog.md && doctoc ../jy-transform.wiki/Changelog.md --github --title '### TOC' --maxlevel 3",
+    "pretest": "mkdir -pv test/tmp",
+    "test": "jest --forceExit --expand --no-cache --coverage --config=./.jestrc.js",
+    "eslint": "eslint . --ext .json --ext .js",
+    "nsp": "nsp check",
+    "inch": "inchjs suggest && inchjs list --all && inchjs stats"
+  },
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "dependencies": {
+    "babel-runtime": "^6.26.0",
+    "cli": "~1.0.1",
+    "is-stream": "~1.1.0",
+    "joi": "~12.0.0",
+    "js-yaml": " ~3.10.0",
+    "json-stringify-safe": "~5.0.1",
+    "mkdirp-then": "~1.2.0",
+    "promisify-es6": "~1.0.3",
+    "serialize-js": "deadratfink/serialize-js#feature/single_quote_only"
+  },
+  "devDependencies": {
+    "babel-cli": "~6.26.0",
+    "babel-eslint": " ~8.0.2",
+    "babel-plugin-transform-flow-strip-types": "~6.22.0",
+    "babel-plugin-transform-runtime": "~6.23.0",
+    "babel-preset-env": "~1.6.1",
+    "chalk": "~2.3.0",
+    "codacy-coverage": "~2.0.2",
+    "codeclimate-test-reporter": "~0.5.0",
+    "codecov": " ~3.0.0",
+    "coveralls": " ~3.0.0",
+    "cwd": "~0.10.0",
+    "doctoc": " ~1.3.0",
+    "eslint": "~4.11.0",
+    "eslint-config-airbnb-base": "~12.1.0",
+    "eslint-plugin-filenames": "1.2.0",
+    "eslint-plugin-import": " ~2.8.0",
+    "eslint-plugin-jest": " ~21.3.2",
+    "eslint-plugin-jest-async": " ~1.0.3",
+    "eslint-plugin-jsdoc": " ~3.2.0",
+    "eslint-plugin-json": "^1.2.0",
+    "fs-extra": "~4.0.1",
+    "inchjs": "~0.4.1",
+    "jest": "~21.2.1",
+    "jsdoc-babel": " ~0.3.0",
+    "jsdoc-parse": "~3.0.0",
+    "jsdoc-to-markdown": "~3.0.2",
+    "nsp": "^3.2.1",
+    "package-json-to-readme": "~2.0.0",
+    "winston": "^2.4.0"
+  },
+  "preferGlobal": true,
+  "bin": {
+    "jyt": "./src/cli.js"
+  },
+  "main": "./index.js",
+  "keywords": [
+    "api",
+    "cli",
+    "jy",
+    "jyt",
+    "jy-transform",
+    "transform",
+    "convert",
+    "javascript",
+    "js",
+    "json",
+    "yaml",
+    "yaml2js",
+    "yaml-2-js",
+    "yaml2json",
+    "yaml-2-json",
+    "js2yaml",
+    "js-2-yaml",
+    "json2yaml",
+    "json-2-yaml",
+    "yamltojs",
+    "yaml-to-js",
+    "yamltojson",
+    "yaml-to-json",
+    "jstoyaml",
+    "js-to-yaml",
+    "jsontoyaml",
+    "json-to-yaml",
+    "promise"
+  ]
 }

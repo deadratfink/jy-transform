@@ -1,1 +1,13 @@
-**/*{.,-}min.js
+coverage/**
+node_modules/**
+api-docs
+readme/
+.idea
+lib/
+index.js
+test/data
+test/tmp
+test/functional/tmp
+
+# TODO revert later when test is done
+test/unit/test-cli.js

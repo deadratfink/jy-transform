@@ -1,9 +1,9 @@
-/bin
-/docs/API.md
+/readme/API.md
 .idea
 *.iml
 /VERSION.txt
 node_modules
+test/functional/tmp
 test/tmp
 /.project
 /.settings/*
@@ -11,3 +11,5 @@ npm-debug.log
 coverage
 nohup.out
 /jy-transform.wiki/
+/lib
+/package-lock.json
