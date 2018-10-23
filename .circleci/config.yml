@@ -17,11 +17,6 @@ jobs:
         name: Running tests
         command: make test
     - run:
-        name: Bithound
-        command: |
-          npm install bithound --save-dev
-          bithound check git@github.com:deadratfink/jy-transform.git
-    - run:
         name: Codecov Coverage
         command: ./node_modules/codecov/bin/codecov
     - run:

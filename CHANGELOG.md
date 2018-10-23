@@ -88,8 +88,6 @@ new interface:
 - [[#48](https://github.com/deadratfink/jy-transform/issues/48)] Using [Joi](https://github.com/hapijs/joi)
   for consistent options validation: 
    - Removal of `OptionsHandler` and `Validator`.
-- [[#47](https://github.com/deadratfink/jy-transform/issues/47)] Integration of
-  [bithound.io](https://www.bithound.io/github/deadratfink/jy-transform)
 - [[#46](https://github.com/deadratfink/jy-transform/issues/46)] Use Make as an abstraction to npm scripts.
 - [[#45](https://github.com/deadratfink/jy-transform/issues/45)] [Node Security Plattform](https://nodesecurity.io/orgs/deadratfink/projects/7ac99a62-a8c4-4321-8d57-8a5e542f04f0) integrated.
 - [[#43](https://github.com/deadratfink/jy-transform/issues/43)] Documentation restructured.

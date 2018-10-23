@@ -27,8 +27,7 @@
     "test": "jest --forceExit --expand --no-cache --coverage --config=./.jestrc.js",
     "eslint": "eslint . --ext .json --ext .js",
     "nsp": "nsp check",
-    "inch": "inchjs suggest && inchjs list --all && inchjs stats",
-    "bithound": "bithound check git@github.com:deadratfink/jy-transform.git"
+    "inch": "inchjs suggest && inchjs list --all && inchjs stats"
   },
   "engines": {
     "node": ">=6.0.0"
@@ -50,7 +49,6 @@
     "babel-plugin-transform-flow-strip-types": "~6.22.0",
     "babel-plugin-transform-runtime": "~6.23.0",
     "babel-preset-env": "~1.6.1",
-    "bithound": "~1.7.0",
     "chalk": "~2.3.0",
     "codacy-coverage": "~2.0.2",
     "codeclimate-test-reporter": "~0.5.0",
