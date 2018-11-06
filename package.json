@@ -39,7 +39,7 @@
         "node": ">=0.10.0"
     },
     "dependencies": {
-        "bluebird": "^3.4.6",
+        "bluebird": "^3.5.3",
         "cli": "^1.0.1",
         "is-stream": "^1.1.0",
         "js-yaml": "^3.6.1",
