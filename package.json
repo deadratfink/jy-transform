@@ -56,7 +56,7 @@
         "istanbul": "^0.4.5",
         "jsdoc-parse": "^3.0.0",
         "jsdoc-to-markdown": "^3.0.0",
-        "mocha": "^3.1.2",
+        "mocha": "^6.2.0",
         "mocha-lcov-reporter": "^1.2.0",
         "object-path": "^0.11.2",
         "package-json-to-readme": "^2.0.0",
