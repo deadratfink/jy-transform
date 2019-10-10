@@ -50,7 +50,7 @@
     "devDependencies": {
         "codeclimate-test-reporter": "^0.5.0",
         "codecov": "^2.3.0",
-        "coveralls": "^2.11.14",
+        "coveralls": "^3.0.7",
         "doctoc": "^1.0.0",
         "fs-extra": "^4.0.1",
         "istanbul": "^0.4.5",
